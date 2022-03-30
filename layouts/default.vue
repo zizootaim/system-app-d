@@ -22,6 +22,6 @@ export default {
     rgba(0, 0, 0, 0.5),
     rgba(0, 0, 0, 0.5)
   );
-  min-height: 89vh;
+  min-height: 89.9vh;
 }
 </style>

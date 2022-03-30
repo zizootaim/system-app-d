@@ -15,6 +15,7 @@
         id="email"
         placeholder="email@info.com"
         name="email"
+        autocomplete="off"
         required
       />
     </div>
@@ -26,20 +27,28 @@
         id="pwd"
         placeholder="Password"
         name="pswd"
+        autocomplete="off"
         required
       />
     </div>
-    <a class="forget-link" href="#">Forget Password ?</a>
 
-    <button class="submit-btn" type="submit">Login</button>
-    <p>{{ message }}</p>
+    <button class="submit-btn" type="submit">
+      Login <BaseSpinner class="baseSpinnerClass" />
+    </button>
+    <p id="errMessage">{{ getMessage }}</p>
   </form>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import BaseSpinner from "@/components/baseSpinner.vue";
+import baseSpinner from "@/components/baseSpinner.vue";
+import { mapGetters } from "vuex";
+
 export default {
+  components: {
+    baseSpinner,
+  },
+
   data() {
     return {
       emailLogin: "",
@@ -48,16 +57,18 @@ export default {
   },
 
   computed: {
-    ...mapState(["message"]),
+    ...mapGetters(["getMessage"]),
   },
-
-  components: {
-    BaseSpinner,
+  watch: {
+    baseSpinnerClass(newValue, oldValue) {
+      this.baseSpinnerClass = newValue;
+    },
   },
   methods: {
-    doLogin() {
-      console.log(this.passwordLogin);
-      this.$store.dispatch("login", {
+    async doLogin() {
+      document.querySelector(".baseSpinnerClass").classList.add("loader");
+      this.$store.commit("errMessage", "");
+      let response = await this.$store.dispatch("login", {
         email: this.emailLogin,
         password: this.passwordLogin,
       });
@@ -66,4 +77,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style>
+#errMessage {
+  color: red;
+  padding: 10px;
+}
+</style>

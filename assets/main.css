@@ -1,3 +1,12 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+ol {
+  list-style: none;
+}
+
 body,
 button,
 input,
@@ -13,8 +22,15 @@ textarea {
 }
 
 body {
-  background: url("../assets/background.jpeg") no-repeat fixed;
-  background-size: 100% 110%;
+  /* background: url("../assets/background.jpeg") no-repeat fixed; */
+  background-size: 100% 100%;
+  background: linear-gradient(
+    90deg,
+    #34009c,
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.8),
+    #34009c
+  );
 }
 h1,
 h2,
@@ -32,15 +48,10 @@ a {
 label {
   color: #000;
 }
-:root {
-  --navHeight: 10vh;
-}
-.wiki {
-  width: 100%;
-}
 
 .wiki__nav {
   height: 10vh;
+  padding-right: 16px;
   border-bottom: 1px solid #fff;
   padding: 0;
   display: flex;
@@ -151,27 +162,28 @@ button {
   background: none;
   align-items: center;
 }
-.form__info {
+.form-inline .form__info {
   display: grid;
   place-items: center;
   margin-bottom: 1.5rem;
 }
-.form__info i {
+.form-inline .form__info i {
   margin: 1rem 0 2rem;
   font-size: 3rem;
   color: #fff;
 }
-.form__text h2 {
+.form-inline .form__text h2 {
   font-size: 1.8rem;
   font-weight: 400;
   margin: 0 0 0.5rem;
   text-align: center;
 }
-.form__text p {
+.form-inline .form__text p {
   text-align: center;
 }
 .form__control {
   width: 90%;
+  margin: auto;
   display: flex;
   align-items: center;
   border-bottom: 1.5px solid #fff;
@@ -196,14 +208,6 @@ button {
   padding-top: 0.2rem;
 }
 
-.forget-link {
-  color: #eee;
-  width: 80%;
-  text-align: right;
-  font-size: 0.75rem;
-  font-weight: 400;
-}
-
 .submit-btn {
   margin-top: 1.5rem;
   width: 90%;
@@ -219,5 +223,55 @@ button {
   color: #fff;
   text-decoration: none;
 }
+.form__control {
+  width: 100%;
+  max-height: 2.5rem;
+}
+.form__control.select {
+  flex-direction: column;
+  padding: 0;
+  justify-content: flex-start;
+}
 
+.submit-btn {
+  width: 100%;
+  grid-column: -1 / 1;
+}
 
+.form__control select {
+  cursor: pointer;
+  padding: 0.2rem;
+  border: none;
+  outline: none;
+  background: none;
+  color: #fff;
+  font-size: 0.9rem;
+  width: 100%;
+
+  height: 100%;
+}
+.form__control select option {
+  cursor: pointer;
+  color: #000;
+  border: none;
+}
+.form__control:last-of-type{
+  grid-column: -1 / 1;
+}
+
+.container *,
+.wiki *,
+.Home * {
+  animation: opacity 0.3s 0.05s forwards;
+}
+@keyframes opacity {
+  100% {
+    opacity: 1;
+  }
+}
+@media screen and (max-width:600px) {
+  .form__control{
+    width: 90%;
+    color: #010f60;
+  }
+}

@@ -19,51 +19,60 @@
         id="email"
         placeholder="email@info.com"
         name="email"
+        autocomplete="off"
         required
       />
     </div>
 
     <div class="form__control">
       <i class="fas fa-lock"></i>
-        <input
-      v-model="password"
-      type="password"
-      id="pwd"
-      placeholder="Password"
-      name="pswd"
-      required
-    />
+      <input
+        v-model="password"
+        type="password"
+        id="pwd"
+        placeholder="Password"
+        name="pswd"
+        autocomplete="off"
+        required
+      />
     </div>
 
     <div class="form__control">
       <i class="fas fa-lock"></i>
       <input
-      v-model="confirmPassword"
-      type="password"
-      id="pwd"
-      placeholder="Confirm Password"
-      name="pswd"
-      required
-    />
-      </div>
-   <div class="form__control">
-     <i class="fas fa-phone"></i>
+        v-model="confirmPassword"
+        type="password"
+        id="pwd"
+        placeholder="Confirm Password"
+        name="pswd"
+        autocomplete="off"
+        required
+      />
+    </div>
+    <div class="form__control">
+      <i class="fas fa-phone"></i>
       <input
-      v-model="phone"
-      type="number"
-      id="phone"
-      placeholder="Phone Number"
-      name="phoneNumber"
-      required
-    />
-   </div>
+        v-model="phone"
+        type="text"
+        id="phone"
+        placeholder="Phone Number"
+        name="phoneNumber"
+        autocomplete="off"
+        required
+      />
+    </div>
 
-    <button type="submit" class="submit-btn">Sign Up</button>
-    <p>{{ message }}</p>
+    <button type="submit" class="submit-btn">
+      Sign Up <BaseSpinner class="baseSpinnerClass" />
+    </button>
+    <p id="errMessage">{{ getMessage }}</p>
   </form>
 </template>
 
 <script>
+import baseSpinner from "@/components/baseSpinner.vue";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -72,12 +81,21 @@ export default {
       password: "",
       confirmPassword: "",
       phone: "",
-      message: "",
     };
   },
+  computed: {
+    ...mapGetters(["getMessage"]),
+  },
+
+  components: {
+    baseSpinner,
+  },
+
   methods: {
     doRegister() {
       if (this.password === this.confirmPassword) {
+        document.querySelector(".baseSpinnerClass").classList.add("loader");
+        this.$store.commit("errMessage", "");
         this.$store.dispatch("register", {
           name: this.name,
           email: this.email,
@@ -86,7 +104,7 @@ export default {
           phone: this.phone,
         });
       } else {
-        this.message = "Please confirm password correctly";
+        this.$store.commit("errMessage", "Please confirm Password Correctly");
       }
     },
   },

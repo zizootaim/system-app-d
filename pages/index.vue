@@ -15,7 +15,6 @@
     </div>
   </div>
 </template>
-Enter email
 
 <script>
 import { mapState } from "vuex";
@@ -76,21 +75,15 @@ h1 {
   .panar {
     padding: 15px;
   }
-.info{
-
-  flex-wrap: wrap;
-  padding-bottom: 2rem;
-}
-  .info div {
-    padding: 10px;
+  .info {
+    padding: 0;
     width: 90%;
+    flex-wrap: wrap;
+    padding-bottom: 2rem;
+  }
+  .info div {
     border-radius: 10px;
   }
-}
-h1,
-h2,
-h3 {
-  margin: 0 0 5px 0;
 }
 
 a {

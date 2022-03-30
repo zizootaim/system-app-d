@@ -166,26 +166,6 @@ export default {
 </script>
 
 <style scoped>
-:root {
-  --black: rgb(255, 255, 255);
-  --main-color: #0d2235;
-}
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-ol {
-  list-style: none;
-}
-
-body {
-  text-align: center;
-  font-family: "Inter", sans-serif;
-}
-
 .container {
   width: 90%;
   margin: 0 auto;
@@ -195,7 +175,7 @@ body {
 .rectangle {
   position: relative;
   padding: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 5px 15px rgba(26, 23, 23, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -220,8 +200,10 @@ body {
 }
 .person__data {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.person__data p {
+  font-size: 0.74rem;
 }
 
 /* LEVEL-1 STYLES
@@ -229,7 +211,6 @@ body {
 .level-1 {
   width: 25%;
   margin: 0 auto 40px;
-  background: var(--main-color);
 }
 
 .level-1::before {
@@ -290,7 +271,6 @@ body {
 .level-2 {
   width: 70%;
   margin: 0 auto 40px;
-  background: var(--main-color);
 }
 
 .level-2::before {
@@ -322,8 +302,9 @@ body {
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  place-items: center;
   grid-column-gap: 20px;
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
 }
 
@@ -350,7 +331,6 @@ body {
 
 .level-3 {
   margin-bottom: 20px;
-  background: var(--main-color);
 }
 
 /* LEVEL-4 STYLES
@@ -377,7 +357,6 @@ body {
 
 .level-4 {
   font-weight: normal;
-  background: var(--main-color);
 }
 
 .level-4::before {
@@ -434,21 +413,6 @@ body {
   }
 }
 
-/* FOOTER
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.page-footer {
-  position: fixed;
-  right: 0;
-  bottom: 20px;
-  display: flex;
-  align-items: center;
-  padding: 5px;
-}
-
-.page-footer a {
-  margin-left: 4px;
-}
-
 .level-1 {
   width: 35%;
 }
@@ -468,8 +432,8 @@ body {
 }
 .rectangle {
   width: 300px;
-  height: 180px;
-  background: #0d2235;
+  height: 158px;
+  background: #010a3d;
 }
 
 @media screen and (max-width: 769px) {
@@ -485,7 +449,6 @@ body {
   .level-4-wrapper {
     width: 90%;
   }
-
 }
 @media screen and (max-width: 426px) {
   .level-4-wrapper {
@@ -513,6 +476,14 @@ body {
   }
   .rectangle {
     width: 100%;
+    height: 175px;
+  }
+  .person__info p {
+    width: 96%;
+    margin: 0.3rem auto;
+  }
+  .person__data {
+    flex-wrap: wrap;
   }
 }
 </style>

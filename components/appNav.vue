@@ -9,12 +9,9 @@
         :class="showLinksMenu ? 'wiki__links show' : 'wiki__links'"
       >
         <li><nuxt-link to="/">Home</nuxt-link></li>
-        <li><a href="#contactUs">Content us</a></li>
+
         <li>
-          <nuxt-link to="/#about"> About Us</nuxt-link>
-        </li>
-        <li>
-          <nuxt-link to="/staff"> Staff</nuxt-link>
+          <nuxt-link to="/staff">Staff</nuxt-link>
         </li>
         <li>
           <nuxt-link to="/wikiPage"> WIKI</nuxt-link>
@@ -43,13 +40,9 @@
           </button>
         </li>
       </ul>
-      <modal
-        v-on:close="changeStatus"
-        v-if="statusChoosen != ''"
-        :formType="statusChoosen"
-      >
-        <login-form v-if="statusChoosen == 'login'" />
-        <register v-if="statusChoosen == 'register'" />
+      <modal v-on:close="changeStatus" v-if="statusChosen != ''"  >
+        <login-form v-if="statusChosen == 'login'" />
+        <register v-if="statusChosen == 'register'" />
       </modal>
     </article>
   </div>
@@ -64,16 +57,14 @@ export default {
   data() {
     return {
       status: "",
-
       showLinksMenuStatus: false,
-
       showLinksMenu: "",
     };
   },
 
   computed: {
     ...mapGetters(["getterRole"]),
-    statusChoosen: function () {
+    statusChosen: function () {
       return this.status;
     },
   },
@@ -112,7 +103,6 @@ img {
   height: 100%;
 }
 
-
 nav a {
   transition-property: text-decoration;
   transition-duration: 2s;
@@ -124,7 +114,6 @@ nav a {
   color: white;
   background: inherit;
   border: 0px;
-
   cursor: pointer;
 }
 </style>

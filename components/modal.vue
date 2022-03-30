@@ -1,14 +1,18 @@
 <template>
   <!-- Trigger/Open The Modal -->
   <!-- The Modal -->
-  <div id="myModal" class="modal" v-show="show">
-    <div class="modal__top">
-    <span @click="$emit('close')" class="close">&times;</span>
-      <Logo />
-    </div>
-    <!-- Modal content -->
-    <div class="modal-content">
-      <slot></slot>
+  <div id="myModal" class="modal">
+    <div class="modal__wrapper">
+      <div class="modal__top">
+        <span @click="close" class="close">&times;</span>
+        <Logo />
+      </div>
+      <!-- Modal content -->
+      <div class="modal-content">
+
+
+        <slot :formTitle="formTitle"></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -16,19 +20,19 @@
 <script>
 import Logo from "../components/Logo.vue";
 export default {
-  data() {
-    return { status: "" };
+  components: {
+    Logo,
   },
-  props: {
-    formType: String,
-    show: {
-      type: Boolean,
-      default: true,
+  props:{
+    formTitle: ''
+  },
+  methods: {
+    close() {
+      this.showModal = false;
+      this.$store.commit("errMessage", "");
+      this.$emit("close");
     },
   },
-  conponents:{
-    Logo
-  }
 };
 </script>
 
@@ -45,17 +49,22 @@ export default {
   overflow: auto; /* Enable scroll if needed */
   background-color: #010f60;
   opacity: 0;
+  transition: 0.3s;
   animation: opacity 0.5s 0.1s forwards;
+}
+.secform{
+  opacity: 1;
+  transform: scale(0);
+  animation: scale .4s .1s forwards;
 }
 
 .modal__top {
-  height: 72.8px;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row-reverse;
 }
-
 
 /* Modal Content */
 .modal-content {
@@ -66,6 +75,47 @@ export default {
   animation: scale 0.5s 0.2s forwards;
   padding-bottom: 0;
 }
+.secform {
+  top: 10%;
+  bottom: 10%;
+  left: 25%;
+  right: 25%;
+  width: auto;
+  height: auto;
+  background: #fff;
+  border-radius: 2rem;
+}
+.secform .modal__wrapper {
+  width: 100%;
+  margin: auto;
+}
+.secform .modal-content{
+  position: relative;
+  height: auto;
+    display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.logo{
+  filter: invert(1);
+}
+.secform .modal-content {
+  max-width: none;
+padding: 0;
+}
+.secform .modal__top {
+  width: 90%;
+  margin: .6rem auto;
+}
+.secform .close {
+  background: none;
+  color: #010f60;
+}
+
+
+
+
 @keyframes scale {
   100% {
     transform: scale(1);
@@ -79,39 +129,64 @@ export default {
 
 /* The Close Button */
 .close {
-  font-size: 30px;
+  font-size: 40px;
   cursor: pointer;
   transition: 0.3s;
   background: #010f60;
   color: #fff;
-  margin: 0 .2rem .5rem;
+  margin: 0 1.5rem 0.5rem;
 }
-
-
 
 @media screen and (max-width: 1025px) {
   .modal {
     width: 45%;
+  }
+  .modal.secform {
+    width: 80%;
+    margin: auto;
+    left: 2%;
+    right: 2%;
   }
 }
 @media screen and (max-width: 1000px) {
   .modal {
     width: 60%;
   }
+  .modal.secform {
+    width: 90%;
+    height: 95%;
+  }
 }
 @media screen and (max-width: 680px) {
   .modal {
     width: 100%;
   }
+  .modal.secform {
+    left: 0%;
+    right: 0%;
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+  }
+  .secform .modal__wrapper {
+    width: 100%;
+  }
+  .secform .modal__top{
+    width: 100%;
+  }
+  .secform .modal-content {
+    width: 100%;
+    margin: 0;
+  }
   .modal__top {
-    padding: 0 .6rem;
+    padding: 0 0.6rem;
   }
-  .close{
-    margin-bottom: .7rem;
+  .close {
+    margin-bottom: 0.7rem;
+    margin-right: 0.5rem;
   }
-  .modal-content{
+  .modal-content {
     padding: 10px;
   }
-
 }
 </style>
