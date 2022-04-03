@@ -13,6 +13,12 @@ export default {
   components: {
     AppNav,
   },
+  mounted() {
+    if (!localStorage.getItem("name")) {
+      localStorage.setItem("name", "");
+      localStorage.setItem("role", "");
+    }
+  },
 };
 </script>
 <style>
@@ -22,6 +28,6 @@ export default {
     rgba(0, 0, 0, 0.5),
     rgba(0, 0, 0, 0.5)
   );
-  min-height: 89.9vh;
+  min-height: 90vh;
 }
 </style>

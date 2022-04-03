@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div class="loader"></div>
 </template>
 
 <style scoped>

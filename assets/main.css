@@ -22,7 +22,7 @@ textarea {
 }
 
 body {
-  /* background: url("../assets/background.jpeg") no-repeat fixed; */
+  min-height: 100vh;
   background-size: 100% 100%;
   background: linear-gradient(
     90deg,
@@ -31,6 +31,7 @@ body {
     rgba(0, 0, 0, 0.8),
     #34009c
   );
+  background-repeat: no-repeat;
 }
 h1,
 h2,
@@ -48,7 +49,13 @@ a {
 label {
   color: #000;
 }
-
+.svgIcon {
+  width: 2em;
+  height: 2em;
+  vertical-align: middle;
+  fill: currentColor;
+  overflow: hidden;
+}
 .wiki__nav {
   height: 10vh;
   padding-right: 16px;
@@ -255,7 +262,7 @@ button {
   color: #000;
   border: none;
 }
-.form__control:last-of-type{
+.form__control:last-of-type {
   grid-column: -1 / 1;
 }
 
@@ -269,9 +276,57 @@ button {
     opacity: 1;
   }
 }
-@media screen and (max-width:600px) {
-  .form__control{
+@media screen and (max-width: 600px) {
+  .form__control {
     width: 90%;
     color: #010f60;
   }
+}
+
+/* Shift Forms */
+
+.long__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+}
+.time-control {
+  position: relative;
+}
+.time-control .date,
+.time-control .time {
+  position: absolute;
+  font-size: 0.8rem;
+  top: -1rem;
+}
+
+.time-control .time {
+  left: 50%;
+}
+
+
+.submit-btn {
+  position: relative;
+}
+.svgIcon {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.4rem;
+  height: 1.7rem;
+  width: 1.8rem;
+}
+form::-webkit-scrollbar-thumb {
+  background: #342c6d;
+  border-radius: 2rem;
+}
+
+form::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+form::-webkit-scrollbar {
+  border-radius: 2rem;
+  width: 10px;
+  height: 0.5rem;
+  background-color: #352d77;
 }

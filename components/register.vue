@@ -63,7 +63,7 @@
     </div>
 
     <button type="submit" class="submit-btn">
-      Sign Up <BaseSpinner class="baseSpinnerClass" />
+      Sign Up <BaseSpinner v-if="loading" />
     </button>
     <p id="errMessage">{{ getMessage }}</p>
   </form>
@@ -81,6 +81,7 @@ export default {
       password: "",
       confirmPassword: "",
       phone: "",
+      loading: false,
     };
   },
   computed: {
@@ -92,17 +93,18 @@ export default {
   },
 
   methods: {
-    doRegister() {
+    async doRegister() {
       if (this.password === this.confirmPassword) {
-        document.querySelector(".baseSpinnerClass").classList.add("loader");
+        this.loading = true;
         this.$store.commit("errMessage", "");
-        this.$store.dispatch("register", {
+        await this.$store.dispatch("register", {
           name: this.name,
           email: this.email,
           password: this.password,
           password_confirmation: this.confirmPassword,
           phone: this.phone,
         });
+        this.loading = false;
       } else {
         this.$store.commit("errMessage", "Please confirm Password Correctly");
       }

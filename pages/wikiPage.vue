@@ -5,7 +5,7 @@
         <div class="wiki__menu-wrapper">
           <div class="menu__icon" v-on:click="displaySideMenu()">
             <i class="fas fa-arrow-right"></i>
-            <span>Menu</span>
+            <span>Wiki Menu</span>
           </div>
           <div :class="showSideMenu ? 'wiki__menu' : 'wiki__menu show'">
             <div
@@ -22,24 +22,23 @@
                 <i
                   class="fas fa-angle-down sub-menu-icon"
                   v-if="
-                    item.section == 'Use Case Framework' ||
-                    item.section == 'Shift Handover'
+                    item.section == 'Shift Handover' ||
+                    item.section == 'Reports'
                   "
                 ></i>
               </button>
               <ul
                 class="sub-menu"
                 v-if="
-                  item.section == 'Use Case Framework' ||
-                  item.section == 'Shift Handover'
+                  item.section == 'Shift Handover' || item.section == 'Reports'
                 "
               >
                 <li
                   v-for="s in item.subPages"
                   :key="s.name"
-                  @click="subCatFunc(s.callFunc)"
+                  @click="(event) => changeCat(s.callFunc, event)"
                 >
-                  {{ s.name }}
+                  <span>{{ s.name }}</span>
                 </li>
               </ul>
             </div>
@@ -60,11 +59,706 @@
           </div>
         </div>
 
-  <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
-    <h1>Hello Shift Handover</h1>
-  </div>
+        <!-- Reports -->
+        
+        <div class="reports" v-if="wikiPage == 'Reports'">
+          <div v-if="chosenCat == 'socReports'">
+            <div class="pdfs__wrapper">
+              <div class="pdfs__top">
+                <h1 class="sec__title">
+                  {{ wikiPage }}
+                </h1>
+                <h4>Upload File</h4>
+                <input
+                  type="text"
+                  name="title"
+                  v-model="title"
+                  placeholder="Title"
+                  required
+                />
+                <input type="file" id="file" ref="file" />
+                <button
+                  type="button"
+                  class="upload-btn submit-btn"
+                  @click="upload"
+                >
+                  Upload file
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="pdf-wrapper"
+              v-for="report in getReports"
+              :key="report.id"
+            >
+              <button
+                class="delete-btn"
+                @click="
+                  deletePdf({ body: { id: report.id }, apiName: 'Reports' })
+                "
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+
+              <div class="pdf">
+                <i
+                  class="fas fa-angle-down open-pdf"
+                  @click="(event) => showPDF(event)"
+                ></i>
+                <p>{{ report.title }}</p>
+
+                <embed :src="report.url" type="" width="500px" height="500px" />
+              </div>
+            </div>
+          </div>
+          <div v-if="chosenCat == 'advisory'">
+            <h1 class="sec__title">Advisory</h1>
+            <button class="form-btn" @click="setChosenForm('advisory')">
+              + add
+            </button>
+            <div class="table__wrapper">
+              <div class="table">
+                <div class="table__row header">
+                  <div class="col">
+                    <h4>Date</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Applicable</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Source</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Reference ID</h4>
+                  </div>
+                </div>
+
+                <div
+                  class="table__row"
+                  v-for="advisoryCard in getAdvisory"
+                  :key="advisoryCard.id"
+                >
+                  <div class="row top-row">
+                    <i
+                      class="fas fa-angle-down row-btn"
+                      @click="(event) => showContent(event)"
+                    ></i>
+                    <div class="col">
+                      <p>
+                        <span>{{ advisoryCard.date }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ advisoryCard.applicable }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ advisoryCard.source }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ advisoryCard.referenceid }}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row bottom-row">
+                    <div>Description : {{ advisoryCard.description }}</div>
+                    <div>Notes : {{ advisoryCard.notes }}</div>
+                    <div v-if="advisoryCard.token != null">
+                      Actions Taken : {{ advisoryCard.token }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            v-if="chosenCat == 'mainIncident'"
+            class="incident__main__wrapper"
+          >
+            <div>
+              <h1 class="sec__title">Incidents</h1>
+              <button
+                class="form-btn"
+                @click="setChosenForm('incidentMainForm')"
+              >
+                add
+              </button>
+            </div>
+            <div class="table__wrapper">
+              <div class="table">
+                <div class="table__row header">
+                  <div class="col">
+                    <h4>Incident Name</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Detector</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Ref Number</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Priority</h4>
+                  </div>
+                </div>
+                <div
+                  class="table__row"
+                  v-for="i in getMainIncident"
+                  :key="i.id"
+                >
+                  <div class="row top-row">
+                    <i
+                      class="fas fa-angle-down row-btn"
+                      @click="(event) => showContent(event)"
+                    ></i>
+                    <div class="col">
+                      <p>
+                        <span>{{ i.IncidentIdentification.IncidentName }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ i.IncidentIdentification.DetectorName }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{
+                          i.IncidentIdentification.IncidentReferenceNo
+                        }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ i.IncidentIdentification.Priority }}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row bottom-row">
+                    <div class="incident-sec__wrapper">
+                      <h3>Incident Identification</h3>
+                      <div>
+                        Location : {{ i.IncidentIdentification.Location }}
+                      </div>
+                      <div>
+                        Contact Info :
+                        {{ i.IncidentIdentification.ContactInfo }}
+                      </div>
+                      <div>
+                        Time Of Detection :
+                        {{ i.IncidentIdentification.TimeOfDetection }}
+                      </div>
+                      <div>
+                        Repeated Incident :
+                        {{ i.IncidentIdentification.RepeatedIncident }}
+                      </div>
+                      <div>
+                        Impact Duration :
+                        {{ i.IncidentIdentification.ImpactDuration }}
+                      </div>
+                      <div>
+                        Affected System :
+                        {{ i.IncidentIdentification.AffectedSystem }}
+                      </div>
+                    </div>
+                    <div class="incident-sec__wrapper">
+                      <h3>Incident Triage</h3>
+                      <div>
+                        Incident Verification :
+                        {{ i.IncidentTriage.IncidentVerification }}
+                      </div>
+                      <div>
+                        Incident Classification:
+                        {{ i.IncidentTriage.IncidentClassification }}
+                      </div>
+                      <div>
+                        Description : {{ i.IncidentTriage.Description }}
+                      </div>
+                    </div>
+                    <div class="incident-sec__wrapper">
+                      <h3>Incident Containment</h3>
+                      <div>
+                        Evidence Acquiring :
+                        {{ i.IncidentContainment.EvidenceAcquiring }}
+                      </div>
+                      <div>
+                        Data Health : {{ i.IncidentContainment.DataHealth }}
+                      </div>
+                      <div>
+                        Containment Measures :
+                        {{ i.IncidentContainment.ContainmentMeasures }}
+                      </div>
+                      <div>
+                        Eradication Measures :
+                        {{ i.IncidentContainment.EradicationMeasures }}
+                      </div>
+                      <div>
+                        Recovery Measures :
+                        {{ i.IncidentContainment.RecoveryMeasures }}
+                      </div>
+                    </div>
+
+                    <div class="incident-sec__wrapper">
+                      <h3>Post Incident Activity</h3>
+                      <div>
+                        Notification : {{ i.PostIncidentActivity.Notification }}
+                      </div>
+                      <div>
+                        Case Analysis :
+                        {{ i.PostIncidentActivity.CaseAnalysis }}
+                      </div>
+                      <div>
+                        Incident Availability :
+                        {{ i.PostIncidentActivity.IncidentAvailability }}
+                      </div>
+                    </div>
+                    <div class="incident-sec__wrapper">
+                      <h3>Incident Closure</h3>
+                      <div>
+                        Improvements : {{ i.IncidentClosure.Improvements }}
+                      </div>
+                      <div>
+                        Time Of Closure : {{ i.IncidentClosure.TimeOfClosure }}
+                      </div>
+                    </div>
+                    <div class="incident-sec__wrapper">
+                      <h3>Reviewed By</h3>
+                      <div>Title : {{ i.ReviewedBy.Title }}</div>
+                      <div>Signature : {{ i.ReviewedBy.Signature }}</div>
+                      <div>Date : {{ i.ReviewedBy.Date }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="pdfs__wrapper"
+          v-if="wikiPage == 'Procedures' || wikiPage == 'Policies'"
+        >
+          <div class="pdfs__top">
+            <h1 class="sec__title">
+              {{ wikiPage }}
+            </h1>
+            <h4>Upload File</h4>
+            <input
+              type="text"
+              name="title"
+              v-model="title"
+              placeholder="Title"
+              required
+            />
+            <input type="file" id="file" ref="file" />
+            <button type="button" class="upload-btn submit-btn" @click="upload">
+              Upload file
+            </button>
+          </div>
+
+          <div class="pdfs__container" v-if="wikiPage == 'Policies'">
+            <div
+              class="pdf-wrapper"
+              v-for="policy in getPolicies"
+              :key="policy.name"
+            >
+              <button
+                class="delete-btn"
+                @click="
+                  deletePdf({ body: { id: policy.id }, apiName: 'Policies' })
+                "
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+              <div class="pdf">
+                <i
+                  class="fas fa-angle-down open-pdf"
+                  @click="(event) => showPDF(event)"
+                ></i>
+
+                <p>{{ policy.title }}</p>
+
+                <embed :src="policy.url" type="" width="500px" height="500px" />
+              </div>
+            </div>
+          </div>
+          <div class="pdfs__container" v-if="wikiPage == 'Procedures'">
+            <div
+              class="pdf-wrapper"
+              v-for="procedure in getProcedures"
+              :key="procedure.name"
+            >
+              <button
+                class="delete-btn"
+                @click="
+                  deletePdf({
+                    body: { id: procedure.id },
+                    apiName: 'Procedures',
+                  })
+                "
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+              <div class="pdf">
+                <i
+                  class="fas fa-angle-down open-pdf"
+                  @click="(event) => showPDF(event)"
+                ></i>
+
+                <p>{{ procedure.title }}</p>
+
+                <embed
+                  :src="procedure.url"
+                  type=""
+                  width="500px"
+                  height="500px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shift Hand -->
+
+        <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
+          <!-- Health Check -->
+
+          <div v-if="chosenCat == 'healthCheck'">
+            <h1 class="sec__title">Health Check</h1>
+            <button class="form-btn" @click="setChosenForm('healthCheck')">
+              + add
+            </button>
+            <div class="table__wrapper">
+              <div class="table">
+                <div class="table__row header">
+                  <div class="col">
+                    <h4>Description</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Issues Found</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Status</h4>
+                  </div>
+                </div>
+                <div
+                  class="table__row top-row health-check-row"
+                  v-for="healthCheckCard in getHealthCheck"
+                  :key="healthCheckCard.id"
+                >
+                  <div class="col">
+                    <p>
+                      <span>
+                        {{ healthCheckCard.description }}
+                      </span>
+                    </p>
+                  </div>
+                  <div class="col">
+                    <p>
+                      <span>
+                        {{ healthCheckCard.issuesfound }}
+                      </span>
+                    </p>
+                  </div>
+                  <div class="col">
+                    <p>
+                      {{ healthCheckCard.status }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Health Issues -->
+
+          <div v-if="chosenCat == 'healthIssue'">
+            <h1 class="sec__title">Health Issues</h1>
+            <button class="form-btn" @click="setChosenForm('healthIssue')">
+              + add
+            </button>
+            <div class="table__wrapper">
+              <div class="table">
+                <div class="table__row header">
+                  <div class="col">
+                    <h4>Component</h4>
+                  </div>
+                  <div class="col">
+                    <h4>IP</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Host id</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Who</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Status</h4>
+                  </div>
+                </div>
+                <div
+                  class="table__row"
+                  v-for="healthIssueCard in getHealthIssue"
+                  :key="healthIssueCard.id"
+                >
+                  <div class="row top-row">
+                    <i
+                      class="fas fa-angle-down row-btn"
+                      @click="(event) => showContent(event)"
+                    ></i>
+                    <div class="col">
+                      <p>
+                        <span>{{ healthIssueCard.component }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ healthIssueCard.ip }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ healthIssueCard.Hostname }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ healthIssueCard.who }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p :class="healthIssueCard.status.toLowerCase()">
+                        <span>{{ healthIssueCard.status }}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row bottom-row">
+                    <div>
+                      Description : {{ healthIssueCard.IssueDescription }}
+                    </div>
+                    <div>Action Taken : {{ healthIssueCard.ActionTaken }}</div>
+                    <div>Start Time : {{ healthIssueCard.StartTime }}</div>
+                    <div>Next Action : {{ healthIssueCard.NextAction }}</div>
+                    <div>Close Time : {{ healthIssueCard.CloseTime }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alerts -->
+
+          <div v-if="chosenCat == 'alerts'">
+            <h1 class="sec__title">Alerts</h1>
+            <button class="form-btn" @click="setChosenForm('alerts')">
+              + add
+            </button>
+            <div class="table__wrapper">
+              <div class="table">
+                <div class="table__row header">
+                  <div class="col">
+                    <h4>Alert Name</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Alert Number</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Who</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Status</h4>
+                  </div>
+                </div>
+                <div
+                  class="table__row"
+                  v-for="alertsCard in getAlerts"
+                  :key="alertsCard.id"
+                >
+                  <div class="row top-row">
+                    <i
+                      class="fas fa-angle-down row-btn"
+                      @click="(event) => showContent(event)"
+                    ></i>
+                    <div class="col">
+                      <p>
+                        <span>{{ alertsCard.name }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ alertsCard.number }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ alertsCard.who }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ alertsCard.status }}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row bottom-row">
+                    <div>Description : {{ alertsCard.description }}</div>
+                    <div>Action Taken : {{ alertsCard.ActionTaken }}</div>
+                    <div>Start Time : {{ alertsCard.StartTime }}</div>
+                    <div>Next Action : {{ alertsCard.NextAction }}</div>
+
+                    <div>Close Time : {{ alertsCard.CloseTime }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Incidents -->
+
+          <div v-if="chosenCat == 'incidents'">
+            <h1 class="sec__title">Incidents</h1>
+            <button class="form-btn" @click="setChosenForm('incidents')">
+              + add
+            </button>
+            <div class="table__wrapper">
+              <div class="table">
+                <div class="table__row header">
+                  <div class="col">
+                    <h4>Incident Name</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Incident Number</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Who</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Status</h4>
+                  </div>
+                </div>
+
+                <div
+                  class="table__row"
+                  v-for="incidentsCard in getIncidents"
+                  :key="incidentsCard.id"
+                >
+                  <div class="row top-row">
+                    <i
+                      class="fas fa-angle-down row-btn"
+                      @click="(event) => showContent(event)"
+                    ></i>
+                    <div class="col">
+                      <p>
+                        <span>{{ incidentsCard.name }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ incidentsCard.number }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ incidentsCard.who }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ incidentsCard.status }}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row bottom-row">
+                    <div>Description : {{ incidentsCard.description }}</div>
+                    <div>Action Taken : {{ incidentsCard.ActionTaken }}</div>
+                    <div>Start Time : {{ incidentsCard.StartTime }}</div>
+                    <div>Next Action : {{ incidentsCard.NextAction }}</div>
+
+                    <div>Close Time : {{ incidentsCard.CloseTime }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Issues -->
+
+          <div v-if="chosenCat == 'pendingIssues'">
+            <h1 class="sec__title">Pending Issues</h1>
+            <button class="form-btn" @click="setChosenForm('pendingIssues')">
+              + add
+            </button>
+            <div class="table__wrapper">
+              <div class="table">
+                <div class="table__row header">
+                  <div class="col">
+                    <h4>Issue Name</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Start Time</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Who</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Status</h4>
+                  </div>
+                </div>
+
+                <div
+                  class="table__row"
+                  v-for="pendingIssuesCard in getPendingIssues"
+                  :key="pendingIssuesCard.id"
+                >
+                  <div class="row top-row">
+                    <i
+                      class="fas fa-angle-down row-btn"
+                      @click="(event) => showContent(event)"
+                    ></i>
+                    <div class="col">
+                      <p>
+                        <span>{{ pendingIssuesCard.issue }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ pendingIssuesCard.StartTime }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ pendingIssuesCard.who }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ pendingIssuesCard.status }}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row bottom-row">
+                    <div>Description : {{ pendingIssuesCard.description }}</div>
+                    <div>
+                      Action Taken : {{ pendingIssuesCard.ActionTaken }}
+                    </div>
+
+                    <div>Next Action : {{ pendingIssuesCard.NextAction }}</div>
+
+                    <div>Close Time : {{ pendingIssuesCard.CloseTime }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Use Case -->
+
         <div class="useCase" v-if="wikiPage == 'Use Case Framework'">
-          <div class="use-case__into" v-if="useCaseChosenCat == ''">
+          <div class="use-case__into">
             <div class="use-case__panar">
               <h1 class="title">business risks</h1>
               <h1 class="title">use cases</h1>
@@ -80,82 +774,188 @@
               output and business alignment.
             </p>
           </div>
-          <div v-if="useCaseChosenCat == 'useCase'">
+
+          <!-- Use Case Intro Form -->
+
+          <div>
             <h1 class="sec__title">Use Case Intro</h1>
 
             <button class="form-btn" @click="setChosenForm('useCase')">
               + add
             </button>
-            <loader class="loaderComp" />
-            <div class="service-cards-wrapper">
-              <div
-                class="service-card"
-                v-for="useCaseCard in getUseCase"
-                :key="useCaseCard.type"
-              >
-                <p v-for="(value, name) in useCaseCard" :key="name">
-                  {{ name }}: <span> {{ value }}</span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div v-if="useCaseChosenCat == 'advisory'">
-            <h1 class="sec__title">Advisory</h1>
 
-            <button class="form-btn" @click="setChosenForm('advisory')">
-              + add
-            </button>
-            <loader class="loaderComp" />
-            <div class="service-cards-wrapper">
-              <div
-                class="service-card"
-                v-for="advisoryCard in getAdvisory"
-                :key="advisoryCard.name"
-              >
-                <p v-for="(value, name) in advisoryCard" :key="name">
-                  {{ name }}: <span>{{ value }}</span>
-                </p>
+            <div class="table__wrapper">
+              <div class="table">
+                <div class="table__row header">
+                  <div class="col">
+                    <h4>Identifier</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Type</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Priority</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Alert Volume</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Testing</h4>
+                  </div>
+                </div>
+
+                <div
+                  class="table__row"
+                  v-for="useCaseCard in getUseCase"
+                  :key="useCaseCard.id"
+                >
+                  <div class="row top-row">
+                    <i
+                      class="fas fa-angle-down row-btn"
+                      @click="(event) => showContent(event)"
+                    ></i>
+                    <div class="col">
+                      <p>
+                        <span>{{ useCaseCard.identifier }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ useCaseCard.type }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ useCaseCard.priority }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ useCaseCard.volume }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ useCaseCard.testing }}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row bottom-row">
+                    <div>Risk : {{ useCaseCard.risk }}</div>
+                    <div>False Positive : {{ useCaseCard.falsepositive }}</div>
+
+                    <div>Logic : {{ useCaseCard.logic }}</div>
+                    <div>Requirements : {{ useCaseCard.requirements }}</div>
+                    <div>Production: {{ useCaseCard.production }}</div>
+                    <div>Playbook : {{ useCaseCard.playbook }}</div>
+                    <div>Stakeholders : {{ useCaseCard.stakeholders }}</div>
+                    <div>Output : {{ useCaseCard.output }}</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div v-if="useCaseChosenCat == 'serviceCatalog'">
-            <h1 class="sec__title">Service Catalog</h1>
-            <button class="form-btn" @click="setChosenForm('serviceCatalog')">
-              + add
-            </button>
-            <loader class="loaderComp" />
-            <div class="service-cards-wrapper">
-              <div
-                class="service-card"
-                v-for="serviceCard in getServiceCatalog"
-                :key="serviceCard.name"
-              >
-                <div v-for="(value, name) in serviceCard" :key="name">
-                  <p>
-                    {{ name }} : <span> {{ value }}</span>
-                  </p>
+        </div>
+
+        <!-- Communication -->
+
+        <div class="communication" v-if="wikiPage == 'Communication'">
+          <h1 class="sec__title">Commiunication</h1>
+          <button class="form-btn" @click="setChosenForm('communicationForm')">
+            + add
+          </button>
+          <div class="table__wrapper">
+            <div class="table">
+              <div class="table__row header">
+                <div class="col">
+                  <h4>Team</h4>
+                </div>
+                <div class="col">
+                  <h4>Primary Name</h4>
+                </div>
+                <div class="col">
+                  <h4>Secondary Name</h4>
+                </div>
+              </div>
+
+              <div class="table__row" v-for="c in getCommunication" :key="c.id">
+                <div class="row top-row">
+                  <i
+                    class="fas fa-angle-down row-btn"
+                    @click="(event) => showContent(event)"
+                  ></i>
+                  <div class="col">
+                    <p>
+                      <span>{{ c.Team }}</span>
+                    </p>
+                  </div>
+                  <div class="col">
+                    <p>
+                      <span>{{ c.Primary.PrimaryName }}</span>
+                    </p>
+                  </div>
+                  <div class="col">
+                    <p>
+                      <span>{{ c.Secondary.SecondaryName }}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="row bottom-row">
+                  <div>Action : {{ c.Action }}</div>
+                  <div>Primary Email : {{ c.Primary.PrimaryEmail }}</div>
+
+                  <div>Primary Phone : {{ c.Primary.PrimaryPhone }}</div>
+
+                  <div>Secondary Email : {{ c.Secondary.SecondaryEmail }}</div>
+                  <div>Secondary Phone : {{ c.Secondary.SecondaryPhone }}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       <modal
         class="secform"
         v-on:close="setChosenForm('')"
         v-if="getChosenForm"
       >
         <use-case-form
-          :formTitle="getChosenForm"
+          formTitle="Use Case Form"
           v-if="getChosenForm == 'useCase'"
         />
         <serviceCatalogeForm
-          :formTitle="getChosenForm"
+          formTitle="Service Catalog Form"
           v-if="getChosenForm == 'serviceCatalog'"
         />
         <advisoryForm
-          :formTitle="getChosenForm"
+          formTitle="Advisory Form"
           v-if="getChosenForm == 'advisory'"
+        />
+        <health-check-form
+          v-if="getChosenForm == 'healthCheck'"
+          formTitle="Health Check Form"
+        />
+        <!-- <health-issues
+          v-if="getChosenForm == 'healthIssue'"
+          formTitle="Health Issue Form"
+        /> -->
+        <alerts-form v-if="getChosenForm == 'alerts'" formTitle="Alerts" />
+        <incident-form
+          v-if="getChosenForm == 'incidents'"
+          formTitle="Incidents"
+        />
+        <pending-issues-form
+          v-if="getChosenForm == 'pendingIssues'"
+          formTitle="Pending Issues"
+        />
+        <incident-main-form
+          v-if="getChosenForm == 'incidentMainForm'"
+          formTitle="Incident"
+        />
+        <communication-form
+          v-if="getChosenForm == 'communicationForm'"
+          formTitle="Communication"
         />
       </modal>
     </article>
@@ -166,24 +966,31 @@
 // Use Case Framework Shift Handover
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
-
+import incidentMainFormfrom from "@/components/incidentMainForm.vue";
 import wikiPDF from "@/components/wikiPDF.vue";
 import modal from "@/components/modal.vue";
 import advisoryForm from "@/components/advisoryForm.vue";
 import serviceCatalogeForm from "@/components/serviceCatalogeForm.vue";
-import baseSpinner from "@/components/baseSpinner.vue";
-
 import UseCaseForm from "../components/useCaseForm.vue";
+import healthCheckForm from "../components/healthCheckForm.vue";
+import healthIssues from "../components/healthIssues.vue";
+import alertsForm from "@/components/alertsForm.vue";
+import baseSpinner from "@/components/baseSpinner.vue";
 import loader from "../components/loader.vue";
+import incidentForm from "@/components/incidentForm.vue";
+import pendingIssuesForm from "@/components/pendingIssuesForm.vue";
+import IncidentMainForm from "../components/incidentMainForm.vue";
+import communicationForm from "@/components/communicationForm.vue";
 
 export default {
+  name: "wikiPage",
   data() {
     return {
-      showSideMenuStatus: false,
-      wikiSelectedPage: "",
+      loading: false,
       showSideMenu: "",
       wikiPage: "",
-      useCaseChosenCat: "",
+      chosenCat: "",
+      title: "",
       newAddedObjects: [],
     };
   },
@@ -195,6 +1002,14 @@ export default {
     advisoryForm,
     baseSpinner,
     loader,
+    healthCheckForm,
+    healthIssues,
+    alertsForm,
+    incidentForm,
+    pendingIssuesForm,
+    incidentMainFormfrom,
+    IncidentMainForm,
+    communicationForm,
   },
 
   computed: {
@@ -205,34 +1020,36 @@ export default {
       "getServiceCatalog",
       "getChosenForm",
       "getNewAddedObjects",
+      "getHealthCheck",
+      "getHealthIssue",
+      "getAlerts",
+      "getIncidents",
+      "getPendingIssues",
+      "getReports",
+      "getPolicies",
+      "getProcedures",
+      "getMainIncident",
+      "getCommunication",
     ]),
-    getAllUseCases() {
-      let test = [];
-      test = [...this.getUseCase, ...this.newAddedObjects];
-      return test;
-    },
   },
 
-  name: "wikiPage",
-
   methods: {
-    subCatFunc(catName) {
-      if (["useCase", "advisory", "serviceCatalog"].includes(catName)) {
-        this.changeUseCaseCat(catName);
-        Array.from(document.querySelectorAll(".sub-menu li")).forEach((li) => {
-          li.classList.remove("active");
-        });
-        event.target.classList.add("active");
-      }
-    },
     displaySideMenu() {
       this.showSideMenu = !this.showSideMenu;
     },
     changeWikiPage(page) {
       console.log("change" + " " + page);
-      this.wikiSelectedPage = page;
+      this.wikiPage = page;
+      if (["Policies", "Procedures", "Communication"].includes(page)) {
+        this.getPdf(page);
+      }
+      if (page == "Use Case Framework")
+        this.$store.dispatch("getData", "useCase");
     },
     showMenu(event) {
+      console.log(event.target);
+      let icon = event.target.querySelector(".sub-menu-icon");
+
       const parent = event.target.parentElement;
       const list = parent.querySelector(".sub-menu");
       if (list) {
@@ -240,6 +1057,7 @@ export default {
         if (height > 17) {
           list.style.height = "0px";
           list.classList.remove("show");
+          icon.className = "fas fa-angle-down sub-menu-icon";
 
           return;
         }
@@ -250,6 +1068,11 @@ export default {
         document.querySelectorAll(".menu__item .sub-menu").forEach((ul) => {
           ul.style.height = "0";
         });
+        Array.from(document.querySelectorAll(".sub-menu-icon")).forEach((i) => {
+          i.className = "fas fa-angle-down sub-menu-icon";
+        });
+        icon.className = "fas fa-angle-up sub-menu-icon";
+
         list.classList.add("show");
         list.style.height = `${height}px`;
       } else return;
@@ -257,45 +1080,345 @@ export default {
     setChosenForm(formName) {
       this.$store.commit("setChosenForm", formName);
     },
-    async changeUseCaseCat(val) {
-      if (val.length && !this.$store.state[val].length) {
-        this.useCaseChosenCat = val;
+    showContent(event) {
+      event.target.className = "fas fa-angle-up row-btn";
+      const topRowElements =
+        event.target.parentElement.querySelectorAll(".col p");
+      const bottomRow =
+        event.target.parentElement.parentElement.querySelector(".bottom-row");
+      let open =
+        event.target.parentElement.getBoundingClientRect().height > 47
+          ? true
+          : false;
+      if (bottomRow) {
+        open = bottomRow.getBoundingClientRect().height > 0 ? true : false;
+        Array.from(document.querySelectorAll(".bottom-row")).forEach((row) => {
+          row.style.height = 0;
+        });
 
-        let response = await this.$store.dispatch("getData", val);
-        if (response) {
-          document.querySelector(".loaderComp").style.display = "none";
+        let height = 0;
+        Array.from(bottomRow.children).forEach((el) => {
+          height += el.getBoundingClientRect().height;
+        });
+        if (open) {
+          event.target.className = "fas fa-angle-down row-btn";
+          height = 0;
         }
+        bottomRow.style.height = height + "px";
+      }
+      Array.from(document.querySelectorAll(".col p")).forEach((p) => {
+        p.style.maxHeight = "1.8rem";
+      });
+      Array.from(topRowElements).forEach((p) => {
+        if (!open) p.style.maxHeight = "unset";
+        else p.style.maxHeight = "1.8rem";
+      });
+    },
+    activateLink(event) {
+      console.log(event);
+      const lists = document.querySelectorAll(".sub-menu");
+      lists.forEach((list) => {
+        Array.from(list.children).forEach((li) => {
+          li.classList.remove("active");
+        });
+      });
+
+      if (event.srcElement.localName == "span") {
+        event.target.parentElement.classList.add("active");
+      } else {
+        event.target.classList.add("active");
       }
     },
-  },
-  watch: {
-    showSideMenuStatus(newValue, oldValue) {
-      this.showSideMenu = newValue;
+    showPDF(event) {
+      event.target.className = "fas fa-angle-up open-pdf";
+      const container = event.target.parentElement;
+      let height = container.getBoundingClientRect().height;
+      const open = height > 64 ? true : false;
+      Array.from(container.children).forEach((c) => {
+        height += c.getBoundingClientRect().height;
+      });
+
+      if (open) {
+        event.target.className = "fas fa-angle-down open-pdf";
+        height = 56;
+      }
+      container.style.height = height + "px";
     },
-    wikiSelectedPage(newValue, oldValue) {
-      this.wikiPage = newValue;
+    async changeCat(val, event) {
+      console.log(val);
+      this.activateLink(event);
+      this.chosenCat = val;
+      if (val == "socReports") this.getPdf("Reports");
+      else if (val.length && !this.$store.state[val].length) {
+        let response = await this.$store.dispatch("getData", val);
+      }
     },
-    changeUseCaseCat(newValue) {
-      this.useCaseChosenCat = newValue;
-      document.querySelector(".loaderComp").style.display = "inline";
+    getPdf(pdfCat) {
+      console.log(pdfCat);
+      if (!this.$store.state[pdfCat].length) {
+        this.$store.dispatch("getData", pdfCat);
+      }
+    },
+    upload() {
+      let formData = new FormData();
+      let file = document.querySelector("input[type=file]");
+      formData.append("file", file.files[0]);
+      formData.append("title", this.title);
+
+      this.$store.dispatch("uploadPdf", {
+        apiName: this.wikiPage,
+        body: formData,
+      });
+    },
+    deletePdf(data) {
+      this.$store.dispatch("deletePdf", data);
     },
   },
 };
 </script>
 <style>
+/* Incident Main */
+.incident-sec__wrapper h3 {
+  display: block;
+}
+
+/* PDF Styles */
+
+.pdfs__wrapper {
+  width: 80%;
+  margin: 0rem auto;
+}
+
+.pdfs__top h4 {
+  margin-bottom: 0.6rem;
+  font-weight: 400;
+}
+.pdfs__top input:first-of-type {
+  padding: 0.3rem 0.8rem;
+  border: none;
+  outline: none;
+  border-radius: 1rem;
+}
+.pdfs__top input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.pdfs__top input[type="file"] {
+  color: #fff;
+}
+
+.pdfs__top input[type="file"]::before {
+  content: "Choose File";
+  display: inline-block;
+  background: #000a4a;
+  border: 1px solid #999;
+  border-radius: 8px;
+  padding: 7px 8px;
+  outline: none;
+  white-space: nowrap;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.pdfs__container {
+  margin: 2rem 0;
+}
+
+.upload-btn {
+  display: block;
+  width: auto;
+  padding: 0.3rem 1rem;
+  text-transform: capitalize;
+  border-radius: 2rem;
+}
+
+.pdfs__top .sec__title {
+  font-size: 2rem;
+}
+.pdf-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.pdf-wrapper .delete-btn {
+  padding: 0.3rem 1rem;
+  color: rgb(199, 32, 32);
+  background: none;
+  border-radius: 1rem;
+  align-self: flex-start;
+  font-size: 1.7rem;
+}
+.pdf {
+  width: 90%;
+  border-radius: 0.5rem;
+}
+.pdf {
+  position: relative;
+  padding: 1rem;
+  border: 0.1px solid rgb(124, 124, 124);
+  height: 3.5rem;
+  transition: 0.3s;
+  overflow: hidden;
+}
+.pdf .open-pdf {
+  font-size: 1.2rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #fff;
+  z-index: 100;
+  cursor: pointer;
+}
+.pdf embed {
+  width: 100%;
+  margin: 2rem auto;
+}
+.pdf p {
+  text-transform: capitalize;
+  letter-spacing: 0.1rem;
+}
+
+/* Table */
+
+.shiftHand {
+  width: 80%;
+  margin: 0 auto;
+}
+.table__wrapper {
+  width: 100%;
+  margin: 1rem auto;
+  max-height: 68vh;
+  padding-right: 0.5rem;
+  overflow: auto;
+}
+.table {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.table__wrapper::-webkit-scrollbar-thumb {
+  background: #40358e;
+  border-radius: 2rem;
+}
+
+.table__wrapper::-webkit-scrollbar-track {
+  background-color: #fff;
+  border-radius: 2rem;
+}
+
+.table__wrapper::-webkit-scrollbar {
+  width: 10px;
+  height: 0.5rem;
+  background-color: #40358e;
+}
+
+.table {
+  border-radius: 1rem;
+  overflow: auto;
+}
+
+.table__row {
+  width: auto;
+  display: flex;
+}
+.col {
+  width: 100%;
+  padding: 0.5rem 1rem 0.5rem 0.3rem;
+  border: 1px solid #000;
+}
+.table__row:nth-child(odd) {
+  background: rgb(134, 130, 130);
+}
+.table__row:nth-child(even) {
+  background: rgb(70, 67, 67);
+}
+.row {
+  display: flex;
+  width: 100%;
+}
+.top-row {
+  flex-direction: row;
+  position: relative;
+}
+.top-row .col {
+  width: 100%;
+}
+
+.bottom-row {
+  display: flex;
+  flex-wrap: wrap;
+  height: 0;
+  transition: 0.4s;
+  overflow: hidden;
+}
+.bottom-row div {
+  width: 100%;
+  word-break: break-all;
+  padding: 0.5rem 1rem;
+}
+.row-btn {
+  position: absolute;
+  top: 1rem;
+  right: 0.5rem;
+  cursor: pointer;
+  z-index: 100;
+}
+.table__row {
+  width: 100%;
+  flex-direction: column;
+}
+.health-check-row {
+  flex-direction: row;
+}
+.table__row.header {
+  width: 100%;
+  flex-direction: row;
+}
+.col h4 {
+  text-align: center;
+  font-size: 1rem;
+}
+.table__row:not(.table__row:first-child) .col {
+  position: relative;
+  padding-right: 1rem;
+}
+.table__row:not(.table__row:first-child) .col p {
+  transition: 0.3s;
+  word-break: break-all;
+  text-transform: capitalize;
+  text-align: center;
+  max-height: 1.8rem;
+  max-width: 200px;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* Wiki Page */
+
+.reports .pdfs__wrapper {
+  width: auto;
+}
+
 .menu__icon {
   color: #fff;
   letter-spacing: 0.06rem;
   cursor: pointer;
   text-align: left;
-  padding: 0.5rem;
+  padding: 0.5rem 0;
   border-bottom: 1px solid #fff;
-  width: 6rem;
+  width: 7.4rem;
   display: none;
 }
 button {
   color: #fff;
   background: inherit;
+  text-transform: capitalize;
 }
 .wiki__content-wrapper {
   display: flex;
@@ -304,29 +1427,29 @@ button {
 .wiki__content {
   display: flex;
   width: 100%;
+  flex-wrap: wrap;
 }
 .wiki__menu {
   display: flex;
   flex-direction: column;
-  width: 0%;
-  height: 100%;
+  width: 240px;
+  height: 0;
   opacity: 0;
-  transition: width 0.3s;
+  transition: height 0.3s;
   overflow: hidden;
-  height: 89vh;
 }
 .wiki__menu.show {
   opacity: 1;
-  width: 100%;
+  height: 100%;
 }
 .wiki__menu-wrapper {
-  width: 206px;
+  width: auto;
 }
 .wiki__menu .menu__item {
   width: 100%;
 }
 .wiki__menu .menu__item button {
-  padding: 0.8rem 0.5rem;
+  padding: 0.8rem 0.4rem;
   text-align: left;
   background: none;
   width: 100%;
@@ -342,12 +1465,13 @@ button {
 }
 .sub-menu-icon {
   position: absolute;
-  right: -0.5rem;
+  right: 0.3rem;
   top: 38%;
   bottom: 40%;
+  z-index: -1;
 }
-.wiki__menu .menu__item button i {
-  margin-right: 0.5rem;
+.wiki__menu .menu__item button i:first-child {
+  margin-right: 0.25rem;
 }
 .wiki__menu .menu__item button:hover {
   background: #eee;
@@ -357,7 +1481,7 @@ button {
   width: 78%;
   display: flex;
   flex-wrap: wrap;
-  margin: auto;
+  margin: 3rem auto;
   justify-content: center;
 }
 .wiki__item {
@@ -397,27 +1521,43 @@ button {
   height: 0;
   overflow: hidden;
   transition: 0.3s;
-  border-top: 1px solid #fff;
+}
+.menu__item.submenu-wrapper {
+  border-bottom: 1px solid #fff;
 }
 .sub-menu.show {
   border-top: 0px;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
 }
 .sub-menu li {
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  text-align: center;
+  text-align: left;
   transition: 0.3s;
 }
-.sub-menu li.active {
-  color: #9c8fff;
+.sub-menu li span {
+  position: relative;
+}
+
+.sub-menu li span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.5rem;
+  height: 0.1rem;
+  background: #fff;
+  width: 0;
+  transition: 0.3s;
+}
+
+.sub-menu li.active span::after {
+  width: 100%;
 }
 .sub-menu li:hover {
   color: #566cff;
 }
 .sub-menu li:last-child {
   margin: 0;
-  border-bottom: 0.1rem solid #fff;
 }
 .menu__item.submenu-wrapper button {
   border-bottom: none;
@@ -451,8 +1591,6 @@ button {
 .use-case__into p {
   margin-bottom: 1rem;
 }
-
-/* Cards */
 .useCase {
   width: 80%;
   margin: 1rem auto;
@@ -468,62 +1606,55 @@ button {
 .sec__title {
   text-align: center;
   font-size: 1.2rem;
+  margin-top: 0.8rem;
 }
 .form-btn:hover {
   background: #fff;
   color: #40358e;
 }
-.service-cards-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  max-height: 33rem;
-  overflow: auto;
-}
-.service-cards-wrapper::-webkit-scrollbar-thumb {
-  color: #40358e;
-  background: #40358e;
+/* Communication and Reports */
+.communication,
+.reports {
+  width: 80%;
+  margin: 1rem auto;
 }
 
-.service-cards-wrapper::-webkit-scrollbar-track {
-  border: 1px solid black;
-  background-color: #40358e;
-}
+/* Media Queries */
 
-.service-cards-wrapper::-webkit-scrollbar {
-  width: 10px;
-  background-color: #40358e;
+@media screen and (max-width: 1380px) {
+  .pdfs__container {
+    grid-template-columns: 1fr;
+  }
 }
-
-.service-cards-wrapper::-webkit-scrollbar-thumb {
-  border-radius: 1rem;
-  background-color: #ffffff;
-}
-.service-card {
-  background: #40358e;
-  padding: 0.5rem;
-  border-radius: 1rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-.service-card p {
-  color: #fff;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 0.5rem;
-  text-transform: capitalize;
-}
-.service-card p span {
-  color: #ffffff;
-}
-@media screen and (max-width: 1025px) {
+@media screen and (max-width: 1200px) {
   .useCase {
     width: 70%;
   }
-  .service-cards-wrapper {
-    grid-template-columns: 1fr;
+  .menu__icon {
+    display: block;
+  }
+  .wiki__menu-wrapper {
+    width: 80%;
+    margin: auto;
+  }
+  .wiki__menu {
+    width: 60%;
+    margin: auto;
+  }
+  .menu__icon {
+    margin: auto;
+  }
+  .shiftHand {
+    width: 90%;
+  }
+  .table__wrapper {
+    overflow: auto;
+  }
+  .table {
+    min-width: 65rem;
+  }
+  .sec__title {
+    margin-top: 2rem;
   }
 }
 @media screen and (max-width: 769px) {
@@ -565,11 +1696,6 @@ button {
   }
   .useCase {
     width: 90%;
-  }
-}
-@media screen and (max-width: 600px) {
-  .service-card {
-    grid-template-columns: 1fr;
   }
 }
 </style>

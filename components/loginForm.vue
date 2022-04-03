@@ -33,7 +33,7 @@
     </div>
 
     <button class="submit-btn" type="submit">
-      Login <BaseSpinner class="baseSpinnerClass" />
+      Login <BaseSpinner v-if="loading" />
     </button>
     <p id="errMessage">{{ getMessage }}</p>
   </form>
@@ -53,6 +53,7 @@ export default {
     return {
       emailLogin: "",
       passwordLogin: "",
+      loading: false,
     };
   },
 
@@ -66,12 +67,14 @@ export default {
   },
   methods: {
     async doLogin() {
-      document.querySelector(".baseSpinnerClass").classList.add("loader");
+      this.loading = true;
       this.$store.commit("errMessage", "");
       let response = await this.$store.dispatch("login", {
         email: this.emailLogin,
         password: this.passwordLogin,
       });
+
+      this.loading = false;
     },
   },
 };

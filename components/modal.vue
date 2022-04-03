@@ -9,8 +9,6 @@
       </div>
       <!-- Modal content -->
       <div class="modal-content">
-
-
         <slot :formTitle="formTitle"></slot>
       </div>
     </div>
@@ -23,8 +21,8 @@ export default {
   components: {
     Logo,
   },
-  props:{
-    formTitle: ''
+  props: {
+    formTitle: "",
   },
   methods: {
     close() {
@@ -52,12 +50,14 @@ export default {
   transition: 0.3s;
   animation: opacity 0.5s 0.1s forwards;
 }
-.secform{
+.secform {
   opacity: 1;
   transform: scale(0);
-  animation: scale .4s .1s forwards;
+  animation: scale 0.4s 0.1s forwards;
 }
-
+.logo {
+  margin-top: 0.7rem;
+}
 .modal__top {
   height: 3rem;
   display: flex;
@@ -76,12 +76,12 @@ export default {
   padding-bottom: 0;
 }
 .secform {
-  top: 10%;
-  bottom: 10%;
+  top: 5%;
   left: 25%;
   right: 25%;
   width: auto;
   height: auto;
+  padding-bottom: 1rem;
   background: #fff;
   border-radius: 2rem;
 }
@@ -89,32 +89,30 @@ export default {
   width: 100%;
   margin: auto;
 }
-.secform .modal-content{
+.secform .modal-content {
   position: relative;
   height: auto;
-    display: flex;
+  display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.logo{
+.secform .logo {
   filter: invert(1);
 }
 .secform .modal-content {
   max-width: none;
-padding: 0;
+  padding: 0;
+
 }
 .secform .modal__top {
   width: 90%;
-  margin: .6rem auto;
+  margin: 0.6rem auto;
 }
 .secform .close {
   background: none;
   color: #010f60;
 }
-
-
-
 
 @keyframes scale {
   100% {
@@ -144,6 +142,7 @@ padding: 0;
   .modal.secform {
     width: 80%;
     margin: auto;
+    top: 3%;
     left: 2%;
     right: 2%;
   }
@@ -154,7 +153,7 @@ padding: 0;
   }
   .modal.secform {
     width: 90%;
-    height: 95%;
+    height: auto;
   }
 }
 @media screen and (max-width: 680px) {
@@ -162,16 +161,17 @@ padding: 0;
     width: 100%;
   }
   .modal.secform {
+    top: 0;
     left: 0%;
     right: 0%;
-    height: 100%;
     width: 100%;
+    height: 100%;
     border-radius: 0;
   }
   .secform .modal__wrapper {
     width: 100%;
   }
-  .secform .modal__top{
+  .secform .modal__top {
     width: 100%;
   }
   .secform .modal-content {
