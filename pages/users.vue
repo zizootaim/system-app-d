@@ -1,6 +1,5 @@
 <template>
   <section class="users__wrapper">
-    <h1>Happy to deploy Dynamic</h1>
     <h1 class="sec__title">Users</h1>
     <div class="users">
       <div class="user" v-for="user in getUsers" :key="user.id">
