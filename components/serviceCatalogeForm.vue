@@ -23,36 +23,42 @@
           required
         />
       </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="description"
-          placeholder="Description"
-          v-model="description"
-          autocomplete="off"
-          required
-        />
-      </div>
+      <textarea
+        name="description"
+        placeholder="Description"
+        v-model="description"
+        required
+        cols="20"
+        rows="3"
+      ></textarea>
 
-      <div class="form__control">
-        <input
-          type="text"
-          name="inputs"
-          placeholder="Inputs"
-          v-model="inputs"
-          autocomplete="off"
-          required
-        />
-      </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="output"
-          placeholder="Outputs"
-          v-model="outputs"
-          required
-        />
-      </div>
+      <textarea
+        name="inputs"
+        placeholder="Inputs"
+        v-model="inputs"
+        required
+        cols="20"
+        rows="3"
+      ></textarea>
+
+      <textarea
+        name="output"
+        placeholder="Outputs"
+        v-model="outputs"
+        required
+        cols="20"
+        rows="3"
+      ></textarea>
+
+      <textarea
+        name="consumers"
+        placeholder="Consumers"
+        v-model="consumers"
+        required
+        cols="20"
+        rows="3"
+      ></textarea>
+
       <div class="form__control">
         <input
           type="text"
@@ -63,16 +69,7 @@
           required
         />
       </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="consumers"
-          placeholder="Consumers"
-          v-model="consumers"
-          autocomplete="off"
-          required
-        />
-      </div>
+
       <div class="form__control select">
         <select name="status" id="status" v-model="status" required>
           <option value="" selected disabled hidden>Status</option>
@@ -81,13 +78,22 @@
           <option value="inactive">Inactive</option>
         </select>
       </div>
-      <div class="form__control select">
-        <select name="hoursOptions" id="hours" v-model="hours" required>
-          <option value="" selected disabled hidden>Service Hours</option>
+      <div class="hours">
+        <p>Service Hours</p>
+        <div></div>
+        <div>
+          <input type="checkbox" value="24 X 7" v-model="hours" />
+          <label for="jack">24 X 7</label>
+        </div>
+        <div>
+          <input type="checkbox" value="8 X 5" v-model="hours" />
+          <label for="john">8 X 5</label>
+        </div>
 
-          <option value="24*7">24 * 7</option>
-          <option value="5*8">5 * 8</option>
-        </select>
+        <div>
+          <input type="checkbox" value="ad-hoc per request" v-model="hours" />
+          <label for="ad-hoc per request">ad-hoc per request</label>
+        </div>
       </div>
       <button class="submit-btn" type="submit">
         Submit <BaseSpinner v-if="loading" />
@@ -123,7 +129,7 @@ export default {
       owner: "",
       description: "",
       status: "",
-      hours: "",
+      hours: [],
       inputs: "",
       outputs: "",
       consumers: "",
@@ -177,13 +183,22 @@ export default {
 .service__form-wrapper {
   width: 85%;
 }
-
+label,
+p {
+  color: #010f60;
+}
+p {
+  padding: 10px 0;
+}
 .service__form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.6rem;
 }
-
+.hours {
+  display: flex;
+  flex-direction: column;
+}
 @media screen and (max-width: 680px) {
   .service__form {
     grid-template-columns: 1fr;

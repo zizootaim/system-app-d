@@ -128,14 +128,14 @@
           </select>
         </div>
         <p>Brief Description :</p>
-        <div class="form__control">
-          <input
-            type="text"
-            name="incidentDescription"
+        <textarea style="margin-top:.6rem;"
+        name="incidentDescription"
             placeholder="Incident Description"
             v-model="incidentDescription"
-          />
-        </div>
+        cols="20"
+        rows="3"
+      ></textarea>
+ 
 
         <p>INCIDENT CONTAINMENT, ERADICATION, AND RECOVERY</p>
 

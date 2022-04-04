@@ -2,34 +2,39 @@
   <div class="shift__form-wrapper">
     <h1 class="form__title">Daily Health Check</h1>
     <form class="health__form" v-on:submit.prevent="submitData">
-      <div class="form__control">
-        <input
-          type="text"
-          name="description"
+     
+ 
+
+      <textarea style="grid-column:-1/1;"
+        name="description"
           placeholder="Check Description"
           v-model="description"
-          autocomplete="off"
-        />
-      </div>
+        cols="20"
+        rows="3"
+      ></textarea>
+
+   
       <div class="form__control">
         <select name="status" v-model="status">
           <option value="" selected disabled hidden>Health Status</option>
-          <option value="1">Ok</option>
-          <option value="0">Not Ok</option>
+          <option value="Ok">Ok</option>
+          <option value="Not Ok">Not Ok</option>
         </select>
       </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="issuesfound"
-          placeholder="Issues Found"
-          v-model="issuesfound"
-          autocomplete="off"
-        />
-      </div>
-      <div class="health__issues-form" v-if="this.status == '0'">
+
+      <div class="health__issues-form" v-if="this.status == 'Not Ok'">
         <h1 class="form__title">Health Issues</h1>
+
         <div class="long__form">
+          <div class="form__control">
+            <input
+              type="text"
+              name="issuesfound"
+              placeholder="Issues Found"
+              v-model="issuesfound"
+              autocomplete="off"
+            />
+          </div>
           <div class="form__control">
             <input
               type="text"
@@ -63,14 +68,22 @@
             <label for="startTime" class="time">Start Time</label>
             <input type="time" v-model="healthIssue.startTime" id="startTime" />
           </div>
-          <div class="form__control">
+            <div class="form__control">
             <input
               type="text"
-              name="IssueDescription"
-              placeholder="Issue Description"
-              v-model="healthIssue.issueDescription"
+              name="who"
+              placeholder="Who"
+              v-model="healthIssue.who"
             />
           </div>
+                <textarea style="grid-column:-1/1;"
+       name="IssueDescription"
+              placeholder="Issue Description"
+              v-model="healthIssue.issueDescription"
+        cols="20"
+        rows="3"
+      ></textarea>
+   
           <div class="form__control">
             <input
               type="text"
@@ -87,9 +100,7 @@
               v-model="healthIssue.nextAction"
             />
           </div>
-          <div class="form__control">
-            <input type="text" name="who" placeholder="Who" v-model="healthIssue.who" />
-          </div>
+        
           <div class="form__control" style="grid-column: -1 /1">
             <select name="issueStatus" v-model="healthIssue.issueStatus">
               <option value="" selected disabled hidden>Issue Status</option>
@@ -104,9 +115,17 @@
           </div>
           <div class="form__control time-control">
             <label for="CloseDate" class="date">Close Date</label>
-            <input type="date" name="CloseDate" v-model="healthIssue.closeDate" />
+            <input
+              type="date"
+              name="CloseDate"
+              v-model="healthIssue.closeDate"
+            />
             <label for="CloseTime" class="time">Close Time</label>
-            <input type="time" name="CloseTime" v-model="healthIssue.closeTime" />
+            <input
+              type="time"
+              name="CloseTime"
+              v-model="healthIssue.closeTime"
+            />
           </div>
         </div>
       </div>
@@ -138,19 +157,19 @@ export default {
       description: "",
       status: "",
       issuesfound: "",
-      healthIssue:{
-          component: "",
-      ip: "",
-      hostname: "",
-      startDate: "",
-      startTime: "",
-      issueDescription: "",
-      actionTaken: "",
-      nextAction: "",
-      who: "",
-      issueStatus: "",
-      closeTime: "",
-      closeDate: "",
+      healthIssue: {
+        component: "",
+        ip: "",
+        hostname: "",
+        startDate: "",
+        startTime: "",
+        issueDescription: "",
+        actionTaken: "",
+        nextAction: "",
+        who: "",
+        issueStatus: "",
+        closeTime: "",
+        closeDate: "",
       },
       spinnerLoading: false,
       submitIcon: false,
@@ -162,16 +181,16 @@ export default {
         Description: this.description,
         Status: this.status,
         IssuesFound: this.issuesfound,
-        Component:this.healthIssue.component,
-        Ip:this.healthIssue.ip,
-        Hostname:this.healthIssue.hostname,
-        StartTime:`${this.healthIssue.startDate} ${this.healthIssue.startTime}`,
-        IssueDescription:this.healthIssue.issueDescription,
-        ActionTaken:this.healthIssue.actionTaken,
-        NextAction:this.healthIssue.nextAction,
-        Who:this.healthIssue.who,
-        IssueStatus:this.healthIssue.issueStatus,
-CloseTime:`${this.healthIssue.closeDate} ${this.healthIssue.closeTime}`,
+        Component: this.healthIssue.component,
+        Ip: this.healthIssue.ip,
+        Hostname: this.healthIssue.hostname,
+        StartTime: `${this.healthIssue.startDate} ${this.healthIssue.startTime}`,
+        IssueDescription: this.healthIssue.issueDescription,
+        ActionTaken: this.healthIssue.actionTaken,
+        NextAction: this.healthIssue.nextAction,
+        Who: this.healthIssue.who,
+        IssueStatus: this.healthIssue.issueStatus,
+        CloseTime: `${this.healthIssue.closeDate} ${this.healthIssue.closeTime}`,
       };
     },
   },
@@ -211,5 +230,8 @@ CloseTime:`${this.healthIssue.closeDate} ${this.healthIssue.closeTime}`,
   max-height: 30rem;
   overflow: auto;
   padding-right: 1rem;
+}
+textarea{
+  width: 100%;
 }
 </style>

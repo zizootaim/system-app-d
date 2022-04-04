@@ -27,14 +27,17 @@
         <label for="incidentTime" class="time">Incident Time</label>
         <input type="time" v-model="incidentTime" id="incidentTime" />
       </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="incidentDescription"
+       <div class="form__control">
+        <input type="text" name="who" placeholder="Who" v-model="who" />
+      </div>
+           <textarea style="grid-column:-1/1;"
+        name="incidentDescription"
           placeholder="Incident Description"
           v-model="incidentDescription"
-        />
-      </div>
+        cols="20"
+        rows="3"
+      ></textarea>
+    
       <div class="form__control">
         <input
           type="text"
@@ -51,15 +54,13 @@
           v-model="NextAction"
         />
       </div>
-      <div class="form__control">
-        <input type="text" name="who" placeholder="Who" v-model="who" />
-      </div>
-      <div class="form__control">
+     
+      <div class="form__control" style="grid-column:-1/1;">
         <select name="status" v-model="status">
           <option value="" selected disabled hidden>Status</option>
 
           <option value="Initial Investigation">Initial Investigation</option>
-          <option value="Sloution In Progress">Sloution In Progress</option>
+          <option value="Solution In Progress">Solution In Progress</option>
           <option value="Pending">Pending</option>
           <option value="Closed">Closed</option>
         </select>

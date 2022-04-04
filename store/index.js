@@ -72,7 +72,7 @@ export const state = () => ({
 
       subPages: [
         { name: "Health Check", callFunc: "healthCheck" },
-        { name: "Health Issues", callFunc: "healthIssue" },
+
         { name: "Alerts", callFunc: "alerts" },
         { name: "Incidents", callFunc: "incidents" },
         { name: "Pending Issues", callFunc: "pendingIssues" },
@@ -223,6 +223,7 @@ export const actions = {
       })
       .catch((error) => console.log("error", error));
   },
+
   async postData({ state, commit }, dataObj) {
     try {
       console.log(dataObj);

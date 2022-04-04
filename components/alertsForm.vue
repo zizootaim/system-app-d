@@ -27,14 +27,17 @@
         <label for="startTime" class="time">Start Time</label>
         <input type="time" v-model="startTime" id="startTime" />
       </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="IssueDescription"
+ <div class="form__control">
+        <input type="text" name="who" placeholder="Who" v-model="who" />
+      </div>
+       <textarea style="grid-column:-1/1;"
+      name="IssueDescription"
           placeholder="Issue Description"
           v-model="IssueDescription"
-        />
-      </div>
+        cols="20"
+        rows="3"
+      ></textarea>
+ 
       <div class="form__control">
         <input
           type="text"
@@ -51,10 +54,8 @@
           v-model="NextAction"
         />
       </div>
-      <div class="form__control">
-        <input type="text" name="who" placeholder="Who" v-model="who" />
-      </div>
-      <div class="form__control">
+     
+      <div class="form__control" style="grid-column:-1/1;">
         <select name="status" v-model="status">
           <option value="" selected disabled hidden>Status</option>
 

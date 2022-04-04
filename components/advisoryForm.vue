@@ -2,7 +2,7 @@
   <div class="advisory__form-wrapper">
     <h1 class="form__title">{{ formTitle }}</h1>
 
-    <form class="advisory__form" v-on:submit.prevent="submitData">
+    <form class="advisory__form" style="margin-top:1.7rem;" v-on:submit.prevent="submitData">
       <div class="form__control">
         <input
           type="text"
@@ -13,33 +13,30 @@
           required
         />
       </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="description"
-          placeholder="Description"
-          v-model="description"
-          autocomplete="off"
-          required
-        />
-      </div>
       <div class="form__control time-control">
         <label for="date" class="date">Date</label>
         <input name="date" type="date" v-model="dateY" required />
         <label for="time" class="time">Time</label>
         <input name="time" type="time" v-model="dateT" required />
       </div>
+      <textarea
+        style="grid-column: -1/1"
+        name="description"
+        placeholder="Description"
+        v-model="description"
+        cols="20"
+        rows="3"
+      ></textarea>
 
-      <div class="form__control">
-        <input
-          type="text"
-          name="notes"
-          placeholder="Notes"
-          v-model="notes"
-          autocomplete="off"
-          required
-        />
-      </div>
+      <textarea
+        style="grid-column: -1/1"
+        name="notes"
+        placeholder="Notes"
+        v-model="notes"
+        cols="20"
+        rows="3"
+      ></textarea>
+
       <div class="form__control select" style="grid-column: -1/1">
         <select
           name="advisorysource"

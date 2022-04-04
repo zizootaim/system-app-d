@@ -14,9 +14,7 @@
           <div class="col">
             <h4>Status</h4>
           </div>
-          <div class="col">
-            <h4>ID</h4>
-          </div>
+        
         </div>
 
         <div
@@ -44,11 +42,7 @@
                 <span>{{ serviceCard.status }}</span>
               </p>
             </div>
-            <div class="col">
-              <p>
-                <span>{{ serviceCard.id }}</span>
-              </p>
-            </div>
+        
           </div>
           <div class="row bottom-row">
             <div>Description : {{ serviceCard.description }}</div>

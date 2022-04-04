@@ -60,7 +60,7 @@
         </div>
 
         <!-- Reports -->
-        
+
         <div class="reports" v-if="wikiPage == 'Reports'">
           <div v-if="chosenCat == 'socReports'">
             <div class="pdfs__wrapper">
@@ -217,119 +217,105 @@
                     ></i>
                     <div class="col">
                       <p>
-                        <span>{{ i.IncidentIdentification.IncidentName }}</span>
+                        <span>{{ i.IncidentName }}</span>
                       </p>
                     </div>
                     <div class="col">
                       <p>
-                        <span>{{ i.IncidentIdentification.DetectorName }}</span>
+                        <span>{{ i.DetectorName }}</span>
                       </p>
                     </div>
                     <div class="col">
                       <p>
-                        <span>{{
-                          i.IncidentIdentification.IncidentReferenceNo
-                        }}</span>
+                        <span>{{ i.IncidentReferenceNo }}</span>
                       </p>
                     </div>
                     <div class="col">
                       <p>
-                        <span>{{ i.IncidentIdentification.Priority }}</span>
+                        <span>{{ i.Priority }}</span>
                       </p>
                     </div>
                   </div>
                   <div class="row bottom-row">
                     <div class="incident-sec__wrapper">
                       <h3>Incident Identification</h3>
-                      <div>
-                        Location : {{ i.IncidentIdentification.Location }}
-                      </div>
+                      <div>Location : {{ i.Location }}</div>
                       <div>
                         Contact Info :
-                        {{ i.IncidentIdentification.ContactInfo }}
+                        {{ i.ContactInfo }}
                       </div>
                       <div>
                         Time Of Detection :
-                        {{ i.IncidentIdentification.TimeOfDetection }}
+                        {{ i.TimeOfDetection }}
                       </div>
                       <div>
                         Repeated Incident :
-                        {{ i.IncidentIdentification.RepeatedIncident }}
+                        {{ i.RepeatedIncident }}
                       </div>
                       <div>
                         Impact Duration :
-                        {{ i.IncidentIdentification.ImpactDuration }}
+                        {{ i.ImpactDuration }}
                       </div>
                       <div>
                         Affected System :
-                        {{ i.IncidentIdentification.AffectedSystem }}
+                        {{ i.AffectedSystem }}
                       </div>
                     </div>
                     <div class="incident-sec__wrapper">
                       <h3>Incident Triage</h3>
                       <div>
                         Incident Verification :
-                        {{ i.IncidentTriage.IncidentVerification }}
+                        {{ i.IncidentVerification }}
                       </div>
                       <div>
                         Incident Classification:
-                        {{ i.IncidentTriage.IncidentClassification }}
+                        {{ i.IncidentClassification }}
                       </div>
-                      <div>
-                        Description : {{ i.IncidentTriage.Description }}
-                      </div>
+                      <div>Description : {{ i.Description }}</div>
                     </div>
                     <div class="incident-sec__wrapper">
                       <h3>Incident Containment</h3>
                       <div>
                         Evidence Acquiring :
-                        {{ i.IncidentContainment.EvidenceAcquiring }}
+                        {{ i.EvidenceAcquiring }}
                       </div>
-                      <div>
-                        Data Health : {{ i.IncidentContainment.DataHealth }}
-                      </div>
+                      <div>Data Health : {{ i.DataHealth }}</div>
                       <div>
                         Containment Measures :
-                        {{ i.IncidentContainment.ContainmentMeasures }}
+                        {{ i.ContainmentMeasures }}
                       </div>
                       <div>
                         Eradication Measures :
-                        {{ i.IncidentContainment.EradicationMeasures }}
+                        {{ i.EradicationMeasures }}
                       </div>
                       <div>
                         Recovery Measures :
-                        {{ i.IncidentContainment.RecoveryMeasures }}
+                        {{ i.RecoveryMeasures }}
                       </div>
                     </div>
 
                     <div class="incident-sec__wrapper">
                       <h3>Post Incident Activity</h3>
-                      <div>
-                        Notification : {{ i.PostIncidentActivity.Notification }}
-                      </div>
+                      <div>Notification : {{ i.Notification }}</div>
                       <div>
                         Case Analysis :
-                        {{ i.PostIncidentActivity.CaseAnalysis }}
+                        {{ i.CaseAnalysis }}
                       </div>
                       <div>
                         Incident Availability :
-                        {{ i.PostIncidentActivity.IncidentAvailability }}
+                        {{ i.IncidentAvailability }}
                       </div>
                     </div>
                     <div class="incident-sec__wrapper">
                       <h3>Incident Closure</h3>
-                      <div>
-                        Improvements : {{ i.IncidentClosure.Improvements }}
-                      </div>
-                      <div>
-                        Time Of Closure : {{ i.IncidentClosure.TimeOfClosure }}
-                      </div>
+                      <div>Improvements : {{ i.Improvements }}</div>
+                      <div>Time Of Closure : {{ i.TimeOfClosure }}</div>
                     </div>
                     <div class="incident-sec__wrapper">
                       <h3>Reviewed By</h3>
-                      <div>Title : {{ i.ReviewedBy.Title }}</div>
-                      <div>Signature : {{ i.ReviewedBy.Signature }}</div>
-                      <div>Date : {{ i.ReviewedBy.Date }}</div>
+                      <div>Title : {{ i.Title }}</div>
+                      <div>Signature : {{ i.Signature }}</div>
+                      <div>Date : {{ i.Date }}</div>
                     </div>
                   </div>
                 </div>
@@ -424,6 +410,7 @@
         <!-- Shift Hand -->
 
         <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
+
           <!-- Health Check -->
 
           <div v-if="chosenCat == 'healthCheck'">
@@ -435,119 +422,61 @@
               <div class="table">
                 <div class="table__row header">
                   <div class="col">
-                    <h4>Description</h4>
+                    <h4>Check Description</h4>
                   </div>
                   <div class="col">
-                    <h4>Issues Found</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Status</h4>
+                    <h4>Check Status</h4>
                   </div>
                 </div>
                 <div
-                  class="table__row top-row health-check-row"
-                  v-for="healthCheckCard in getHealthCheck"
-                  :key="healthCheckCard.id"
-                >
-                  <div class="col">
-                    <p>
-                      <span>
-                        {{ healthCheckCard.description }}
-                      </span>
-                    </p>
-                  </div>
-                  <div class="col">
-                    <p>
-                      <span>
-                        {{ healthCheckCard.issuesfound }}
-                      </span>
-                    </p>
-                  </div>
-                  <div class="col">
-                    <p>
-                      {{ healthCheckCard.status }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Health Issues -->
-
-          <div v-if="chosenCat == 'healthIssue'">
-            <h1 class="sec__title">Health Issues</h1>
-            <button class="form-btn" @click="setChosenForm('healthIssue')">
-              + add
-            </button>
-            <div class="table__wrapper">
-              <div class="table">
-                <div class="table__row header">
-                  <div class="col">
-                    <h4>Component</h4>
-                  </div>
-                  <div class="col">
-                    <h4>IP</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Host id</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Who</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Status</h4>
-                  </div>
-                </div>
-                <div
-                  class="table__row"
-                  v-for="healthIssueCard in getHealthIssue"
-                  :key="healthIssueCard.id"
+                  class="table__row top-row"
+                  v-for="h in getHealthCheck"
+                  :key="h.id"
                 >
                   <div class="row top-row">
                     <i
+                      v-if="h.Status == 'Not Ok'"
                       class="fas fa-angle-down row-btn"
                       @click="(event) => showContent(event)"
                     ></i>
                     <div class="col">
                       <p>
-                        <span>{{ healthIssueCard.component }}</span>
+                        <span>
+                          {{ h.Description }}
+                        </span>
                       </p>
                     </div>
-                    <div class="col">
+
+                    <div
+                      class="col"
+                      :class="h.Status == 'Not Ok' ? 'issue' : 'not-issue'"
+                    >
                       <p>
-                        <span>{{ healthIssueCard.ip }}</span>
-                      </p>
-                    </div>
-                    <div class="col">
-                      <p>
-                        <span>{{ healthIssueCard.Hostname }}</span>
-                      </p>
-                    </div>
-                    <div class="col">
-                      <p>
-                        <span>{{ healthIssueCard.who }}</span>
-                      </p>
-                    </div>
-                    <div class="col">
-                      <p :class="healthIssueCard.status.toLowerCase()">
-                        <span>{{ healthIssueCard.status }}</span>
+                        {{ h.Status }}
                       </p>
                     </div>
                   </div>
-                  <div class="row bottom-row">
-                    <div>
-                      Description : {{ healthIssueCard.IssueDescription }}
-                    </div>
-                    <div>Action Taken : {{ healthIssueCard.ActionTaken }}</div>
-                    <div>Start Time : {{ healthIssueCard.StartTime }}</div>
-                    <div>Next Action : {{ healthIssueCard.NextAction }}</div>
-                    <div>Close Time : {{ healthIssueCard.CloseTime }}</div>
+
+                  <div v-if="h.Status == 'Not Ok'" class="row bottom-row">
+                    <h3 style="padding-left: 0.6rem">Health Issue</h3>
+                    <div>Component : {{ h.Component }}</div>
+                    <div>Issue Found : {{ h.IssuesFound }}</div>
+                    <div>Issue Description : {{ h.IssueDescription }}</div>
+                    <div>Issue Status : {{ h.IssueStatus }}</div>
+                    <div>IP : {{ h.Ip }}</div>
+                    <div>Hostname : {{ h.Hostname }}</div>
+                    <div>Start Time : {{ h.StartTime }}</div>
+                    <div>Action Taken : {{ h.ActionTaken }}</div>
+                    <div>Next Action : {{ h.NextAction }}</div>
+                    <div>Who : {{ h.Who }}</div>
+                    <div>Close Time : {{ h.CloseTime }}</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+   
 
           <!-- Alerts -->
 
@@ -597,7 +526,7 @@
                         <span>{{ alertsCard.who }}</span>
                       </p>
                     </div>
-                    <div class="col">
+                    <div class="col" :class="alertsCard.status.includes(' ') ? alertsCard.status.substring(0, alertsCard.status.indexOf(' ')).toLowerCase() : alertsCard.status.toLowerCase()">
                       <p>
                         <span>{{ alertsCard.status }}</span>
                       </p>
@@ -665,7 +594,7 @@
                         <span>{{ incidentsCard.who }}</span>
                       </p>
                     </div>
-                    <div class="col">
+                    <div class="col" :class="incidentsCard.status.includes(' ') ? incidentsCard.status.substring(0, incidentsCard.status.indexOf(' ')).toLowerCase() : incidentsCard.status.toLowerCase()">
                       <p>
                         <span>{{ incidentsCard.status }}</span>
                       </p>
@@ -733,7 +662,7 @@
                         <span>{{ pendingIssuesCard.who }}</span>
                       </p>
                     </div>
-                    <div class="col">
+                    <div class="col" :class="pendingIssuesCard.status.includes(' ') ? pendingIssuesCard.status.substring(0, pendingIssuesCard.status.indexOf(' ')).toLowerCase() : pendingIssuesCard.status.toLowerCase()">
                       <p>
                         <span>{{ pendingIssuesCard.status }}</span>
                       </p>
@@ -788,10 +717,10 @@
               <div class="table">
                 <div class="table__row header">
                   <div class="col">
-                    <h4>Identifier</h4>
+                    <h4>Use Case Identifier</h4>
                   </div>
                   <div class="col">
-                    <h4>Type</h4>
+                    <h4>Use Case Type</h4>
                   </div>
                   <div class="col">
                     <h4>Priority</h4>
@@ -834,7 +763,7 @@
                         <span>{{ useCaseCard.volume }}</span>
                       </p>
                     </div>
-                    <div class="col">
+                    <div class="col" :class="useCaseCard.testing.includes(' ') ? useCaseCard.testing.substring(0, useCaseCard.testing.indexOf(' ')).toLowerCase() : useCaseCard.testing.toLowerCase()">
                       <p>
                         <span>{{ useCaseCard.testing }}</span>
                       </p>
@@ -845,6 +774,7 @@
                     <div>False Positive : {{ useCaseCard.falsepositive }}</div>
 
                     <div>Logic : {{ useCaseCard.logic }}</div>
+                    <div>Purpose : {{ useCaseCard.purpose }}</div>
                     <div>Requirements : {{ useCaseCard.requirements }}</div>
                     <div>Production: {{ useCaseCard.production }}</div>
                     <div>Playbook : {{ useCaseCard.playbook }}</div>
@@ -891,23 +821,23 @@
                   </div>
                   <div class="col">
                     <p>
-                      <span>{{ c.Primary.PrimaryName }}</span>
+                      <span>{{ c.PrimaryName }}</span>
                     </p>
                   </div>
                   <div class="col">
                     <p>
-                      <span>{{ c.Secondary.SecondaryName }}</span>
+                      <span>{{ c.SecondaryName }}</span>
                     </p>
                   </div>
                 </div>
                 <div class="row bottom-row">
                   <div>Action : {{ c.Action }}</div>
-                  <div>Primary Email : {{ c.Primary.PrimaryEmail }}</div>
+                  <div>Primary Email : {{ c.PrimaryEmail }}</div>
 
-                  <div>Primary Phone : {{ c.Primary.PrimaryPhone }}</div>
+                  <div>Primary Phone : {{ c.PrimaryPhone }}</div>
 
-                  <div>Secondary Email : {{ c.Secondary.SecondaryEmail }}</div>
-                  <div>Secondary Phone : {{ c.Secondary.SecondaryPhone }}</div>
+                  <div>Secondary Email : {{ c.SecondaryEmail }}</div>
+                  <div>Secondary Phone : {{ c.SecondaryPhone }}</div>
                 </div>
               </div>
             </div>
@@ -1081,6 +1011,10 @@ export default {
       this.$store.commit("setChosenForm", formName);
     },
     showContent(event) {
+      Array.from(document.querySelectorAll('.row-btn')).forEach(i => 
+      {
+        i.className = 'fas fa-angle-down row-btn'
+      })
       event.target.className = "fas fa-angle-up row-btn";
       const topRowElements =
         event.target.parentElement.querySelectorAll(".col p");
@@ -1177,6 +1111,12 @@ export default {
 };
 </script>
 <style>
+.issue{
+  background: #cc0000;
+}
+.not-issue{
+background: #00c851;
+}
 /* Incident Main */
 .incident-sec__wrapper h3 {
   display: block;

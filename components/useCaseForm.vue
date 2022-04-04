@@ -12,7 +12,17 @@
           required
         />
       </div>
-      <div class="form__control">
+      <div class="form__control select">
+        <select name="priority" id="priority" v-model="priority">
+          <option value="" selected disabled hidden>Priority</option>
+          <option value="p1">P1</option>
+          <option value="p2">P2</option>
+          <option value="p3">P3</option>
+          required
+        </select>
+      </div>
+
+      <div class="form__control" style="grid-column:-1/1;">
         <input
           type="text"
           name="purpose"
@@ -134,16 +144,7 @@
         </select>
       </div>
 
-      <div class="form__control select" style="grid-column: 1/ -1">
-        <select name="priority" id="priority" v-model="priority">
-          <option value="" selected disabled hidden>Priority</option>
-          <option value="p1">P1</option>
-          <option value="p2">P2</option>
-          <option value="p3">P3</option>
-          required
-        </select>
-      </div>
-
+      
       <div class="form__control select">
         <select v-model="production" name="production" id="production">
           <option value="" selected disabled hidden>Production</option>
