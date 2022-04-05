@@ -125,7 +125,7 @@ img {
 
 .theme-btn {
   position: absolute;
-  top: 4rem;
+  top: 4.2rem;
   right: 0.3rem;
   color: #fff;
   z-index: 100;

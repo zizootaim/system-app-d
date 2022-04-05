@@ -426,3 +426,6 @@ textarea::placeholder {
 .light-mode .theme-btn {
   color: #000;
 }
+.light-mode .wiki__links-icon{
+  color: #000;
+}
