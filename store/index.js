@@ -19,6 +19,7 @@ export const state = () => ({
     users: "https://beapis.herokuapp.com/api/users",
     mainIncident: "https://beapis.herokuapp.com/api/IncidentG",
     Communication: "https://beapis.herokuapp.com/api/Communication",
+    staff: "https://beapis.herokuapp.com/api/Staff",
   },
   useCase: [],
   mainIncident: [],
@@ -36,6 +37,7 @@ export const state = () => ({
   users: [],
   mainIncident: [],
   Communication: [],
+  staff: [],
 
   homeSections: [
     {
@@ -143,6 +145,9 @@ export const getters = {
   getCommunication: (state) => {
     return state.Communication;
   },
+  getStaff: (state) => {
+    return state.staff;
+  },
 };
 
 export const mutations = {
@@ -222,6 +227,38 @@ export const actions = {
         this.dispatch("getData", "users");
       })
       .catch((error) => console.log("error", error));
+  },
+  async editStaff({ state, commit }, dataObj) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    console.log(state.url[dataObj.apiName]);
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("id", dataObj.body.id);
+    urlencoded.append("ParentName", dataObj.body.ParentName);
+    urlencoded.append("Name", dataObj.body.Name);
+    urlencoded.append("Title", dataObj.body.Title);
+    urlencoded.append("Email", dataObj.body.Email);
+    urlencoded.append("Mobile", dataObj.body.Mobile);
+    urlencoded.append("Phone", dataObj.body.Phone);
+
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+
+    try {
+      fetch(state.url[dataObj.apiName], requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+          console.log(result);
+          this.dispatch("getData", dataObj.apiName);
+        });
+      return true;
+    } catch {
+      (error) => console.log("error", error);
+    }
   },
 
   async postData({ state, commit }, dataObj) {

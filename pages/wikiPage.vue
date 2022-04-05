@@ -121,16 +121,16 @@
               <div class="table">
                 <div class="table__row header">
                   <div class="col">
+                    <h4>Advisory Source</h4>
+                  </div>
+                  <div class="col">
                     <h4>Date</h4>
                   </div>
                   <div class="col">
-                    <h4>Applicable</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Source</h4>
-                  </div>
-                  <div class="col">
                     <h4>Reference ID</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Description</h4>
                   </div>
                 </div>
 
@@ -146,17 +146,12 @@
                     ></i>
                     <div class="col">
                       <p>
-                        <span>{{ advisoryCard.date }}</span>
-                      </p>
-                    </div>
-                    <div class="col">
-                      <p>
-                        <span>{{ advisoryCard.applicable }}</span>
-                      </p>
-                    </div>
-                    <div class="col">
-                      <p>
                         <span>{{ advisoryCard.source }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ advisoryCard.date }}</span>
                       </p>
                     </div>
                     <div class="col">
@@ -164,13 +159,18 @@
                         <span>{{ advisoryCard.referenceid }}</span>
                       </p>
                     </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ advisoryCard.description }}</span>
+                      </p>
+                    </div>
                   </div>
                   <div class="row bottom-row">
-                    <div>Description : {{ advisoryCard.description }}</div>
-                    <div>Notes : {{ advisoryCard.notes }}</div>
-                    <div v-if="advisoryCard.token != null">
+                    <div>Applicable : {{ advisoryCard.applicable }}</div>
+                    <div v-if="advisoryCard.applicable == 'No'">
                       Actions Taken : {{ advisoryCard.token }}
                     </div>
+                    <div>Notes : {{ advisoryCard.notes }}</div>
                   </div>
                 </div>
               </div>
@@ -476,8 +476,6 @@
             </div>
           </div>
 
-   
-
           <!-- Alerts -->
 
           <div v-if="chosenCat == 'alerts'">
@@ -526,7 +524,16 @@
                         <span>{{ alertsCard.who }}</span>
                       </p>
                     </div>
-                    <div class="col" :class="alertsCard.status.includes(' ') ? alertsCard.status.substring(0, alertsCard.status.indexOf(' ')).toLowerCase() : alertsCard.status.toLowerCase()">
+                    <div
+                      class="col"
+                      :class="
+                        alertsCard.status.includes(' ')
+                          ? alertsCard.status
+                              .substring(0, alertsCard.status.indexOf(' '))
+                              .toLowerCase()
+                          : alertsCard.status.toLowerCase()
+                      "
+                    >
                       <p>
                         <span>{{ alertsCard.status }}</span>
                       </p>
@@ -537,7 +544,6 @@
                     <div>Action Taken : {{ alertsCard.ActionTaken }}</div>
                     <div>Start Time : {{ alertsCard.StartTime }}</div>
                     <div>Next Action : {{ alertsCard.NextAction }}</div>
-
                     <div>Close Time : {{ alertsCard.CloseTime }}</div>
                   </div>
                 </div>
@@ -594,7 +600,16 @@
                         <span>{{ incidentsCard.who }}</span>
                       </p>
                     </div>
-                    <div class="col" :class="incidentsCard.status.includes(' ') ? incidentsCard.status.substring(0, incidentsCard.status.indexOf(' ')).toLowerCase() : incidentsCard.status.toLowerCase()">
+                    <div
+                      class="col"
+                      :class="
+                        incidentsCard.status.includes(' ')
+                          ? incidentsCard.status
+                              .substring(0, incidentsCard.status.indexOf(' '))
+                              .toLowerCase()
+                          : incidentsCard.status.toLowerCase()
+                      "
+                    >
                       <p>
                         <span>{{ incidentsCard.status }}</span>
                       </p>
@@ -662,7 +677,19 @@
                         <span>{{ pendingIssuesCard.who }}</span>
                       </p>
                     </div>
-                    <div class="col" :class="pendingIssuesCard.status.includes(' ') ? pendingIssuesCard.status.substring(0, pendingIssuesCard.status.indexOf(' ')).toLowerCase() : pendingIssuesCard.status.toLowerCase()">
+                    <div
+                      class="col"
+                      :class="
+                        pendingIssuesCard.status.includes(' ')
+                          ? pendingIssuesCard.status
+                              .substring(
+                                0,
+                                pendingIssuesCard.status.indexOf(' ')
+                              )
+                              .toLowerCase()
+                          : pendingIssuesCard.status.toLowerCase()
+                      "
+                    >
                       <p>
                         <span>{{ pendingIssuesCard.status }}</span>
                       </p>
@@ -720,16 +747,16 @@
                     <h4>Use Case Identifier</h4>
                   </div>
                   <div class="col">
+                    <h4>Use Case Purpose</h4>
+                  </div>
+                  <div class="col">
+                    <h4>Threat/Risk</h4>
+                  </div>
+                  <div class="col">
                     <h4>Use Case Type</h4>
                   </div>
                   <div class="col">
-                    <h4>Priority</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Alert Volume</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Testing</h4>
+                    <h4>Stakeholders</h4>
                   </div>
                 </div>
 
@@ -750,36 +777,40 @@
                     </div>
                     <div class="col">
                       <p>
+                        <span>{{ useCaseCard.purpose }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ useCaseCard.risk }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
                         <span>{{ useCaseCard.type }}</span>
                       </p>
                     </div>
                     <div class="col">
                       <p>
-                        <span>{{ useCaseCard.priority }}</span>
-                      </p>
-                    </div>
-                    <div class="col">
-                      <p>
-                        <span>{{ useCaseCard.volume }}</span>
-                      </p>
-                    </div>
-                    <div class="col" :class="useCaseCard.testing.includes(' ') ? useCaseCard.testing.substring(0, useCaseCard.testing.indexOf(' ')).toLowerCase() : useCaseCard.testing.toLowerCase()">
-                      <p>
-                        <span>{{ useCaseCard.testing }}</span>
+                        <span>{{ useCaseCard.stakeholders }}</span>
                       </p>
                     </div>
                   </div>
                   <div class="row bottom-row">
                     <div>Risk : {{ useCaseCard.risk }}</div>
-                    <div>False Positive : {{ useCaseCard.falsepositive }}</div>
-
+                    <div>
+                      Data Requirements : {{ useCaseCard.requirements }}
+                    </div>
                     <div>Logic : {{ useCaseCard.logic }}</div>
-                    <div>Purpose : {{ useCaseCard.purpose }}</div>
-                    <div>Requirements : {{ useCaseCard.requirements }}</div>
-                    <div>Production: {{ useCaseCard.production }}</div>
-                    <div>Playbook : {{ useCaseCard.playbook }}</div>
-                    <div>Stakeholders : {{ useCaseCard.stakeholders }}</div>
                     <div>Output : {{ useCaseCard.output }}</div>
+
+                    <div>Alert Volume : {{ useCaseCard.volume }}</div>
+                    <div>Testing : {{ useCaseCard.testing }}</div>
+                    <div>
+                      Known False Positive : {{ useCaseCard.falsepositive }}
+                    </div>
+                    <div>Playbook : {{ useCaseCard.playbook }}</div>
+                    <div>Production: {{ useCaseCard.production }}</div>
                   </div>
                 </div>
               </div>
@@ -1011,10 +1042,9 @@ export default {
       this.$store.commit("setChosenForm", formName);
     },
     showContent(event) {
-      Array.from(document.querySelectorAll('.row-btn')).forEach(i => 
-      {
-        i.className = 'fas fa-angle-down row-btn'
-      })
+      Array.from(document.querySelectorAll(".row-btn")).forEach((i) => {
+        i.className = "fas fa-angle-down row-btn";
+      });
       event.target.className = "fas fa-angle-up row-btn";
       const topRowElements =
         event.target.parentElement.querySelectorAll(".col p");
@@ -1111,11 +1141,11 @@ export default {
 };
 </script>
 <style>
-.issue{
+.issue {
   background: #cc0000;
 }
-.not-issue{
-background: #00c851;
+.not-issue {
+  background: #00c851;
 }
 /* Incident Main */
 .incident-sec__wrapper h3 {

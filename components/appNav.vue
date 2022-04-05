@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <nav>
     <article class="wiki__nav">
       <i class="fas fa-bars wiki__links-icon" @click="displayLinksMenu"></i>
-      <Logo />
-
+      <Logo class="nav-logo" />
+      <button class="theme-btn" @click="toggleTheme">
+        <i class="fas fa-sun"></i>
+      </button>
       <ul
         @click="displayLinksMenu"
         :class="showLinksMenu ? 'wiki__links show' : 'wiki__links'"
@@ -50,7 +52,7 @@
         <register v-if="statusChosen == 'register'" />
       </modal>
     </article>
-  </div>
+  </nav>
 </template>
 
 <script>
@@ -84,6 +86,15 @@ export default {
     register,
   },
   methods: {
+    toggleTheme() {
+      // 'fas fa-moon'
+      document.querySelector(".body").classList.toggle("light-mode");
+      if (document.querySelector(".body").className.includes("light-mode")) {
+        document.querySelector(".theme-btn i").className = "fas fa-sun";
+      } else {
+        document.querySelector(".theme-btn i").className = "fas fa-moon";
+      }
+    },
     changeStatus(choice = "") {
       console.log("changes");
       this.status = choice;
@@ -100,19 +111,9 @@ export default {
 };
 </script>
 <style>
-body {
-  margin: 0;
-}
 img {
   width: 100px;
   height: 100%;
-}
-
-nav a {
-  transition-property: text-decoration;
-  transition-duration: 2s;
-  text-decoration: none;
-  color: rgb(255, 255, 255);
 }
 
 .authButton {
@@ -121,4 +122,13 @@ nav a {
   border: 0px;
   cursor: pointer;
 }
+
+.theme-btn {
+  position: absolute;
+  top: 4rem;
+  right: 0.3rem;
+  color: #fff;
+  z-index: 100;
+}
+
 </style>

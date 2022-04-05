@@ -21,7 +21,7 @@ textarea {
     "Helvetica Neue", Arial, sans-serif;
 }
 
-body {
+.body {
   min-height: 100vh;
   background-size: 100% 100%;
   background: linear-gradient(
@@ -32,6 +32,9 @@ body {
     #34009c
   );
   background-repeat: no-repeat;
+}
+.light-mode {
+  background: #fff;
 }
 h1,
 h2,
@@ -57,9 +60,8 @@ label {
   overflow: hidden;
 }
 .wiki__nav {
-  height: 10vh;
-  padding-right: 16px;
-  border-bottom: 1px solid #fff;
+  height: 4rem;
+  border-bottom: 0.2px solid #fff;
   padding: 0;
   display: flex;
   align-items: center;
@@ -91,6 +93,9 @@ label {
   height: 0.1rem;
   background: #fff;
   transition: 0.4s;
+}
+.light-mode .wiki__links li::after {
+  background: #000;
 }
 .wiki__links li:hover::after {
   width: 100%;
@@ -196,9 +201,8 @@ button {
   align-items: center;
   border-bottom: 1.5px solid #fff;
   background: none;
-  margin-bottom: .75rem;
+  margin-bottom: 0.75rem;
   padding: 0.2rem;
-  
 }
 .form__control input {
   width: 100%;
@@ -302,7 +306,6 @@ button {
   left: 50%;
 }
 
-
 .submit-btn {
   position: relative;
 }
@@ -328,29 +331,98 @@ form::-webkit-scrollbar {
   height: 0.5rem;
   background-color: #352d77;
 }
-textarea{
+textarea {
   width: 100%;
   margin-bottom: 1rem;
-  padding: .4rem;
-  border-radius: .1rem;
-  border: .1px solid #010f60;
+  padding: 0.4rem;
+  border-radius: 0.1rem;
+  border: 0.1px solid #010f60;
   outline: none;
   color: #010f60;
 }
-textarea::placeholder{
-  font-size: .9rem;
+textarea::placeholder {
+  font-size: 0.9rem;
 }
 
 /* Status Colors */
-.initial,.not{
+.initial,
+.not {
   background-color: #e9b03d;
 }
-.solution{
+.solution {
   background-color: #5ba1ba;
 }
-.closed,.tested{
+.closed,
+.tested {
   background-color: #007e33;
 }
-.pending{
+.pending {
   background-color: rgb(187, 108, 108);
+}
+
+/* Light Mode */
+
+.light-mode .nav-logo {
+  filter: invert(1);
+}
+
+.light-mode .wiki__nav {
+  background: #fff;
+  border: 0.2px solid rgba(0, 0, 0, 0.4);
+}
+.light-mode .wiki__menu .menu__item button {
+  color: #010f60;
+  border-color: #010f60;
+}
+.light-mode .sub-menu {
+  color: #010f60;
+  border-color: #010f60;
+}
+.light-mode .menu__item.submenu-wrapper {
+  border-color: #010f60;
+}
+.light-mode .sub-menu li span::after {
+  background-color: #34009c;
+}
+.light-mode .sec__title {
+  color: #010f60;
+}
+.light-mode .modal {
+  box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.4);
+}
+.light-mode .wiki__item {
+  background-color: #fff;
+  box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.4);
+}
+.light-mode .wiki__item-title,
+.light-mode .wiki__item ul li {
+  color: #030d44;
+}
+.light-mode .Home h1,
+.light-mode .Home p,
+.light-mode .Home h3,
+.light-mode h4,.light-mode .use-case__into p {
+  color: #000;
+}
+.light-mode .person__info h4{
+  color: #fff;
+}
+.light-mode .pdfs__wrapper input[type="text"] {
+  border: 1px solid rgb(136, 136, 136);
+}
+.light-mode .pdfs__wrapper .upload-btn {
+  background: #010f60;
+  color: #fff;
+  border: 1px solid #010f60;
+}
+.light-mode .pdfs__wrapper .upload-btn:hover {
+  background: #fff;
+  color: #010f60;
+}
+.light-mode .authButton,
+.light-mode .wiki__links li a {
+  color: #000;
+}
+.light-mode .theme-btn {
+  color: #000;
 }

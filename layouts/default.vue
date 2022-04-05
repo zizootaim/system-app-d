@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body light-mode">
     <AppNav />
     <div class="mainContent">
       <Nuxt />
@@ -28,6 +28,9 @@ export default {
     rgba(0, 0, 0, 0.5),
     rgba(0, 0, 0, 0.5)
   );
-  min-height: 90vh;
+  min-height: 91vh;
+}
+.light-mode .mainContent{
+  background: #fff;
 }
 </style>

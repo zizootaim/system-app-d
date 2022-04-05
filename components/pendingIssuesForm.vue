@@ -18,10 +18,11 @@
         <label for="startTime" class="time">Start Time</label>
         <input type="time" v-model="startTime" id="startTime" />
       </div>
-        <textarea style="grid-column:-1/1;"
+      <textarea
+        style="grid-column: -1/1"
         name="IssueDescription"
-          placeholder="Issue Description"
-          v-model="IssueDescription"
+        placeholder="Issue Description"
+        v-model="IssueDescription"
         cols="20"
         rows="3"
       ></textarea>
@@ -45,11 +46,11 @@
       <div class="form__control">
         <input type="text" name="who" placeholder="Who" v-model="who" />
       </div>
-      <div class="form__control" >
+      <div class="form__control">
         <select name="status" v-model="status">
           <option value="" selected disabled hidden>Status</option>
           <option value="Initial Investigation">Initial Investigation</option>
-          <option value="Sloution In Progress">Sloution In Progress</option>
+          <option value="Solution In Progress">Solution In Progress</option>
           <option value="Pending">Pending</option>
           <option value="Closed">Closed</option>
         </select>
@@ -136,7 +137,7 @@ export default {
 };
 </script>
 <style>
-.shift__form{
+.shift__form {
   padding-top: 1.5rem;
 }
 </style>

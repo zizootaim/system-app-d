@@ -1,18 +1,19 @@
 <template>
   <div class="container">
     <div class="level-1 rectangle">
-      <manSvg />
-      <div class="person__info">
-        <h4>Mohamed</h4>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum,
-          asperiores!
-        </p>
-        <div class="person__data">
-          <p>mohamed@gmail.com</p>
-          <p>01015397895</p>
-        </div>
-      </div>
+      
+         <manSvg />
+          <div class="person__info">
+            <h4>Mohamed</h4>
+            <p>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum,
+              asperiores!
+            </p>
+            <div class="person__data">
+              <p>mohamed@gmail.com</p>
+              <p>01015397895</p>
+            </div>
+          </div>
     </div>
     <ol class="level-2-wrapper">
       <li>
@@ -157,10 +158,17 @@
 
 <script>
 import manSvg from "./manSvg.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     manSvg,
+  },
+  computed: {
+    ...mapGetters(["getStaff"]),
+  },
+  monted() {
+    console.log(gteStaff);
   },
 };
 </script>
@@ -204,6 +212,7 @@ export default {
 }
 .person__data p {
   font-size: 0.74rem;
+  margin-left: 0.7rem;
 }
 
 /* LEVEL-1 STYLES
@@ -351,6 +360,7 @@ export default {
   background: rgb(255, 255, 255);
 }
 
+
 .level-4-wrapper li + li {
   margin-top: 20px;
 }
@@ -433,6 +443,9 @@ export default {
 .rectangle {
   width: 300px;
   height: 158px;
+  background: #010a3d;
+}
+.light-mode .container *::before{
   background: #010a3d;
 }
 

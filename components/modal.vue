@@ -60,6 +60,7 @@ export default {
 }
 .modal__top {
   height: 3rem;
+  margin-top: .5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

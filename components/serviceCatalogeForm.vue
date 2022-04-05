@@ -148,7 +148,7 @@ export default {
         owner: this.owner,
         description: this.description,
         status: this.status,
-        hours: this.hours,
+        hours: this.hours.join("  ,  "),
         inputs: this.inputs,
         outputs: this.outputs,
         consumers: this.consumers,

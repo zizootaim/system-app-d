@@ -2,7 +2,11 @@
   <div class="advisory__form-wrapper">
     <h1 class="form__title">{{ formTitle }}</h1>
 
-    <form class="advisory__form" style="margin-top:1.7rem;" v-on:submit.prevent="submitData">
+    <form
+      class="advisory__form"
+      style="margin-top: 1.7rem"
+      v-on:submit.prevent="submitData"
+    >
       <div class="form__control">
         <input
           type="text"
@@ -27,7 +31,6 @@
         cols="20"
         rows="3"
       ></textarea>
-
       <textarea
         style="grid-column: -1/1"
         name="notes"
@@ -36,7 +39,6 @@
         cols="20"
         rows="3"
       ></textarea>
-
       <div class="form__control select" style="grid-column: -1/1">
         <select
           name="advisorysource"
@@ -64,11 +66,11 @@
       <div class="form__control select">
         <select name="applicable" id="applicable" v-model="applicable" required>
           <option value="" selected disabled hidden>Applicable</option>
-          <option value="1">Yes</option>
-          <option value="0">No</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
         </select>
       </div>
-      <div class="form__control" v-if="applicable == '0'">
+      <div class="form__control" v-if="applicable == 'No'">
         <input
           type="text"
           name="action"

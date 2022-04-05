@@ -6,15 +6,17 @@
       <div class="table">
         <div class="table__row header">
           <div class="col">
-            <h4>Name</h4>
+            <h4>Service Name</h4>
           </div>
           <div class="col">
-            <h4>Owner</h4>
+            <h4>Service Owner</h4>
           </div>
           <div class="col">
-            <h4>Status</h4>
+            <h4>Service Description</h4>
           </div>
-        
+          <div class="col">
+            <h4>Service Status</h4>
+          </div>
         </div>
 
         <div
@@ -39,13 +41,18 @@
             </div>
             <div class="col">
               <p>
+                <span>{{ serviceCard.description }}</span>
+              </p>
+            </div>
+            <div class="col">
+              <p>
                 <span>{{ serviceCard.status }}</span>
               </p>
             </div>
-        
           </div>
           <div class="row bottom-row">
-            <div>Description : {{ serviceCard.description }}</div>
+            <div>Id : {{ serviceCard.id }}</div>
+            <div>Service Hours : {{ serviceCard.hours }}</div>
             <div>Inputs : {{ serviceCard.inputs }}</div>
             <div>Consumers : {{ serviceCard.consumers }}</div>
             <div>Processes : {{ serviceCard.processes }}</div>
@@ -117,7 +124,7 @@ export default {
         if (!open) p.style.maxHeight = "unset";
         else p.style.maxHeight = "1.8rem";
       });
-    }
+    },
   },
   mounted() {
     this.$store.dispatch("getData", "serviceCatalog");
@@ -127,13 +134,12 @@ export default {
 
 <style>
 /* Service Catalog */
-.service{
+.service {
   width: 80%;
   margin: auto;
   padding-top: 1rem;
 }
-.service .sec__title{
+.service .sec__title {
   margin-top: 0;
 }
-
 </style>
