@@ -2,18 +2,15 @@
   <div class="shift__form-wrapper">
     <h1 class="form__title">Daily Health Check</h1>
     <form class="health__form" v-on:submit.prevent="submitData">
-     
- 
-
-      <textarea style="grid-column:-1/1;"
+      <textarea
+        style="grid-column: -1/1"
         name="description"
-          placeholder="Check Description"
-          v-model="description"
+        placeholder="Check Description"
+        v-model="description"
         cols="20"
         rows="3"
       ></textarea>
 
-   
       <div class="form__control">
         <select name="status" v-model="status">
           <option value="" selected disabled hidden>Health Status</option>
@@ -68,7 +65,7 @@
             <label for="startTime" class="time">Start Time</label>
             <input type="time" v-model="healthIssue.startTime" id="startTime" />
           </div>
-            <div class="form__control">
+          <div class="form__control">
             <input
               type="text"
               name="who"
@@ -76,14 +73,15 @@
               v-model="healthIssue.who"
             />
           </div>
-                <textarea style="grid-column:-1/1;"
-       name="IssueDescription"
-              placeholder="Issue Description"
-              v-model="healthIssue.issueDescription"
-        cols="20"
-        rows="3"
-      ></textarea>
-   
+          <textarea
+            style="grid-column: -1/1"
+            name="IssueDescription"
+            placeholder="Issue Description"
+            v-model="healthIssue.issueDescription"
+            cols="20"
+            rows="3"
+          ></textarea>
+
           <div class="form__control">
             <input
               type="text"
@@ -100,7 +98,7 @@
               v-model="healthIssue.nextAction"
             />
           </div>
-        
+
           <div class="form__control" style="grid-column: -1 /1">
             <select name="issueStatus" v-model="healthIssue.issueStatus">
               <option value="" selected disabled hidden>Issue Status</option>
@@ -231,7 +229,7 @@ export default {
   overflow: auto;
   padding-right: 1rem;
 }
-textarea{
+textarea {
   width: 100%;
 }
 </style>

@@ -410,7 +410,6 @@
         <!-- Shift Hand -->
 
         <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
-
           <!-- Health Check -->
 
           <div v-if="chosenCat == 'healthCheck'">
@@ -459,16 +458,18 @@
 
                   <div v-if="h.Status == 'Not Ok'" class="row bottom-row">
                     <h3 style="padding-left: 0.6rem">Health Issue</h3>
-                    <div>Component : {{ h.Component }}</div>
                     <div>Issue Found : {{ h.IssuesFound }}</div>
-                    <div>Issue Description : {{ h.IssueDescription }}</div>
-                    <div>Issue Status : {{ h.IssueStatus }}</div>
+                    <div>Component : {{ h.Component }}</div>
                     <div>IP : {{ h.Ip }}</div>
                     <div>Hostname : {{ h.Hostname }}</div>
                     <div>Start Time : {{ h.StartTime }}</div>
+                    <div>Issue Description : {{ h.IssueDescription }}</div>
                     <div>Action Taken : {{ h.ActionTaken }}</div>
                     <div>Next Action : {{ h.NextAction }}</div>
                     <div>Who : {{ h.Who }}</div>
+                    <div :class="statusClass(h.IssueStatus)">
+                      Issue Status : {{ h.IssueStatus }}
+                    </div>
                     <div>Close Time : {{ h.CloseTime }}</div>
                   </div>
                 </div>
@@ -493,10 +494,10 @@
                     <h4>Alert Number</h4>
                   </div>
                   <div class="col">
-                    <h4>Who</h4>
+                    <h4>Start Time</h4>
                   </div>
                   <div class="col">
-                    <h4>Status</h4>
+                    <h4>Alert Description</h4>
                   </div>
                 </div>
                 <div
@@ -521,29 +522,24 @@
                     </div>
                     <div class="col">
                       <p>
-                        <span>{{ alertsCard.who }}</span>
+                        <span>{{ alertsCard.StartTime }}</span>
                       </p>
                     </div>
-                    <div
-                      class="col"
-                      :class="
-                        alertsCard.status.includes(' ')
-                          ? alertsCard.status
-                              .substring(0, alertsCard.status.indexOf(' '))
-                              .toLowerCase()
-                          : alertsCard.status.toLowerCase()
-                      "
-                    >
+                    <div class="col">
                       <p>
-                        <span>{{ alertsCard.status }}</span>
+                        <span>{{ alertsCard.description }}</span>
                       </p>
                     </div>
                   </div>
                   <div class="row bottom-row">
-                    <div>Description : {{ alertsCard.description }}</div>
                     <div>Action Taken : {{ alertsCard.ActionTaken }}</div>
-                    <div>Start Time : {{ alertsCard.StartTime }}</div>
                     <div>Next Action : {{ alertsCard.NextAction }}</div>
+                    <div>Who : {{ alertsCard.who }}</div>
+                    <div :class="statusClass(alertsCard.status)">
+                      <p>
+                        <span>{{ alertsCard.status }}</span>
+                      </p>
+                    </div>
                     <div>Close Time : {{ alertsCard.CloseTime }}</div>
                   </div>
                 </div>
@@ -562,16 +558,17 @@
               <div class="table">
                 <div class="table__row header">
                   <div class="col">
+                    <h4>Incident Date</h4>
+                  </div>
+                  <div class="col">
                     <h4>Incident Name</h4>
                   </div>
                   <div class="col">
                     <h4>Incident Number</h4>
                   </div>
+
                   <div class="col">
-                    <h4>Who</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Status</h4>
+                    <h4>Incident Description</h4>
                   </div>
                 </div>
 
@@ -587,6 +584,11 @@
                     ></i>
                     <div class="col">
                       <p>
+                        <span>{{ incidentsCard.date }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
                         <span>{{ incidentsCard.name }}</span>
                       </p>
                     </div>
@@ -597,30 +599,20 @@
                     </div>
                     <div class="col">
                       <p>
-                        <span>{{ incidentsCard.who }}</span>
-                      </p>
-                    </div>
-                    <div
-                      class="col"
-                      :class="
-                        incidentsCard.status.includes(' ')
-                          ? incidentsCard.status
-                              .substring(0, incidentsCard.status.indexOf(' '))
-                              .toLowerCase()
-                          : incidentsCard.status.toLowerCase()
-                      "
-                    >
-                      <p>
-                        <span>{{ incidentsCard.status }}</span>
+                        <span>{{ incidentsCard.description }}</span>
                       </p>
                     </div>
                   </div>
                   <div class="row bottom-row">
-                    <div>Description : {{ incidentsCard.description }}</div>
                     <div>Action Taken : {{ incidentsCard.ActionTaken }}</div>
-                    <div>Start Time : {{ incidentsCard.StartTime }}</div>
                     <div>Next Action : {{ incidentsCard.NextAction }}</div>
+                    <div>Who : {{ incidentsCard.who }}</div>
 
+                    <div :class="statusClass(incidentsCard.status)">
+                      <p>
+                        <span>{{ incidentsCard.status }}</span>
+                      </p>
+                    </div>
                     <div>Close Time : {{ incidentsCard.CloseTime }}</div>
                   </div>
                 </div>
@@ -642,13 +634,13 @@
                     <h4>Issue Name</h4>
                   </div>
                   <div class="col">
+                    <h4>Issue Description</h4>
+                  </div>
+                  <div class="col">
                     <h4>Start Time</h4>
                   </div>
                   <div class="col">
-                    <h4>Who</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Status</h4>
+                    <h4>Action Taken</h4>
                   </div>
                 </div>
 
@@ -662,9 +654,15 @@
                       class="fas fa-angle-down row-btn"
                       @click="(event) => showContent(event)"
                     ></i>
+
                     <div class="col">
                       <p>
                         <span>{{ pendingIssuesCard.issue }}</span>
+                      </p>
+                    </div>
+                    <div class="col">
+                      <p>
+                        <span>{{ pendingIssuesCard.description }}</span>
                       </p>
                     </div>
                     <div class="col">
@@ -674,35 +672,18 @@
                     </div>
                     <div class="col">
                       <p>
-                        <span>{{ pendingIssuesCard.who }}</span>
-                      </p>
-                    </div>
-                    <div
-                      class="col"
-                      :class="
-                        pendingIssuesCard.status.includes(' ')
-                          ? pendingIssuesCard.status
-                              .substring(
-                                0,
-                                pendingIssuesCard.status.indexOf(' ')
-                              )
-                              .toLowerCase()
-                          : pendingIssuesCard.status.toLowerCase()
-                      "
-                    >
-                      <p>
-                        <span>{{ pendingIssuesCard.status }}</span>
+                        <span>{{ pendingIssuesCard.ActionTaken }}</span>
                       </p>
                     </div>
                   </div>
                   <div class="row bottom-row">
-                    <div>Description : {{ pendingIssuesCard.description }}</div>
-                    <div>
-                      Action Taken : {{ pendingIssuesCard.ActionTaken }}
-                    </div>
-
                     <div>Next Action : {{ pendingIssuesCard.NextAction }}</div>
-
+                    <div>Who: {{ pendingIssuesCard.who }}</div>
+                    <div :class="statusClass(pendingIssuesCard.status)">
+                      <p>
+                        <span>{{ pendingIssuesCard.status }}</span>
+                      </p>
+                    </div>
                     <div>Close Time : {{ pendingIssuesCard.CloseTime }}</div>
                   </div>
                 </div>
@@ -874,6 +855,88 @@
             </div>
           </div>
         </div>
+
+        <!-- Playbooks -->
+
+        <div class="playbooks" v-if="wikiPage == 'Playbooks'">
+          <button class="form-btn" @click="setChosenForm('playBookForm')">
+            + add
+          </button>
+
+          <div class="table__wrapper">
+            <div class="table">
+              <div class="table__row header">
+                <div class="col">
+                  <h4>Title</h4>
+                </div>
+              </div>
+
+              <div
+                class="table__row"
+                v-for="book in getPlayBook"
+                :key="book.id"
+              >
+                <div class="row top-row">
+                  <i
+                    class="fas fa-angle-down row-btn"
+                    @click="(event) => showContent(event)"
+                  ></i>
+
+                  <div class="col">
+                    <p>
+                      <span>{{ book.title }}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="row bottom-row">
+                  <div class="book__data">
+                    <div>Category : {{ book.category }}</div>
+                    <div>Description : {{ book.description }}</div>
+                    <div class="book__table">
+                      <div class="book_table">
+                        <div class="table__row header">
+                          <div class="col">
+                            <h4>Activity</h4>
+                          </div>
+                          <div class="col">
+                            <h4>IR Stage</h4>
+                          </div>
+                          <div class="col">
+                            <h4>Team</h4>
+                          </div>
+                        </div>
+                        <div
+                          class="row top-row"
+                          v-for="(r, index) in parse(book.data)"
+                          :key="index"
+                        >
+                          <div class="col">
+                            <p>
+                              <span>{{ r.activity }}</span>
+                            </p>
+                          </div>
+                          <div class="col">
+                            <p>
+                              <span>{{ r.irStage }}</span>
+                            </p>
+                          </div>
+                          <div class="col">
+                            <p>
+                              <span>{{ r.team }}</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="book__img">
+                    <img :src="book.url" :alt="book.name" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <modal
@@ -918,6 +981,10 @@
           v-if="getChosenForm == 'communicationForm'"
           formTitle="Communication"
         />
+        <play-book-form
+          v-if="getChosenForm == 'playBookForm'"
+          formTitle="Play Book"
+        />
       </modal>
     </article>
   </section>
@@ -942,7 +1009,7 @@ import incidentForm from "@/components/incidentForm.vue";
 import pendingIssuesForm from "@/components/pendingIssuesForm.vue";
 import IncidentMainForm from "../components/incidentMainForm.vue";
 import communicationForm from "@/components/communicationForm.vue";
-
+import playBookForm from "@/components/playBookForm.vue";
 export default {
   name: "wikiPage",
   data() {
@@ -971,6 +1038,7 @@ export default {
     incidentMainFormfrom,
     IncidentMainForm,
     communicationForm,
+    playBookForm,
   },
 
   computed: {
@@ -991,6 +1059,7 @@ export default {
       "getProcedures",
       "getMainIncident",
       "getCommunication",
+      "getPlayBook",
     ]),
   },
 
@@ -1001,7 +1070,9 @@ export default {
     changeWikiPage(page) {
       console.log("change" + " " + page);
       this.wikiPage = page;
-      if (["Policies", "Procedures", "Communication"].includes(page)) {
+      if (
+        ["Policies", "Procedures", "Communication", "Playbooks"].includes(page)
+      ) {
         this.getPdf(page);
       }
       if (page == "Use Case Framework")
@@ -1137,6 +1208,14 @@ export default {
     deletePdf(data) {
       this.$store.dispatch("deletePdf", data);
     },
+    parse(data) {
+      return JSON.parse(data);
+    },
+    statusClass(status) {
+      return status.includes(" ")
+        ? status.substring(0, status.indexOf(" ")).toLowerCase()
+        : status.toLowerCase();
+    },
   },
 };
 </script>
@@ -1147,6 +1226,26 @@ export default {
 .not-issue {
   background: #00c851;
 }
+/* Playbooks */
+.playbooks {
+  width: 80%;
+  margin: 1rem auto;
+}
+.playbooks .bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.playbooks .book__data {
+  display: flex;
+  flex-direction: column;
+}
+.playbooks img {
+  width: 100%;
+}
+.book__img {
+  width: auto;
+}
+
 /* Incident Main */
 .incident-sec__wrapper h3 {
   display: block;

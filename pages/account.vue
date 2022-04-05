@@ -1,16 +1,16 @@
 <template>
   <div>
-    <incident-main-form />
+    <play-book-form />
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import incidentMainForm from "@/components/incidentMainForm.vue";
+import playBookForm from "@/components/playBookForm.vue";
 
 export default {
   components: {
-    incidentMainForm,
+    playBookForm,
   },
 
   data() {

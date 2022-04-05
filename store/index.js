@@ -20,6 +20,7 @@ export const state = () => ({
     mainIncident: "https://beapis.herokuapp.com/api/IncidentG",
     Communication: "https://beapis.herokuapp.com/api/Communication",
     staff: "https://beapis.herokuapp.com/api/Staff",
+    Playbooks: "https://beapis.herokuapp.com/api/PlayBook",
   },
   useCase: [],
   mainIncident: [],
@@ -38,6 +39,7 @@ export const state = () => ({
   mainIncident: [],
   Communication: [],
   staff: [],
+  Playbooks: [],
 
   homeSections: [
     {
@@ -147,6 +149,9 @@ export const getters = {
   },
   getStaff: (state) => {
     return state.staff;
+  },
+  getPlayBook: (state) => {
+    return state.Playbooks;
   },
 };
 
@@ -267,9 +272,7 @@ export const actions = {
       console.log(state.url[dataObj.apiName]);
       await fetch(state.url[dataObj.apiName], {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": " application/json" },
         body: JSON.stringify(dataObj.body),
       })
         .then((response) => response.json())
