@@ -6,11 +6,11 @@
         <input
           type="text"
           name="identifier"
-          placeholder="Use Case Identifier"
           v-model="identifier"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Use Case Identifier</span>
       </div>
       <div class="form__control select">
         <select name="priority" id="priority" v-model="priority">
@@ -22,85 +22,92 @@
         </select>
       </div>
 
-      <div class="form__control" style="grid-column:-1/1;">
+      <div class="form__control" style="grid-column: -1/1">
         <input
           type="text"
           name="purpose"
-          placeholder="Purpose"
           v-model="purpose"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Purpose</span>
       </div>
       <div class="form__control">
         <input
           v-model="stakeholders"
           type="text"
           name="stakeholders"
-          placeholder="Stakeholders"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Stakeholders</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="requirements"
-          placeholder="Data Requirements"
           v-model="requirements"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Data Requirements</span>
       </div>
       <div class="form__control">
         <input
           v-model="logic"
           type="text"
           name="logic"
-          placeholder="Logic"
           autocomplete="off"
           required
         />
+                <span class="form__control-label">Logic</span>
+
       </div>
       <div class="form__control">
         <input
           type="text"
           v-model="output"
           name="output"
-          placeholder="Output"
+
           autocomplete="off"
           required
         />
+                        <span class="form__control-label">Output</span>
+
       </div>
       <div class="form__control">
         <input
           type="text"
           v-model="playbook"
           name="playbook"
-          placeholder="Playbook"
           autocomplete="off"
           required
         />
+                                <span class="form__control-label">Playbook</span>
+
       </div>
       <div class="form__control">
         <input
           type="text"
           name="falsepositive"
-          placeholder="Know False Positive ?"
+  
           v-model="falsepositive"
           autocomplete="off"
           required
         />
+          <span class="form__control-label">Know False Positive ?</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="risk"
-          placeholder="Risk or Threat"
+
           v-model="risk"
           autocomplete="off"
           required
         />
+                  <span class="form__control-label">Risk or Threat</span>
+
       </div>
       <div class="form__control select">
         <select v-model="useCaseType" name="usecasetype" id="use-case__type">
@@ -114,15 +121,21 @@
           required
         </select>
       </div>
-      <div class="form__control" style="grid-column:-1/1;" v-if="useCaseType == 'other'">
+      <div
+        class="form__control"
+        style="grid-column: -1/1"
+        v-if="useCaseType == 'other'"
+      >
         <input
           type="text"
           name="otherUseCaseType"
-          placeholder="Use Case Type"
+
           v-model="otherUseCaseType"
           autocomplete="off"
           required
         />
+                          <span class="form__control-label">Use Case Type</span>
+
       </div>
       <div class="form__control select">
         <select name="alertvolume" v-model="volume" id="alert-volume">
@@ -144,7 +157,6 @@
         </select>
       </div>
 
-      
       <div class="form__control select">
         <select v-model="production" name="production" id="production">
           <option value="" selected disabled hidden>Production</option>
@@ -154,9 +166,8 @@
           required
         </select>
       </div>
-     
     </form>
-        <div class="submit-btn__wrapper">
+    <div class="submit-btn__wrapper">
       <button class="submit-btn" type="submit" @click="submitData">
         Submit
         <svg
@@ -253,7 +264,6 @@ export default {
         }, 1000);
       }
     },
-  
   },
 
   name: "UseCaseForm",
@@ -267,6 +277,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.6rem;
+  padding-top: 1rem;
 }
 .form__title {
   color: #000;

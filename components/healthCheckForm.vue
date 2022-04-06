@@ -27,37 +27,41 @@
             <input
               type="text"
               name="issuesfound"
-              placeholder="Issues Found"
+              required
               v-model="issuesfound"
               autocomplete="off"
             />
+            <span class="form__control-label">Issues Found</span>
           </div>
           <div class="form__control">
             <input
               type="text"
               name="component"
-              placeholder="Component"
+              required
               v-model="healthIssue.component"
               autocomplete="off"
             />
+            <span class="form__control-label">Component</span>
           </div>
           <div class="form__control">
             <input
               type="text"
               name="ip"
-              placeholder="IP"
+              required
               v-model="healthIssue.ip"
               autocomplete="off"
             />
+            <span class="form__control-label">IP</span>
           </div>
           <div class="form__control">
             <input
               type="text"
               name="Hostname"
-              placeholder="Hostname"
+              required
               v-model="healthIssue.hostname"
               autocomplete="off"
             />
+            <span class="form__control-label">Hostname</span>
           </div>
           <div class="form__control time-control">
             <label for="startDate" class="date">Start Date</label>
@@ -66,12 +70,8 @@
             <input type="time" v-model="healthIssue.startTime" id="startTime" />
           </div>
           <div class="form__control">
-            <input
-              type="text"
-              name="who"
-              placeholder="Who"
-              v-model="healthIssue.who"
-            />
+            <input type="text" name="who" required v-model="healthIssue.who" />
+            <span class="form__control-label">Who</span>
           </div>
           <textarea
             style="grid-column: -1/1"
@@ -86,17 +86,19 @@
             <input
               type="text"
               name="ActionTaken"
-              placeholder="Action Taken"
+              required
               v-model="healthIssue.actionTaken"
             />
+            <span class="form__control-label">Action Taken</span>
           </div>
           <div class="form__control">
             <input
               type="text"
               name="NextAction"
-              placeholder="Next Action"
+              required
               v-model="healthIssue.nextAction"
             />
+            <span class="form__control-label">Next Action</span>
           </div>
 
           <div class="form__control" style="grid-column: -1 /1">

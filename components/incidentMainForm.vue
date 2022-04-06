@@ -16,55 +16,61 @@
           <input
             type="text"
             name="incidentName"
-            placeholder="Incident Name"
+            required
             v-model="incidentName"
             autocomplete="off"
           />
+          <span class="form__control-label">Incident Name</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="incidenDetectortName"
-            placeholder="Incident Detector's Name"
+            required
             v-model="incidentDetectorName"
             autocomplete="off"
           />
+          <span class="form__control-label">Incident Detector's Name</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="incidentReferenceNumber"
-            placeholder="Incident Reference Number"
+            required
             v-model="incidentReferenceNumber"
             autocomplete="off"
           />
+          <span class="form__control-label">Incident Reference Number</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="contactInfo"
-            placeholder="Contact Info"
+            required
             v-model="contactInfo"
             autocomplete="off"
           />
+          <span class="form__control-label">Contact Info</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="location"
-            placeholder="Location"
+            required
             v-model="location"
             autocomplete="off"
           />
+          <span class="form__control-label">Location</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="repeatedIncident"
-            placeholder="Repeated Incident"
+            required
             v-model="repeatedIncident"
             autocomplete="off"
           />
+          <span class="form__control-label">Repeated Incident</span>
         </div>
         <div class="form__control">
           <select name="priority" v-model="priority">
@@ -79,19 +85,21 @@
           <input
             type="text"
             name="impactDuration"
-            placeholder="Impact Duration"
+            required
             v-model="impactDuration"
             autocomplete="off"
           />
+          <span class="form__control-label">Impact Duration</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="affectedSystem"
-            placeholder="Affected System /Host"
+            required
             v-model="affectedSystem"
             autocomplete="off"
           />
+          <span class="form__control-label">Affected System /Host</span>
         </div>
 
         <p>INCIDENTS TRIAGE</p>
@@ -128,57 +136,62 @@
           </select>
         </div>
         <p>Brief Description :</p>
-        <textarea style="margin-top:.6rem;"
-        name="incidentDescription"
-            placeholder="Incident Description"
-            v-model="incidentDescription"
-        cols="20"
-        rows="3"
-      ></textarea>
- 
+        <textarea
+          style="margin-top: 0.6rem"
+          name="incidentDescription"
+          placeholder="Incident Description"
+          v-model="incidentDescription"
+          cols="20"
+          rows="3"
+        ></textarea>
 
         <p>INCIDENT CONTAINMENT, ERADICATION, AND RECOVERY</p>
 
-        <div class="form__control">
+        <div class="form__control" style="margin-top: 1rem;">
           <input
             type="text"
             name="evidenceAcquiring"
-            placeholder="Evidence acquiring"
+            required
             v-model="evidenceAcquiring"
           />
+          <span class="form__control-label">Evidence Acquiring</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="dataSourcesHealth"
-            placeholder=" Data Sources Health"
+            required
             v-model="dataSourcesHealth"
           />
+          <span class="form__control-label">Data Sources Health</span>
         </div>
 
         <div class="form__control">
           <input
             type="text"
             name="containmentMeasures"
-            placeholder=" Containment Measures"
+            required
             v-model="containmentMeasures"
           />
+          <span class="form__control-label">Containment Measures</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="eradicationMeasures"
-            placeholder=" Eradication Measures"
+            required
             v-model="eradicationMeasures"
           />
+          <span class="form__control-label">Eradication Measures</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="recoveryMeasures"
-            placeholder=" Recovery Measures"
+            required
             v-model="recoveryMeasures"
           />
+          <span class="form__control-label">Recovery Measures</span>
         </div>
         <p>POST INCIDENT ACTIVITY</p>
 
@@ -198,26 +211,31 @@
           <input
             type="text"
             name="RootCase Analysis"
-            placeholder=" Root Case Analysis"
+            required
             v-model="rootCaseAnalysis"
           />
+          <span class="form__control-label">Root Case Analysis</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="incidentAvoidability"
-            placeholder="Incident Avoidability:"
+            required
             v-model="incidentAvoidability"
           />
+          <span class="form__control-label">Incident Avoidability</span>
         </div>
         <p>INCIDENT CLOSURE</p>
-        <div class="form__control">
+        <div class="form__control" style="margin-top: 1rem;">
           <input
             type="text"
             name="RootCase Analysis"
-            placeholder="Recommendations for improvements:"
+            required
             v-model="recommendations"
           />
+          <span class="form__control-label"
+            >Recommendations for improvements</span
+          >
         </div>
         <div class="form__control time-control">
           <input type="date" v-model="closureDate" />
@@ -234,12 +252,8 @@
           </select>
         </div>
         <div class="form__control">
-          <input
-            type="text"
-            name="signature"
-            placeholder="Signature"
-            v-model="signature"
-          />
+          <input type="text" name="signature" required v-model="signature" />
+          <span class="form__control-label">Signature</span>
         </div>
         <div class="form__control time-control">
           <input type="date" v-model="signatureDate" />

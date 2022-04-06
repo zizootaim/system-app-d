@@ -6,83 +6,83 @@
         <input
           type="text"
           name="team"
-          placeholder="Team"
           v-model="team"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Team</span>
       </div>
 
       <div class="form__control">
         <input
           type="text"
           name="action"
-          placeholder="Action"
           v-model="action"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Action</span>
       </div>
       <div class="form__control">
         <input
           type="email"
           name="primaryEmail"
-          placeholder="Primary Email"
           v-model="primaryEmail"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Primary Email</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="primaryName"
-          placeholder="Primary Name"
           v-model="primaryName"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Primary Name</span>
       </div>
       <div class="form__control">
         <input
           type="number"
           name="primaryPhone"
-          placeholder="Primary Phone"
           v-model="primaryPhone"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Primary Phone</span>
       </div>
       <div class="form__control">
         <input
           type="email"
           name="secondaryEmail"
-          placeholder="Secondary Email"
           v-model="secondaryEmail"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Secondary Email</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="aecondaryName"
-          placeholder="Secondary Name"
           v-model="secondaryName"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Secondary Name</span>
       </div>
 
       <div class="form__control">
         <input
           type="number"
           name="secondaryPhone"
-          placeholder="Secondary Phone"
           v-model="secondaryPhone"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Secondary Phone</span>
       </div>
       <div class="submit-btn__wrapper">
         <button class="submit-btn" type="submit">

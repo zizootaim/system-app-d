@@ -11,11 +11,11 @@
         <input
           type="text"
           name="referenceid"
-          placeholder="Reference ID"
           v-model="referenceid"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Reference ID</span>
       </div>
       <div class="form__control time-control">
         <label for="date" class="date">Date</label>
@@ -55,13 +55,8 @@
         </select>
       </div>
       <div class="form__control" v-if="source == 'other'">
-        <input
-          type="text"
-          placeholder="Source"
-          v-model="otherSource"
-          autocomplete="off"
-          required
-        />
+        <input type="text" v-model="otherSource" autocomplete="off" required />
+        <span class="form__control-label">Source</span>
       </div>
       <div class="form__control select">
         <select name="applicable" id="applicable" v-model="applicable" required>
@@ -74,11 +69,11 @@
         <input
           type="text"
           name="action"
-          placeholder="Action Token"
           v-model="token"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Action Token</span>
       </div>
       <button class="submit-btn" type="submit">
         Submit <BaseSpinner v-if="loading" />

@@ -1,24 +1,26 @@
 <template>
   <div class="shift__form-wrapper">
     <h1 class="form__title">Alerts</h1>
-    <form class="shift__form long__form" v-on:submit.prevent="submitData">
+    <form class="shift__form alerts__form long__form" v-on:submit.prevent="submitData">
       <div class="form__control">
         <input
           type="text"
           name="alertName"
-          placeholder="Alert Name"
+          required
           v-model="alertName"
           autocomplete="off"
         />
+        <span class="form__control-label">Alert Name</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="alertNumber"
-          placeholder="Alert Number"
+          required
           v-model="alertNumber"
           autocomplete="off"
         />
+        <span class="form__control-label">Alert Number</span>
       </div>
 
       <div class="form__control time-control">
@@ -27,35 +29,39 @@
         <label for="startTime" class="time">Start Time</label>
         <input type="time" v-model="startTime" id="startTime" />
       </div>
- <div class="form__control">
-        <input type="text" name="who" placeholder="Who" v-model="who" />
+      <div class="form__control">
+        <input type="text" name="who" required v-model="who" />
+        <span class="form__control-label">Who</span>
       </div>
-       <textarea style="grid-column:-1/1;"
-      name="IssueDescription"
-          placeholder="Issue Description"
-          v-model="IssueDescription"
+      <textarea
+        style="grid-column: -1/1"
+        name="IssueDescription"
+        placeholder="Issue Description"
+        v-model="IssueDescription"
         cols="20"
         rows="3"
       ></textarea>
- 
+
       <div class="form__control">
         <input
           type="text"
           name="ActionTaken"
-          placeholder="Action Taken"
+          required
           v-model="ActionTaken"
         />
+        <span class="form__control-label">Action Taken</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="NextAction"
-          placeholder="Next Action"
+          required
           v-model="NextAction"
         />
+        <span class="form__control-label">Next Action</span>
       </div>
-     
-      <div class="form__control" style="grid-column:-1/1;">
+
+      <div class="form__control" style="grid-column: -1/1">
         <select name="status" v-model="status">
           <option value="" selected disabled hidden>Status</option>
 
@@ -73,10 +79,7 @@
           id="closeDate"
           v-model="closeDate"
         />
-        <label
-          for="closeTime"
-          class="time"
-        >Close Time</label>
+        <label for="closeTime" class="time">Close Time</label>
         <input
           type="time"
           name="CloseTime"
@@ -84,7 +87,10 @@
           v-model="closeTime"
         />
       </div>
-      <button class="submit-btn" type="submit">
+   
+    </form>
+    <div class="submit-btn__wrapper">
+         <button class="submit-btn">
         Submit
         <svg
           v-if="submitIcon"
@@ -100,7 +106,7 @@
         </svg>
         <BaseSpinner v-if="spinnerLoading" />
       </button>
-    </form>
+    </div>
   </div>
 </template>
 <script>
@@ -160,7 +166,5 @@ export default {
 };
 </script>
 <style>
-
-
 
 </style>

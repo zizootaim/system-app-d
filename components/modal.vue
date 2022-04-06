@@ -77,11 +77,12 @@ export default {
   padding-bottom: 0;
 }
 .secform {
-  top: 5%;
+  top: 3%;
   left: 25%;
   right: 25%;
   width: auto;
   height: auto;
+
   padding-bottom: 1rem;
   background: #fff;
   border-radius: 2rem;
@@ -104,11 +105,10 @@ export default {
 .secform .modal-content {
   max-width: none;
   padding: 0;
-
 }
 .secform .modal__top {
   width: 90%;
-  margin: 0.6rem auto;
+  margin: 0.6rem auto 0;
 }
 .secform .close {
   background: none;

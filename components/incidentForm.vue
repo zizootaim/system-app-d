@@ -6,19 +6,21 @@
         <input
           type="text"
           name="incidentName"
-          placeholder="Incident Name"
+          required
           v-model="incidentName"
           autocomplete="off"
         />
+        <span class="form__control-label">Incident Name</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="incidentNumber"
-          placeholder="Incident Number"
+          required
           v-model="incidentNumber"
           autocomplete="off"
         />
+        <span class="form__control-label">Incident Number</span>
       </div>
 
       <div class="form__control time-control">
@@ -27,35 +29,39 @@
         <label for="incidentTime" class="time">Incident Time</label>
         <input type="time" v-model="incidentTime" id="incidentTime" />
       </div>
-       <div class="form__control">
-        <input type="text" name="who" placeholder="Who" v-model="who" />
+      <div class="form__control">
+        <input type="text" name="who" required v-model="who" />
+        <span class="form__control-label">Who</span>
       </div>
-           <textarea style="grid-column:-1/1;"
+      <textarea
+        style="grid-column: -1/1"
         name="incidentDescription"
-          placeholder="Incident Description"
-          v-model="incidentDescription"
+        placeholder="Incident Description"
+        v-model="incidentDescription"
         cols="20"
         rows="3"
       ></textarea>
-    
+
       <div class="form__control">
         <input
           type="text"
           name="ActionTaken"
-          placeholder="Action Taken"
+    required
           v-model="ActionTaken"
         />
+        <span class="form__control-label">Action Taken</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="NextAction"
-          placeholder="Next Action"
+          required
           v-model="NextAction"
         />
+        <span class="form__control-label">Next Action</span>
       </div>
-     
-      <div class="form__control" style="grid-column:-1/1;">
+
+      <div class="form__control" style="grid-column: -1/1">
         <select name="status" v-model="status">
           <option value="" selected disabled hidden>Status</option>
 

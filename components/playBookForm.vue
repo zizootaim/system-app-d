@@ -4,7 +4,7 @@
 
     <form class="long__form" v-on:submit.prevent>
       <textarea
-      class="full"
+        class="full"
         name="description"
         placeholder="Description"
         v-model="description"
@@ -13,63 +13,64 @@
         rows="3"
       ></textarea>
 
- <div class="form__table">
+      <div class="form__table">
         <div class="form__control">
-        <input
-          type="text"
-          name="category"
-          placeholder="Category"
-          v-model="category"
-          autocomplete="off"
-          required
-        />
+          <input
+            type="text"
+            name="category"
+            v-model="category"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Category</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="text"
+            name="title"
+
+            v-model="title"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Title</span>
+        </div>
+        <div class="form__control">
+          <input type="file" id="file" ref="file" />
+        </div>
       </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="title"
-          placeholder="Title"
-          v-model="title"
-          autocomplete="off"
-          required
-        />
-      </div>
-      <div class="form__control">
-        <input type="file" id="file" ref="file" />
-      </div>
- </div>
       <div class="form__table">
         <div class="form__control">
           <input
             type="text"
             name="activity"
-            placeholder="Activity"
             v-model="activity"
             autocomplete="off"
             required
           />
+          <span class="form__control-label">Activity</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="irStage"
-            placeholder="IR Stage"
             v-model="irStage"
             autocomplete="off"
             required
           />
+          <span class="form__control-label">IR Stage</span>
         </div>
         <div class="form__control">
           <input
             type="text"
             name="team"
-            placeholder="Team"
             v-model="team"
             autocomplete="off"
             required
           />
+          <span class="form__control-label">Team</span>
         </div>
-        <button class="form-btn" @click="addRow">add</button>
+        <button class="form-btn" @click="addRow">add row</button>
       </div>
       <button class="submit-btn" type="submit" @click="submitData">
         Submit <BaseSpinner v-if="loading" />
@@ -176,9 +177,7 @@ export default {
 </script>
 
 <style scoped>
-.full{
-  grid-column: -1 / 1;
-}
+
 
 .service__form-wrapper {
   width: 85%;
@@ -195,5 +194,4 @@ p {
   display: flex;
   flex-direction: column;
 }
-
 </style>

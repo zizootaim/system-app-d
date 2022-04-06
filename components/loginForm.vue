@@ -13,11 +13,13 @@
         v-model="emailLogin"
         type="email"
         id="email"
-        placeholder="email@info.com"
+      
         name="email"
         autocomplete="off"
         required
       />
+        <span class="form__control-label">Email</span>
+
     </div>
     <div class="form__control">
       <i class="fas fa-lock"></i>
@@ -25,11 +27,13 @@
         v-model="passwordLogin"
         type="password"
         id="pwd"
-        placeholder="Password"
+
         name="pswd"
         autocomplete="off"
         required
       />
+              <span class="form__control-label">Password</span>
+
     </div>
 
     <button class="submit-btn" type="submit">

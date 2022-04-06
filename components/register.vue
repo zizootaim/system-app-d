@@ -9,7 +9,8 @@
     </div>
     <div class="form__control">
       <i class="fas fa-user"></i>
-      <input type="text" v-model="name" required placeholder="Name" />
+      <input type="text" v-model="name" required />
+      <span class="form__control-label">Name</span>
     </div>
     <div class="form__control">
       <i class="fas fa-envelope"></i>
@@ -17,11 +18,11 @@
         v-model="email"
         type="email"
         id="email"
-        placeholder="email@info.com"
         name="email"
         autocomplete="off"
         required
       />
+      <span class="form__control-label">Email</span>
     </div>
 
     <div class="form__control">
@@ -30,11 +31,11 @@
         v-model="password"
         type="password"
         id="pwd"
-        placeholder="Password"
         name="pswd"
         autocomplete="off"
         required
       />
+      <span class="form__control-label">Password</span>
     </div>
 
     <div class="form__control">
@@ -43,11 +44,11 @@
         v-model="confirmPassword"
         type="password"
         id="pwd"
-        placeholder="Confirm Password"
         name="pswd"
         autocomplete="off"
         required
       />
+      <span class="form__control-label">Confirm Password</span>
     </div>
     <div class="form__control">
       <i class="fas fa-phone"></i>
@@ -55,11 +56,11 @@
         v-model="phone"
         type="text"
         id="phone"
-        placeholder="Phone Number"
         name="phoneNumber"
         autocomplete="off"
         required
       />
+      <span class="form__control-label">Phone Number</span>
     </div>
 
     <button type="submit" class="submit-btn">
@@ -113,4 +114,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style></style>

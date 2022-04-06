@@ -1,15 +1,19 @@
 <template>
   <div class="shift__form-wrapper">
     <h1 class="form__title">Pending Issues</h1>
-    <form class="shift__form long__form" v-on:submit.prevent="submitData">
+    <form
+      class="shift__form pending-form long__form"
+      v-on:submit.prevent="submitData"
+    >
       <div class="form__control">
         <input
           type="text"
           name="issue"
-          placeholder="Issue"
+          required
           v-model="issue"
           autocomplete="off"
         />
+        <span class="form__control-label">Issue</span>
       </div>
 
       <div class="form__control time-control">
@@ -28,23 +32,16 @@
       ></textarea>
 
       <div class="form__control">
-        <input
-          type="text"
-          name="ActionTaken"
-          placeholder="Action Taken"
-          v-model="ActionTaken"
-        />
+        <input type="text" name="ActionTaken" required v-model="ActionTaken" />
+        <span class="form__control-label">Action Taken</span>
       </div>
       <div class="form__control">
-        <input
-          type="text"
-          name="NextAction"
-          placeholder="Next Action"
-          v-model="NextAction"
-        />
+        <input type="text" name="NextAction" required v-model="NextAction" />
+        <span class="form__control-label">Next Action</span>
       </div>
       <div class="form__control">
-        <input type="text" name="who" placeholder="Who" v-model="who" />
+        <input type="text" name="who" required v-model="who" />
+        <span class="form__control-label">Who</span>
       </div>
       <div class="form__control">
         <select name="status" v-model="status">
@@ -137,7 +134,7 @@ export default {
 };
 </script>
 <style>
-.shift__form {
-  padding-top: 1.5rem;
+.pending-form {
+  padding-top: 1rem;
 }
 </style>

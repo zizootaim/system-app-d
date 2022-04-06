@@ -964,10 +964,7 @@
           v-if="getChosenForm == 'healthCheck'"
           formTitle="Health Check Form"
         />
-        <!-- <health-issues
-          v-if="getChosenForm == 'healthIssue'"
-          formTitle="Health Issue Form"
-        /> -->
+      
         <alerts-form v-if="getChosenForm == 'alerts'" formTitle="Alerts" />
         <incident-form
           v-if="getChosenForm == 'incidents'"
