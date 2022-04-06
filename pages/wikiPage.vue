@@ -410,6 +410,10 @@
         <!-- Shift Hand -->
 
         <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
+       <div class="shifts__wrapper">
+         <Shifts />
+        
+       </div>
           <!-- Health Check -->
 
           <div v-if="chosenCat == 'healthCheck'">
@@ -1010,6 +1014,7 @@ import pendingIssuesForm from "@/components/pendingIssuesForm.vue";
 import IncidentMainForm from "../components/incidentMainForm.vue";
 import communicationForm from "@/components/communicationForm.vue";
 import playBookForm from "@/components/playBookForm.vue";
+import Shifts from '../components/shifts.vue';
 export default {
   name: "wikiPage",
   data() {
@@ -1039,9 +1044,10 @@ export default {
     IncidentMainForm,
     communicationForm,
     playBookForm,
+    Shifts,
   },
 
-  computed: {
+ computed: {
     ...mapState(["wikiSections", "chosenForm"]),
     ...mapGetters([
       "getUseCase",

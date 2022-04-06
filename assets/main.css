@@ -1,0 +1,432 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  transition: color .3s,background .3s;
+}
+ol {
+  list-style: none;
+}
+
+body,
+button,
+input,
+select,
+p,
+pre,
+textarea {
+  font-size: 18px;
+  margin: 0px;
+
+  font-family: "Mulish", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+.body {
+  min-height: 100vh;
+  background-size: 100% 100%;
+  background: linear-gradient(
+    90deg,
+    #34009c,
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.8),
+    #34009c
+  );
+  background-repeat: no-repeat;
+}
+.light-mode {
+  background: #fff;
+}
+h1,
+h2,
+h3,
+h4,
+p,
+pre {
+  color: #fff;
+}
+
+a {
+  text-decoration: none;
+}
+
+label {
+  color: #000;
+}
+.svgIcon {
+  width: 2em;
+  height: 2em;
+  vertical-align: middle;
+  fill: currentColor;
+  overflow: hidden;
+}
+.wiki__nav {
+  height: 4rem;
+  border-bottom: 0.2px solid #fff;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  );
+}
+.wiki__links {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+}
+
+.wiki__links li {
+  position: relative;
+  margin: 0 1rem;
+  text-align: center;
+}
+.wiki__links li::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 0%;
+  height: 0.1rem;
+  background: #fff;
+  transition: 0.4s;
+}
+.light-mode .wiki__links li::after {
+  background: #000;
+}
+.wiki__links li:hover::after {
+  width: 100%;
+}
+.wiki__links-icon {
+  display: none;
+}
+
+@media screen and (max-width: 769px) {
+  .wiki__links-icon {
+    display: block;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin: 1rem 0.5rem;
+    border-radius: 5px;
+  }
+
+  .wiki__links {
+    position: absolute;
+    top: 5rem;
+    right: 10%;
+    left: 10%;
+    z-index: 1000;
+    flex-direction: column;
+    background: #eee;
+    box-shadow: 1px 0 16px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 1rem;
+    transform: scale(0);
+    transition: 0.3s;
+  }
+  .wiki__nav {
+    flex-direction: row-reverse;
+    padding-right: 10px;
+  }
+
+  .wiki__links.show {
+    transform: scale(1);
+  }
+  .wiki__links li {
+    display: flex;
+  }
+  .wiki__links li:last-child::after {
+    display: none;
+  }
+  .wiki__links li a,
+  .wiki__links li Button {
+    color: #000;
+    text-align: center;
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .wiki__content {
+    flex-direction: column;
+    height: auto;
+  }
+}
+@media screen and (max-width: 426px) {
+  .wiki__links {
+    left: 5%;
+    right: 5%;
+  }
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Form Styles */
+.form-inline {
+  display: flex;
+  flex-direction: column;
+  background: none;
+  align-items: center;
+}
+.form-inline .form__info {
+  display: grid;
+  place-items: center;
+  margin-bottom: 1.5rem;
+}
+.form-inline .form__info i {
+  margin: 1rem 0 2rem;
+  font-size: 3rem;
+  color: #fff;
+}
+.form-inline .form__text h2 {
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+.form-inline .form__text p {
+  text-align: center;
+}
+.form__control {
+  width: 100%;
+  max-height: 2.5rem;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  border-bottom: 1.5px solid #fff;
+  background: none;
+  margin-bottom: 0.75rem;
+  padding: 0.2rem;
+}
+.form__control input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0.2rem 0.5rem;
+  color: #fff;
+}
+.form__control input::placeholder {
+  font-size: 0.8rem;
+  color: #ddd;
+}
+.form__control i {
+  color: #fff;
+  padding-top: 0.2rem;
+}
+
+.submit-btn {
+  margin-top: 1.5rem;
+  width: 90%;
+  background-color: #fff;
+  color: #010f60;
+  padding: 0.5rem;
+  font-weight: 600;
+  border: 2px solid #fff;
+  border-radius: 1rem;
+}
+.submit-btn:hover {
+  background-color: #010f60;
+  color: #fff;
+  text-decoration: none;
+}
+
+.form__control.select {
+  flex-direction: column;
+  padding: 0;
+  justify-content: flex-start;
+}
+
+.submit-btn {
+  width: 100%;
+  grid-column: -1 / 1;
+}
+
+.form__control select {
+  cursor: pointer;
+  padding: 0.2rem;
+  border: none;
+  outline: none;
+  background: none;
+  color: #fff;
+  font-size: 0.9rem;
+  width: 100%;
+  height: 100%;
+}
+.form__control select option {
+  cursor: pointer;
+  color: #000;
+  border: none;
+}
+.form__control:last-of-type {
+  grid-column: -1 / 1;
+}
+
+.container *,
+.wiki *,
+.Home * {
+  animation: opacity 0.3s 0.05s forwards;
+}
+@keyframes opacity {
+  100% {
+    opacity: 1;
+  }
+}
+@media screen and (max-width: 600px) {
+  .form__control {
+    width: 90%;
+    color: #010f60;
+  }
+}
+
+/* Shift Forms */
+
+.long__form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+}
+.time-control {
+  position: relative;
+}
+.time-control .date,
+.time-control .time {
+  position: absolute;
+  font-size: 0.8rem;
+  top: -1rem;
+}
+
+.time-control .time {
+  left: 50%;
+}
+
+.submit-btn {
+  position: relative;
+}
+.svgIcon {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.4rem;
+  height: 1.7rem;
+  width: 1.8rem;
+}
+form::-webkit-scrollbar-thumb {
+  background: #342c6d;
+  border-radius: 2rem;
+}
+
+form::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+form::-webkit-scrollbar {
+  border-radius: 2rem;
+  width: 10px;
+  height: 0.5rem;
+  background-color: #352d77;
+}
+textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.4rem;
+  border-radius: 0.1rem;
+  border: 0.1px solid #010f60;
+  outline: none;
+  color: #010f60;
+}
+textarea::placeholder {
+  font-size: 0.9rem;
+}
+
+/* Status Colors */
+.initial,
+.not {
+  background-color: #e9b03d;
+}
+.solution {
+  background-color: #5ba1ba;
+}
+.closed,
+.tested {
+  background-color: #007e33;
+}
+.pending {
+  background-color: rgb(187, 108, 108);
+}
+
+/* Light Mode */
+
+.light-mode .nav-logo {
+  filter: invert(1);
+}
+
+.light-mode .wiki__nav {
+  background: #fff;
+  border: 0.2px solid rgba(0, 0, 0, 0.4);
+}
+.light-mode .wiki__menu .menu__item button {
+  color: #010f60;
+  border-color: #010f60;
+}
+.light-mode .sub-menu {
+  color: #010f60;
+  border-color: #010f60;
+}
+.light-mode .menu__item.submenu-wrapper {
+  border-color: #010f60;
+}
+.light-mode .sub-menu li span::after {
+  background-color: #34009c;
+}
+.light-mode .sec__title {
+  color: #010f60;
+}
+.light-mode .modal {
+  box-shadow: 0 0px 5px 0px rgba(0, 0, 0, 0.4);
+}
+.light-mode .wiki__item {
+  background-color: #fff;
+  box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.4);
+}
+.light-mode .wiki__item-title,
+.light-mode .wiki__item ul li {
+  color: #030d44;
+}
+.light-mode .Home h1,
+.light-mode .Home p,
+.light-mode .Home h3,
+.light-mode h4,.light-mode .use-case__into p {
+  color: #000;
+}
+.light-mode .person__info h4{
+  color: #fff;
+}
+.light-mode .pdfs__wrapper input[type="text"] {
+  border: 1px solid rgb(136, 136, 136);
+}
+.light-mode .pdfs__wrapper .upload-btn {
+  background: #010f60;
+  color: #fff;
+  border: 1px solid #010f60;
+}
+.light-mode .pdfs__wrapper .upload-btn:hover {
+  background: #fff;
+  color: #010f60;
+}
+.light-mode .authButton,
+.light-mode .wiki__links li a {
+  color: #000;
+}
+.light-mode .theme-btn {
+  color: #000;
+}
+.light-mode .wiki__links-icon{
+  color: #000;
+}
