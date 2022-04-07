@@ -9,10 +9,14 @@
         <h2><span>Name : </span>{{ user.name }}</h2>
         <p><span>E-Mail : </span>{{ user.email }}</p>
         <p>Role : {{ user.role }}</p>
-        <button :class="user.role == 'Employee' ? 'approve-btn approved' : 'approve-btn'" @click="(event) => approveUser(user.email,event)">
-          {{user.role == 'Employee' ? 'approved' : 'approve'}}
+        <button
+          :class="
+            user.role == 'Employee' ? 'approve-btn approved' : 'approve-btn'
+          "
+          @click="(event) => approveUser(user.email, event)"
+        >
+          {{ user.role == "Employee" ? "approved" : "approve" }}
           <BaseSpinner />
-   
         </button>
       </div>
     </div>
@@ -21,12 +25,13 @@
 
 <script>
 import { mapGetters } from "vuex";
+import BaseSpinner from "../components/baseSpinner.vue";
 export default {
   name: "users",
-  data(){
+  data() {
     return {
       loading: false,
-    }
+    };
   },
   computed: {
     ...mapGetters(["getUsers", "getRole"]),
@@ -34,23 +39,25 @@ export default {
   mounted() {
     this.$store.dispatch("getData", "users");
   },
+  components: {
+    BaseSpinner,
+  },
   methods: {
-    approveUser(email,event) {
-   
-       this.$store.dispatch("approveUser", email);
- const loader = event.target.querySelector('.loader');
- loader.style.display = 'block'
- setTimeout(() => {
-loader.style.display = 'none'
-event.target.classList.add('approved')
-event.target.innerText = 'approved'
- },1000)
+    approveUser(email, event) {
+      this.$store.dispatch("approveUser", email);
+      const loader = event.target.querySelector(".loader");
+      loader.style.display = "block";
+      setTimeout(() => {
+        loader.style.display = "none";
+        event.target.classList.add("approved");
+        event.target.innerText = "approved";
+      }, 1000);
     },
   },
 };
 </script>
 <style>
-.sec__title{
+.sec__title {
   text-align: center;
 }
 .users__wrapper {
@@ -82,8 +89,8 @@ event.target.innerText = 'approved'
 
 .approve-btn {
   width: 8rem;
-  padding: .2rem 0;
-  text-align: calc();
+  padding: 0.2rem 0;
+  text-align: center;
   margin-top: 1rem;
   font-size: 1rem;
   font-weight: 600;
@@ -94,23 +101,23 @@ event.target.innerText = 'approved'
   text-transform: capitalize;
   position: relative;
 }
-.approve-btn .loader{
+.approve-btn .loader {
   width: 15px;
   height: 15px;
-padding: .3rem;
-margin-right: .3rem;
-display: none;
+  padding: 0.3rem;
+  margin-right: 0.3rem;
+  display: none;
 }
-  .approve-btn:hover {
-    background: #fff;
-    color: #162682;
-  }
-.approve-btn.approved{
- cursor: auto;
- background: green;
- pointer-events: none;
+.approve-btn:hover {
+  background: #fff;
+  color: #162682;
 }
-.approve-btn.approved:hover{
+.approve-btn.approved {
+  cursor: auto;
+  background: green;
+  pointer-events: none;
+}
+.approve-btn.approved:hover {
   background: green;
   color: #fff;
 }
