@@ -21,6 +21,24 @@ export const state = () => ({
     Communication: "https://beapis.herokuapp.com/api/Communication",
     staff: "https://beapis.herokuapp.com/api/Staff",
     Playbooks: "https://beapis.herokuapp.com/api/PlayBook",
+    shifts: "https://beapis.herokuapp.com/api/Shifts",
+  },
+  months: {
+    January: "31",
+    February: "28",
+    March: "31",
+    April: "30",
+    May: "31",
+    June: "30",
+    July: "31",
+    August: "31",
+    September: "30",
+    October: "31",
+    November: "30",
+    December: "30",
+    jan: "30",
+    feb: "30",
+    march: "30",
   },
   useCase: [],
   mainIncident: [],
@@ -40,7 +58,7 @@ export const state = () => ({
   Communication: [],
   staff: [],
   Playbooks: [],
-
+  shifts: {},
   homeSections: [
     {
       name: "Mission",
@@ -92,7 +110,7 @@ export const state = () => ({
 });
 
 export const getters = {
-  getterRole: (state) => {
+  getRole: (state) => {
     return state.role;
   },
   getMessage: (state) => {
@@ -153,6 +171,12 @@ export const getters = {
   getPlayBook: (state) => {
     return state.Playbooks;
   },
+  getShifts: (state) => {
+    return state.shifts;
+  },
+  getMonths: (state) => {
+    return state.months;
+  },
 };
 
 export const mutations = {
@@ -161,8 +185,8 @@ export const mutations = {
     state.name = window.localStorage.getItem("name");
   },
   logOut: (state) => {
-    window.localStorage.setItem("role", " ");
-    window.localStorage.setItem("name", " ");
+    window.localStorage.setItem("role", "");
+    window.localStorage.setItem("name", "");
   },
   errMessage: (state, message) => {
     state.message = message;
@@ -179,6 +203,7 @@ export const mutations = {
   showNewObjects(state, data) {
     state[showNewObjects].push(data);
   },
+  addShift: () => {},
   deleteData: (state, data) => {
     console.log(data.id);
     for (let i = 0; i < state[data.dataContainer].length; i++) {
@@ -203,7 +228,7 @@ export const actions = {
           console.log(data);
           commit("saveData", {
             dataContainer: apiName,
-            dataValue: data.reverse(),
+            dataValue: data,
           });
         });
       return true;
@@ -288,6 +313,7 @@ export const actions = {
       return true;
     } catch (err) {
       console.log(err);
+      return false;
     }
   },
   // updateActionValue({ commit }) {

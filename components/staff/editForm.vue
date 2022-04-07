@@ -1,51 +1,33 @@
 <template>
   <div class="shift__form-wrapper">
-    <h1 class="form__title">Edit Member</h1>
+    <h1 class="form__title">Edit {{ editingUser.parentData.Name }}</h1>
     <form class="long__form" v-on:submit.prevent="submitData">
       <div class="form__control">
         <input
           type="text"
-          name="id"
-          placeholder="Id "
-          v-model="id"
-          autocomplete="off"
-        />
-      </div>
-      <div class="form__control">
-        <input
-          type="Parent"
-          name="parentName"
-          placeholder="Parent Name"
-          v-model="parentName"
-          autocomplete="off"
-        />
-      </div>
-      <div class="form__control">
-        <input
-          type="text"
           name="name"
-          placeholder="Name"
+          required
           v-model="name"
           autocomplete="off"
         />
+        <span class="form__control-label">Name</span>
       </div>
 
       <div class="form__control">
-        <input type="text" name="title" placeholder="Title" v-model="title" />
+        <input type="text" name="title" required v-model="title" />
+        <span class="form__control-label">Title</span>
       </div>
       <div class="form__control">
-        <input type="text" name="email" placeholder="Email" v-model="email" />
+        <input type="text" name="email" required v-model="email" />
+        <span class="form__control-label">Email</span>
       </div>
       <div class="form__control">
-        <input
-          type="text"
-          name="mobile"
-          placeholder="Mobile"
-          v-model="mobile"
-        />
+        <input type="text" name="mobile" required v-model="mobile" />
+        <span class="form__control-label">Mobile</span>
       </div>
       <div class="form__control">
-        <input type="text" name="phone" placeholder="Phone" v-model="phone" />
+        <input type="text" name="phone" required v-model="phone" />
+        <span class="form__control-label">Phone</span>
       </div>
 
       <button class="submit-btn" type="submit">
@@ -71,8 +53,6 @@
 export default {
   data() {
     return {
-      id: "",
-      parentName: "",
       name: "",
       title: "",
       email: "",
@@ -82,37 +62,39 @@ export default {
       submitIcon: false,
     };
   },
-
+  props: {
+    editingUser: {},
+  },
   computed: {
     dataObj() {
-      return {
-        id: this.id,
-        ParentName: this.parentName,
+      let obj = {};
+      obj.parentData = {
         Name: this.name,
         Title: this.title,
         Email: this.email,
         Mobile: this.mobile,
         Phone: this.phone,
       };
+      return obj;
     },
   },
   methods: {
-    async submitData() {
+    submitData() {
       console.log(this.dataObj);
-      this.spinnerLoading = true;
-      let response = await this.$store.dispatch("editStaff", {
-        apiName: "staff",
-        body: this.dataObj,
-      });
-      console.log(response);
-      if (response) {
-        this.spinnerLoading = false;
-        this.submitIcon = true;
-        setTimeout(() => {
-          this.submitIcon = false;
-          document.querySelector(".close").click();
-        }, 1000);
-      }
+      // this.spinnerLoading = true;
+      // let response = await this.$store.dispatch('editStaff', {
+      //   apiName: 'staff',
+      //   body: this.dataObj,
+      // });
+      // console.log(response);
+      // if (response) {
+      //   this.spinnerLoading = false;
+      //   this.submitIcon = true;
+      //   setTimeout(() => {
+      //     this.submitIcon = false;
+      //     document.querySelector('.close').click();
+      //   }, 1000);
+      // }
     },
   },
 };

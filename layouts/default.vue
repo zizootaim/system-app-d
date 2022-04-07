@@ -30,7 +30,7 @@ export default {
   );
   min-height: 91vh;
 }
-.light-mode .mainContent{
+.light-mode .mainContent {
   background: #fff;
 }
 </style>

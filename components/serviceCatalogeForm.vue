@@ -7,30 +7,22 @@
         <input
           type="text"
           name="name"
-          placeholder="Service Name"
           v-model="name"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Service Name</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="owner"
-          placeholder="Service Owner"
           v-model="owner"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Service Owner</span>
       </div>
-      <textarea
-        name="description"
-        placeholder="Description"
-        v-model="description"
-        required
-        cols="20"
-        rows="3"
-      ></textarea>
 
       <textarea
         name="inputs"
@@ -49,6 +41,14 @@
         cols="20"
         rows="3"
       ></textarea>
+      <textarea
+        name="description"
+        placeholder="Description"
+        v-model="description"
+        required
+        cols="20"
+        rows="3"
+      ></textarea>
 
       <textarea
         name="consumers"
@@ -63,11 +63,11 @@
         <input
           type="text"
           name="processes"
-          placeholder="Service Processes"
           v-model="processes"
           autocomplete="off"
           required
         />
+        <span class="form__control-label">Service Processes</span>
       </div>
 
       <div class="form__control select">
@@ -111,6 +111,7 @@
           />
         </svg>
       </button>
+      <p class="errMessage">{{ messageErr }}</p>
     </form>
   </div>
 </template>
@@ -134,6 +135,7 @@ export default {
       outputs: "",
       consumers: "",
       processes: "",
+      message: "",
       loading: false,
       submitIcon: false,
     };
@@ -155,6 +157,9 @@ export default {
         processes: this.processes,
       };
     },
+    messageErr() {
+      return this.message;
+    },
   },
 
   methods: {
@@ -165,13 +170,15 @@ export default {
         body: this.dataObj,
       });
       console.log(response);
+      this.loading = false;
       if (response) {
-        this.loading = false;
         this.submitIcon = true;
         setTimeout(() => {
           this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);
+      } else {
+        this.message = "Some Thing Went Wrong";
       }
     },
   },
@@ -194,6 +201,11 @@ p {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.6rem;
+}
+.errMessage {
+  text-align: center;
+  color: red;
+  padding: 10px;
 }
 .hours {
   display: flex;

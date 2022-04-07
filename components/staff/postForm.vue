@@ -1,45 +1,82 @@
 <template>
   <div class="shift__form-wrapper">
     <h1 class="form__title">Add Staff Member</h1>
-    <form class="long__form" v-on:submit.prevent="submitData">
-      <div class="form__control">
-        <input
-          type="Parent"
-          name="parentName"
-          placeholder="Parent Name"
-          v-model="parentName"
-          autocomplete="off"
-        />
+    <form class="long__form add-form" v-on:submit.prevent="submitData">
+      <div class="form__control select">
+        <select name="parentLevel" v-model="level">
+          <option value="" selected disabled hidden>Parent Level</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="name"
-          placeholder="Name"
+          required
           v-model="name"
           autocomplete="off"
         />
+        <span class="form__control-label">Name</span>
       </div>
+      <div class="form__control">
+        <input type="text" name="title" required v-model="title" />
+        <span class="form__control-label">Title</span>
+      </div>
+      <div class="form__control">
+        <input type="text" name="email" required v-model="email" />
+        <span class="form__control-label">Email</span>
+      </div>
+      <div class="form__control">
+        <input type="text" name="mobile" required v-model="mobile" />
+        <span class="form__control-label">Mobile</span>
+      </div>
+      <div class="form__control">
+        <input type="text" name="phone" required v-model="phone" />
+        <span class="form__control-label">Phone</span>
+      </div>
+      <div v-if="level == '2'" class="childrens full long__form">
+        <h3 class="full">children</h3>
+        <div class="form__control">
+          <input
+            type="text"
+            name="childName"
+            required
+            v-model="childName"
+            autocomplete="off"
+          />
+          <span class="form__control-label">Name</span>
+        </div>
 
-      <div class="form__control">
-        <input type="text" name="title" placeholder="Title" v-model="title" />
+        <div class="form__control">
+          <input type="text" name="childTitle" required v-model="childTitle" />
+          <span class="form__control-label">Title</span>
+        </div>
+        <div class="form__control">
+          <input type="text" name="childEmail" required v-model="childEmail" />
+          <span class="form__control-label">Email</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="text"
+            name="childMobile"
+            required
+            v-model="childMobile"
+          />
+          <span class="form__control-label">Mobile</span>
+        </div>
+        <div class="form__control">
+          <input type="text" name="childPhone" required v-model="childPhone" />
+          <span class="form__control-label">Phone</span>
+        </div>
+        <div class="form__control btn-wrapper">
+          <button class="form-btn" @click="addChild">add child</button>
+        </div>
       </div>
-      <div class="form__control">
-        <input type="text" name="email" placeholder="Email" v-model="email" />
-      </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="mobile"
-          placeholder="Mobile"
-          v-model="mobile"
-        />
-      </div>
-      <div class="form__control" style="grid-column:2/3;">
-        <input type="text" name="phone" placeholder="Phone" v-model="phone" />
-      </div>
+    </form>
 
-      <button class="submit-btn" type="submit">
+    <div class="submit__btn-wrapper">
+      <button class="submit-btn" @click="submitData">
         Submit
         <svg
           v-if="submitIcon"
@@ -55,54 +92,110 @@
         </svg>
         <BaseSpinner v-if="spinnerLoading" />
       </button>
-    </form>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      parentName: "",
+      level: "",
       name: "",
       title: "",
       email: "",
       mobile: "",
       phone: "",
+      childName: "",
+      childTitle: "",
+      childEmail: "",
+      childMobile: "",
+      childPhone: "",
+      childs: [],
       spinnerLoading: false,
       submitIcon: false,
     };
   },
   computed: {
     dataObj() {
-      return {
-        ParentName: this.parentName,
+      let obj = {};
+      obj.level = this.level;
+      obj.parentData = {
         Name: this.name,
         Title: this.title,
         Email: this.email,
         Mobile: this.mobile,
         Phone: this.phone,
       };
+      if (this.childs.length >= 1) {
+        obj.childs = [...this.childs];
+      }
+      return obj;
     },
   },
   methods: {
-    async submitData() {
-      console.log(this.dataObj);
-      this.spinnerLoading = true;
-      let response = await this.$store.dispatch("postData", {
-        apiName: "staff",
-        body: this.dataObj,
+    addChild() {
+      this.childs.push({
+        Name: this.childName,
+        Title: this.childTitle,
+        Email: this.childEmail,
+        Mobile: this.childMobile,
+        Phone: this.childPhone,
       });
-      console.log(response);
-      if (response) {
-        this.spinnerLoading = false;
-        this.submitIcon = true;
-        setTimeout(() => {
-          this.submitIcon = false;
-          document.querySelector(".close").click();
-        }, 1000);
-      }
+      Array.from(document.querySelectorAll(".childrens input")).forEach((i) => {
+        this.childName = "";
+        this.childTitle = "";
+        this.childPhone = "";
+        this.childMobile = "";
+        this.childEmail = "";
+      });
+    },
+    submitData() {
+      console.log(this.dataObj);
+      // this.spinnerLoading = true;
+      // let response = await this.$store.dispatch('postData', {
+      //   apiName: 'staff',
+      //   body: this.dataObj,
+      // });
+      // console.log(response);
+      // if (response) {
+      //   this.spinnerLoading = false;
+      //   this.submitIcon = true;
+      //   setTimeout(() => {
+      //     this.submitIcon = false;
+      //     document.querySelector('.close').click();
+      //   }, 1000);
+      // }
     },
   },
 };
 </script>
-<style></style>
+<style>
+.form__title {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+.childrens h3 {
+  color: #000;
+  text-transform: capitalize;
+}
+.add-form {
+  max-height: 30rem;
+  overflow: auto;
+  padding-right: 1rem;
+  padding-top: 1rem;
+}
+.add-form .form__control:last-of-type {
+  grid-column: auto;
+}
+.btn-wrapper {
+  border: none;
+  padding: 0;
+}
+.btn-wrapper .form-btn {
+  color: #fff;
+  margin: 0;
+}
+.add-form .submit__btn-wrapper {
+  padding-top: 1rem;
+}
+</style>

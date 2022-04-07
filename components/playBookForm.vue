@@ -28,7 +28,6 @@
           <input
             type="text"
             name="title"
-
             v-model="title"
             autocomplete="off"
             required
@@ -70,7 +69,9 @@
           />
           <span class="form__control-label">Team</span>
         </div>
-        <button class="form-btn" @click="addRow">add row</button>
+        <button class="form-btn" type="submit" @click="addRow">
+          add row <BaseSpinner class="smallSpinner" v-if="loadingAdd" />
+        </button>
       </div>
       <button class="submit-btn" type="submit" @click="submitData">
         Submit <BaseSpinner v-if="loading" />
@@ -88,6 +89,7 @@
           />
         </svg>
       </button>
+      <p class="errMessage">{{ messageErr }}</p>
     </form>
   </div>
 </template>
@@ -109,7 +111,10 @@ export default {
       team: "",
       description: "",
       data: [],
+      message: "",
       loading: false,
+
+      loadingAdd: false,
       submitIcon: false,
     };
   },
@@ -129,6 +134,9 @@ export default {
         formData,
       };
     },
+    messageErr() {
+      return this.message;
+    },
   },
 
   methods: {
@@ -138,6 +146,10 @@ export default {
         team: this.team,
         irStage: this.irStage,
       });
+      this.loadingAdd = true;
+      setTimeout(() => {
+        this.loadingAdd = false;
+      }, 500);
     },
     async submitData() {
       this.loading = true;
@@ -158,8 +170,8 @@ export default {
       fetch("https://beapis.herokuapp.com/api/PlayBook", requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          console.log(result.message);
           this.loading = false;
+          console.log(result.message);
           if (result.message == "Created Successfully") {
             this.submitIcon = true;
             setTimeout(() => {
@@ -169,7 +181,11 @@ export default {
             this.$store.dispatch("getData", "Playbooks");
           }
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => {
+          console.log("error", error);
+          this.loading = false;
+          this.message = "Some thing Went Wrong";
+        });
     },
   },
   name: "serviceCatalogeForm",
@@ -177,10 +193,17 @@ export default {
 </script>
 
 <style scoped>
-
-
 .service__form-wrapper {
   width: 85%;
+}
+.errMessage {
+  text-align: center;
+  color: red;
+  padding: 10px;
+}
+.smallSpinner {
+  width: 20px;
+  height: 20px;
 }
 label,
 p {

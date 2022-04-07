@@ -14,20 +14,24 @@
         <li>
           <nuxt-link to="/staff">Staff</nuxt-link>
         </li>
-        <li>
-          <nuxt-link to="/users">Users</nuxt-link>
+        <li v-if="getRole == 'employee' || getRole == 'admin'">
+          <nuxt-link
+            to="/users"
+            v-if="getRole == 'employee' || getRole == 'admin'"
+            >Users</nuxt-link
+          >
         </li>
-        <li>
+        <li v-if="getRole == 'employee' || getRole == 'admin'">
           <nuxt-link to="/wikiPage"> WIKI</nuxt-link>
         </li>
         <li>
           <nuxt-link to="/serviceCatalog"> Service Catalog</nuxt-link>
         </li>
-        <li v-if="getterRole == 'employee'">
+        <li v-if="getRole == 'employee'">
           <nuxt-link to="/soc">Soc</nuxt-link>
         </li>
-        <li v-if="getterRole == 'employee'"><a href="/account">Account</a></li>
-        <li v-if="getterRole == ' '">
+        <li v-if="getRole == 'employee'"><a href="/account">Account</a></li>
+        <li v-if="getRole == ''">
           <button
             id="registerBtn"
             class="authButton"
@@ -36,12 +40,12 @@
             Register
           </button>
         </li>
-        <li v-if="getterRole == ' '">
+        <li v-if="getRole == ''">
           <button @click="status = 'login'" id="loginBtn" class="authButton">
             Log In
           </button>
         </li>
-        <li v-if="getterRole != ' '">
+        <li v-if="getRole != ''">
           <button id="logoutBtn" @click="logOut" class="authButton">
             Log Out
           </button>
@@ -70,7 +74,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["getterRole"]),
+    ...mapGetters(["getRole"]),
     statusChosen: function () {
       return this.status;
     },
@@ -130,5 +134,4 @@ img {
   color: #fff;
   z-index: 100;
 }
-
 </style>

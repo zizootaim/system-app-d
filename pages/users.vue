@@ -1,13 +1,18 @@
 <template>
-  <section class="users__wrapper">
+  <section
+    class="users__wrapper"
+    v-if="getRole == 'employee' || getRole == 'admin'"
+  >
     <h1 class="sec__title">Users</h1>
     <div class="users">
       <div class="user" v-for="user in getUsers" :key="user.id">
         <h2><span>Name : </span>{{ user.name }}</h2>
         <p><span>E-Mail : </span>{{ user.email }}</p>
         <p>Role : {{ user.role }}</p>
-        <button class="approve-btn" @click="approveUser(user.email)">
-          Approve
+        <button :class="user.role == 'Employee' ? 'approve-btn approved' : 'approve-btn'" @click="(event) => approveUser(user.email,event)">
+          {{user.role == 'Employee' ? 'approved' : 'approve'}}
+          <BaseSpinner />
+   
         </button>
       </div>
     </div>
@@ -18,20 +23,36 @@
 import { mapGetters } from "vuex";
 export default {
   name: "users",
+  data(){
+    return {
+      loading: false,
+    }
+  },
   computed: {
-    ...mapGetters(["getUsers"]),
+    ...mapGetters(["getUsers", "getRole"]),
   },
   mounted() {
     this.$store.dispatch("getData", "users");
   },
   methods: {
-    approveUser(email) {
-      this.$store.dispatch("approveUser", email);
+    approveUser(email,event) {
+   
+       this.$store.dispatch("approveUser", email);
+ const loader = event.target.querySelector('.loader');
+ loader.style.display = 'block'
+ setTimeout(() => {
+loader.style.display = 'none'
+event.target.classList.add('approved')
+event.target.innerText = 'approved'
+ },1000)
     },
   },
 };
 </script>
 <style>
+.sec__title{
+  text-align: center;
+}
 .users__wrapper {
   width: 90%;
   margin: auto;
@@ -60,16 +81,37 @@ export default {
 }
 
 .approve-btn {
-  padding: 0.2rem 1.5rem;
+  width: 8rem;
+  padding: .2rem 0;
+  text-align: calc();
   margin-top: 1rem;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 0.6rem;
   background: #162682;
   border: 1px solid #162682;
+  color: #fff;
+  text-transform: capitalize;
+  position: relative;
 }
-.approve-btn:hover {
-  background: #fff;
-  color: #162682;
+.approve-btn .loader{
+  width: 15px;
+  height: 15px;
+padding: .3rem;
+margin-right: .3rem;
+display: none;
+}
+  .approve-btn:hover {
+    background: #fff;
+    color: #162682;
+  }
+.approve-btn.approved{
+ cursor: auto;
+ background: green;
+ pointer-events: none;
+}
+.approve-btn.approved:hover{
+  background: green;
+  color: #fff;
 }
 </style>

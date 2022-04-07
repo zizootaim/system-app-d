@@ -1,19 +1,18 @@
 <template>
-  <div class="container">
+    <div class="container">
     <div class="level-1 rectangle">
-      
-         <manSvg />
-          <div class="person__info">
-            <h4>Mohamed</h4>
-            <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum,
-              asperiores!
-            </p>
-            <div class="person__data">
-              <p>mohamed@gmail.com</p>
-              <p>01015397895</p>
-            </div>
-          </div>
+      <manSvg />
+      <div class="person__info">
+        <h4>Mohamed</h4>
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum,
+          asperiores!
+        </p>
+        <div class="person__data">
+          <p>mohamed@gmail.com</p>
+          <p>01015397895</p>
+        </div>
+      </div>
     </div>
     <ol class="level-2-wrapper">
       <li>
@@ -115,40 +114,7 @@
                 </div>
               </div>
             </div>
-            <ol class="level-4-wrapper">
-              <li>
-                <div class="level-4 rectangle">
-                  <manSvg />
-                  <div class="person__info">
-                    <h4>Mohamed</h4>
-                    <p>
-                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                      Rerum, asperiores!
-                    </p>
-                    <div class="person__data">
-                      <p>mohamed@gmail.com</p>
-                      <p>01015397895</p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="level-4 rectangle">
-                  <manSvg />
-                  <div class="person__info">
-                    <h4>Mohamed</h4>
-                    <p>
-                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                      Rerum, asperiores!
-                    </p>
-                    <div class="person__data">
-                      <p>mohamed@gmail.com</p>
-                      <p>01015397895</p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ol>
+            
           </li>
         </ol>
       </li>
@@ -159,21 +125,33 @@
 <script>
 import manSvg from "./manSvg.vue";
 import { mapGetters } from "vuex";
+import editForm from "@/components/staff/editForm.vue";
 
 export default {
+  data() {
+    return {  showModal: false, editingUser: {} };
+  },
   components: {
     manSvg,
+    editForm,
   },
   computed: {
     ...mapGetters(["getStaff"]),
   },
-  monted() {
-    console.log(gteStaff);
+  methods: {
+    showEditForm(user) {
+      this.showModal = true;
+      this.editingUser = user;
+      console.log(user);
+    },
   },
 };
 </script>
 
 <style scoped>
+.container div:first-of-type .level-1::before {
+  height: 50px;
+}
 .container {
   width: 90%;
   margin: 0 auto;
@@ -198,17 +176,17 @@ export default {
   text-align: center;
 }
 .person__info p {
-  margin: 0.5rem auto;
+  margin: 0.35rem auto;
   width: 80%;
   font-size: 0.8rem;
 }
 .person__info h4 {
   font-size: 1rem;
-  margin-top: 0.5rem;
 }
 .person__data {
   display: flex;
   justify-content: space-between;
+  margin: -0.5rem 0;
 }
 .person__data p {
   font-size: 0.74rem;
@@ -282,7 +260,8 @@ export default {
   margin: 0 auto 40px;
 }
 
-.level-2::before {
+.level-2::before,
+.level-3::before {
   content: "";
   position: absolute;
   top: 100%;
@@ -291,6 +270,10 @@ export default {
   width: 2px;
   height: 20px;
   background: rgb(255, 255, 255);
+}
+
+.level-3:last-child:before {
+  display: none;
 }
 
 .level-2::after {
@@ -342,44 +325,6 @@ export default {
   margin-bottom: 20px;
 }
 
-/* LEVEL-4 STYLES
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.level-4-wrapper {
-  position: relative;
-  width: 80%;
-  margin-left: auto;
-}
-
-.level-4-wrapper::before {
-  content: "";
-  position: absolute;
-  top: -20px;
-  left: -20px;
-  width: 2px;
-  height: calc(100% + 20px);
-  background: rgb(255, 255, 255);
-}
-
-
-.level-4-wrapper li + li {
-  margin-top: 20px;
-}
-
-.level-4 {
-  font-weight: normal;
-}
-
-.level-4::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  transform: translate(-100%, -50%);
-  width: 20px;
-  height: 2px;
-  background: rgb(255, 255, 255);
-}
-
 /* MQ STYLES
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 @media screen and (max-width: 700px) {
@@ -427,9 +372,6 @@ export default {
   width: 35%;
 }
 
-.level-4-wrapper {
-  width: 90%;
-}
 .level-3-wrapper {
   width: 70%;
   grid-template-columns: 1fr;
@@ -441,11 +383,11 @@ export default {
   display: none;
 }
 .rectangle {
-  width: 300px;
-  height: 158px;
+  width: 260px;
+  height: 120px;
   background: #010a3d;
 }
-.light-mode .container *::before{
+.light-mode .container *::before {
   background: #010a3d;
 }
 

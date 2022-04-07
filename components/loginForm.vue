@@ -13,13 +13,11 @@
         v-model="emailLogin"
         type="email"
         id="email"
-      
         name="email"
         autocomplete="off"
         required
       />
-        <span class="form__control-label">Email</span>
-
+      <span class="form__control-label">Email</span>
     </div>
     <div class="form__control">
       <i class="fas fa-lock"></i>
@@ -27,19 +25,17 @@
         v-model="passwordLogin"
         type="password"
         id="pwd"
-
         name="pswd"
         autocomplete="off"
         required
       />
-              <span class="form__control-label">Password</span>
-
+      <span class="form__control-label">Password</span>
     </div>
 
     <button class="submit-btn" type="submit">
       Login <BaseSpinner v-if="loading" />
     </button>
-    <p id="errMessage">{{ getMessage }}</p>
+    <p id="errMessage" class="errMessage">{{ getMessage }}</p>
   </form>
 </template>
 
@@ -77,7 +73,6 @@ export default {
         email: this.emailLogin,
         password: this.passwordLogin,
       });
-
       this.loading = false;
     },
   },
@@ -85,7 +80,7 @@ export default {
 </script>
 
 <style>
-#errMessage {
+.errMessage {
   color: red;
   padding: 10px;
 }

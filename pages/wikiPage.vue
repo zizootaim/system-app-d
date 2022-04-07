@@ -52,9 +52,22 @@
             v-for="wikiItem in wikiSections"
             :key="wikiItem.section"
           >
-            <h3 class="wiki__item-title">{{ wikiItem.section }}</h3>
-            <ul>
-              <li v-for="i in 3" :key="i">Lorem ipsum dolor sit amet.</li>
+            <h3 class="wiki__item-title" :class="wikiItem.section == 'Shift Handover' ||
+                wikiItem.section == 'Reports' ? 'top':''">{{ wikiItem.section }}</h3>
+            <ul
+              v-if="
+                wikiItem.section == 'Shift Handover' ||
+                wikiItem.section == 'Reports'
+              "
+      class="wiki__item-menu"
+            >
+              <li
+                v-for="i in wikiItem.subPages"
+                :key="i"
+                @click="(event) => changeCat(i.callFunc, event)"
+              >
+                {{ i.name }}
+              </li>
             </ul>
           </div>
         </div>
@@ -64,7 +77,10 @@
         <div class="reports" v-if="wikiPage == 'Reports'">
           <div v-if="chosenCat == 'socReports'">
             <div class="pdfs__wrapper">
-              <div class="pdfs__top">
+              <div
+                class="pdfs__top"
+                v-if="getRole == 'employee' || getRole == 'admin'"
+              >
                 <h1 class="sec__title">
                   {{ wikiPage }}
                 </h1>
@@ -93,6 +109,7 @@
               :key="report.id"
             >
               <button
+                v-if="getRole == 'employee' || getRole == 'admin'"
                 class="delete-btn"
                 @click="
                   deletePdf({ body: { id: report.id }, apiName: 'Reports' })
@@ -114,7 +131,11 @@
           </div>
           <div v-if="chosenCat == 'advisory'">
             <h1 class="sec__title">Advisory</h1>
-            <button class="form-btn" @click="setChosenForm('advisory')">
+            <button
+              class="form-btn"
+              @click="setChosenForm('advisory')"
+              v-if="getRole == 'employee' || getRole == 'admin'"
+            >
               + add
             </button>
             <div class="table__wrapper">
@@ -185,6 +206,7 @@
               <button
                 class="form-btn"
                 @click="setChosenForm('incidentMainForm')"
+                v-if="getRole == 'employee' || getRole == 'admin'"
               >
                 add
               </button>
@@ -327,7 +349,10 @@
           class="pdfs__wrapper"
           v-if="wikiPage == 'Procedures' || wikiPage == 'Policies'"
         >
-          <div class="pdfs__top">
+          <div
+            class="pdfs__top"
+            v-if="getRole == 'employee' || getRole == 'admin'"
+          >
             <h1 class="sec__title">
               {{ wikiPage }}
             </h1>
@@ -410,15 +435,18 @@
         <!-- Shift Hand -->
 
         <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
-       <div class="shifts__wrapper">
-         <Shifts />
-        
-       </div>
+          <div class="shifts__wrapper">
+            <Shifts />
+          </div>
           <!-- Health Check -->
 
           <div v-if="chosenCat == 'healthCheck'">
             <h1 class="sec__title">Health Check</h1>
-            <button class="form-btn" @click="setChosenForm('healthCheck')">
+            <button
+              class="form-btn"
+              @click="setChosenForm('healthCheck')"
+              v-if="getRole == 'employee' || getRole == 'admin'"
+            >
               + add
             </button>
             <div class="table__wrapper">
@@ -485,7 +513,11 @@
 
           <div v-if="chosenCat == 'alerts'">
             <h1 class="sec__title">Alerts</h1>
-            <button class="form-btn" @click="setChosenForm('alerts')">
+            <button
+              class="form-btn"
+              @click="setChosenForm('alerts')"
+              v-if="getRole == 'employee' || getRole == 'admin'"
+            >
               + add
             </button>
             <div class="table__wrapper">
@@ -555,7 +587,11 @@
 
           <div v-if="chosenCat == 'incidents'">
             <h1 class="sec__title">Incidents</h1>
-            <button class="form-btn" @click="setChosenForm('incidents')">
+            <button
+              class="form-btn"
+              @click="setChosenForm('incidents')"
+              v-if="getRole == 'employee' || getRole == 'admin'"
+            >
               + add
             </button>
             <div class="table__wrapper">
@@ -628,7 +664,11 @@
 
           <div v-if="chosenCat == 'pendingIssues'">
             <h1 class="sec__title">Pending Issues</h1>
-            <button class="form-btn" @click="setChosenForm('pendingIssues')">
+            <button
+              class="form-btn"
+              @click="setChosenForm('pendingIssues')"
+              v-if="getRole == 'employee' || getRole == 'admin'"
+            >
               + add
             </button>
             <div class="table__wrapper">
@@ -721,7 +761,11 @@
           <div>
             <h1 class="sec__title">Use Case Intro</h1>
 
-            <button class="form-btn" @click="setChosenForm('useCase')">
+            <button
+              class="form-btn"
+              @click="setChosenForm('useCase')"
+              v-if="getRole == 'employee' || getRole == 'admin'"
+            >
               + add
             </button>
 
@@ -807,7 +851,11 @@
 
         <div class="communication" v-if="wikiPage == 'Communication'">
           <h1 class="sec__title">Commiunication</h1>
-          <button class="form-btn" @click="setChosenForm('communicationForm')">
+          <button
+            class="form-btn"
+            @click="setChosenForm('communicationForm')"
+            v-if="getRole == 'employee' || getRole == 'admin'"
+          >
             + add
           </button>
           <div class="table__wrapper">
@@ -863,7 +911,11 @@
         <!-- Playbooks -->
 
         <div class="playbooks" v-if="wikiPage == 'Playbooks'">
-          <button class="form-btn" @click="setChosenForm('playBookForm')">
+          <button
+            class="form-btn"
+            @click="setChosenForm('playBookForm')"
+            v-if="getRole == 'employee' || getRole == 'admin'"
+          >
             + add
           </button>
 
@@ -964,7 +1016,7 @@
           v-if="getChosenForm == 'healthCheck'"
           formTitle="Health Check Form"
         />
-      
+
         <alerts-form v-if="getChosenForm == 'alerts'" formTitle="Alerts" />
         <incident-form
           v-if="getChosenForm == 'incidents'"
@@ -1005,13 +1057,12 @@ import healthCheckForm from "../components/healthCheckForm.vue";
 import healthIssues from "../components/healthIssues.vue";
 import alertsForm from "@/components/alertsForm.vue";
 import baseSpinner from "@/components/baseSpinner.vue";
-import loader from "../components/loader.vue";
 import incidentForm from "@/components/incidentForm.vue";
 import pendingIssuesForm from "@/components/pendingIssuesForm.vue";
 import IncidentMainForm from "../components/incidentMainForm.vue";
 import communicationForm from "@/components/communicationForm.vue";
 import playBookForm from "@/components/playBookForm.vue";
-import Shifts from '../components/shifts.vue';
+import Shifts from "../components/shifts.vue";
 export default {
   name: "wikiPage",
   data() {
@@ -1031,7 +1082,6 @@ export default {
     serviceCatalogeForm,
     advisoryForm,
     baseSpinner,
-    loader,
     healthCheckForm,
     healthIssues,
     alertsForm,
@@ -1044,9 +1094,10 @@ export default {
     Shifts,
   },
 
- computed: {
+  computed: {
     ...mapState(["wikiSections", "chosenForm"]),
     ...mapGetters([
+      "getRole",
       "getUseCase",
       "getAdvisory",
       "getServiceCatalog",
@@ -1223,551 +1274,5 @@ export default {
 };
 </script>
 <style>
-.issue {
-  background: #cc0000;
-}
-.not-issue {
-  background: #00c851;
-}
-/* Playbooks */
-.playbooks {
-  width: 80%;
-  margin: 1rem auto;
-}
-.playbooks .bottom-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-.playbooks .book__data {
-  display: flex;
-  flex-direction: column;
-}
-.playbooks img {
-  width: 100%;
-}
-.book__img {
-  width: auto;
-}
 
-/* Incident Main */
-.incident-sec__wrapper h3 {
-  display: block;
-}
-
-/* PDF Styles */
-
-.pdfs__wrapper {
-  width: 80%;
-  margin: 0rem auto;
-}
-
-.pdfs__top h4 {
-  margin-bottom: 0.6rem;
-  font-weight: 400;
-}
-.pdfs__top input:first-of-type {
-  padding: 0.3rem 0.8rem;
-  border: none;
-  outline: none;
-  border-radius: 1rem;
-}
-.pdfs__top input[type="file"]::-webkit-file-upload-button {
-  visibility: hidden;
-}
-.pdfs__top input[type="file"] {
-  color: #fff;
-}
-
-.pdfs__top input[type="file"]::before {
-  content: "Choose File";
-  display: inline-block;
-  background: #000a4a;
-  border: 1px solid #999;
-  border-radius: 8px;
-  padding: 7px 8px;
-  outline: none;
-  white-space: nowrap;
-  cursor: pointer;
-  color: #fff;
-  font-weight: 700;
-  font-size: 10pt;
-}
-.pdfs__container {
-  margin: 2rem 0;
-}
-
-.upload-btn {
-  display: block;
-  width: auto;
-  padding: 0.3rem 1rem;
-  text-transform: capitalize;
-  border-radius: 2rem;
-}
-
-.pdfs__top .sec__title {
-  font-size: 2rem;
-}
-.pdf-wrapper {
-  width: 100%;
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-.pdf-wrapper .delete-btn {
-  padding: 0.3rem 1rem;
-  color: rgb(199, 32, 32);
-  background: none;
-  border-radius: 1rem;
-  align-self: flex-start;
-  font-size: 1.7rem;
-}
-.pdf {
-  width: 90%;
-  border-radius: 0.5rem;
-}
-.pdf {
-  position: relative;
-  padding: 1rem;
-  border: 0.1px solid rgb(124, 124, 124);
-  height: 3.5rem;
-  transition: 0.3s;
-  overflow: hidden;
-}
-.pdf .open-pdf {
-  font-size: 1.2rem;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  color: #fff;
-  z-index: 100;
-  cursor: pointer;
-}
-.pdf embed {
-  width: 100%;
-  margin: 2rem auto;
-}
-.pdf p {
-  text-transform: capitalize;
-  letter-spacing: 0.1rem;
-}
-
-/* Table */
-
-.shiftHand {
-  width: 80%;
-  margin: 0 auto;
-}
-.table__wrapper {
-  width: 100%;
-  margin: 1rem auto;
-  max-height: 68vh;
-  padding-right: 0.5rem;
-  overflow: auto;
-}
-.table {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-}
-.table__wrapper::-webkit-scrollbar-thumb {
-  background: #40358e;
-  border-radius: 2rem;
-}
-
-.table__wrapper::-webkit-scrollbar-track {
-  background-color: #fff;
-  border-radius: 2rem;
-}
-
-.table__wrapper::-webkit-scrollbar {
-  width: 10px;
-  height: 0.5rem;
-  background-color: #40358e;
-}
-
-.table {
-  border-radius: 1rem;
-  overflow: auto;
-}
-
-.table__row {
-  width: auto;
-  display: flex;
-}
-.col {
-  width: 100%;
-  padding: 0.5rem 1rem 0.5rem 0.3rem;
-  border: 1px solid #000;
-}
-.table__row:nth-child(odd) {
-  background: rgb(134, 130, 130);
-}
-.table__row:nth-child(even) {
-  background: rgb(70, 67, 67);
-}
-.row {
-  display: flex;
-  width: 100%;
-}
-.top-row {
-  flex-direction: row;
-  position: relative;
-}
-.top-row .col {
-  width: 100%;
-}
-
-.bottom-row {
-  display: flex;
-  flex-wrap: wrap;
-  height: 0;
-  transition: 0.4s;
-  overflow: hidden;
-}
-.bottom-row div {
-  width: 100%;
-  word-break: break-all;
-  padding: 0.5rem 1rem;
-}
-.row-btn {
-  position: absolute;
-  top: 1rem;
-  right: 0.5rem;
-  cursor: pointer;
-  z-index: 100;
-}
-.table__row {
-  width: 100%;
-  flex-direction: column;
-}
-.health-check-row {
-  flex-direction: row;
-}
-.table__row.header {
-  width: 100%;
-  flex-direction: row;
-}
-.col h4 {
-  text-align: center;
-  font-size: 1rem;
-}
-.table__row:not(.table__row:first-child) .col {
-  position: relative;
-  padding-right: 1rem;
-}
-.table__row:not(.table__row:first-child) .col p {
-  transition: 0.3s;
-  word-break: break-all;
-  text-transform: capitalize;
-  text-align: center;
-  max-height: 1.8rem;
-  max-width: 200px;
-  margin: auto;
-  overflow: hidden;
-}
-
-/* Wiki Page */
-
-.reports .pdfs__wrapper {
-  width: auto;
-}
-
-.menu__icon {
-  color: #fff;
-  letter-spacing: 0.06rem;
-  cursor: pointer;
-  text-align: left;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #fff;
-  width: 7.4rem;
-  display: none;
-}
-button {
-  color: #fff;
-  background: inherit;
-  text-transform: capitalize;
-}
-.wiki__content-wrapper {
-  display: flex;
-  flex-direction: column;
-}
-.wiki__content {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-}
-.wiki__menu {
-  display: flex;
-  flex-direction: column;
-  width: 240px;
-  height: 0;
-  opacity: 0;
-  transition: height 0.3s;
-  overflow: hidden;
-}
-.wiki__menu.show {
-  opacity: 1;
-  height: 100%;
-}
-.wiki__menu-wrapper {
-  width: auto;
-}
-.wiki__menu .menu__item {
-  width: 100%;
-}
-.wiki__menu .menu__item button {
-  padding: 0.8rem 0.4rem;
-  text-align: left;
-  background: none;
-  width: 100%;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  color: #fff;
-  transition: 0.3s;
-  border-bottom: 1px solid #fff;
-  position: relative;
-}
-.sub-menu-icon {
-  position: absolute;
-  right: 0.3rem;
-  top: 38%;
-  bottom: 40%;
-  z-index: -1;
-}
-.wiki__menu .menu__item button i:first-child {
-  margin-right: 0.25rem;
-}
-.wiki__menu .menu__item button:hover {
-  background: #eee;
-  color: #000;
-}
-.wiki__items {
-  width: 78%;
-  display: flex;
-  flex-wrap: wrap;
-  margin: 3rem auto;
-  justify-content: center;
-}
-.wiki__item {
-  width: 260px;
-  height: 160px;
-  background: #000a4a;
-  margin: 1rem;
-  padding: 5px 1.3rem;
-  border-radius: 12px;
-  transition: 0.3s;
-  cursor: pointer;
-}
-.wiki__item:hover {
-  transform: scale(1.1);
-}
-.wiki__item-title {
-  color: #fff;
-  padding: 1rem 0.5rem 0.5rem;
-  font-size: 1.1rem;
-}
-
-.wiki__item ul {
-  padding: 0 0.5rem;
-  width: 80%;
-  margin: auto;
-}
-.wiki__item ul li {
-  text-align: left;
-  font-size: 0.8rem;
-  color: #fff;
-  margin-top: 0.5rem;
-}
-
-.sub-menu {
-  color: #fff;
-  padding: 0;
-  height: 0;
-  overflow: hidden;
-  transition: 0.3s;
-}
-.menu__item.submenu-wrapper {
-  border-bottom: 1px solid #fff;
-}
-.sub-menu.show {
-  border-top: 0px;
-  padding: 0 0.5rem;
-}
-.sub-menu li {
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  text-align: left;
-  transition: 0.3s;
-}
-.sub-menu li span {
-  position: relative;
-}
-
-.sub-menu li span::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -0.5rem;
-  height: 0.1rem;
-  background: #fff;
-  width: 0;
-  transition: 0.3s;
-}
-
-.sub-menu li.active span::after {
-  width: 100%;
-}
-.sub-menu li:hover {
-  color: #566cff;
-}
-.sub-menu li:last-child {
-  margin: 0;
-}
-.menu__item.submenu-wrapper button {
-  border-bottom: none;
-}
-.use-case__panar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem 0 2rem;
-}
-.use-case__panar .title {
-  width: 12rem;
-  padding: 0.7rem;
-  text-transform: capitalize;
-  text-align: center;
-}
-.use-case__panar .title:first-child {
-  background: #000a4a;
-  transform: translateX(-2rem);
-}
-.use-case__panar .title:nth-child(2) {
-  background: #2c3eaf;
-  margin: 0.6rem 0;
-  transform: translateX(2rem);
-}
-.use-case__panar .title:nth-child(3) {
-  background: #11207e;
-  transform: translateX(6rem);
-}
-.use-case__into p {
-  margin-bottom: 1rem;
-}
-.useCase {
-  width: 80%;
-  margin: 1rem auto;
-}
-.form-btn {
-  background: #40358e;
-  padding: 0.2rem 0.5rem;
-  margin-bottom: 1rem;
-  border-radius: 0.2rem;
-  text-transform: capitalize;
-  border: 1px solid #40358e;
-}
-.sec__title {
-  text-align: center;
-  font-size: 1.2rem;
-  margin-top: 0.8rem;
-}
-.form-btn:hover {
-  background: #fff;
-  color: #40358e;
-}
-/* Communication and Reports */
-.communication,
-.reports {
-  width: 80%;
-  margin: 1rem auto;
-}
-
-/* Media Queries */
-
-@media screen and (max-width: 1380px) {
-  .pdfs__container {
-    grid-template-columns: 1fr;
-  }
-}
-@media screen and (max-width: 1200px) {
-  .useCase {
-    width: 70%;
-  }
-  .menu__icon {
-    display: block;
-  }
-  .wiki__menu-wrapper {
-    width: 80%;
-    margin: auto;
-  }
-  .wiki__menu {
-    width: 60%;
-    margin: auto;
-  }
-  .menu__icon {
-    margin: auto;
-  }
-  .shiftHand {
-    width: 90%;
-  }
-  .table__wrapper {
-    overflow: auto;
-  }
-  .table {
-    min-width: 65rem;
-  }
-  .sec__title {
-    margin-top: 2rem;
-  }
-}
-@media screen and (max-width: 769px) {
-  .wiki__content {
-    flex-direction: column;
-    height: auto;
-  }
-  .wiki__items {
-    margin-top: 1rem;
-    width: 90%;
-  }
-  .wiki__item {
-    padding: 5px 1rem;
-    margin: 0 1rem 1rem;
-  }
-  .wiki__menu-wrapper {
-    width: 100%;
-    height: 100%;
-  }
-  .wiki__menu {
-    height: 0;
-    transform: scale(0);
-    transition: transform 0.4s;
-  }
-  .wiki__menu.show {
-    transform: scale(1);
-    width: 90%;
-    margin: auto;
-    height: 100%;
-    border: none;
-    background: none;
-  }
-  .wiki__menu .menu__item button {
-    padding-bottom: 1rem;
-  }
-  .menu__icon {
-    display: block;
-    margin-left: 1rem;
-  }
-  .useCase {
-    width: 90%;
-  }
-}
 </style>

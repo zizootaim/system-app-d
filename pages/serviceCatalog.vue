@@ -18,7 +18,6 @@
             <h4>Service Status</h4>
           </div>
         </div>
-
         <div
           class="table__row"
           v-for="serviceCard in getServiceCatalog"
@@ -66,7 +65,6 @@
     </modal>
   </div>
 </template>
-
 <script>
 import { mapGetters } from "vuex";
 import modal from "@/components/modal.vue";
@@ -91,7 +89,10 @@ export default {
     showForm() {
       this.addService = !this.addService;
     },
-    showContent(event) {
+      showContent(event) {
+      Array.from(document.querySelectorAll(".row-btn")).forEach((i) => {
+        i.className = "fas fa-angle-down row-btn";
+      });
       event.target.className = "fas fa-angle-up row-btn";
       const topRowElements =
         event.target.parentElement.querySelectorAll(".col p");
@@ -106,7 +107,6 @@ export default {
         Array.from(document.querySelectorAll(".bottom-row")).forEach((row) => {
           row.style.height = 0;
         });
-
         let height = 0;
         Array.from(bottomRow.children).forEach((el) => {
           height += el.getBoundingClientRect().height;
@@ -131,7 +131,6 @@ export default {
   },
 };
 </script>
-
 <style>
 /* Service Catalog */
 .service {

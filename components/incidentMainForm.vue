@@ -147,7 +147,7 @@
 
         <p>INCIDENT CONTAINMENT, ERADICATION, AND RECOVERY</p>
 
-        <div class="form__control" style="margin-top: 1rem;">
+        <div class="form__control" style="margin-top: 1rem">
           <input
             type="text"
             name="evidenceAcquiring"
@@ -226,7 +226,7 @@
           <span class="form__control-label">Incident Avoidability</span>
         </div>
         <p>INCIDENT CLOSURE</p>
-        <div class="form__control" style="margin-top: 1rem;">
+        <div class="form__control" style="margin-top: 1rem">
           <input
             type="text"
             name="RootCase Analysis"
@@ -379,7 +379,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .incident-main__form {
   max-height: 28rem;
   overflow: auto;
