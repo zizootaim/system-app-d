@@ -611,7 +611,16 @@ textarea::placeholder {
   margin: 1rem auto;
   max-height: 68vh;
   padding-right: 0.5rem;
+
   overflow: auto;
+}
+.table__row:first-of-type{
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+.table__row:last-of-type{
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 .table {
   margin: auto;
@@ -620,7 +629,6 @@ textarea::placeholder {
   align-items: center;
   justify-content: center;
   color: #fff;
-  border-radius: 1rem;
 }
 .table__wrapper::-webkit-scrollbar-thumb {
   background: #40358e;

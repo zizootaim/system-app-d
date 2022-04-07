@@ -12,13 +12,13 @@
       <div class="table">
         <div class="table__row header">
           <div class="col">
+            <h4>Service ID</h4>
+          </div>
+          <div class="col">
             <h4>Service Name</h4>
           </div>
           <div class="col">
             <h4>Service Owner</h4>
-          </div>
-          <div class="col">
-            <h4>Service Description</h4>
           </div>
           <div class="col">
             <h4>Service Status</h4>
@@ -36,6 +36,10 @@
             ></i>
             <div class="col">
               <p>
+                <span>{{ serviceCard.id }}</span>
+              </p>
+            </div>
+              <p>
                 <span>{{ serviceCard.name }}</span>
               </p>
             </div>
@@ -45,10 +49,6 @@
               </p>
             </div>
             <div class="col">
-              <p>
-                <span>{{ serviceCard.description }}</span>
-              </p>
-            </div>
             <div class="col">
               <p>
                 <span>{{ serviceCard.status }}</span>
@@ -56,7 +56,7 @@
             </div>
           </div>
           <div class="row bottom-row">
-            <div>Id : {{ serviceCard.id }}</div>
+            <div>Description : {{ serviceCard.description }}</div>
             <div>Service Hours : {{ serviceCard.hours }}</div>
             <div>Inputs : {{ serviceCard.inputs }}</div>
             <div>Consumers : {{ serviceCard.consumers }}</div>
