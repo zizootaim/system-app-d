@@ -1,5 +1,5 @@
 <template>
-  <div class="shifts__wrapper">
+  <div>
     <button
       class="form-btn"
       @click="setChosenForm('addShift')"
@@ -42,16 +42,16 @@
               :key="employee.name"
             >
               <div class="left">{{ employee.name }}</div>
-         <div class="cols">
+              <div class="cols">
                 <div
-                class="col"
-                :class="i.toUpperCase()"
-                v-for="i in employee.shifts"
-                :key="i"
-              >
-                <div>{{ i }}</div>
+                  class="col"
+                  :class="i.toUpperCase()"
+                  v-for="i in employee.shifts"
+                  :key="i"
+                >
+                  <div>{{ i }}</div>
+                </div>
               </div>
-         </div>
             </div>
           </div>
         </div>
@@ -95,9 +95,7 @@ export default {
 };
 </script>
 <style>
-
 .shifts__wrapper {
-  width: 100%;
   margin: 1rem auto;
 }
 .shifts__wrapper .table__row {
@@ -107,30 +105,29 @@ export default {
 .shifts__wrapper .table__row {
   flex-direction: column;
 }
-.shifts__wrapper .table {
-max-width: 78rem;
-}
-.shifts__wrapper .table__wrapper{
-  max-width: 80rem;
+
+.shifts__wrapper .table__wrapper {
+  min-width: 100%;
   margin: auto;
-overflow: auto;
+  overflow: auto;
 }
 .rows .row {
   display: flex;
   flex-direction: row;
   height: 100%;
 }
-.rows .col{
+.rows .col {
   text-transform: capitalize;
   display: grid;
   place-items: center;
-  border: none;
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
+width: 2.1rem;
 }
-@media screen and (max-width: 1200px){
-  .shifts__wrapper .table{
-    min-width: none;
+@media screen and (max-width: 1200px) {
+  .shifts__wrapper .table {
+    min-width: 76rem;
+  }
+  .rows .col{
+    width: 3rem;
   }
 }
 .shifts__wrapper .table__row .row .col {
@@ -155,7 +152,7 @@ overflow: auto;
 .O {
   background: rgb(120, 183, 207);
 }
-.X{
+.X {
   background: #fff;
 }
 .cols {

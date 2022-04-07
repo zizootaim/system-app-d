@@ -442,7 +442,7 @@
         </div>
 
         <!-- Shift Hand -->
-        <div v-if="wikiPage == 'Shifts'">
+        <div v-if="wikiPage == 'Shifts'" class="shifts-container">
             <h1 class="sec__title">Shifts</h1>
           <div class="shifts__wrapper">
             <Shifts />
@@ -1291,5 +1291,14 @@ export default {
 };
 </script>
 <style>
+.shifts-container{
+  margin: auto;
+  overflow: auto;
+}
+@media screen and (max-width:1200px) {
+  .shifts-container{
+    width: 96%;
+  }
+}
 
 </style>

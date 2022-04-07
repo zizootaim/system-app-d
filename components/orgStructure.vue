@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+  <div class="container">
     <div class="level-1 rectangle">
       <manSvg />
       <div class="person__info">
@@ -114,7 +114,6 @@
                 </div>
               </div>
             </div>
-            
           </li>
         </ol>
       </li>
@@ -129,7 +128,7 @@ import editForm from "@/components/staff/editForm.vue";
 
 export default {
   data() {
-    return {  showModal: false, editingUser: {} };
+    return { showModal: false, editingUser: {} };
   },
   components: {
     manSvg,

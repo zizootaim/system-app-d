@@ -3,13 +3,14 @@
     <article class="wiki__nav">
       <i class="fas fa-bars wiki__links-icon" @click="displayLinksMenu"></i>
       <Logo class="nav-logo" />
-      <button class="theme-btn" @click="toggleTheme">
-        <i class="fas fa-moon"></i>
-      </button>
+      
       <ul
         @click="displayLinksMenu"
         :class="showLinksMenu ? 'wiki__links show' : 'wiki__links'"
       >
+      <li><button class="theme-btn" @click="toggleTheme">
+        <i class="fas fa-moon"></i>
+      </button></li>
         <li><nuxt-link to="/">Home</nuxt-link></li>
         <li>
           <nuxt-link to="/staff">Staff</nuxt-link>
@@ -126,12 +127,8 @@ img {
   border: 0px;
   cursor: pointer;
 }
-
-.theme-btn {
-  position: absolute;
-  top: 4.2rem;
-  right: 0.3rem;
-  color: #fff;
-  z-index: 100;
+.wiki__links li:first-child::after{
+display: none;
 }
+
 </style>

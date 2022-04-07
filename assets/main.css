@@ -620,6 +620,7 @@ textarea::placeholder {
   align-items: center;
   justify-content: center;
   color: #fff;
+  border-radius: 1rem;
 }
 .table__wrapper::-webkit-scrollbar-thumb {
   background: #40358e;
@@ -635,11 +636,6 @@ textarea::placeholder {
   width: 10px;
   height: 0.5rem;
   background-color: #40358e;
-}
-
-.table {
-  border-radius: 1rem;
-  overflow: auto;
 }
 
 .table__row {
