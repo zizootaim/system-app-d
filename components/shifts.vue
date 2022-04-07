@@ -49,7 +49,7 @@
                   v-for="i in employee.shifts"
                   :key="i"
                 >
-                  <div>{{ i }}</div>
+                  {{ i }}
                 </div>
               </div>
             </div>
@@ -118,20 +118,17 @@ export default {
 }
 .rows .col {
   text-transform: capitalize;
-  display: grid;
-  place-items: center;
-width: 2.1rem;
+
+  width: 2.1rem;
+  width: 3rem;
 }
-@media screen and (max-width: 1200px) {
-  .shifts__wrapper .table {
-    min-width: 76rem;
-  }
-  .rows .col{
-    width: 3rem;
-  }
+.shifts__wrapper .table {
+  min-width: 76rem;
 }
+
 .shifts__wrapper .table__row .row .col {
-  display: grid;
+  padding: .5rem 0;
+    display: grid;
   place-items: center;
   font-size: 0.6rem;
 }
@@ -139,6 +136,10 @@ width: 2.1rem;
   width: 10rem;
   display: grid;
   place-items: center;
+}
+.cols {
+  width: calc(100% - 10rem);
+  display: flex;
 }
 .A {
   background: rgb(188, 188, 95);
@@ -155,9 +156,5 @@ width: 2.1rem;
 .X {
   background: #fff;
 }
-.cols {
-  width: calc(100% - 10rem);
-  display: flex;
-  border: 2px solid black;
-}
+
 </style>
