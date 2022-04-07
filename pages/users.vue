@@ -1,7 +1,7 @@
 <template>
   <section
     class="users__wrapper"
-    v-if="getRole == 'employee' || getRole == 'admin'"
+    v-if="getRole == 'Employee' || getRole == 'admin'"
   >
     <h1 class="sec__title">Users</h1>
     <div class="users">

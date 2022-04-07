@@ -21,7 +21,7 @@ export const state = () => ({
     Communication: "https://beapis.herokuapp.com/api/Communication",
     staff: "https://beapis.herokuapp.com/api/Staff",
     Playbooks: "https://beapis.herokuapp.com/api/PlayBook",
-    shifts: "https://beapis.herokuapp.com/api/Shifts",
+    Shifts: "https://beapis.herokuapp.com/api/Shifts",
   },
   months: {
     January: "31",
@@ -58,7 +58,7 @@ export const state = () => ({
   Communication: [],
   staff: [],
   Playbooks: [],
-  shifts: {},
+  Shifts: {},
   homeSections: [
     {
       name: "Mission",
@@ -102,6 +102,7 @@ export const state = () => ({
     },
     { section: "Playbooks", class: "fad fa-chalkboard" },
     { section: "Communication", class: "fas fa-users" },
+    { section: "Shifts",class:'fal fa-table' },
     {
       section: "Use Case Framework",
       class: "fas fa-thumbs-up",
@@ -172,7 +173,7 @@ export const getters = {
     return state.Playbooks;
   },
   getShifts: (state) => {
-    return state.shifts;
+    return state.Shifts;
   },
   getMonths: (state) => {
     return state.months;

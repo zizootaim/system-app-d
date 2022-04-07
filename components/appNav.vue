@@ -4,7 +4,7 @@
       <i class="fas fa-bars wiki__links-icon" @click="displayLinksMenu"></i>
       <Logo class="nav-logo" />
       <button class="theme-btn" @click="toggleTheme">
-        <i class="fas fa-sun"></i>
+        <i class="fas fa-moon"></i>
       </button>
       <ul
         @click="displayLinksMenu"
@@ -14,23 +14,23 @@
         <li>
           <nuxt-link to="/staff">Staff</nuxt-link>
         </li>
-        <li v-if="getRole == 'employee' || getRole == 'admin'">
+        <li v-if="getRole == 'Employee' || getRole == 'admin'">
           <nuxt-link
             to="/users"
-            v-if="getRole == 'employee' || getRole == 'admin'"
+            v-if="getRole == 'Employee' || getRole == 'admin'"
             >Users</nuxt-link
           >
         </li>
-        <li v-if="getRole == 'employee' || getRole == 'admin'">
+        <li v-if="getRole == 'Employee' || getRole == 'admin'">
           <nuxt-link to="/wikiPage"> WIKI</nuxt-link>
         </li>
         <li>
           <nuxt-link to="/serviceCatalog"> Service Catalog</nuxt-link>
         </li>
-        <li v-if="getRole == 'employee'">
+        <li v-if="getRole == 'Employee'">
           <nuxt-link to="/soc">Soc</nuxt-link>
         </li>
-        <li v-if="getRole == 'employee'"><a href="/account">Account</a></li>
+        <li v-if="getRole == 'Employee'"><a href="/account">Account</a></li>
         <li v-if="getRole == ''">
           <button
             id="registerBtn"

@@ -1,7 +1,13 @@
 <template>
   <div class="service">
     <h1 class="sec__title">Service Catalog</h1>
-    <button class="form-btn" @click="showForm">+ add</button>
+    <button
+      class="form-btn"
+      @click="showForm"
+      v-if="getRole == 'Employee' || getRole == 'admin'"
+    >
+      + add
+    </button>
     <div class="table__wrapper">
       <div class="table">
         <div class="table__row header">
@@ -83,7 +89,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getServiceCatalog"]),
+    ...mapGetters(["getServiceCatalog", "getRole"]),
   },
   methods: {
     showForm() {

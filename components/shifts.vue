@@ -42,14 +42,16 @@
               :key="employee.name"
             >
               <div class="left">{{ employee.name }}</div>
-              <div
-                class="cols"
-                :class="i"
+         <div class="cols">
+                <div
+                class="col"
+                :class="i.toUpperCase()"
                 v-for="i in employee.shifts"
                 :key="i"
               >
                 <div>{{ i }}</div>
               </div>
+         </div>
             </div>
           </div>
         </div>
@@ -87,37 +89,50 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch("getData", "shifts");
+    this.$store.dispatch("getData", "Shifts");
     this.$store.dispatch("getData", "users");
   },
 };
 </script>
 <style>
-.a {
-  background: blue;
-}
+
 .shifts__wrapper {
-  margin-top: 1rem;
+  width: 100%;
+  margin: 1rem auto;
 }
 .shifts__wrapper .table__row {
   border-bottom: 3px solid red;
-}
-.shifts__wrapper .table {
-  min-width: 70rem;
 }
 
 .shifts__wrapper .table__row {
   flex-direction: column;
 }
-.rows {
-  min-width: 65rem;
+.shifts__wrapper .table {
+max-width: 78rem;
+}
+.shifts__wrapper .table__wrapper{
+  max-width: 80rem;
+  margin: auto;
+overflow: auto;
 }
 .rows .row {
   display: flex;
   flex-direction: row;
   height: 100%;
 }
-
+.rows .col{
+  text-transform: capitalize;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+@media screen and (max-width: 1200px){
+  .shifts__wrapper .table{
+    min-width: none;
+  }
+}
 .shifts__wrapper .table__row .row .col {
   display: grid;
   place-items: center;
@@ -128,19 +143,21 @@ export default {
   display: grid;
   place-items: center;
 }
-.shift-a {
+.A {
   background: rgb(188, 188, 95);
 }
-.shift-b {
+.B {
   background: rgb(164, 204, 164);
 }
-.shift-c {
+.C {
   background: rgb(30, 149, 89);
 }
-.on-call {
+.O {
   background: rgb(120, 183, 207);
 }
-
+.X{
+  background: #fff;
+}
 .cols {
   width: calc(100% - 10rem);
   display: flex;

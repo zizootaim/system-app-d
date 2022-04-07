@@ -1,5 +1,5 @@
 <template>
-  <section class="wiki">
+  <section class="wiki" v-if="getRole == 'Employee' || getRole == 'admin'">
     <article class="wiki__content-wrapper">
       <div class="wiki__content">
         <div class="wiki__menu-wrapper">
@@ -52,14 +52,23 @@
             v-for="wikiItem in wikiSections"
             :key="wikiItem.section"
           >
-            <h3 class="wiki__item-title" :class="wikiItem.section == 'Shift Handover' ||
-                wikiItem.section == 'Reports' ? 'top':''">{{ wikiItem.section }}</h3>
+            <h3
+              class="wiki__item-title"
+              :class="
+                wikiItem.section == 'Shift Handover' ||
+                wikiItem.section == 'Reports'
+                  ? 'top'
+                  : ''
+              "
+            >
+              {{ wikiItem.section }}
+            </h3>
             <ul
               v-if="
                 wikiItem.section == 'Shift Handover' ||
                 wikiItem.section == 'Reports'
               "
-      class="wiki__item-menu"
+              class="wiki__item-menu"
             >
               <li
                 v-for="i in wikiItem.subPages"
@@ -79,7 +88,7 @@
             <div class="pdfs__wrapper">
               <div
                 class="pdfs__top"
-                v-if="getRole == 'employee' || getRole == 'admin'"
+                v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 <h1 class="sec__title">
                   {{ wikiPage }}
@@ -109,7 +118,7 @@
               :key="report.id"
             >
               <button
-                v-if="getRole == 'employee' || getRole == 'admin'"
+                v-if="getRole == 'Employee' || getRole == 'admin'"
                 class="delete-btn"
                 @click="
                   deletePdf({ body: { id: report.id }, apiName: 'Reports' })
@@ -134,7 +143,7 @@
             <button
               class="form-btn"
               @click="setChosenForm('advisory')"
-              v-if="getRole == 'employee' || getRole == 'admin'"
+              v-if="getRole == 'Employee' || getRole == 'admin'"
             >
               + add
             </button>
@@ -206,7 +215,7 @@
               <button
                 class="form-btn"
                 @click="setChosenForm('incidentMainForm')"
-                v-if="getRole == 'employee' || getRole == 'admin'"
+                v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 add
               </button>
@@ -351,7 +360,7 @@
         >
           <div
             class="pdfs__top"
-            v-if="getRole == 'employee' || getRole == 'admin'"
+            v-if="getRole == 'Employee' || getRole == 'admin'"
           >
             <h1 class="sec__title">
               {{ wikiPage }}
@@ -433,11 +442,13 @@
         </div>
 
         <!-- Shift Hand -->
-
-        <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
+        <div v-if="wikiPage == 'Shifts'">
+            <h1 class="sec__title">Shifts</h1>
           <div class="shifts__wrapper">
             <Shifts />
           </div>
+        </div>
+        <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
           <!-- Health Check -->
 
           <div v-if="chosenCat == 'healthCheck'">
@@ -445,7 +456,7 @@
             <button
               class="form-btn"
               @click="setChosenForm('healthCheck')"
-              v-if="getRole == 'employee' || getRole == 'admin'"
+              v-if="getRole == 'Employee' || getRole == 'admin'"
             >
               + add
             </button>
@@ -516,7 +527,7 @@
             <button
               class="form-btn"
               @click="setChosenForm('alerts')"
-              v-if="getRole == 'employee' || getRole == 'admin'"
+              v-if="getRole == 'Employee' || getRole == 'admin'"
             >
               + add
             </button>
@@ -590,7 +601,7 @@
             <button
               class="form-btn"
               @click="setChosenForm('incidents')"
-              v-if="getRole == 'employee' || getRole == 'admin'"
+              v-if="getRole == 'Employee' || getRole == 'admin'"
             >
               + add
             </button>
@@ -667,7 +678,7 @@
             <button
               class="form-btn"
               @click="setChosenForm('pendingIssues')"
-              v-if="getRole == 'employee' || getRole == 'admin'"
+              v-if="getRole == 'Employee' || getRole == 'admin'"
             >
               + add
             </button>
@@ -764,7 +775,7 @@
             <button
               class="form-btn"
               @click="setChosenForm('useCase')"
-              v-if="getRole == 'employee' || getRole == 'admin'"
+              v-if="getRole == 'Employee' || getRole == 'admin'"
             >
               + add
             </button>
@@ -854,7 +865,7 @@
           <button
             class="form-btn"
             @click="setChosenForm('communicationForm')"
-            v-if="getRole == 'employee' || getRole == 'admin'"
+            v-if="getRole == 'Employee' || getRole == 'admin'"
           >
             + add
           </button>
@@ -914,7 +925,7 @@
           <button
             class="form-btn"
             @click="setChosenForm('playBookForm')"
-            v-if="getRole == 'employee' || getRole == 'admin'"
+            v-if="getRole == 'Employee' || getRole == 'admin'"
           >
             + add
           </button>
@@ -1125,7 +1136,13 @@ export default {
       console.log("change" + " " + page);
       this.wikiPage = page;
       if (
-        ["Policies", "Procedures", "Communication", "Playbooks"].includes(page)
+        [
+          "Policies",
+          "Procedures",
+          "Communication",
+          "Playbooks",
+          "Shafts",
+        ].includes(page)
       ) {
         this.getPdf(page);
       }

@@ -4,6 +4,7 @@
       <h1 class="form__title">Add Shift</h1>
       <div class="form__control">
         <select id="month" name="month" v-model="month">
+          <option value="" selected disabled hidden>Month</option>
           <option value="January">January</option>
           <option value="February">February</option>
           <option value="March">March</option>
@@ -22,6 +23,7 @@
       <div class="form__control">
         <select v-model="employee">
           <option disabled hidden>Shift</option>
+          <option value="" selected disabled hidden>Employee</option>
           <option v-for="user in users" :value="user.name" :key="user.name">
             {{ user.name }}
           </option>
@@ -138,7 +140,7 @@ export default {
             this.loading = false;
             console.log(result.message);
             this.submitIcon = true;
-            this.$store.dispatch("getData", "shifts");
+            this.$store.dispatch("getData", "Shifts");
             setTimeout(() => {
               this.submitIcon = false;
               document.querySelector(".close").click();
