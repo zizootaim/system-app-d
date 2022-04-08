@@ -651,7 +651,10 @@ textarea::placeholder {
 .col {
   width: 100%;
   padding: 0.5rem 1rem 0.5rem 0.3rem;
-  border: 1px solid #000;
+  border-right: 1px solid #000;
+}
+.col:last-of-type{
+  border-right: 0;
 }
 .table__row:nth-child(odd) {
   background: rgb(134, 130, 130);
