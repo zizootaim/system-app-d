@@ -1,7 +1,10 @@
 <template>
   <div class="container" v-if="getStaff.length >= 1">
     <div class="level-1 rectangle" v-if="getStaff[0]">
-      <i class="fas fa-edit edit-btn" @click="() => showEditForm(getStaff[0])"></i>
+      <i
+        class="fas fa-edit edit-btn"
+        @click="() => showEditForm(getStaff[0])"
+      ></i>
       <manSvg />
       <div class="person__info">
         <h4>{{ getStaff[0].Name }}</h4>
@@ -18,7 +21,10 @@
     <ol class="level-2-wrapper">
       <li>
         <div class="level-2 rectangle">
-           <i class="fas fa-edit edit-btn" @click="() => showEditForm(getStaff[1].parent)"></i>
+          <i
+            class="fas fa-edit edit-btn"
+            @click="() => showEditForm(getStaff[1].parent)"
+          ></i>
           <manSvg />
           <div class="person__info">
             <h4>{{ getStaff[1].parent.Name }}</h4>
@@ -39,7 +45,10 @@
               v-for="s in getStaff[1].childs"
               :key="s.id"
             >
-             <i class="fas fa-edit edit-btn" @click="() => showEditForm(s)"></i>
+              <i
+                class="fas fa-edit edit-btn"
+                @click="() => showEditForm(s)"
+              ></i>
               <manSvg />
               <div class="person__info">
                 <h4>{{ s.Name }}</h4>
@@ -58,7 +67,10 @@
       </li>
       <li>
         <div class="level-2 rectangle">
-           <i class="fas fa-edit edit-btn" @click="() => showEditForm(getStaff[2].parent)"></i>
+          <i
+            class="fas fa-edit edit-btn"
+            @click="() => showEditForm(getStaff[2].parent)"
+          ></i>
           <manSvg />
           <div class="person__info">
             <h4>{{ getStaff[2].parent.Name }}</h4>
@@ -79,7 +91,10 @@
               v-for="s in getStaff[2].childs"
               :key="s.id"
             >
-             <i class="fas fa-edit edit-btn" @click="() => showEditForm(s)"></i>
+              <i
+                class="fas fa-edit edit-btn"
+                @click="() => showEditForm(s)"
+              ></i>
               <manSvg />
               <div class="person__info">
                 <h4>{{ s.Name }}</h4>
@@ -97,7 +112,12 @@
         </ol>
       </li>
     </ol>
-    <modal class="secform" v-if="showModal" formTitle="Edit Staff">
+    <modal
+      class="secform"
+      v-on:close="setChosenForm('')"
+      v-if="showModal"
+      formTitle="Edit Staff"
+    >
       <edit-form :editingUser="editingUser" />
     </modal>
   </div>
@@ -106,10 +126,10 @@
 <script>
 import manSvg from "./manSvg.vue";
 import { mapGetters } from "vuex";
-import editForm from "@/components/staff/editForm.vue";
-import Modal from './modal.vue';
-import EditForm from './staff/editForm.vue';
+import { mapState } from "vuex";
 
+import Modal from "./modal.vue";
+import EditForm from "./staff/editForm.vue";
 
 export default {
   data() {
@@ -117,17 +137,22 @@ export default {
   },
   components: {
     manSvg,
-    editForm,
     Modal,
     EditForm,
   },
   computed: {
+    ...mapState(["wikiSections", "chosenForm"]),
+
     ...mapGetters(["getStaff"]),
   },
   mounted() {
     this.$store.dispatch("getData", "staff");
   },
   methods: {
+    setChosenForm(formName) {
+      this.showModal = false;
+      this.$store.commit("setChosenForm", formName);
+    },
     showEditForm(user) {
       this.showModal = true;
       this.editingUser = user;
@@ -156,11 +181,11 @@ export default {
   justify-content: center;
   border-radius: 1rem;
 }
-.edit-btn{
+.edit-btn {
   color: #fff;
   position: absolute;
-  top: .5rem;
-  left: .5rem;
+  top: 0.5rem;
+  left: 0.5rem;
   cursor: pointer;
 }
 .person__info {
@@ -436,5 +461,4 @@ export default {
     flex-wrap: wrap;
   }
 }
-
 </style>

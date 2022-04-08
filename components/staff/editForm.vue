@@ -50,6 +50,7 @@
   </div>
 </template>
 <script>
+
 export default {
   data() {
     return {
@@ -76,9 +77,8 @@ export default {
   },
   computed: {
     dataObj() {
-      
       return {
-        id:this.id,
+        id: this.id,
         Name: this.name,
         Title: this.title,
         Email: this.email,
@@ -88,6 +88,7 @@ export default {
     },
   },
   methods: {
+ 
     submitData() {
       console.log(this.dataObj);
       // this.spinnerLoading = true;

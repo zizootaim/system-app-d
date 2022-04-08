@@ -21,6 +21,8 @@
 import orgStructure from "@/components/orgStructure.vue";
 import postForm from "@/components/staff/postForm.vue";
 import editForm from "@/components/staff/editForm.vue";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -32,6 +34,9 @@ export default {
     orgStructure,
     postForm,
     editForm,
+  },
+    computed: {
+    ...mapGetters(["getUsers", "getRole"]),
   },
   methods: {
     changeForm(form) {

@@ -6,8 +6,8 @@
         <select name="parentLevel" v-model="level">
           <option value="" selected disabled hidden>Parent Level</option>
           <option value="1">1</option>
-          <option value="2-1">2-1</option>
-          <option value="2-2">2-2</option>
+          <option value="2-1">2-Left</option>
+          <option value="2-2">2-Right</option>
         </select>
       </div>
       <div class="form__control">
