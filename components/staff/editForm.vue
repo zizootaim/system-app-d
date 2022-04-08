@@ -90,16 +90,16 @@ export default {
   methods: {
     async submitData() {
       console.log(this.dataObj);
-      this.spinnerLoading = true;
       let response = await this.$store.dispatch("editStaff", {
         apiName: "staff",
         body: this.dataObj,
       });
       console.log(response);
+        this.spinnerLoading = true;
       if (response) {
-        this.spinnerLoading = false;
-        this.submitIcon = true;
+        
         setTimeout(() => {
+          this.spinnerLoading = false;
           this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);

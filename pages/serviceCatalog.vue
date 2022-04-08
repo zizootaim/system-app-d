@@ -39,17 +39,18 @@
                 <span>{{ serviceCard.id }}</span>
               </p>
             </div>
-            <p>
-              <span>{{ serviceCard.name }}</span>
-            </p>
-          </div>
-          <div class="col">
-            <p>
-              <span>{{ serviceCard.owner }}</span>
-            </p>
-          </div>
-          <div class="col">
             <div class="col">
+              <p>
+                <span>{{ serviceCard.name }}</span>
+              </p>
+            </div>
+
+            <div class="col">
+              <p>
+                <span>{{ serviceCard.owner }}</span>
+              </p>
+            </div>
+            <div class="col" :class="serviceCard.status">
               <p>
                 <span>{{ serviceCard.status }}</span>
               </p>
@@ -146,5 +147,17 @@ export default {
 }
 .service .sec__title {
   margin-top: 0;
+}
+.service .active {
+  background: green;
+}
+.service .inactive {
+  background: rgb(90, 7, 7);
+}
+.service .table__row:last-of-type {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 </style>

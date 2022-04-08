@@ -124,7 +124,5 @@ img {
   border: 0px;
   cursor: pointer;
 }
-.wiki__links li:first-child::after {
-  display: none;
-}
+
 </style>

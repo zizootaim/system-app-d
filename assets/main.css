@@ -609,14 +609,13 @@ textarea::placeholder {
   margin: 1rem auto;
   max-height: 68vh;
   padding-right: 0.5rem;
-
   overflow: auto;
 }
-.table__row:first-of-type{
+.table__row:first-of-type {
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
 }
-.table__row:last-of-type{
+.table__row:last-of-type {
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
 }
@@ -653,7 +652,7 @@ textarea::placeholder {
   padding: 0.5rem 1rem 0.5rem 0.3rem;
   border-right: 1px solid #000;
 }
-.col:last-of-type{
+.col:last-of-type {
   border-right: 0;
 }
 .table__row:nth-child(odd) {

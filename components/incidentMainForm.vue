@@ -207,6 +207,15 @@
             <option value="Other">Other</option>
           </select>
         </div>
+        <div class="form__control" v-if="notification == 'Other'">
+          <input
+            type="text"
+            v-model="otherNotification"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Other Notification</span>
+        </div>
         <div class="form__control">
           <input
             type="text"
@@ -316,7 +325,7 @@ export default {
       eradicationMeasures: "",
       recommendations: "",
       closureDate: "",
-
+      otherNotification: "",
       closureTime: "",
       title: "",
       signature: "",
@@ -347,7 +356,7 @@ export default {
         ContainmentMeasures: this.containmentMeasures,
         EradicationMeasures: this.eradicationMeasures,
         RecoveryMeasures: this.recoveryMeasures,
-        Notification: this.notification,
+        Notification: this.currentNotification,
         CaseAnalysis: this.rootCaseAnalysis,
         IncidentAvailability: this.incidentAvoidability,
         Improvements: this.recommendations,
@@ -356,6 +365,11 @@ export default {
         Signature: this.signature,
         Date: this.signatureDate + " " + this.signatureTime,
       };
+    },
+    currentNotification: function () {
+      return this.notification == "Other"
+        ? this.otherNotification
+        : this.notification;
     },
   },
   methods: {

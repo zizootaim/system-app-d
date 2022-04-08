@@ -144,7 +144,7 @@
                     <h4>Reference ID</h4>
                   </div>
                   <div class="col">
-                    <h4>Description</h4>
+                    <h4>Applicable</h4>
                   </div>
                 </div>
 
@@ -175,12 +175,12 @@
                     </div>
                     <div class="col">
                       <p>
-                        <span>{{ advisoryCard.description }}</span>
+                        <span>{{ advisoryCard.applicable }}</span>
                       </p>
                     </div>
                   </div>
                   <div class="row bottom-row">
-                    <div>Applicable : {{ advisoryCard.applicable }}</div>
+                    <div>Description : {{ advisoryCard.description }}</div>
                     <div v-if="advisoryCard.applicable == 'No'">
                       Actions Taken : {{ advisoryCard.token }}
                     </div>
