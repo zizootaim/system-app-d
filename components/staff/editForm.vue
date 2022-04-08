@@ -1,6 +1,6 @@
 <template>
   <div class="shift__form-wrapper">
-    <h1 class="form__title">Edit {{ editingUser.parentData.Name }}</h1>
+    <h1 class="form__title">Edit {{ editingUser.Name }}</h1>
     <form class="long__form" v-on:submit.prevent="submitData">
       <div class="form__control">
         <input
@@ -53,6 +53,7 @@
 export default {
   data() {
     return {
+      id: "",
       name: "",
       title: "",
       email: "",
@@ -65,17 +66,25 @@ export default {
   props: {
     editingUser: {},
   },
+  mounted() {
+    this.id = this.editingUser.id;
+    this.name = this.editingUser.Name;
+    this.title = this.editingUser.Title;
+    this.email = this.editingUser.Email;
+    this.phone = this.editingUser.Phone;
+    this.mobile = this.editingUser.Mobile;
+  },
   computed: {
     dataObj() {
-      let obj = {};
-      obj.parentData = {
+      
+      return {
+        id:this.id,
         Name: this.name,
         Title: this.title,
         Email: this.email,
         Mobile: this.mobile,
         Phone: this.phone,
       };
-      return obj;
     },
   },
   methods: {

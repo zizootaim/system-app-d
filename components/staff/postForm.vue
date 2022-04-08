@@ -6,7 +6,8 @@
         <select name="parentLevel" v-model="level">
           <option value="" selected disabled hidden>Parent Level</option>
           <option value="1">1</option>
-          <option value="2">2</option>
+          <option value="2-1">2-1</option>
+          <option value="2-2">2-2</option>
         </select>
       </div>
       <div class="form__control">
@@ -35,7 +36,10 @@
         <input type="text" name="phone" required v-model="phone" />
         <span class="form__control-label">Phone</span>
       </div>
-      <div v-if="level == '2'" class="childrens full long__form">
+      <div
+        v-if="level == '2-1' || level == '2-2'"
+        class="childrens full long__form"
+      >
         <h3 class="full">children</h3>
         <div class="form__control">
           <input
@@ -76,7 +80,7 @@
     </form>
 
     <div class="submit__btn-wrapper">
-      <button class="submit-btn" @click="submitData">
+      <button class="submit-btn" @click="() => submitData(false)">
         Submit
         <svg
           v-if="submitIcon"
@@ -117,30 +121,61 @@ export default {
   },
   computed: {
     dataObj() {
+      let ParentName = "",
+        child = 0;
       let obj = {};
-      obj.level = this.level;
-      obj.parentData = {
+      if (this.level == "1") ParentName = "top";
+      if (this.level == "2-1") {
+        ParentName = "right";
+      }
+      if (this.level == "2-2") {
+        ParentName = "left";
+      }
+      obj = {
+        ParentName,
         Name: this.name,
         Title: this.title,
         Email: this.email,
         Mobile: this.mobile,
         Phone: this.phone,
+        child,
       };
-      if (this.childs.length >= 1) {
-        obj.childs = [...this.childs];
-      }
+
       return obj;
     },
-  },
-  methods: {
-    addChild() {
-      this.childs.push({
+    childObj() {
+      let ParentName = "",
+        child = 0;
+      let obj = {};
+      if (this.level == "1") ParentName = "top";
+      if (this.level == "2-1") {
+        child = 1;
+        ParentName = "right";
+      }
+      if (this.level == "2-2") {
+        child = 1;
+        ParentName = "left";
+      }
+      obj = {
+        ParentName,
         Name: this.childName,
         Title: this.childTitle,
         Email: this.childEmail,
         Mobile: this.childMobile,
         Phone: this.childPhone,
-      });
+        child,
+      };
+
+      // if (this.childs.length >= 1) {
+      //   obj.childs = [...this.childs];
+      // }
+      return obj;
+    },
+  },
+  methods: {
+    addChild() {
+      // console.log(this.childObj);
+      this.submitData(true);
       Array.from(document.querySelectorAll(".childrens input")).forEach((i) => {
         this.childName = "";
         this.childTitle = "";
@@ -149,22 +184,25 @@ export default {
         this.childEmail = "";
       });
     },
-    submitData() {
-      console.log(this.dataObj);
-      // this.spinnerLoading = true;
-      // let response = await this.$store.dispatch('postData', {
-      //   apiName: 'staff',
-      //   body: this.dataObj,
-      // });
-      // console.log(response);
-      // if (response) {
-      //   this.spinnerLoading = false;
-      //   this.submitIcon = true;
-      //   setTimeout(() => {
-      //     this.submitIcon = false;
-      //     document.querySelector('.close').click();
-      //   }, 1000);
-      // }
+    async submitData(child) {
+      let obj = this.dataObj;
+      if (child) obj = this.childObj;
+      console.log(obj);
+
+      this.spinnerLoading = true;
+      let response = await this.$store.dispatch("postData", {
+        apiName: "staff",
+        body: obj,
+      });
+      console.log(response);
+      if (response) {
+        this.spinnerLoading = false;
+        this.submitIcon = true;
+        setTimeout(() => {
+          this.submitIcon = false;
+          // document.querySelector('.close').click();
+        }, 1000);
+      }
     },
   },
 };
