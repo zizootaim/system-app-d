@@ -102,14 +102,19 @@ export default {
 
   methods: {
     async submitData() {
+      this.message = "";
       let updatedShift;
-      for (let item of this.getShifts[this.month]) {
-        if (item.name == this.employee) {
-          updatedShift = item.shifts.toString();
-          updatedShift = updatedShift.split("");
-          updatedShift.splice(this.day - 1, 1, this.shifts);
-          updatedShift = updatedShift.join("");
-          console.log(updatedShift);
+      let found = false;
+      if (this.getShifts[this.month]) {
+        for (let item of this.getShifts[this.month]) {
+          if (item.name == this.employee) {
+            updatedShift = item.shifts.toString();
+            updatedShift = updatedShift.split("");
+            updatedShift.splice(this.day - 1, 1, this.shifts);
+            updatedShift = updatedShift.join("");
+            console.log(updatedShift);
+            found = true;
+          }
         }
       }
 
@@ -132,7 +137,10 @@ export default {
       //     console.log(i.id);
       //   }
       console.log(this.$store.state.months[this.month]);
-      if (updatedShift.length == this.$store.state.months[this.month]) {
+      if (
+        found &&
+        updatedShift.length == this.$store.state.months[this.month]
+      ) {
         this.loading = true;
         fetch("https://beapis.herokuapp.com/api/Shifts", requestOptions)
           .then((response) => response.json())
@@ -152,7 +160,7 @@ export default {
             this.message = "Some thing Went Wrong";
           });
       } else {
-        this.message = "Please Add Correct Shift";
+        this.message = "Please Add Correct Shift ";
       }
     },
   },

@@ -1,123 +1,105 @@
 <template>
-  <div class="container">
-    <div class="level-1 rectangle">
+  <div class="container" v-if="getStaff.length >= 1">
+    <div class="level-1 rectangle" v-if="getStaff[0]">
+      <i class="fas fa-edit edit-btn" @click="() => showEditForm(getStaff[0])"></i>
       <manSvg />
       <div class="person__info">
-        <h4>Mohamed</h4>
+        <h4>{{ getStaff[0].Name }}</h4>
         <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum,
-          asperiores!
+          {{ getStaff[0].Title }}
         </p>
         <div class="person__data">
-          <p>mohamed@gmail.com</p>
-          <p>01015397895</p>
+          <p>{{ getStaff.Email }}</p>
+          <p>{{ getStaff.Phone }}</p>
         </div>
+        <p>Mobile : {{ getStaff.Mobile }}</p>
       </div>
     </div>
     <ol class="level-2-wrapper">
       <li>
         <div class="level-2 rectangle">
+           <i class="fas fa-edit edit-btn" @click="() => showEditForm(getStaff[1].parent)"></i>
           <manSvg />
           <div class="person__info">
-            <h4>Mohamed</h4>
+            <h4>{{ getStaff[1].parent.Name }}</h4>
             <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum,
-              asperiores!
+              {{ getStaff[1].parent.Title }}
             </p>
             <div class="person__data">
-              <p>mohamed@gmail.com</p>
-              <p>01015397895</p>
+              <p>{{ getStaff[1].parent.Email }}</p>
+              <p>{{ getStaff[1].parent.Phone }}</p>
             </div>
+            <p>Mobile : {{ getStaff[1].parent.Mobile }}</p>
           </div>
         </div>
         <ol class="level-3-wrapper">
           <li>
-            <div class="level-3 rectangle">
+            <div
+              class="level-3 rectangle"
+              v-for="s in getStaff[1].childs"
+              :key="s.id"
+            >
+             <i class="fas fa-edit edit-btn" @click="() => showEditForm(s)"></i>
               <manSvg />
               <div class="person__info">
-                <h4>Mohamed</h4>
+                <h4>{{ s.Name }}</h4>
                 <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Rerum, asperiores!
+                  {{ s.Title }}
                 </p>
                 <div class="person__data">
-                  <p>mohamed@gmail.com</p>
-                  <p>01015397895</p>
+                  <p>{{ s.Email }}</p>
+                  <p>{{ s.Phone }}</p>
                 </div>
+                <p>Mobile : {{ s.Mobile }}</p>
               </div>
             </div>
-            <ol class="level-4-wrapper">
-              <li>
-                <div class="level-4 rectangle">
-                  <manSvg />
-                  <div class="person__info">
-                    <h4>Mohamed</h4>
-                    <p>
-                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                      Rerum, asperiores!
-                    </p>
-                    <div class="person__data">
-                      <p>mohamed@gmail.com</p>
-                      <p>01015397895</p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="level-4 rectangle">
-                  <manSvg />
-                  <div class="person__info">
-                    <h4>Mohamed</h4>
-                    <p>
-                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                      Rerum, asperiores!
-                    </p>
-                    <div class="person__data">
-                      <p>mohamed@gmail.com</p>
-                      <p>01015397895</p>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ol>
           </li>
         </ol>
       </li>
       <li>
         <div class="level-2 rectangle">
+           <i class="fas fa-edit edit-btn" @click="() => showEditForm(getStaff[2].parent)"></i>
           <manSvg />
           <div class="person__info">
-            <h4>Mohamed</h4>
+            <h4>{{ getStaff[2].parent.Name }}</h4>
             <p>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum,
-              asperiores!
+              {{ getStaff[2].parent.Title }}
             </p>
             <div class="person__data">
-              <p>mohamed@gmail.com</p>
-              <p>01015397895</p>
+              <p>{{ getStaff[2].parent.Email }}</p>
+              <p>{{ getStaff[2].parent.Phone }}</p>
             </div>
+            <p>Mobile : {{ getStaff[2].parent.Mobile }}</p>
           </div>
         </div>
         <ol class="level-3-wrapper">
           <li>
-            <div class="level-3 rectangle">
+            <div
+              class="level-3 rectangle"
+              v-for="s in getStaff[2].childs"
+              :key="s.id"
+            >
+             <i class="fas fa-edit edit-btn" @click="() => showEditForm(s)"></i>
               <manSvg />
               <div class="person__info">
-                <h4>Mohamed</h4>
+                <h4>{{ s.Name }}</h4>
                 <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Rerum, asperiores!
+                  {{ s.Title }}
                 </p>
                 <div class="person__data">
-                  <p>mohamed@gmail.com</p>
-                  <p>01015397895</p>
+                  <p>{{ s.Email }}</p>
+                  <p>{{ s.Phone }}</p>
                 </div>
+                <p>Mobile : {{ s.Mobile }}</p>
               </div>
             </div>
           </li>
         </ol>
       </li>
     </ol>
+    <modal class="secform" v-if="showModal" formTitle="Edit Staff">
+      <edit-form :editingUser="editingUser" />
+    </modal>
   </div>
 </template>
 
@@ -125,6 +107,9 @@
 import manSvg from "./manSvg.vue";
 import { mapGetters } from "vuex";
 import editForm from "@/components/staff/editForm.vue";
+import Modal from './modal.vue';
+import EditForm from './staff/editForm.vue';
+
 
 export default {
   data() {
@@ -133,9 +118,14 @@ export default {
   components: {
     manSvg,
     editForm,
+    Modal,
+    EditForm,
   },
   computed: {
     ...mapGetters(["getStaff"]),
+  },
+  mounted() {
+    this.$store.dispatch("getData", "staff");
   },
   methods: {
     showEditForm(user) {
@@ -166,7 +156,13 @@ export default {
   justify-content: center;
   border-radius: 1rem;
 }
-
+.edit-btn{
+  color: #fff;
+  position: absolute;
+  top: .5rem;
+  left: .5rem;
+  cursor: pointer;
+}
 .person__info {
   padding: 0.5rem;
   display: flex;
@@ -440,4 +436,5 @@ export default {
     flex-wrap: wrap;
   }
 }
+
 </style>

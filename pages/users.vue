@@ -1,15 +1,14 @@
 <template>
-  <section
-    class="users__wrapper"
-    v-if="getRole == 'Employee' || getRole == 'admin'"
-  >
+  <section class="users__wrapper" v-if="getRole == 'admin'">
     <h1 class="sec__title">Users</h1>
     <div class="users">
       <div class="user" v-for="user in getUsers" :key="user.id">
         <h2><span>Name : </span>{{ user.name }}</h2>
         <p><span>E-Mail : </span>{{ user.email }}</p>
         <p>Role : {{ user.role }}</p>
+
         <button
+          v-if="getRole == 'admin' && user.role == 'visitor'"
           :class="
             user.role == 'Employee' ? 'approve-btn approved' : 'approve-btn'
           "

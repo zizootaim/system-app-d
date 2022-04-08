@@ -1,9 +1,14 @@
 <template>
   <div>
-<div class="btns-wrapper">
-      <button class="form-btn" @click="changeForm('add')">+ add</button>
-    <button class="form-btn" @click="changeForm('edit')">edit</button>
-</div>
+    <div class="btns-wrapper">
+      <button
+        v-if="getRole == 'admin' || getRole == 'Employee'"
+        class="form-btn"
+        @click="changeForm('add')"
+      >
+        + add
+      </button>
+    </div>
     <org-structure />
     <modal v-if="showModal" class="secform" v-on:close="showModal = false">
       <post-form v-if="chosenForm == 'add'" />
@@ -41,10 +46,10 @@ export default {
 </script>
 
 <style>
-.btns-wrapper{
+.btns-wrapper {
   padding: 1rem;
 }
-.btns-wrapper button{
+.btns-wrapper button {
   margin-left: 1rem;
 }
 </style>

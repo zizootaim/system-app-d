@@ -1,5 +1,8 @@
 <template>
-  <section class="wiki" v-if="getRole == 'Employee' || getRole == 'admin'">
+  <section
+    class="wiki"
+    v-if="getRole == 'Employee' || getRole == 'admin' || getRole == 'visitor'"
+  >
     <article class="wiki__content-wrapper">
       <div class="wiki__content">
         <div class="wiki__menu-wrapper">
@@ -85,32 +88,13 @@
 
         <div class="reports" v-if="wikiPage == 'Reports'">
           <div v-if="chosenCat == 'socReports'">
-            <div class="pdfs__wrapper">
-              <div
-                class="pdfs__top"
-                v-if="getRole == 'Employee' || getRole == 'admin'"
-              >
-                <h1 class="sec__title">
-                  {{ wikiPage }}
-                </h1>
-                <h4>Upload File</h4>
-                <input
-                  type="text"
-                  name="title"
-                  v-model="title"
-                  placeholder="Title"
-                  required
-                />
-                <input type="file" id="file" ref="file" />
-                <button
-                  type="button"
-                  class="upload-btn submit-btn"
-                  @click="upload"
-                >
-                  Upload file
-                </button>
-              </div>
-            </div>
+            <button
+              class="form-btn"
+              @click="setChosenForm('addPdf')"
+              v-if="getRole == 'Employee' || getRole == 'admin'"
+            >
+              +add
+            </button>
 
             <div
               class="pdf-wrapper"
@@ -217,7 +201,7 @@
                 @click="setChosenForm('incidentMainForm')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
-                add
+                +add
               </button>
             </div>
             <div class="table__wrapper">
@@ -358,26 +342,13 @@
           class="pdfs__wrapper"
           v-if="wikiPage == 'Procedures' || wikiPage == 'Policies'"
         >
-          <div
-            class="pdfs__top"
+          <button
+            class="form-btn"
+            @click="setChosenForm('addPdf')"
             v-if="getRole == 'Employee' || getRole == 'admin'"
           >
-            <h1 class="sec__title">
-              {{ wikiPage }}
-            </h1>
-            <h4>Upload File</h4>
-            <input
-              type="text"
-              name="title"
-              v-model="title"
-              placeholder="Title"
-              required
-            />
-            <input type="file" id="file" ref="file" />
-            <button type="button" class="upload-btn submit-btn" @click="upload">
-              Upload file
-            </button>
-          </div>
+            +add
+          </button>
 
           <div class="pdfs__container" v-if="wikiPage == 'Policies'">
             <div
@@ -450,7 +421,6 @@
         </div>
         <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
           <!-- Health Check -->
-
           <div v-if="chosenCat == 'healthCheck'">
             <h1 class="sec__title">Health Check</h1>
             <button
@@ -1049,6 +1019,11 @@
           v-if="getChosenForm == 'playBookForm'"
           formTitle="Play Book"
         />
+        <addPdf
+          :apiName="wikiPage"
+          v-if="getChosenForm == 'addPdf'"
+          formTitle="Play Book"
+        />
       </modal>
     </article>
   </section>
@@ -1074,6 +1049,7 @@ import IncidentMainForm from "../components/incidentMainForm.vue";
 import communicationForm from "@/components/communicationForm.vue";
 import playBookForm from "@/components/playBookForm.vue";
 import Shifts from "../components/shifts.vue";
+import addPdf from "@/components/addPdf.vue";
 export default {
   name: "wikiPage",
   data() {
@@ -1103,6 +1079,7 @@ export default {
     communicationForm,
     playBookForm,
     Shifts,
+    addPdf,
   },
 
   computed: {
@@ -1152,7 +1129,6 @@ export default {
     showMenu(event) {
       console.log(event.target);
       let icon = event.target.querySelector(".sub-menu-icon");
-
       const parent = event.target.parentElement;
       const list = parent.querySelector(".sub-menu");
       if (list) {
@@ -1161,7 +1137,6 @@ export default {
           list.style.height = "0px";
           list.classList.remove("show");
           icon.className = "fas fa-angle-down sub-menu-icon";
-
           return;
         }
         height = 10;
@@ -1301,5 +1276,4 @@ export default {
     width: 96%;
   }
 }
-
 </style>

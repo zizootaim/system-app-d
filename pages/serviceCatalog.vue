@@ -39,16 +39,16 @@
                 <span>{{ serviceCard.id }}</span>
               </p>
             </div>
-              <p>
-                <span>{{ serviceCard.name }}</span>
-              </p>
-            </div>
-            <div class="col">
-              <p>
-                <span>{{ serviceCard.owner }}</span>
-              </p>
-            </div>
-            <div class="col">
+            <p>
+              <span>{{ serviceCard.name }}</span>
+            </p>
+          </div>
+          <div class="col">
+            <p>
+              <span>{{ serviceCard.owner }}</span>
+            </p>
+          </div>
+          <div class="col">
             <div class="col">
               <p>
                 <span>{{ serviceCard.status }}</span>
@@ -95,7 +95,7 @@ export default {
     showForm() {
       this.addService = !this.addService;
     },
-      showContent(event) {
+    showContent(event) {
       Array.from(document.querySelectorAll(".row-btn")).forEach((i) => {
         i.className = "fas fa-angle-down row-btn";
       });

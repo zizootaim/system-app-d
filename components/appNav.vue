@@ -3,35 +3,27 @@
     <article class="wiki__nav">
       <i class="fas fa-bars wiki__links-icon" @click="displayLinksMenu"></i>
       <Logo class="nav-logo" />
-      
       <ul
         @click="displayLinksMenu"
         :class="showLinksMenu ? 'wiki__links show' : 'wiki__links'"
       >
-      <li><button class="theme-btn" @click="toggleTheme">
-        <i class="fas fa-moon"></i>
-      </button></li>
         <li><nuxt-link to="/">Home</nuxt-link></li>
         <li>
           <nuxt-link to="/staff">Staff</nuxt-link>
         </li>
-        <li v-if="getRole == 'Employee' || getRole == 'admin'">
-          <nuxt-link
-            to="/users"
-            v-if="getRole == 'Employee' || getRole == 'admin'"
-            >Users</nuxt-link
-          >
+        <li v-if="getRole == 'admin'">
+          <nuxt-link to="/users">Users</nuxt-link>
         </li>
-        <li v-if="getRole == 'Employee' || getRole == 'admin'">
+        <li
+          v-if="
+            getRole == 'Employee' || getRole == 'admin' || getRole == 'visitor'
+          "
+        >
           <nuxt-link to="/wikiPage"> WIKI</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/serviceCatalog"> Service Catalog</nuxt-link>
+          <nuxt-link to="/serviceCatalog">Service Catalog</nuxt-link>
         </li>
-        <li v-if="getRole == 'Employee'">
-          <nuxt-link to="/soc">Soc</nuxt-link>
-        </li>
-        <li v-if="getRole == 'Employee'"><a href="/account">Account</a></li>
         <li v-if="getRole == ''">
           <button
             id="registerBtn"
@@ -49,6 +41,11 @@
         <li v-if="getRole != ''">
           <button id="logoutBtn" @click="logOut" class="authButton">
             Log Out
+          </button>
+        </li>
+        <li>
+          <button class="theme-btn" @click="toggleTheme">
+            <i class="fas fa-moon"></i>
           </button>
         </li>
       </ul>
@@ -127,8 +124,7 @@ img {
   border: 0px;
   cursor: pointer;
 }
-.wiki__links li:first-child::after{
-display: none;
+.wiki__links li:first-child::after {
+  display: none;
 }
-
 </style>

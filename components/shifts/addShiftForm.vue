@@ -94,6 +94,8 @@ export default {
       } else this.message = "Please Complete all month days";
     },
     async submitData() {
+      this.message = "";
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -124,7 +126,7 @@ export default {
               setTimeout(() => {
                 this.submitIcon = false;
               }, 1000);
-              this.$store.dispatch("getData", "shifts");
+              this.$store.dispatch("getData", "Shifts");
             }
           })
           .catch((error) => {

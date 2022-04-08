@@ -33,9 +33,7 @@ textarea {
   );
   background-repeat: no-repeat;
 }
-.light-mode {
-  background: #fff;
-}
+
 h1,
 h2,
 h3,
@@ -429,7 +427,7 @@ textarea::placeholder {
 }
 .light-mode .wiki__item {
   background-color: #fff;
-  box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0px 1px 0px rgba(0, 0, 0, 0.4);
 }
 .light-mode .wiki__item-title,
 .light-mode .wiki__item ul li {

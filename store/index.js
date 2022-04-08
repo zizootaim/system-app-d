@@ -102,7 +102,7 @@ export const state = () => ({
     },
     { section: "Playbooks", class: "fad fa-chalkboard" },
     { section: "Communication", class: "fas fa-users" },
-    { section: "Shifts",class:'fal fa-table' },
+    { section: "Shifts", class: "fal fa-table" },
     {
       section: "Use Case Framework",
       class: "fas fa-thumbs-up",
@@ -167,6 +167,15 @@ export const getters = {
     return state.Communication;
   },
   getStaff: (state) => {
+    // const { left, right, top } = state.staff;
+    // const topParent = top[0];
+    // const leftParent = left.filter((p) => p.child == false)[0],
+    //   leftChilds = left.filter((c) => c.child == true),
+    //   leftStaff = { parent: leftParent, childs: leftChilds };
+    // const rightParent = right.filter((p) => p.child == false)[0],
+    //   rightChilds = right.filter((c) => c.child == true),
+    //   rightStaff = { parent: rightParent, childs: rightChilds };
+    // return [leftStaff,rightStaff,topParent];
     return state.staff;
   },
   getPlayBook: (state) => {
@@ -226,11 +235,29 @@ export const actions = {
       await fetch(state.url[apiName])
         .then((response) => response.json())
         .then((data) => {
+          if (apiName == "staff") {
+            const { left, right, top } = data;
+            const topParent = top[0];
+            const leftParent = left.filter((p) => p.child == false)[0],
+              leftChilds = left.filter((c) => c.child == true),
+              leftStaff = { parent: leftParent, childs: leftChilds };
+            const rightParent = right.filter((p) => p.child == false)[0],
+              rightChilds = right.filter((c) => c.child == true),
+              rightStaff = { parent: rightParent, childs: rightChilds };
+            data = [leftStaff,rightStaff,topParent];
+          }
           console.log(data);
-          commit("saveData", {
-            dataContainer: apiName,
-            dataValue: data,
-          });
+          if (apiName != "Shifts") {
+            commit("saveData", {
+              dataContainer: apiName,
+              dataValue: data.reverse(),
+            });
+          } else {
+            commit("saveData", {
+              dataContainer: apiName,
+              dataValue: data,
+            });
+          }
         });
       return true;
     } catch (err) {
@@ -304,11 +331,13 @@ export const actions = {
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          if (!data.message) {
+          if (!data.message && dataObj.apiName != "staff") {
             commit("addData", {
               dataContainer: dataObj.apiName,
               dataValue: dataObj.body,
             });
+          } else {
+            this.dispatch("getData", "staff");
           }
         });
       return true;
@@ -323,6 +352,7 @@ export const actions = {
 
   uploadPdf({ state, commit }, dataObj) {
     try {
+      console.log(dataObj.apiName);
       fetch(state.url[dataObj.apiName], {
         method: "POST",
         body: dataObj.body,
@@ -336,6 +366,7 @@ export const actions = {
             });
           }
         });
+      return true;
     } catch (err) {
       console.log(err);
     }
