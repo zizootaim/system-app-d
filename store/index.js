@@ -167,15 +167,6 @@ export const getters = {
     return state.Communication;
   },
   getStaff: (state) => {
-    // const { left, right, top } = state.staff;
-    // const topParent = top[0];
-    // const leftParent = left.filter((p) => p.child == false)[0],
-    //   leftChilds = left.filter((c) => c.child == true),
-    //   leftStaff = { parent: leftParent, childs: leftChilds };
-    // const rightParent = right.filter((p) => p.child == false)[0],
-    //   rightChilds = right.filter((c) => c.child == true),
-    //   rightStaff = { parent: rightParent, childs: rightChilds };
-    // return [leftStaff,rightStaff,topParent];
     return state.staff;
   },
   getPlayBook: (state) => {
@@ -244,7 +235,7 @@ export const actions = {
             const rightParent = right.filter((p) => p.child == false)[0],
               rightChilds = right.filter((c) => c.child == true),
               rightStaff = { parent: rightParent, childs: rightChilds };
-            data = [leftStaff,rightStaff,topParent];
+            data = [rightStaff,leftStaff,topParent];
           }
           console.log(data);
           if (apiName != "Shifts") {
@@ -298,6 +289,7 @@ export const actions = {
     urlencoded.append("Email", dataObj.body.Email);
     urlencoded.append("Mobile", dataObj.body.Mobile);
     urlencoded.append("Phone", dataObj.body.Phone);
+    urlencoded.append("child", dataObj.body.child);
 
     var requestOptions = {
       method: "PUT",

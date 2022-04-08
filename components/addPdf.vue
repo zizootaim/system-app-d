@@ -1,29 +1,35 @@
 <template>
   <div class="pdfs__top">
-    <h4>Upload File</h4>
-    <input
-      type="text"
-      name="title"
-      v-model="title"
-      placeholder="Title"
-      required
-    />
-    <input type="file" id="file" ref="file" />
-    <button class="submit-btn upload-btn" @click="upload">
-      Submit <BaseSpinner v-if="loading" />
-      <svg
-        v-if="submitIcon"
-        class="svgIcon"
-        viewBox="0 0 1024 1024"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
-          fill="#43A047"
+    <div class="upload-file__wrapper">
+      <h4>Upload File</h4>
+      <div class="form__control">
+        <input
+          type="text"
+          name="title"
+          v-model="title"
+          placeholder="Title"
+          required
         />
-      </svg>
-    </button>
+      </div>
+      <input type="file" id="file" ref="file" />
+    </div>
+    <div class="submit__btn-wrapper">
+      <button class="submit-btn upload-btn" @click="upload">
+        Submit <BaseSpinner v-if="loading" />
+        <svg
+          v-if="submitIcon"
+          class="svgIcon"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+            fill="#43A047"
+          />
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -68,4 +74,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+.upload-file__wrapper {
+  margin: 2rem;
+}
+
+.upload-file__wrapper h4 {
+  color: #000a4a;
+  font-weight: 600;
+}
+</style>

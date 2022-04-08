@@ -1034,7 +1034,6 @@
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import incidentMainFormfrom from "@/components/incidentMainForm.vue";
-import wikiPDF from "@/components/wikiPDF.vue";
 import modal from "@/components/modal.vue";
 import advisoryForm from "@/components/advisoryForm.vue";
 import serviceCatalogeForm from "@/components/serviceCatalogeForm.vue";
@@ -1063,7 +1062,6 @@ export default {
     };
   },
   components: {
-    wikiPDF,
     modal,
     UseCaseForm,
     serviceCatalogeForm,

@@ -503,7 +503,7 @@ textarea::placeholder {
 
 .pdfs__wrapper {
   width: 80%;
-  margin: 0rem auto;
+  margin: 1rem auto;
 }
 
 .pdfs__top h4 {
@@ -520,7 +520,7 @@ textarea::placeholder {
   visibility: hidden;
 }
 .pdfs__top input[type="file"] {
-  color: #fff;
+  color: #000a4a;
 }
 
 .pdfs__top input[type="file"]::before {

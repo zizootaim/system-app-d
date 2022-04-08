@@ -50,7 +50,6 @@
   </div>
 </template>
 <script>
-
 export default {
   data() {
     return {
@@ -78,7 +77,8 @@ export default {
   computed: {
     dataObj() {
       return {
-        id: this.id,
+        ...this.editingUser,
+
         Name: this.name,
         Title: this.title,
         Email: this.email,
@@ -88,23 +88,22 @@ export default {
     },
   },
   methods: {
- 
-    submitData() {
+    async submitData() {
       console.log(this.dataObj);
-      // this.spinnerLoading = true;
-      // let response = await this.$store.dispatch('editStaff', {
-      //   apiName: 'staff',
-      //   body: this.dataObj,
-      // });
-      // console.log(response);
-      // if (response) {
-      //   this.spinnerLoading = false;
-      //   this.submitIcon = true;
-      //   setTimeout(() => {
-      //     this.submitIcon = false;
-      //     document.querySelector('.close').click();
-      //   }, 1000);
-      // }
+      this.spinnerLoading = true;
+      let response = await this.$store.dispatch("editStaff", {
+        apiName: "staff",
+        body: this.dataObj,
+      });
+      console.log(response);
+      if (response) {
+        this.spinnerLoading = false;
+        this.submitIcon = true;
+        setTimeout(() => {
+          this.submitIcon = false;
+          document.querySelector(".close").click();
+        }, 1000);
+      }
     },
   },
 };
