@@ -514,7 +514,7 @@
                     <h4>Start Time</h4>
                   </div>
                   <div class="col">
-                    <h4>Alert Description</h4>
+                    <h4>Alert Status</h4>
                   </div>
                 </div>
                 <div
@@ -542,13 +542,14 @@
                         <span>{{ alertsCard.StartTime }}</span>
                       </p>
                     </div>
-                    <div class="col">
+                    <div class="col" :class="statusClass(alertsCard.status)">
                       <p>
-                        <span>{{ alertsCard.description }}</span>
+                        <span>{{ alertsCard.status }}</span>
                       </p>
                     </div>
                   </div>
                   <div class="row bottom-row">
+                    <div>Description: {{ alertsCard.description }}</div>
                     <div>Action Taken : {{ alertsCard.ActionTaken }}</div>
                     <div>Next Action : {{ alertsCard.NextAction }}</div>
                     <div>Who : {{ alertsCard.who }}</div>
@@ -589,7 +590,7 @@
                   </div>
 
                   <div class="col">
-                    <h4>Incident Description</h4>
+                    <h4>Incident Status</h4>
                   </div>
                 </div>
 
@@ -618,22 +619,18 @@
                         <span>{{ incidentsCard.number }}</span>
                       </p>
                     </div>
-                    <div class="col">
-                      <p>
-                        <span>{{ incidentsCard.description }}</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row bottom-row">
-                    <div>Action Taken : {{ incidentsCard.ActionTaken }}</div>
-                    <div>Next Action : {{ incidentsCard.NextAction }}</div>
-                    <div>Who : {{ incidentsCard.who }}</div>
-
-                    <div :class="statusClass(incidentsCard.status)">
+                    <div class="col" :class="statusClass(incidentsCard.status)">
                       <p>
                         <span>{{ incidentsCard.status }}</span>
                       </p>
                     </div>
+                  </div>
+                  <div class="row bottom-row">
+                    <div>Description : {{ incidentsCard.description }}</div>
+                    <div>Action Taken : {{ incidentsCard.ActionTaken }}</div>
+                    <div>Next Action : {{ incidentsCard.NextAction }}</div>
+                    <div>Who : {{ incidentsCard.who }}</div>
+
                     <div>Close Time : {{ incidentsCard.CloseTime }}</div>
                   </div>
                 </div>
@@ -902,11 +899,7 @@
 
           <div class="table__wrapper">
             <div class="table">
-              <div class="table__row header">
-                <div class="col">
-                  <h4>Title</h4>
-                </div>
-              </div>
+              <div class="table__row header"></div>
 
               <div
                 class="table__row"
@@ -927,7 +920,6 @@
                 </div>
                 <div class="row bottom-row">
                   <div class="book__data">
-                    <div>Category : {{ book.category }}</div>
                     <div>Description : {{ book.description }}</div>
                     <div class="book__table">
                       <div class="book_table">
@@ -941,27 +933,28 @@
                           <div class="col">
                             <h4>Team</h4>
                           </div>
-                        </div>
-                        <div
-                          class="row top-row"
-                          v-for="(r, index) in parse(book.data)"
-                          :key="index"
-                        >
-                          <div class="col">
-                            <p>
-                              <span>{{ r.activity }}</span>
-                            </p>
+                          <!---   <div
+                            class="row top-row"
+                            v-for="(r, index) in parse(book.data)"
+                            :key="index"
+                          >
+                            <div class="col">
+                              <p>
+                                <span>{{ r.activity }}</span>
+                              </p>
+                            </div>
+                            <div class="col">
+                              <p>
+                                <span>{{ r.irStage }}</span>
+                              </p>
+                            </div>
+                            <div class="col">
+                              <p>
+                                <span>{{ r.team }}</span>
+                              </p>
+                            </div>
                           </div>
-                          <div class="col">
-                            <p>
-                              <span>{{ r.irStage }}</span>
-                            </p>
-                          </div>
-                          <div class="col">
-                            <p>
-                              <span>{{ r.team }}</span>
-                            </p>
-                          </div>
+                          --->
                         </div>
                       </div>
                     </div>

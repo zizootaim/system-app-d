@@ -1,6 +1,6 @@
 export const state = () => ({
-  role: localStorage.getItem("role"),
-  name: localStorage.getItem("name"),
+  role: "",
+  name: "",
   message: "",
   chosenForm: "",
   url: {
@@ -235,7 +235,7 @@ export const actions = {
             const rightParent = right.filter((p) => p.child == false)[0],
               rightChilds = right.filter((c) => c.child == true),
               rightStaff = { parent: rightParent, childs: rightChilds };
-            data = [rightStaff,leftStaff,topParent];
+            data = [rightStaff, leftStaff, topParent];
           }
           console.log(data);
           if (apiName != "Shifts") {
@@ -278,6 +278,7 @@ export const actions = {
       .catch((error) => console.log("error", error));
   },
   async editStaff({ state, commit }, dataObj) {
+    console.log(dataObj);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     console.log(state.url[dataObj.apiName]);
@@ -391,6 +392,7 @@ export const actions = {
       })
       .catch((error) => console.log("error", error));
   },
+
   // deletePdf1({ state, commit }, dataObj) {
   //   try {
   //     console.log(dataObj.body);

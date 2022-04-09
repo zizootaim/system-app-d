@@ -14,10 +14,11 @@ export default {
     AppNav,
   },
   mounted() {
-    if (!localStorage.getItem("name")) {
+    if (!localStorage.getItem("role")) {
       localStorage.setItem("name", "");
       localStorage.setItem("role", "");
     }
+    this.$store.commit("changeRole");
   },
 };
 </script>

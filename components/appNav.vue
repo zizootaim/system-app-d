@@ -24,7 +24,7 @@
         <li>
           <nuxt-link to="/serviceCatalog">Service Catalog</nuxt-link>
         </li>
-        <li v-if="getRole == ''">
+        <li v-if="getRole == '' || getRole == ' '">
           <button
             id="registerBtn"
             class="authButton"
@@ -33,12 +33,12 @@
             Register
           </button>
         </li>
-        <li v-if="getRole == ''">
+        <li v-if="getRole == '' || getRole == ' '">
           <button @click="status = 'login'" id="loginBtn" class="authButton">
             Log In
           </button>
         </li>
-        <li v-if="getRole != ''">
+        <li v-if="getRole != '' && getRole != ' '">
           <button id="logoutBtn" @click="logOut" class="authButton">
             Log Out
           </button>
@@ -93,6 +93,7 @@ export default {
       document.querySelector(".body").classList.toggle("light-mode");
       if (document.querySelector(".body").className.includes("light-mode")) {
         document.querySelector(".theme-btn i").className = "fas fa-sun";
+        //document.body.style.background ='#fff';
       } else {
         document.querySelector(".theme-btn i").className = "fas fa-moon";
       }
@@ -124,5 +125,4 @@ img {
   border: 0px;
   cursor: pointer;
 }
-
 </style>

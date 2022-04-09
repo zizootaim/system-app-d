@@ -59,6 +59,7 @@ export default {
       email: "",
       mobile: "",
       phone: "",
+      child: 1,
       spinnerLoading: false,
       submitIcon: false,
     };
@@ -73,17 +74,20 @@ export default {
     this.email = this.editingUser.Email;
     this.phone = this.editingUser.Phone;
     this.mobile = this.editingUser.Mobile;
+    if(this.editingUser.child == false) this.child = 0;
   },
   computed: {
     dataObj() {
       return {
         ...this.editingUser,
-
+        id: this.editingUser.id,
+        ParentName: this.editingUser.ParentName,
         Name: this.name,
         Title: this.title,
         Email: this.email,
         Mobile: this.mobile,
         Phone: this.phone,
+        child:this.child
       };
     },
   },
@@ -95,9 +99,8 @@ export default {
         body: this.dataObj,
       });
       console.log(response);
-        this.spinnerLoading = true;
+      this.spinnerLoading = true;
       if (response) {
-        
         setTimeout(() => {
           this.spinnerLoading = false;
           this.submitIcon = false;

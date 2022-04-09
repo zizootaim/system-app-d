@@ -1,7 +1,10 @@
 <template>
   <div class="shift__form-wrapper">
     <h1 class="form__title">Alerts</h1>
-    <form class="shift__form alerts__form long__form" v-on:submit.prevent="submitData">
+    <form
+      class="shift__form alerts__form long__form"
+      v-on:submit.prevent="submitData"
+    >
       <div class="form__control">
         <input
           type="text"
@@ -43,21 +46,11 @@
       ></textarea>
 
       <div class="form__control">
-        <input
-          type="text"
-          name="ActionTaken"
-          required
-          v-model="ActionTaken"
-        />
+        <input type="text" name="ActionTaken" required v-model="ActionTaken" />
         <span class="form__control-label">Action Taken</span>
       </div>
       <div class="form__control">
-        <input
-          type="text"
-          name="NextAction"
-          required
-          v-model="NextAction"
-        />
+        <input type="text" name="NextAction" required v-model="NextAction" />
         <span class="form__control-label">Next Action</span>
       </div>
 
@@ -66,7 +59,7 @@
           <option value="" selected disabled hidden>Status</option>
 
           <option value="Initial Investigation">Initial Investigation</option>
-          <option value="Sloution In Progress">Sloution In Progress</option>
+          <option value="Solution In Progress">Solution In Progress</option>
           <option value="Pending">Pending</option>
           <option value="Closed">Closed</option>
         </select>
@@ -87,26 +80,26 @@
           v-model="closeTime"
         />
       </div>
-   
+
+      <div class="submit-btn__wrapper">
+        <button class="submit-btn">
+          Submit
+          <svg
+            v-if="submitIcon"
+            class="svgIcon"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+              fill="#43A047"
+            />
+          </svg>
+          <BaseSpinner v-if="spinnerLoading" />
+        </button>
+      </div>
     </form>
-    <div class="submit-btn__wrapper">
-         <button class="submit-btn">
-        Submit
-        <svg
-          v-if="submitIcon"
-          class="svgIcon"
-          viewBox="0 0 1024 1024"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
-            fill="#43A047"
-          />
-        </svg>
-        <BaseSpinner v-if="spinnerLoading" />
-      </button>
-    </div>
   </div>
 </template>
 <script>
@@ -165,6 +158,4 @@ export default {
   },
 };
 </script>
-<style>
-
-</style>
+<style></style>

@@ -24,6 +24,10 @@ import editForm from "@/components/staff/editForm.vue";
 import { mapGetters } from "vuex";
 
 export default {
+  computed: {
+    ...mapGetters(["getRole"]),
+  },
+
   data() {
     return {
       chosenForm: "",

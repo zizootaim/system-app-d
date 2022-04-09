@@ -5,6 +5,7 @@
         class="fas fa-edit edit-btn"
         @click="() => showEditForm(getStaff[0])"
       ></i>
+
       <manSvg />
       <div class="person__info">
         <h4>{{ getStaff[0].Name }}</h4>
@@ -12,10 +13,10 @@
           {{ getStaff[0].Title }}
         </p>
         <div class="person__data">
-          <p>{{ getStaff.Email }}</p>
-          <p>{{ getStaff.Phone }}</p>
+          <p>{{ getStaff[0].Email }}</p>
+          <p><span>Phone : </span> {{ getStaff[0].Phone }}</p>
+          <p><span>Mobile : </span> {{ getStaff[0].Mobile }}</p>
         </div>
-        <p>Mobile : {{ getStaff.Mobile }}</p>
       </div>
     </div>
     <ol class="level-2-wrapper">
@@ -25,6 +26,7 @@
             class="fas fa-edit edit-btn"
             @click="() => showEditForm(getStaff[1].parent)"
           ></i>
+
           <manSvg />
           <div class="person__info">
             <h4>{{ getStaff[1].parent.Name }}</h4>
@@ -33,9 +35,9 @@
             </p>
             <div class="person__data">
               <p>{{ getStaff[1].parent.Email }}</p>
-              <p>{{ getStaff[1].parent.Phone }}</p>
+              <p><span>Phone : </span> {{ getStaff[1].parent.Phone }}</p>
+              <p><span>Mobile : </span> {{ getStaff[1].parent.Mobile }}</p>
             </div>
-            <p>Mobile : {{ getStaff[1].parent.Mobile }}</p>
           </div>
         </div>
         <ol class="level-3-wrapper">
@@ -49,6 +51,7 @@
                 class="fas fa-edit edit-btn"
                 @click="() => showEditForm(s)"
               ></i>
+
               <manSvg />
               <div class="person__info">
                 <h4>{{ s.Name }}</h4>
@@ -57,9 +60,9 @@
                 </p>
                 <div class="person__data">
                   <p>{{ s.Email }}</p>
-                  <p>{{ s.Phone }}</p>
+                  <p><span>Phone : </span> {{ s.Phone }}</p>
+                  <p><span>Mobile : </span> {{ s.Mobile }}</p>
                 </div>
-                <p>Mobile : {{ s.Mobile }}</p>
               </div>
             </div>
           </li>
@@ -71,6 +74,7 @@
             class="fas fa-edit edit-btn"
             @click="() => showEditForm(getStaff[2].parent)"
           ></i>
+
           <manSvg />
           <div class="person__info">
             <h4>{{ getStaff[2].parent.Name }}</h4>
@@ -79,9 +83,9 @@
             </p>
             <div class="person__data">
               <p>{{ getStaff[2].parent.Email }}</p>
-              <p>{{ getStaff[2].parent.Phone }}</p>
+              <p><span>Phone : </span> {{ getStaff[2].parent.Phone }}</p>
+              <p><span>Mobile : </span> {{ getStaff[2].parent.Mobile }}</p>
             </div>
-            <p>Mobile : {{ getStaff[2].parent.Mobile }}</p>
           </div>
         </div>
         <ol class="level-3-wrapper">
@@ -95,6 +99,7 @@
                 class="fas fa-edit edit-btn"
                 @click="() => showEditForm(s)"
               ></i>
+
               <manSvg />
               <div class="person__info">
                 <h4>{{ s.Name }}</h4>
@@ -103,9 +108,9 @@
                 </p>
                 <div class="person__data">
                   <p>{{ s.Email }}</p>
-                  <p>{{ s.Phone }}</p>
+                  <p><span>Phone : </span> {{ s.Phone }}</p>
+                  <p><span>Mobile : </span> {{ s.Mobile }}</p>
                 </div>
-                <p>Mobile : {{ s.Mobile }}</p>
               </div>
             </div>
           </li>
@@ -158,6 +163,33 @@ export default {
       this.editingUser = user;
       console.log(user);
     },
+    async deleteMember(id) {
+      console.log(id);
+      //   await fetch(state.url[dataObj.apiName], {
+      //   method: "POST",
+      //   headers: { "Content-Type": " application/json" },
+      //   body: JSON.stringify(dataObj.body),
+      // })
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+      var urlencoded = new URLSearchParams();
+      urlencoded.append("id", id);
+      var requestOptions = {
+        method: "DELETE",
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: "follow",
+      };
+      fetch("https://beapis.herokuapp.com/api/Staff", requestOptions)
+        .then((res) => res.text())
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((err) => console.log(err));
+
+      this.$store.dispatch("getData", "staff");
+    },
   },
 };
 </script>
@@ -174,30 +206,40 @@ export default {
 
 .rectangle {
   position: relative;
-  padding: 10px;
+  padding: 0.5rem;
   box-shadow: 0 5px 15px rgba(26, 23, 23, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
 }
-.edit-btn {
+
+.edit-btn,
+.delete-btn {
   color: #fff;
   position: absolute;
   top: 0.5rem;
   left: 0.5rem;
+  font-size: 0.8rem;
   cursor: pointer;
+}
+.delete-btn {
+  left: 2rem;
+  color: rgb(163, 21, 21);
 }
 .person__info {
   padding: 0.5rem;
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+
   text-align: center;
 }
 .person__info p {
-  margin: 0.35rem auto;
-  width: 80%;
+  margin: 0.2rem auto;
+  width: 100%;
   font-size: 0.8rem;
 }
 .person__info h4 {
@@ -205,12 +247,14 @@ export default {
 }
 .person__data {
   display: flex;
-  justify-content: space-between;
-  margin: -0.5rem 0;
+  flex-direction: column;
 }
 .person__data p {
   font-size: 0.74rem;
-  margin-left: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  justify-self: flex-start;
+  align-self: flex-start;
 }
 
 /* LEVEL-1 STYLES
@@ -404,7 +448,7 @@ export default {
 }
 .rectangle {
   width: 260px;
-  height: 120px;
+  height: 130px;
   background: #010a3d;
 }
 .light-mode .container *::before {

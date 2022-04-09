@@ -3,7 +3,7 @@
     <h1 class="form__title">Add Staff Member</h1>
     <form class="long__form add-form" v-on:submit.prevent="submitData">
       <div class="form__control select">
-        <select name="parentLevel" v-model="level">
+        <select name="parentLevel" v-model="level" >
           <option value="" selected disabled hidden>Parent Level</option>
           <option value="1">1</option>
           <option value="2-1">2-Right</option>
@@ -36,8 +36,9 @@
         <input type="text" name="phone" required v-model="phone" />
         <span class="form__control-label">Phone</span>
       </div>
-      <div
-        v-if="level == '2-1' || level == '2-2'"
+      
+    <div
+        v-if="level == '2-1'|| level == '2-2' "
         class="childrens full long__form"
       >
         <h3 class="full">children</h3>
@@ -115,6 +116,7 @@ export default {
       childMobile: "",
       childPhone: "",
       childs: [],
+      addingChild:false,
       spinnerLoading: false,
       submitIcon: false,
     };
@@ -235,5 +237,8 @@ export default {
 }
 .add-form .submit__btn-wrapper {
   padding-top: 1rem;
+}
+.form-btn:hover{
+  color: #000;
 }
 </style>

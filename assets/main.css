@@ -92,9 +92,7 @@ label {
   background: #fff;
   transition: 0.4s;
 }
-.light-mode .wiki__links li::after {
-  background: #000;
-}
+
 .wiki__links li:hover::after {
   width: 100%;
 }
@@ -403,7 +401,7 @@ textarea::placeholder {
 
 .light-mode .wiki__nav {
   background: #fff;
-  border: 0.2px solid rgba(0, 0, 0, 0.4);
+  border-bottom: 0.2px solid rgba(0, 0, 0, 0.4);
 }
 .light-mode .wiki__menu .menu__item button {
   color: #010f60;
@@ -432,6 +430,9 @@ textarea::placeholder {
 .light-mode .wiki__item-title,
 .light-mode .wiki__item ul li {
   color: #030d44;
+}
+.light-mode .wiki__links li::after {
+  background: #000;
 }
 .light-mode .Home h1,
 .light-mode .Home p,
@@ -465,7 +466,19 @@ textarea::placeholder {
 .light-mode .wiki__links-icon {
   color: #000;
 }
-
+.light-mode .pdf p{
+  color: #000;
+}
+.light-mode .wiki__menu .menu__item button:hover{
+  background: #010f60;
+  color: #fff;
+}
+.light-mode .menu__icon{
+  color: #000;
+}
+.body.light-mode {
+  background: #eee;
+}
 /* Wiki Page */
 
 .issue {
