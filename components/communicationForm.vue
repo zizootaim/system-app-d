@@ -1,7 +1,7 @@
 <template>
   <div class="shift__form-wrapper">
     <h1 class="form__title">Communication</h1>
-    <form class="shift__form" v-on:submit.prevent="submitData">
+    <form class="long__form" v-on:submit.prevent="submitData">
       <div class="form__control">
         <input
           type="text"
@@ -84,7 +84,7 @@
         />
         <span class="form__control-label">Secondary Phone</span>
       </div>
-      <div class="submit-btn__wrapper">
+      <div class="submit-btn__wrapper full">
         <button class="submit-btn" type="submit">
           Submit
           <svg

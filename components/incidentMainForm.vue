@@ -73,13 +73,13 @@
           <span class="form__control-label">Repeated Incident</span>
         </div>
         <div class="form__control">
-          <select name="priority" v-model="priority">
-            <option value="" selected disabled hidden>Priority</option>
+          <select name="priority" required v-model="priority">
             <option value="Critical">Critical</option>
             <option value="high">High</option>
             <option value="Medium">Medium</option>
             <option value="Low">Low</option>
           </select>
+          <span class="form__control-label">Priority</span>
         </div>
         <div class="form__control">
           <input
@@ -91,36 +91,36 @@
           />
           <span class="form__control-label">Impact Duration</span>
         </div>
-        <div class="form__control">
-          <input
-            type="text"
+        <div class="form__control full textarea">
+          <textarea
             name="affectedSystem"
             required
             v-model="affectedSystem"
-            autocomplete="off"
-          />
+            cols="20"
+            rows="2"
+          ></textarea>
           <span class="form__control-label">Affected System /Host</span>
         </div>
 
         <p>INCIDENTS TRIAGE</p>
 
         <div class="form__control">
-          <select name="incidentVerification" v-model="incidentVerification">
-            <option value="" selected disabled hidden>
-              Incident Verification
-            </option>
+          <select
+            name="incidentVerification"
+            required
+            v-model="incidentVerification"
+          >
             <option value="True Positive">True Positive</option>
             <option value="False Positive">False Positive</option>
           </select>
+          <span class="form__control-label">Incident Verification</span>
         </div>
         <div class="form__control">
           <select
             name="incidentClassification"
             v-model="incidentClassification"
+            required
           >
-            <option value="" selected disabled hidden>
-              Incident Classification
-            </option>
             <option value="Denial of Service ">Denial of Service</option>
             <option value="Malware">Malware</option>
             <option value="Security Compromise">Security Compromise</option>
@@ -134,28 +134,31 @@
             <option value="Social Engineering ">Social Engineering</option>
             <option value="Other">Other</option>
           </select>
+          <span class="form__control-label"> Incident Classification</span>
+        </div>
+        <div class="form__control" v-if="incidentClassification == 'Other'">
+          <input
+            type="text"
+            v-model="otherIncidentClassification"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Other Incident Classification</span>
         </div>
         <p>Brief Description :</p>
-        <textarea
-          style="margin-top: 0.6rem"
-          name="incidentDescription"
-          placeholder="Incident Description"
-          v-model="incidentDescription"
-          cols="20"
-          rows="3"
-        ></textarea>
+        <div class="form__control full textarea" style="margin-top: 1.1rem">
+          <textarea
+            name="incidentDescription"
+            v-model="incidentDescription"
+            required
+            cols="20"
+            rows="2"
+          ></textarea>
+          <span class="form__control-label">Incident Description</span>
+        </div>
 
         <p>INCIDENT CONTAINMENT, ERADICATION, AND RECOVERY</p>
 
-        <div class="form__control" style="margin-top: 1rem">
-          <input
-            type="text"
-            name="evidenceAcquiring"
-            required
-            v-model="evidenceAcquiring"
-          />
-          <span class="form__control-label">Evidence Acquiring</span>
-        </div>
         <div class="form__control">
           <input
             type="text"
@@ -165,39 +168,53 @@
           />
           <span class="form__control-label">Data Sources Health</span>
         </div>
+        <div class="form__control full textarea">
+          <textarea
+            name="evidenceAcquiring"
+            required
+            v-model="evidenceAcquiring"
+            cols="20"
+            rows="2"
+          ></textarea>
+          <span class="form__control-label">Evidence Acquiring</span>
+        </div>
 
-        <div class="form__control">
-          <input
-            type="text"
+        <div class="form__control full textarea">
+          <textarea
             name="containmentMeasures"
             required
             v-model="containmentMeasures"
-          />
+            cols="20"
+            rows="2"
+          ></textarea>
           <span class="form__control-label">Containment Measures</span>
         </div>
-        <div class="form__control">
-          <input
-            type="text"
+        <div class="form__control full textarea">
+          <textarea
             name="eradicationMeasures"
             required
             v-model="eradicationMeasures"
-          />
+            cols="20"
+            rows="2"
+          ></textarea>
           <span class="form__control-label">Eradication Measures</span>
         </div>
-        <div class="form__control">
-          <input
-            type="text"
+
+        <div class="form__control full textarea">
+          <textarea
             name="recoveryMeasures"
             required
             v-model="recoveryMeasures"
-          />
+            cols="20"
+            rows="2"
+          ></textarea>
           <span class="form__control-label">Recovery Measures</span>
         </div>
+
         <p>POST INCIDENT ACTIVITY</p>
 
-        <div class="form__control">
-          <select name="notification" v-model="notification">
-            <option value="" selected disabled hidden>Notification</option>
+        <div class="form__control" style="margin-top: 1rem">
+          <select name="notification" required v-model="notification">
             <option value="Network Team  ">Network Team</option>
             <option value="Tech Team ">Tech Team</option>
             <option value="InfoSec Team">InfoSec Team</option>
@@ -206,6 +223,7 @@
             <option value="Compliance Team ">Compliance Team</option>
             <option value="Other">Other</option>
           </select>
+          <span class="form__control-label">Notification</span>
         </div>
         <div class="form__control" v-if="notification == 'Other'">
           <input
@@ -216,36 +234,63 @@
           />
           <span class="form__control-label">Other Notification</span>
         </div>
-        <div class="form__control">
-          <input
-            type="text"
+
+        <div class="form__control full textarea">
+          <textarea
             name="RootCase Analysis"
             required
             v-model="rootCaseAnalysis"
-          />
+            cols="20"
+            rows="2"
+          ></textarea>
           <span class="form__control-label">Root Case Analysis</span>
         </div>
-        <div class="form__control">
+
+        <!-- <div class="form__control">
           <input
             type="text"
             name="incidentAvoidability"
             required
             v-model="incidentAvoidability"
           />
+          <span class="form__control-label"></span>
+        </div> -->
+        <div class="form__control" style="margin-top: 1rem">
+          <select
+            name="incidentAvoidability"
+            required
+            v-model="incidentAvoidability"
+          >
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
           <span class="form__control-label">Incident Avoidability</span>
         </div>
-        <p>INCIDENT CLOSURE</p>
-        <div class="form__control" style="margin-top: 1rem">
+        <div class="form__control" v-if="incidentAvoidability == 'true'">
           <input
             type="text"
-            name="RootCase Analysis"
+            name="otherIncidentAvoidability"
+            required
+            v-model="otherIncidentAvoidability"
+          />
+          <span class="form__control-label">Other Incident Avoidability</span>
+        </div>
+
+        <p>INCIDENT CLOSURE</p>
+
+        <div class="form__control full textarea">
+          <textarea
+            name="recommendations"
             required
             v-model="recommendations"
-          />
+            cols="20"
+            rows="2"
+          ></textarea>
           <span class="form__control-label"
             >Recommendations for improvements</span
           >
         </div>
+
         <div class="form__control time-control">
           <input type="date" v-model="closureDate" />
 
@@ -253,12 +298,14 @@
         </div>
         <p>Reviewed By</p>
         <div class="form__control">
-          <select name="title" v-model="title">
-            <option value="" selected disabled hidden>Reviewer</option>
+          <select name="title" v-model="title" required>
+            <option value="" selected disabled hidden></option>
             s
             <option value="SOC Manager ">SOC Manager</option>
             <option value="Security Head">Security Head</option>
           </select>
+
+          <span class="form__control-label">Reviewer</span>
         </div>
         <div class="form__control">
           <input type="text" name="signature" required v-model="signature" />
@@ -320,8 +367,10 @@ export default {
       containmentMeasures: "",
       recoveryMeasures: "",
       incidentClassification: "",
+      otherIncidentClassification: "",
       rootCaseAnalysis: "",
       incidentAvoidability: "",
+      otherIncidentAvoidability: "",
       eradicationMeasures: "",
       recommendations: "",
       closureDate: "",
@@ -349,7 +398,7 @@ export default {
         ImpactDuration: this.impactDuration,
         AffectedSystem: this.affectedSystem,
         IncidentVerification: this.incidentVerification,
-        IncidentClassification: this.incidentDescription,
+        IncidentClassification: this.currentIncidentClassification,
         Description: this.incidentDescription,
         EvidenceAcquiring: this.evidenceAcquiring,
         DataHealth: this.dataSourcesHealth,
@@ -358,7 +407,7 @@ export default {
         RecoveryMeasures: this.recoveryMeasures,
         Notification: this.currentNotification,
         CaseAnalysis: this.rootCaseAnalysis,
-        IncidentAvailability: this.incidentAvoidability,
+        IncidentAvailability: this.currentIncidentClassificatioAvoidability,
         Improvements: this.recommendations,
         TimeOfClosure: this.closureDate + " " + this.closureTime,
         Title: this.title,
@@ -370,6 +419,17 @@ export default {
       return this.notification == "Other"
         ? this.otherNotification
         : this.notification;
+    },
+    currentIncidentClassification: function () {
+      return this.incidentClassification == "Other"
+        ? this.otherIncidentClassification
+        : this.incidentClassification;
+    },
+    currentIncidentClassificatioAvoidability: function () {
+      console.log(this.incidentAvoidability);
+      return this.incidentAvoidability == "true"
+        ? this.otherIncidentAvoidability
+        : this.incidentAvoidability;
     },
   },
   methods: {
@@ -405,7 +465,7 @@ export default {
   color: #fff;
   background: #40358e;
   border-radius: 0.7rem;
-  margin-bottom: 0.7rem;
+  margin-bottom: 1.3rem;
   text-align: center;
   padding: 0.4rem 0;
   text-transform: uppercase;

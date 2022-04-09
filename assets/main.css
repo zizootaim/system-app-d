@@ -92,7 +92,9 @@ label {
   background: #fff;
   transition: 0.4s;
 }
-
+.wiki__links li a{
+  color: #fff;
+}
 .wiki__links li:hover::after {
   width: 100%;
 }
@@ -192,15 +194,17 @@ button {
 }
 .form__control {
   width: 100%;
-  max-height: 2.5rem;
   margin: auto;
   display: flex;
   align-items: center;
   border-bottom: 1.5px solid #fff;
   background: none;
-  margin-bottom: 1.3rem;
+  margin-bottom: 1.2rem;
   padding: 0.2rem;
   position: relative;
+}
+.secform .form__control{
+  margin-bottom: .5rem;
 }
 .full {
   grid-column: -1 / 1;
@@ -210,16 +214,14 @@ button {
   font-size: 0.9rem;
   letter-spacing: 0.056rem;
   position: absolute;
-  top: 25%;
+  top: 20%;
   bottom: 20%;
   left: 8%;
   transition: 0.3s;
   color: #fff;
   z-index: -1;
 }
-.form__control.textarea {
-  border: none;
-}
+
 .form__control input {
   width: 100%;
   border: none;
@@ -228,26 +230,38 @@ button {
   padding: 0.2rem 0.5rem;
   color: #fff;
 }
-.form__control input::placeholder {
-  font-size: 0.8rem;
-  color: #ddd;
-}
+
 .form__control i {
   color: #fff;
   padding-top: 0.2rem;
 }
 .form__control input:focus ~ .form__control-label,
-.form__control input:valid ~ .form__control-label {
+.form__control input:valid ~ .form__control-label,
+.form__control select:valid ~ .form__control-label,
+.form__control.textarea textarea:focus  ~ .form__control-label,
+.form__control.textarea textarea:valid  ~ .form__control-label {
   top: -1rem;
   left: 0;
   color: #fff;
   font-size: 0.8rem;
 }
+.form__control.textarea{
+  padding-top: .5rem;
+  border: none;
+  margin-bottom: .1rem;
+  max-height: unset;
+}
+.form__control.textarea textarea{
+  background: none;
+}
 .secform .form__control-label {
   left: 2%;
 }
 .secform .form__control input:focus ~ .form__control-label,
-.secform .form__control input:valid ~ .form__control-label {
+.secform .form__control input:valid ~ .form__control-label,
+.form__control select:valid ~ .form__control-label ,
+.form__control.textarea textarea:focus  ~ .form__control-label,
+.form__control.textarea textarea:valid  ~ .form__control-label {
   color: #010f60;
 }
 
@@ -518,7 +532,10 @@ textarea::placeholder {
   width: 80%;
   margin: 1rem auto;
 }
-
+.pdfs__top{
+  width: 75%;
+  margin: auto;
+}
 .pdfs__top h4 {
   margin-bottom: 0.6rem;
   font-weight: 400;

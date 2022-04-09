@@ -1,21 +1,21 @@
 <template>
   <div class="container" v-if="getStaff.length >= 1">
-    <div class="level-1 rectangle" v-if="getStaff[0]">
+    <div class="level-1 rectangle" v-for="(t,index) in getStaff[0]" :key="index">
       <i
         class="fas fa-edit edit-btn"
-        @click="() => showEditForm(getStaff[0])"
+        @click="() => showEditForm(t)"
       ></i>
 
       <manSvg />
       <div class="person__info">
-        <h4>{{ getStaff[0].Name }}</h4>
+        <h4>{{ t.Name }}</h4>
         <p>
-          {{ getStaff[0].Title }}
+          {{ t.Title }}
         </p>
         <div class="person__data">
-          <p>{{ getStaff[0].Email }}</p>
-          <p><span>Phone : </span> {{ getStaff[0].Phone }}</p>
-          <p><span>Mobile : </span> {{ getStaff[0].Mobile }}</p>
+          <p>{{ t.Email }}</p>
+          <p><span>Phone : </span> {{ t.Phone }}</p>
+          <p><span>Mobile : </span> {{ t.Mobile }}</p>
         </div>
       </div>
     </div>
@@ -273,6 +273,12 @@ export default {
   width: 2px;
   height: 20px;
   background: rgb(255, 255, 255);
+}
+.level-1::before{
+  height: 40px;
+}
+.level-1:last-of-type::before{
+  height: 20px;
 }
 
 /* LEVEL-2 STYLES

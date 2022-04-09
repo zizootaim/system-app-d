@@ -13,25 +13,27 @@
         <span class="form__control-label">Use Case Identifier</span>
       </div>
       <div class="form__control select">
-        <select name="priority" id="priority" v-model="priority">
-          <option value="" selected disabled hidden>Priority</option>
+        <select required name="priority" id="priority" v-model="priority">
           <option value="p1">P1</option>
           <option value="p2">P2</option>
           <option value="p3">P3</option>
           required
         </select>
+        <span class="form__control-label">Priority</span>
       </div>
 
-      <div class="form__control" style="grid-column: -1/1">
-        <input
-          type="text"
+      <div class="form__control full textarea">
+        <textarea
           name="purpose"
           v-model="purpose"
           autocomplete="off"
           required
-        />
+          cols="20"
+          rows="2"
+        ></textarea>
         <span class="form__control-label">Purpose</span>
       </div>
+
       <div class="form__control">
         <input
           v-model="stakeholders"
@@ -60,20 +62,17 @@
           autocomplete="off"
           required
         />
-                <span class="form__control-label">Logic</span>
-
+        <span class="form__control-label">Logic</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           v-model="output"
           name="output"
-
           autocomplete="off"
           required
         />
-                        <span class="form__control-label">Output</span>
-
+        <span class="form__control-label">Output</span>
       </div>
       <div class="form__control">
         <input
@@ -83,43 +82,43 @@
           autocomplete="off"
           required
         />
-                                <span class="form__control-label">Playbook</span>
-
+        <span class="form__control-label">Playbook</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="falsepositive"
-  
           v-model="falsepositive"
           autocomplete="off"
           required
         />
-          <span class="form__control-label">Know False Positive ?</span>
+        <span class="form__control-label">Know False Positive ?</span>
       </div>
       <div class="form__control">
         <input
           type="text"
           name="risk"
-
           v-model="risk"
           autocomplete="off"
           required
         />
-                  <span class="form__control-label">Risk or Threat</span>
-
+        <span class="form__control-label">Risk or Threat</span>
       </div>
       <div class="form__control select">
-        <select v-model="useCaseType" name="usecasetype" id="use-case__type">
-          <option value="" selected disabled hidden>Use Case Type</option>
+        <select
+          required
+          v-model="useCaseType"
+          name="usecasetype"
+          id="use-case__type"
+        >
           <option value="self monitoring">Self Monitoring</option>
           <option value="insider threat">Insider Threat</option>
           <option value="external threat">External Threat</option>
           <option value="compliance pci">Compliance - PCI</option>
           <option value="compliance cbe">Compliance - CBE</option>
           <option value="other">Other</option>
-          required
         </select>
+        <span class="form__control-label">Use Case Type</span>
       </div>
       <div
         class="form__control"
@@ -129,42 +128,39 @@
         <input
           type="text"
           name="otherUseCaseType"
-
           v-model="otherUseCaseType"
           autocomplete="off"
           required
         />
-                          <span class="form__control-label">Use Case Type</span>
-
+        <span class="form__control-label">Use Case Type</span>
       </div>
       <div class="form__control select">
-        <select name="alertvolume" v-model="volume" id="alert-volume">
-          <option value="" selected disabled hidden>Alert Volume</option>
+        <select required name="alertvolume" v-model="volume" id="alert-volume">
           <option value="very high">Very High</option>
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
           <option value="very low">Very Low</option>
-          required
         </select>
+        <span class="form__control-label">Alert Volume</span>
       </div>
       <div class="form__control select">
-        <select name="testing" id="testing" v-model="testing">
-          <option value="" selected disabled hidden>Testing</option>
+        <select required name="testing" id="testing" v-model="testing">
           <option value="tested">Tested</option>
           <option value="not tested">Not Tested</option>
           <option value="pending">Pending</option>
         </select>
+        <span class="form__control-label">Testing</span>
       </div>
 
       <div class="form__control select">
-        <select v-model="production" name="production" id="production">
-          <option value="" selected disabled hidden>Production</option>
+        <select required v-model="production" name="production" id="production">
           <option value="enabled">Enabled</option>
           <option value="disabled">Disabled</option>
           <option value="under testing">Under Testing</option>
           required
         </select>
+        <span class="form__control-label">Production</span>
       </div>
     </form>
     <div class="submit-btn__wrapper">

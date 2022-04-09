@@ -23,22 +23,28 @@
         <label for="time" class="time">Time</label>
         <input name="time" type="time" v-model="dateT" required />
       </div>
-      <textarea
-        style="grid-column: -1/1"
-        name="description"
-        placeholder="Description"
-        v-model="description"
-        cols="20"
-        rows="3"
-      ></textarea>
-      <textarea
-        style="grid-column: -1/1"
-        name="notes"
-        placeholder="Notes"
-        v-model="notes"
-        cols="20"
-        rows="3"
-      ></textarea>
+
+      <div class="form__control full textarea required">
+        <textarea
+          required
+          name="description"
+          v-model="description"
+          cols="20"
+          rows="2"
+        ></textarea>
+        <span class="form__control-label">Description</span>
+      </div>
+      <div class="form__control full textarea required">
+        <textarea
+          required
+          name="notes"
+          v-model="notes"
+          cols="20"
+          rows="2"
+        ></textarea>
+        <span class="form__control-label">Notes</span>
+      </div>
+
       <div class="form__control select" style="grid-column: -1/1">
         <select
           name="advisorysource"
@@ -46,13 +52,13 @@
           v-model="source"
           required
         >
-          <option value="" selected disabled hidden>Advisory Source</option>
           <option value="fincert">FINCERT</option>
           <option value="eg-cert">EG-CERT</option>
           <option value="sama">SAMA</option>
           <option value="nca">NCA</option>
           <option value="other">Other</option>
         </select>
+        <span class="form__control-label">Advisory Source</span>
       </div>
       <div class="form__control" v-if="source == 'other'">
         <input type="text" v-model="otherSource" autocomplete="off" required />
@@ -60,10 +66,10 @@
       </div>
       <div class="form__control select">
         <select name="applicable" id="applicable" v-model="applicable" required>
-          <option value="" selected disabled hidden>Applicable</option>
           <option value="Yes">Yes</option>
           <option value="No">No</option>
         </select>
+        <span class="form__control-label">Applicable</span>
       </div>
       <div class="form__control" v-if="applicable == 'No'">
         <input

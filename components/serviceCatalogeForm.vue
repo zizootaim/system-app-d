@@ -1,6 +1,6 @@
 <template>
   <div class="service__form-wrapper">
-    <h1 class="form__title">{{ formTitle }}</h1>
+    <h1 class="form__title">Service Catalog</h1>
 
     <form class="service__form" v-on:submit.prevent="submitData">
       <div class="form__control">
@@ -24,40 +24,51 @@
         <span class="form__control-label">Service Owner</span>
       </div>
 
-      <textarea
-        name="inputs"
-        placeholder="Inputs"
-        v-model="inputs"
-        required
-        cols="20"
-        rows="3"
-      ></textarea>
 
-      <textarea
-        name="output"
-        placeholder="Outputs"
-        v-model="outputs"
-        required
-        cols="20"
-        rows="3"
-      ></textarea>
-      <textarea
-        name="description"
-        placeholder="Description"
-        v-model="description"
-        required
-        cols="20"
-        rows="3"
-      ></textarea>
+      <div class="form__control  textarea">
+        <textarea
+          required
+          name="inputs"
+          placeholder=""
+          v-model="inputs"
+          cols="20"
+          rows="3"
+        ></textarea>
+        <span class="form__control-label">Inputs</span>
+      </div>
 
-      <textarea
-        name="consumers"
-        placeholder="Consumers"
-        v-model="consumers"
-        required
-        cols="20"
-        rows="3"
-      ></textarea>
+      <div class="form__control  textarea">
+        <textarea
+          required
+          name="output"
+          v-model="outputs"
+          cols="20"
+          rows="3"
+        ></textarea>
+        <span class="form__control-label">Outputs</span>
+      </div>
+      <div class="form__control  textarea">
+        <textarea
+          required
+          name="description"
+          v-model="description"
+          cols="20"
+          rows="3"
+        ></textarea>
+        <span class="form__control-label">Description</span>
+      </div>
+      <div class="form__control  textarea">
+        <textarea
+          required
+          name="consumers"
+          v-model="consumers"
+          cols="20"
+          rows="3"
+        ></textarea>
+        <span class="form__control-label">Consumers</span>
+      </div>
+
+
 
       <div class="form__control">
         <input
@@ -72,11 +83,10 @@
 
       <div class="form__control select">
         <select name="status" id="status" v-model="status" required>
-          <option value="" selected disabled hidden>Status</option>
-
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
         </select>
+        <span class="form__control-label">Status</span>
       </div>
       <div class="hours">
         <p>Service Hours</p>

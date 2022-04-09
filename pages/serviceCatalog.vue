@@ -60,9 +60,9 @@
             <div>Description : {{ serviceCard.description }}</div>
             <div>Service Hours : {{ serviceCard.hours }}</div>
             <div>Inputs : {{ serviceCard.inputs }}</div>
+            <div>Outputs : {{ serviceCard.outputs }}</div>
             <div>Consumers : {{ serviceCard.consumers }}</div>
             <div>Processes : {{ serviceCard.processes }}</div>
-            <div>Outputs : {{ serviceCard.outputs }}</div>
           </div>
         </div>
       </div>

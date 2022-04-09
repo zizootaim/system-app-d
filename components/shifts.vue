@@ -14,10 +14,7 @@
     >
       Edit
     </button>
-    <modal class="secform" v-on:close="setChosenForm('')" v-if="getChosenForm">
-      <add-shift-form v-if="getChosenForm == 'addShift'" />
-      <edit-shift-form v-if="getChosenForm == 'editShift'" />
-    </modal>
+   
     <div class="table__wrapper">
       <div
         class="table"
@@ -62,8 +59,7 @@
 <script>
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
-import addShiftForm from "./shifts/addShiftForm.vue";
-import editShiftForm from "./shifts/editShiftForm.vue";
+
 import modal from "./modal.vue";
 
 export default {
@@ -72,8 +68,7 @@ export default {
   },
   name: "shifts",
   components: {
-    addShiftForm,
-    editShiftForm,
+
     modal,
   },
   computed: {

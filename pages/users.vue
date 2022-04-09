@@ -65,10 +65,10 @@ export default {
   padding: 1.5rem 0;
 }
 .users {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   margin-top: 1rem;
+  gap: 1rem;
 }
 .user p,
 .user h2 {
@@ -81,7 +81,7 @@ export default {
 }
 .user {
   background: #091457;
-  margin: 1rem;
+
   padding: 1.3rem 1rem;
   border-radius: 1rem;
 }

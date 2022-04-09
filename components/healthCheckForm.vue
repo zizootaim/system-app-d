@@ -2,14 +2,16 @@
   <div class="shift__form-wrapper">
     <h1 class="form__title">Daily Health Check</h1>
     <form class="health__form" v-on:submit.prevent="submitData">
-      <textarea
-        style="grid-column: -1/1"
-        name="description"
-        placeholder="Check Description"
-        v-model="description"
-        cols="20"
-        rows="3"
-      ></textarea>
+      <div class="form__control full textarea" style="margin-top: 1rem">
+        <textarea
+          required
+          name="description"
+          v-model="description"
+          cols="20"
+          rows="3"
+        ></textarea>
+        <span class="form__control-label">Check Description</span>
+      </div>
 
       <div class="form__control">
         <select name="status" v-model="status">
@@ -73,14 +75,17 @@
             <input type="text" name="who" required v-model="healthIssue.who" />
             <span class="form__control-label">Who</span>
           </div>
-          <textarea
-            style="grid-column: -1/1"
-            name="IssueDescription"
-            placeholder="Issue Description"
-            v-model="healthIssue.issueDescription"
-            cols="20"
-            rows="3"
-          ></textarea>
+
+          <div class="form__control full textarea">
+            <textarea
+              required
+              name="IssueDescription"
+              v-model="healthIssue.issueDescription"
+              cols="20"
+              rows="3"
+            ></textarea>
+            <span class="form__control-label">Issue Description</span>
+          </div>
 
           <div class="form__control">
             <input
@@ -102,16 +107,15 @@
           </div>
 
           <div class="form__control" style="grid-column: -1 /1">
-            <select name="issueStatus" v-model="healthIssue.issueStatus">
-              <option value="" selected disabled hidden>Issue Status</option>
-
+            <select required name="issueStatus" v-model="healthIssue.issueStatus">
               <option value="Initial Investigation">
                 Initial Investigation
               </option>
-              <option value="Sloution In Progress">Sloution In Progress</option>
+              <option value="Solution In Progress">Solution In Progress</option>
               <option value="Pending">Pending</option>
               <option value="Closed">Closed</option>
             </select>
+            <span class="form__control-label">Issue Status</span>
           </div>
           <div class="form__control time-control">
             <label for="CloseDate" class="date">Close Date</label>

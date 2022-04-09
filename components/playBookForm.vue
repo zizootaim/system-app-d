@@ -3,15 +3,18 @@
     <h1 class="form__title">Playbooks</h1>
 
     <form class="long__form" v-on:submit.prevent>
-      <textarea
-        class="full"
-        name="description"
-        placeholder="Description"
-        v-model="description"
-        required
-        cols="20"
-        rows="3"
-      ></textarea>
+   
+
+       <div class="form__control full textarea">
+        <textarea
+          required
+          name="IssueDescription"
+          v-model="IssueDescription"
+          cols="20"
+          rows="3"
+        ></textarea>
+        <span class="form__control-label">Description</span>
+      </div>
 
       <div class="form__table">
         <div class="form__control">

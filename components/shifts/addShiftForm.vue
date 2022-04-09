@@ -3,8 +3,7 @@
     <form v-on:submit.prevent="submitData">
       <h1 class="form__title">Add Shift</h1>
       <div class="form__control">
-        <select id="month" name="month" v-model="month">
-          <option value="" selected disabled hidden>Month</option>
+        <select required id="month" name="month" v-model="month">
           <option value="January">January</option>
           <option value="February">February</option>
           <option value="March">March</option>
@@ -18,14 +17,17 @@
           <option value="November">November</option>
           <option value="December">December</option>
         </select>
+                <span class="form__control-label">Month</span>
+
       </div>
-      <div class="form__control">
-        <select v-model="employee">
-          <option value="" selected disabled hidden>Employee</option>
+      <div class="form__control" style="margin:1.4rem 0;">
+        <select required v-model="employee">
+
           <option v-for="user in users" :value="user.name" :key="user.name">
             {{ user.name }}
           </option>
         </select>
+                <span class="form__control-label">Employee</span>
       </div>
       <div class="form__control">
         <input
@@ -64,7 +66,6 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import shiftsVue from "../shifts.vue";
 
 export default {
   data() {

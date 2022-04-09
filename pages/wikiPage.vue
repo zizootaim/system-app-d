@@ -974,6 +974,8 @@
         v-on:close="setChosenForm('')"
         v-if="getChosenForm"
       >
+   <add-shift-form v-if="getChosenForm == 'addShift'" />
+      <edit-shift-form v-if="getChosenForm == 'editShift'" />
         <use-case-form
           formTitle="Use Case Form"
           v-if="getChosenForm == 'useCase'"
@@ -1042,6 +1044,9 @@ import communicationForm from "@/components/communicationForm.vue";
 import playBookForm from "@/components/playBookForm.vue";
 import Shifts from "../components/shifts.vue";
 import addPdf from "@/components/addPdf.vue";
+import addShiftForm from "@/components//shifts/addShiftForm.vue";
+import editShiftForm from "@/components//shifts/editShiftForm.vue";
+
 export default {
   name: "wikiPage",
   data() {
@@ -1055,6 +1060,8 @@ export default {
     };
   },
   components: {
+    addShiftForm,
+    editShiftForm,
     modal,
     UseCaseForm,
     serviceCatalogeForm,

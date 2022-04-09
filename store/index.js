@@ -228,14 +228,14 @@ export const actions = {
         .then((data) => {
           if (apiName == "staff") {
             const { left, right, top } = data;
-            const topParent = top[0];
+            
             const leftParent = left.filter((p) => p.child == false)[0],
               leftChilds = left.filter((c) => c.child == true),
               leftStaff = { parent: leftParent, childs: leftChilds };
             const rightParent = right.filter((p) => p.child == false)[0],
               rightChilds = right.filter((c) => c.child == true),
               rightStaff = { parent: rightParent, childs: rightChilds };
-            data = [rightStaff, leftStaff, topParent];
+            data = [rightStaff, leftStaff, top];
           }
           console.log(data);
           if (apiName != "Shifts") {

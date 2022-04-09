@@ -36,14 +36,17 @@
         <input type="text" name="who" required v-model="who" />
         <span class="form__control-label">Who</span>
       </div>
-      <textarea
-        style="grid-column: -1/1"
-        name="IssueDescription"
-        placeholder="Issue Description"
-        v-model="IssueDescription"
-        cols="20"
-        rows="3"
-      ></textarea>
+
+      <div class="form__control full textarea">
+        <textarea
+          required
+          name="IssueDescription"
+          v-model="IssueDescription"
+          cols="20"
+          rows="3"
+        ></textarea>
+        <span class="form__control-label">Issue Description</span>
+      </div>
 
       <div class="form__control">
         <input type="text" name="ActionTaken" required v-model="ActionTaken" />
@@ -54,15 +57,14 @@
         <span class="form__control-label">Next Action</span>
       </div>
 
-      <div class="form__control" style="grid-column: -1/1">
-        <select name="status" v-model="status">
-          <option value="" selected disabled hidden>Status</option>
-
+      <div class="form__control">
+        <select required name="status" v-model="status">
           <option value="Initial Investigation">Initial Investigation</option>
           <option value="Solution In Progress">Solution In Progress</option>
           <option value="Pending">Pending</option>
           <option value="Closed">Closed</option>
         </select>
+        <span class="form__control-label">Status</span>
       </div>
       <div class="form__control time-control">
         <label for="closeDate" class="date">Close Date</label>
@@ -81,7 +83,7 @@
         />
       </div>
 
-      <div class="submit-btn__wrapper">
+      <div class="submit-btn__wrapper full">
         <button class="submit-btn">
           Submit
           <svg
