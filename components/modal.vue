@@ -60,7 +60,7 @@ export default {
 }
 .modal__top {
   height: 3rem;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -77,19 +77,25 @@ export default {
   padding-bottom: 0;
 }
 .secform {
-  top: 3%;
+  top: 0;
+  bottom: 0;
   left: 25%;
   right: 25%;
   width: auto;
-  height: auto;
+  height: 100%;
+  background: none;
+ display: flex;
 
-  padding-bottom: 1rem;
-  background: #fff;
-  border-radius: 2rem;
+
 }
 .secform .modal__wrapper {
-  width: 100%;
+  border-radius: 2rem;
+  background: #fff;
   margin: auto;
+  width: auto;
+
+  align-self: center;
+  width: 700px;
 }
 .secform .modal-content {
   position: relative;
@@ -113,6 +119,18 @@ export default {
 .secform .close {
   background: none;
   color: #010f60;
+}
+
+/* User Modal */
+.modal.usersmodal {
+  width: 100%;
+  right: 0;
+}
+
+.modal.modal.usersmodal .modal-content {
+  max-width: unset;
+  display: flex;
+  justify-content: center;
 }
 
 @keyframes scale {
@@ -140,45 +158,38 @@ export default {
   .modal {
     width: 45%;
   }
-  .modal.secform {
-    width: 80%;
-    margin: auto;
-    top: 3%;
-    left: 2%;
-    right: 2%;
-  }
+
 }
 @media screen and (max-width: 1000px) {
   .modal {
     width: 60%;
   }
-  .modal.secform {
-    width: 90%;
-    height: auto;
-  }
+.secform{
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+    .secform .modal__wrapper {
+    border-radius: 0;
+    }
 }
 @media screen and (max-width: 680px) {
   .modal {
     width: 100%;
   }
-  .modal.secform {
-    top: 0;
-    left: 0%;
-    right: 0%;
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-  }
   .secform .modal__wrapper {
+    border-radius: 0;
+    height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+
   .secform .modal__top {
     width: 100%;
   }
-  .secform .modal-content {
-    width: 100%;
-    margin: 0;
-  }
+
   .modal__top {
     padding: 0 0.6rem;
   }

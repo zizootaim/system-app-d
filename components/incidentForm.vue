@@ -56,10 +56,8 @@
 
       <div class="form__control full">
         <select name="status" required v-model="status">
-          <option value="Initial Investigation">Initial Investigation</option>
-          <option value="Solution In Progress">Solution In Progress</option>
-          <option value="Pending">Pending</option>
-          <option value="Closed">Closed</option>
+ <option v-for="(i,index) in shiftStatus" :key="index" :value="i">{{i}}</option>
+
         </select>
         <span class="form__control-label">Status</span>
       </div>
@@ -90,9 +88,12 @@
   </div>
 </template>
 <script>
+import {
+  shiftStatus
+} from "../assets/data";
 export default {
   data() {
-    return {
+    return {shiftStatus,
       incidentName: "",
       incidentNumber: "",
       incidentDate: "",

@@ -111,19 +111,16 @@
           name="usecasetype"
           id="use-case__type"
         >
-          <option value="self monitoring">Self Monitoring</option>
-          <option value="insider threat">Insider Threat</option>
-          <option value="external threat">External Threat</option>
-          <option value="compliance pci">Compliance - PCI</option>
-          <option value="compliance cbe">Compliance - CBE</option>
-          <option value="other">Other</option>
+          <option v-for="(t, index) in caseTypes" :key="index" :value="t">
+            {{ t }}
+          </option>
         </select>
         <span class="form__control-label">Use Case Type</span>
       </div>
       <div
-        class="form__control"
-        style="grid-column: -1/1"
-        v-if="useCaseType == 'other'"
+        class="form__control full"
+      
+        v-if="useCaseType == 'Other'"
       >
         <input
           type="text"
@@ -136,29 +133,26 @@
       </div>
       <div class="form__control select">
         <select required name="alertvolume" v-model="volume" id="alert-volume">
-          <option value="very high">Very High</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-          <option value="very low">Very Low</option>
+          <option v-for="(v, index) in alertVolumes" :key="index" :value="v">
+            {{ v }}
+          </option>
         </select>
         <span class="form__control-label">Alert Volume</span>
       </div>
       <div class="form__control select">
         <select required name="testing" id="testing" v-model="testing">
-          <option value="tested">Tested</option>
-          <option value="not tested">Not Tested</option>
-          <option value="pending">Pending</option>
+          <option v-for="(t, index) in caseTesting" :key="index" :value="t">
+            {{ t }}
+          </option>
         </select>
         <span class="form__control-label">Testing</span>
       </div>
 
       <div class="form__control select">
         <select required v-model="production" name="production" id="production">
-          <option value="enabled">Enabled</option>
-          <option value="disabled">Disabled</option>
-          <option value="under testing">Under Testing</option>
-          required
+          <option v-for="(p, index) in caseProductions" :key="index" :value="p">
+            {{ p }}
+          </option>
         </select>
         <span class="form__control-label">Production</span>
       </div>
@@ -187,6 +181,12 @@
 
 <script>
 import baseSpinner from "@/components/baseSpinner.vue";
+import {
+  caseTypes,
+  alertVolumes,
+  caseTesting,
+  caseProductions,
+} from "../assets/data";
 
 export default {
   components: {
@@ -195,6 +195,10 @@ export default {
 
   data() {
     return {
+      caseTypes,
+      alertVolumes,
+      caseTesting,
+      caseProductions,
       identifier: "",
       purpose: "",
       risk: "",

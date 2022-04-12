@@ -2,7 +2,7 @@
   <div class="Home">
     <section class="panar">
       <h1>
-        Hi-TECH CRIME <span style="color: #0024ec">TRENDS 2021/2022</span>
+        Hi-TECH CRIME TRENDS 2021/2022
       </h1>
       <p class="para">A Look At The Clobal Cyber Threat LandScape</p>
     </section>

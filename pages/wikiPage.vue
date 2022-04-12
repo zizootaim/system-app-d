@@ -19,21 +19,29 @@
               v-for="item in wikiSections"
               :key="item.section"
             >
-              <button @click="showMenu($event)">
+              <button
+                @click="showMenu($event)"
+                v-if="item.section != 'Administration' || getRole == 'admin'"
+              >
                 <i :class="item.class"></i>
-                {{ item.section }}
+                {{ item.sectionName }}
                 <i
                   class="fas fa-angle-down sub-menu-icon"
                   v-if="
                     item.section == 'Shift Handover' ||
-                    item.section == 'Reports'
+                    item.section == 'Reports' ||
+                    item.section == 'Soc Governance' ||
+                    item.section == 'Administration'
                   "
                 ></i>
               </button>
               <ul
                 class="sub-menu"
                 v-if="
-                  item.section == 'Shift Handover' || item.section == 'Reports'
+                  item.section == 'Shift Handover' ||
+                  item.section == 'Reports' ||
+                  item.section == 'Soc Governance' ||
+                  item.section == 'Administration'
                 "
               >
                 <li
@@ -54,22 +62,27 @@
             class="wiki__item"
             v-for="wikiItem in wikiSections"
             :key="wikiItem.section"
+            
           >
             <h3
               class="wiki__item-title"
               :class="
                 wikiItem.section == 'Shift Handover' ||
-                wikiItem.section == 'Reports'
+                wikiItem.section == 'Administration' ||
+                wikiItem.section == 'Reports' ||
+                wikiItem.section == 'Soc Governance'
                   ? 'top'
                   : ''
               "
             >
-              {{ wikiItem.section }}
+              {{ wikiItem.sectionName }}
             </h3>
             <ul
               v-if="
                 wikiItem.section == 'Shift Handover' ||
-                wikiItem.section == 'Reports'
+                wikiItem.section == 'Administration' ||
+                wikiItem.section == 'Reports' ||
+                wikiItem.section == 'Soc Governance'
               "
               class="wiki__item-menu"
             >
@@ -84,7 +97,52 @@
           </div>
         </div>
 
-        <!-- Reports -->
+
+        <div class="wiki__container">
+
+<!-- Use Case Intro -->
+  <div class="use__img" v-if="wikiPage == 'Use Case Library'">
+            <img src="../assets/usecase.jpeg" />
+          </div>
+        <!-- Filteration -->
+
+          <!-- <div v-if="chosenCat" class="filteration__wrapper">
+            <h2>Filter By :</h2>
+            <div class="filter__form">
+              <div class="form__control" v-if="filterObj.inputName">
+                <input
+                  type="text"
+                  v-model="filterObj.filterInputValue"
+                  required
+                  v-on:change="filterData"
+                />
+                <span class="form__control-label">{{
+                  this.filterObj.inputName
+                }}</span>
+              </div>
+              <div class="filter__selects" v-if="filterObj.select">
+                <div
+                  class="form__control select"
+                  v-for="(s, index) in filterObj.select"
+                  :key="index"
+                >
+                  <select
+                    required
+                    v-model="filterObj.selectValues[index]"
+                    v-on:change="() => filterData(s.name)"
+                  >
+                    <option v-for="(v, i) in s.values" :key="i" :value="v">
+                      {{ v }}
+                    </option>
+                  </select>
+                  <span class="form__control-label">{{ s.name }}</span>
+                </div>
+                <div v-if="nothingToSee" class="nothing">Nothing Existed</div>
+              </div>
+            </div>
+          </div> -->
+
+  <!-- Reports -->
 
         <div class="reports" v-if="wikiPage == 'Reports'">
           <div v-if="chosenCat == 'socReports'">
@@ -98,14 +156,14 @@
 
             <div
               class="pdf-wrapper"
-              v-for="report in getReports"
+              v-for="report in filteredArray"
               :key="report.id"
             >
               <button
                 v-if="getRole == 'Employee' || getRole == 'admin'"
                 class="delete-btn"
                 @click="
-                  deletePdf({ body: { id: report.id }, apiName: 'Reports' })
+                  deleteData({ body: { id: report.id }, apiName: 'Reports' })
                 "
               >
                 <i class="fas fa-trash-alt"></i>
@@ -150,7 +208,7 @@
 
                 <div
                   class="table__row"
-                  v-for="advisoryCard in getAdvisory"
+                  v-for="advisoryCard in filteredArray"
                   :key="advisoryCard.id"
                 >
                   <div class="row top-row">
@@ -222,7 +280,7 @@
                 </div>
                 <div
                   class="table__row"
-                  v-for="i in getMainIncident"
+                  v-for="i in filteredArray"
                   :key="i.id"
                 >
                   <div class="row top-row">
@@ -340,7 +398,7 @@
         </div>
         <div
           class="pdfs__wrapper"
-          v-if="wikiPage == 'Procedures' || wikiPage == 'Policies'"
+          v-if="chosenCat == 'Procedures' || chosenCat == 'Policies'"
         >
           <button
             class="form-btn"
@@ -350,7 +408,7 @@
             +add
           </button>
 
-          <div class="pdfs__container" v-if="wikiPage == 'Policies'">
+          <div class="pdfs__container" v-if="chosenCat == 'Policies'">
             <div
               class="pdf-wrapper"
               v-for="policy in getPolicies"
@@ -359,7 +417,7 @@
               <button
                 class="delete-btn"
                 @click="
-                  deletePdf({ body: { id: policy.id }, apiName: 'Policies' })
+                  deleteData({ body: { id: policy.id }, apiName: 'Policies' })
                 "
               >
                 <i class="fas fa-trash-alt"></i>
@@ -376,7 +434,7 @@
               </div>
             </div>
           </div>
-          <div class="pdfs__container" v-if="wikiPage == 'Procedures'">
+          <div class="pdfs__container" v-if="chosenCat == 'Procedures'">
             <div
               class="pdf-wrapper"
               v-for="procedure in getProcedures"
@@ -385,7 +443,7 @@
               <button
                 class="delete-btn"
                 @click="
-                  deletePdf({
+                  deleteData({
                     body: { id: procedure.id },
                     apiName: 'Procedures',
                   })
@@ -410,6 +468,67 @@
               </div>
             </div>
           </div>
+        </div>
+
+                <!-- Playbooks -->
+        <div v-if="wikiPage == 'Soc Governance'">
+        <div class="playbooks" v-if="chosenCat == 'Playbooks'">
+          <button
+            class="form-btn"
+            @click="setChosenForm('playBookForm')"
+            v-if="getRole == 'Employee' || getRole == 'admin'"
+          >
+            + add
+          </button>
+
+          <div class="table__wrapper">
+            <div class="table">
+              <div class="table__row header"></div>
+
+              <div
+                class="table__row"
+                v-for="book in getPlayBook"
+                :key="book.id"
+              >
+                <div class="row top-row">
+                  <i
+                    class="fas fa-angle-down row-btn"
+                    @click="(event) => showContent(event)"
+                  ></i>
+
+                  <div class="col">
+                    <p>
+                      <span>{{ book.title }}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="row bottom-row">
+                  <div class="book__data">
+                    <div>Description : {{ book.description }}</div>
+                    <div class="book__table">
+                      <div class="book_table">
+                        <div class="table__row header">
+                          <div class="col">
+                            <h4>Activity</h4>
+                          </div>
+                          <div class="col">
+                            <h4>IR Stage</h4>
+                          </div>
+                          <div class="col">
+                            <h4>Team</h4>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="book__img">
+                    <img :src="book.url" :alt="book.name" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
 
         <!-- Shift Hand -->
@@ -716,8 +835,8 @@
 
         <!-- Use Case -->
 
-        <div class="useCase" v-if="wikiPage == 'Use Case Framework'">
-          <div class="use-case__into">
+        <div class="useCase" v-if="wikiPage == 'Use Case Library'">
+          <!-- <div class="use-case__into">
             <div class="use-case__panar">
               <h1 class="title">business risks</h1>
               <h1 class="title">use cases</h1>
@@ -732,7 +851,8 @@
               Use Cases Bottom-up tracebility for contextualizing use case
               output and business alignment.
             </p>
-          </div>
+          </div> -->
+        
 
           <!-- Use Case Intro Form -->
 
@@ -886,87 +1006,19 @@
           </div>
         </div>
 
-        <!-- Playbooks -->
-
-        <div class="playbooks" v-if="wikiPage == 'Playbooks'">
-          <button
-            class="form-btn"
-            @click="setChosenForm('playBookForm')"
-            v-if="getRole == 'Employee' || getRole == 'admin'"
-          >
-            + add
-          </button>
-
-          <div class="table__wrapper">
-            <div class="table">
-              <div class="table__row header"></div>
-
-              <div
-                class="table__row"
-                v-for="book in getPlayBook"
-                :key="book.id"
-              >
-                <div class="row top-row">
-                  <i
-                    class="fas fa-angle-down row-btn"
-                    @click="(event) => showContent(event)"
-                  ></i>
-
-                  <div class="col">
-                    <p>
-                      <span>{{ book.title }}</span>
-                    </p>
-                  </div>
-                </div>
-                <div class="row bottom-row">
-                  <div class="book__data">
-                    <div>Description : {{ book.description }}</div>
-                    <div class="book__table">
-                      <div class="book_table">
-                        <div class="table__row header">
-                          <div class="col">
-                            <h4>Activity</h4>
-                          </div>
-                          <div class="col">
-                            <h4>IR Stage</h4>
-                          </div>
-                          <div class="col">
-                            <h4>Team</h4>
-                          </div>
-                          <!---   <div
-                            class="row top-row"
-                            v-for="(r, index) in parse(book.data)"
-                            :key="index"
-                          >
-                            <div class="col">
-                              <p>
-                                <span>{{ r.activity }}</span>
-                              </p>
-                            </div>
-                            <div class="col">
-                              <p>
-                                <span>{{ r.irStage }}</span>
-                              </p>
-                            </div>
-                            <div class="col">
-                              <p>
-                                <span>{{ r.team }}</span>
-                              </p>
-                            </div>
-                          </div>
-                          --->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="book__img">
-                    <img :src="book.url" :alt="book.name" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <!-- Users -->
+        <div v-if="wikiPage == 'Administration'" class="users">
+          <users v-if="chosenCat == 'users'" />
         </div>
+  
+
+         
+
+         
+        </div>
+      
+       
+        
       </div>
 
       <modal
@@ -974,8 +1026,8 @@
         v-on:close="setChosenForm('')"
         v-if="getChosenForm"
       >
-   <add-shift-form v-if="getChosenForm == 'addShift'" />
-      <edit-shift-form v-if="getChosenForm == 'editShift'" />
+        <add-shift-form v-if="getChosenForm == 'addShift'" />
+        <edit-shift-form v-if="getChosenForm == 'editShift'" />
         <use-case-form
           formTitle="Use Case Form"
           v-if="getChosenForm == 'useCase'"
@@ -1015,9 +1067,9 @@
           formTitle="Play Book"
         />
         <addPdf
-          :apiName="wikiPage"
+          :apiName="chosenCat == 'socReports' ? 'Reports' : chosenCat"
           v-if="getChosenForm == 'addPdf'"
-          formTitle="Play Book"
+          formTitle="Add pdf"
         />
       </modal>
     </article>
@@ -1046,17 +1098,30 @@ import Shifts from "../components/shifts.vue";
 import addPdf from "@/components/addPdf.vue";
 import addShiftForm from "@/components//shifts/addShiftForm.vue";
 import editShiftForm from "@/components//shifts/editShiftForm.vue";
+import * as selectCategories from "../assets/data";
+import users from '../components/users.vue'
 
 export default {
   name: "wikiPage",
   data() {
     return {
+      selectCategories,
       loading: false,
       showSideMenu: "",
       wikiPage: "",
       chosenCat: "",
       title: "",
       newAddedObjects: [],
+      filteredArray: [],
+      allData: [],
+      nothingToSee: false,
+      filterObj: {
+        inputName: "",
+        select: [],
+        filteringCategory: "",
+        filterInputValue: "",
+        selectValues: [],
+      },
     };
   },
   components: {
@@ -1078,6 +1143,7 @@ export default {
     playBookForm,
     Shifts,
     addPdf,
+    users,
   },
 
   computed: {
@@ -1102,10 +1168,126 @@ export default {
       "getPlayBook",
     ]),
   },
+  watch: {
+    chosenCat: {
+      handler() {
+        this.getFilterObj(this.chosenCat);
+      },
+      immediate: true
+    } 
+    
+  },
+
+
 
   methods: {
     displaySideMenu() {
       this.showSideMenu = !this.showSideMenu;
+    },
+    getFilterObj(value) {
+      this.filteringCategory = value;
+      switch (value) {
+        case "advisory":
+          {
+            this.filteredArray = this.getAdvisory;
+            this.allData = this.getAdvisory;
+            this.filterObj.inputName = "Advisory Source";
+            this.filterObj.filterTextName = "source";
+            this.filterObj.select = {};
+          }
+          break;
+        case "socReports":
+          {
+            this.filteredArray = this.getReports;
+            this.allData = this.getReports;
+            this.filterObj.filterTextName = "title";
+            this.filterObj.inputName = "Soc Title";
+            this.filterObj.select = {};
+          }
+          break;
+        case "mainIncident":
+          {
+            this.filteredArray = this.getMainIncident;
+            this.allData = this.getMainIncident;
+            this.filterObj.inputName = "Incident Name";
+            this.filterObj.select = [
+              {
+                name: "Priority",
+                values: [...selectCategories.incidentPriority],
+              },
+            ];
+          }
+          break;
+        case "healthCheck":
+          {
+            this.filterObj.inputName = "";
+            this.filterObj.select = {};
+          }
+          break;
+      }
+      console.log(this.filteredArray);
+    },
+    editString(str) {
+      return str.replace(/\s/g, "");
+    },
+    filterData(selectCat) {
+      let newArr = this.filteredArray;
+
+      let val = "";
+      if (this.filterObj.filterInputValue) {
+        val = this.filterObj.filterInputValue.trim().toLowerCase();
+      }
+
+      switch (this.filteringCategory) {
+        case "advisory":case "socReports": {
+          console.log(this.filteringCategory);
+          console.log(val);
+          newArr = this.filteredArray.filter(
+            (el) =>
+              el[this.filterObj.filterTextName]
+                .trim()
+                .toLowerCase()
+                .startsWith(val) == true
+          );
+          console.log(newArr);
+        }break;
+       
+        case "mainIncident":
+          {
+            if (selectCat != undefined && selectCat.length >= 1) {
+              selectCat = this.editString(selectCat);
+              const selectValue = this.filterObj.selectValues[0];
+              console.log(selectValue);
+
+              newArr = newArr.filter(
+                (el) => el[selectCat].toLowerCase() == selectValue.toLowerCase()
+              );
+            }
+
+            if (val) {
+              newArr = newArr.filter(
+                (el) =>
+                  el.IncidentName.trim().toLowerCase().startsWith(val) == true
+              );
+            }
+          }
+          break;
+      }
+
+      if (newArr.length >= 1) this.filteredArray = newArr;
+      else {
+        this.nothingToSee = true;
+        this.filteredArray = this.allData;
+        for (let i = 0; i < this.filterObj.selectValues.length; i++) {
+          this.filterObj.selectValues[i] = "";
+        }
+        this.filterObj.filterInputValue = "";
+      }
+      if (this.nothingToSee) {
+        setTimeout(() => {
+          this.nothingToSee = false;
+        }, 1000);
+      }
     },
     changeWikiPage(page) {
       console.log("change" + " " + page);
@@ -1119,9 +1301,9 @@ export default {
           "Shafts",
         ].includes(page)
       ) {
-        this.getPdf(page);
+        this.getWikiData(page);
       }
-      if (page == "Use Case Framework")
+      if (page == "Use Case Library")
         this.$store.dispatch("getData", "useCase");
     },
     showMenu(event) {
@@ -1227,12 +1409,13 @@ export default {
       console.log(val);
       this.activateLink(event);
       this.chosenCat = val;
-      if (val == "socReports") this.getPdf("Reports");
+      if (val == "socReports") this.getWikiData("Reports");
       else if (val.length && !this.$store.state[val].length) {
         let response = await this.$store.dispatch("getData", val);
+        this.getFilterObj(val);
       }
     },
-    getPdf(pdfCat) {
+    getWikiData(pdfCat) {
       console.log(pdfCat);
       if (!this.$store.state[pdfCat].length) {
         this.$store.dispatch("getData", pdfCat);
@@ -1249,8 +1432,8 @@ export default {
         body: formData,
       });
     },
-    deletePdf(data) {
-      this.$store.dispatch("deletePdf", data);
+    deleteData(data) {
+      this.$store.dispatch("delete", data);
     },
     parse(data) {
       return JSON.parse(data);
@@ -1264,14 +1447,59 @@ export default {
 };
 </script>
 <style>
-.shifts-container {
+.use__img img{
+  width: 100%;
+  height: 100%;
+
+}
+
+.nothing {
+  color: red;
+  width: 100%;
+  font-size: 1.1rem;
+}
+.wiki__container {
+  width: 80%;
+  margin: 1rem auto;
+}
+.filteration__wrapper {
+  align-self: flex-start;
+  justify-self: flex-start;
+  height: auto;
   width: 80%;
   margin: auto;
-  overflow: auto;
+}
+.filter__form {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-top: 2rem;
+}
+.filter__selects {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  width: 100%;
+}
+.filter__selects .select {
+  margin-left: 1rem;
+}
+.filter__selects .select:first-of-type {
+  margin-left: 0;
+}
+.filteration__wrapper .form__control span {
+  color: #fff;
+}
+.filteration__wrapper .form__control input:focus ~ .form__control-label,
+.filteration__wrapper .form__control select:valid ~ .form__control-label {
+  color: #fff;
 }
 @media screen and (max-width: 1200px) {
-  .shifts-container {
-    width: 96%;
+  .wiki__container {
+    width: 90%;
   }
+}
+.users {
+  width: 80%;
 }
 </style>

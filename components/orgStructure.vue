@@ -1,7 +1,12 @@
 <template>
   <div class="container" v-if="getStaff.length >= 1">
-    <div class="level-1 rectangle" v-for="(t,index) in getStaff[0]" :key="index">
+    <div
+      class="level-1 rectangle"
+      v-for="(t, index) in getStaff[0]"
+      :key="index"
+    >
       <i
+        v-if="getRole == 'admin'"
         class="fas fa-edit edit-btn"
         @click="() => showEditForm(t)"
       ></i>
@@ -23,6 +28,7 @@
       <li>
         <div class="level-2 rectangle">
           <i
+            v-if="getRole == 'admin'"
             class="fas fa-edit edit-btn"
             @click="() => showEditForm(getStaff[1].parent)"
           ></i>
@@ -48,6 +54,7 @@
               :key="s.id"
             >
               <i
+                v-if="getRole == 'admin'"
                 class="fas fa-edit edit-btn"
                 @click="() => showEditForm(s)"
               ></i>
@@ -71,6 +78,7 @@
       <li>
         <div class="level-2 rectangle">
           <i
+            v-if="getRole == 'admin'"
             class="fas fa-edit edit-btn"
             @click="() => showEditForm(getStaff[2].parent)"
           ></i>
@@ -96,6 +104,7 @@
               :key="s.id"
             >
               <i
+                v-if="getRole == 'admin'"
                 class="fas fa-edit edit-btn"
                 @click="() => showEditForm(s)"
               ></i>
@@ -148,7 +157,7 @@ export default {
   computed: {
     ...mapState(["wikiSections", "chosenForm"]),
 
-    ...mapGetters(["getStaff"]),
+    ...mapGetters(["getStaff", "getRole"]),
   },
   mounted() {
     this.$store.dispatch("getData", "staff");
@@ -274,10 +283,10 @@ export default {
   height: 20px;
   background: rgb(255, 255, 255);
 }
-.level-1::before{
+.level-1::before {
   height: 40px;
 }
-.level-1:last-of-type::before{
+.level-1:last-of-type::before {
   height: 20px;
 }
 

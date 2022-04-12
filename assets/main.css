@@ -203,9 +203,7 @@ button {
   padding: 0.2rem;
   position: relative;
 }
-.secform .form__control{
-  margin-bottom: .5rem;
-}
+
 .full {
   grid-column: -1 / 1;
 }
@@ -307,6 +305,7 @@ button {
   cursor: pointer;
   color: #000;
   border: none;
+  text-transform: capitalize;
 }
 .form__control:last-of-type {
   grid-column: -1 / 1;
@@ -338,6 +337,9 @@ button {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: 1rem;
+  max-height: 35rem;
+  overflow: auto;
+  padding-right: 1rem;
 }
 .time-control {
   position: relative;
@@ -370,13 +372,22 @@ form::-webkit-scrollbar-thumb {
 
 form::-webkit-scrollbar-track {
   background-color: #fff;
+  
 }
 
-form::-webkit-scrollbar {
+form::-webkit-scrollbar,body::-webkit-scrollbar {
   border-radius: 2rem;
   width: 10px;
   height: 0.5rem;
   background-color: #352d77;
+}
+body::-webkit-scrollbar{
+  background: #010f60;
+  border-radius: 0;
+}
+body::-webkit-scrollbar-thumb{
+  background: #fff;
+  border-radius: 2rem;
 }
 textarea {
   width: 100%;
@@ -390,6 +401,7 @@ textarea {
 textarea::placeholder {
   font-size: 0.9rem;
 }
+
 
 /* Status Colors */
 .initial,
@@ -501,11 +513,9 @@ textarea::placeholder {
 .not-issue {
   background: #00c851;
 }
+
 /* Playbooks */
-.playbooks {
-  width: 80%;
-  margin: 1rem auto;
-}
+
 .playbooks .bottom-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -528,10 +538,6 @@ textarea::placeholder {
 
 /* PDF Styles */
 
-.pdfs__wrapper {
-  width: 80%;
-  margin: 1rem auto;
-}
 .pdfs__top{
   width: 75%;
   margin: auto;
@@ -630,10 +636,7 @@ textarea::placeholder {
 
 /* Table */
 
-.shiftHand {
-  width: 80%;
-  margin: 0 auto;
-}
+
 .table__wrapper {
   width: 100%;
   margin: 1rem auto;
@@ -685,12 +688,7 @@ textarea::placeholder {
 .col:last-of-type {
   border-right: 0;
 }
-.table__row:nth-child(odd) {
-  background: rgb(134, 130, 130);
-}
-.table__row:nth-child(even) {
-  background: rgb(70, 67, 67);
-}
+
 .row {
   display: flex;
   width: 100%;
@@ -750,6 +748,24 @@ textarea::placeholder {
   max-width: 200px;
   margin: auto;
   overflow: hidden;
+}
+.table__row.header{
+  background-color: #030d44;
+}
+.table__row.header *{
+  color: #fff;
+}
+.table__row:nth-child(odd):not(.table__row.header) {
+  background: #141d6c;
+}
+.table__row:nth-child(even) {
+  background: #fff;
+}
+.table__row:nth-child(even) *{
+  color: #000;
+}
+.table__row{
+  box-shadow: 0px 0 10px 0px rgba(0, 0, 0, 0.4);
 }
 
 /* Wiki Page */
@@ -955,10 +971,7 @@ button {
 .use-case__into p {
   margin-bottom: 1rem;
 }
-.useCase {
-  width: 80%;
-  margin: 1rem auto;
-}
+
 .form-btn {
   background: #40358e;
   padding: 0.2rem 0.5rem;
@@ -976,12 +989,7 @@ button {
   background: #fff;
   color: #40358e;
 }
-/* Communication and Reports */
-.communication,
-.reports {
-  width: 80%;
-  margin: 1rem auto;
-}
+
 
 /* Media Queries */
 
@@ -991,9 +999,10 @@ button {
   }
 }
 @media screen and (max-width: 1200px) {
-  .useCase {
-    width: 70%;
+  .use-case__panar .title:first-child,  .use-case__panar .title:nth-child(2),  .use-case__panar .title:nth-child(3)  {
+    transform: translateX(0);
   }
+
   .menu__icon {
     display: block;
   }
@@ -1058,7 +1067,5 @@ button {
     display: block;
     margin-left: 1rem;
   }
-  .useCase {
-    width: 90%;
-  }
+ 
 }

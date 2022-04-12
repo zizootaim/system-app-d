@@ -45,24 +45,21 @@
         <span class="form__control-label">Notes</span>
       </div>
 
-      <div class="form__control select" style="grid-column: -1/1">
+      <div class="form__control full select">
         <select
           name="advisorysource"
           id="advisory-source"
           v-model="source"
           required
         >
-          <option value="fincert">FINCERT</option>
-          <option value="eg-cert">EG-CERT</option>
-          <option value="sama">SAMA</option>
-          <option value="nca">NCA</option>
-          <option value="other">Other</option>
+        <option v-for="(s,index) in advisorySource" :key="index" :value="s">{{s}}</option>
+         
         </select>
         <span class="form__control-label">Advisory Source</span>
       </div>
-      <div class="form__control" v-if="source == 'other'">
+      <div class="form__control full" v-if="source == 'Other'">
         <input type="text" v-model="otherSource" autocomplete="off" required />
-        <span class="form__control-label">Source</span>
+        <span class="form__control-label">Other Source</span>
       </div>
       <div class="form__control select">
         <select name="applicable" id="applicable" v-model="applicable" required>
@@ -103,6 +100,7 @@
 
 <script>
 import baseSpinner from "@/components/baseSpinner.vue";
+import {advisorySource} from '../assets/data'
 
 export default {
   components: {
@@ -111,7 +109,7 @@ export default {
 
   name: "advisoryForm",
   data() {
-    return {
+    return {advisorySource,
       source: "",
       dateY: "",
       dateT: "",
@@ -141,7 +139,7 @@ export default {
       };
     },
     currentSource() {
-      return this.source == "other" ? this.otherSource : this.source;
+      return this.source == "Other" ? this.otherSource : this.source;
     },
   },
   methods: {

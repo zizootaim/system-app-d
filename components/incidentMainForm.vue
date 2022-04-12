@@ -63,21 +63,21 @@
           <span class="form__control-label">Location</span>
         </div>
         <div class="form__control">
-          <input
-            type="text"
-            name="repeatedIncident"
-            required
-            v-model="repeatedIncident"
-            autocomplete="off"
-          />
+          <select name="repeatedIncident" required v-model="repeatedIncident">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
           <span class="form__control-label">Repeated Incident</span>
         </div>
         <div class="form__control">
           <select name="priority" required v-model="priority">
-            <option value="Critical">Critical</option>
-            <option value="high">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
+            <option
+              v-for="(p, index) in incidentPriority"
+              :key="index"
+              :value="p"
+            >
+              {{ p }}
+            </option>
           </select>
           <span class="form__control-label">Priority</span>
         </div>
@@ -115,26 +115,24 @@
           </select>
           <span class="form__control-label">Incident Verification</span>
         </div>
-        <div class="form__control">
-          <select
-            name="incidentClassification"
-            v-model="incidentClassification"
-            required
-          >
-            <option value="Denial of Service ">Denial of Service</option>
-            <option value="Malware">Malware</option>
-            <option value="Security Compromise">Security Compromise</option>
+        <div class="classification">
+          <div>
+            <p>Incident Classification</p>
 
-            <option value="Network security ">Network security</option>
-            <option value="Unauthorized Access/Use">
-              Unauthorized Access/Use
-            </option>
-            <option value="Unplanned Downtime ">Unplanned Downtime</option>
-            <option value="Physical Security">Physical Security</option>
-            <option value="Social Engineering ">Social Engineering</option>
-            <option value="Other">Other</option>
-          </select>
-          <span class="form__control-label"> Incident Classification</span>
+            <div
+              class="classificationItem"
+              v-for="(c, index) in incidentClassifications"
+              :key="index"
+              :value="c"
+            >
+              <input
+                type="checkbox"
+                :value="c"
+                v-model="incidentClassification"
+              />
+              <label :for="c">{{ c }}</label>
+            </div>
+          </div>
         </div>
         <div class="form__control" v-if="incidentClassification == 'Other'">
           <input
@@ -215,14 +213,15 @@
 
         <div class="form__control" style="margin-top: 1rem">
           <select name="notification" required v-model="notification">
-            <option value="Network Team  ">Network Team</option>
-            <option value="Tech Team ">Tech Team</option>
-            <option value="InfoSec Team">InfoSec Team</option>
-            <option value="Helpdesk ">Helpdesk</option>
-            <option value="Business Team ">Business Team</option>
-            <option value="Compliance Team ">Compliance Team</option>
-            <option value="Other">Other</option>
+            <option
+              v-for="(n, index) in incidentNotifications"
+              :key="index"
+              :value="n"
+            >
+              {{ n }}
+            </option>
           </select>
+
           <span class="form__control-label">Notification</span>
         </div>
         <div class="form__control" v-if="notification == 'Other'">
@@ -246,15 +245,6 @@
           <span class="form__control-label">Root Case Analysis</span>
         </div>
 
-        <!-- <div class="form__control">
-          <input
-            type="text"
-            name="incidentAvoidability"
-            required
-            v-model="incidentAvoidability"
-          />
-          <span class="form__control-label"></span>
-        </div> -->
         <div class="form__control" style="margin-top: 1rem">
           <select
             name="incidentAvoidability"
@@ -340,7 +330,11 @@
 </template>
 <script>
 import baseSpinner from "@/components/baseSpinner.vue";
-
+import {
+  incidentPriority,
+  incidentNotifications,
+  incidentClassifications,
+} from "../assets/data";
 export default {
   components: {
     baseSpinner,
@@ -348,6 +342,9 @@ export default {
 
   data() {
     return {
+      incidentPriority,
+      incidentNotifications,
+      incidentClassifications,
       detectionDate: "",
       detectionTime: "",
       incidentName: "",
@@ -366,7 +363,7 @@ export default {
       dataSourcesHealth: "",
       containmentMeasures: "",
       recoveryMeasures: "",
-      incidentClassification: "",
+      incidentClassification: [],
       otherIncidentClassification: "",
       rootCaseAnalysis: "",
       incidentAvoidability: "",
@@ -423,7 +420,7 @@ export default {
     currentIncidentClassification: function () {
       return this.incidentClassification == "Other"
         ? this.otherIncidentClassification
-        : this.incidentClassification;
+        : this.incidentClassification.join("  ,  ");
     },
     currentIncidentClassificatioAvoidability: function () {
       console.log(this.incidentAvoidability);
@@ -476,5 +473,20 @@ export default {
 }
 .submit-btn__wrapper {
   margin-top: 1.4rem;
+}
+.classification {
+  display: inline-block;
+  color: #010f60;
+}
+.classification label {
+  padding: 10px;
+  color: #010f60;
+}
+.classification p {
+  background: inherit;
+  color: #010f60;
+}
+.classificationItem {
+  padding: 0 10px 10px 10px;
 }
 </style>

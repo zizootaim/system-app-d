@@ -2,23 +2,22 @@
   <div class="shift__form-wrapper">
     <h1 class="form__title">Daily Health Check</h1>
     <form class="health__form" v-on:submit.prevent="submitData">
-      <div class="form__control full textarea" style="margin-top: 1rem">
-        <textarea
-          required
+      <div class="form__control select full" style="margin-top: 1rem">
+       
+        <select  required
           name="description"
-          v-model="description"
-          cols="20"
-          rows="3"
-        ></textarea>
+          v-model="description">
+          <option v-for="(d,index) in dailyChecks" :value="d" :key="index">{{d}}</option>
+          </select>
         <span class="form__control-label">Check Description</span>
       </div>
 
       <div class="form__control">
-        <select name="status" v-model="status">
-          <option value="" selected disabled hidden>Health Status</option>
+        <select name="status" required v-model="status">
           <option value="Ok">Ok</option>
           <option value="Not Ok">Not Ok</option>
         </select>
+        <span class="form__control-label">Health Status</span>
       </div>
 
       <div class="health__issues-form" v-if="this.status == 'Not Ok'">
@@ -106,14 +105,14 @@
             <span class="form__control-label">Next Action</span>
           </div>
 
-          <div class="form__control" style="grid-column: -1 /1">
-            <select required name="issueStatus" v-model="healthIssue.issueStatus">
-              <option value="Initial Investigation">
-                Initial Investigation
-              </option>
-              <option value="Solution In Progress">Solution In Progress</option>
-              <option value="Pending">Pending</option>
-              <option value="Closed">Closed</option>
+          <div class="form__control full">
+            <select
+              required
+              name="issueStatus"
+              v-model="healthIssue.issueStatus"
+            >
+            <option v-for="(i,index) in shiftStatus" :key="index" :value="i">{{i}}</option>
+              
             </select>
             <span class="form__control-label">Issue Status</span>
           </div>
@@ -155,9 +154,10 @@
   </div>
 </template>
 <script>
+import {dailyChecks,shiftStatus} from '../assets/data'
 export default {
   data() {
-    return {
+    return {dailyChecks,shiftStatus,
       description: "",
       status: "",
       issuesfound: "",
@@ -234,6 +234,9 @@ export default {
   max-height: 30rem;
   overflow: auto;
   padding-right: 1rem;
+}
+.health__issues-form .long__form{
+  max-height: unset;
 }
 textarea {
   width: 100%;

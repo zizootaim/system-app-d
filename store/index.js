@@ -78,18 +78,25 @@ export const state = () => ({
   ],
   wikiSections: [
     {
-      section: "Reports",
-      class: "fas fa-file-alt",
+      section: "Soc Governance",
+      sectionName: "Soc Governance",
+      class: "far fa-file-check",
       subPages: [
-        { name: "Advisory ", callFunc: "advisory" },
-        { name: "Incident", callFunc: "mainIncident" },
-        { name: "Soc Reports", callFunc: "socReports" },
+        { name: "Policies", callFunc: "Policies" },
+
+        { name: "Process & Standards", callFunc: "Procedures" },
+        { name: "Play Books", callFunc: "Playbooks" },
       ],
     },
-    { section: "Policies", class: "far fa-file-check" },
-    { section: "Procedures", class: "fas fa-user-cog" },
+
+    {
+      section: "Communication",
+      sectionName: "Communication Matrix",
+      class: "fas fa-users",
+    },
     {
       section: "Shift Handover",
+      sectionName: "Shift Handover",
       class: "far fa-sync",
 
       subPages: [
@@ -100,12 +107,31 @@ export const state = () => ({
         { name: "Pending Issues", callFunc: "pendingIssues" },
       ],
     },
-    { section: "Playbooks", class: "fad fa-chalkboard" },
-    { section: "Communication", class: "fas fa-users" },
-    { section: "Shifts", class: "fal fa-table" },
     {
-      section: "Use Case Framework",
+      section: "Shifts",
+      sectionName: "Shifts Calender",
+      class: "fal fa-table",
+    },
+    {
+      section: "Use Case Library",
+      sectionName: "Use Case Library",
       class: "fas fa-thumbs-up",
+    },
+    {
+      section: "Reports",
+      sectionName: "Reports",
+      class: "fas fa-file-alt",
+      subPages: [
+        { name: "Advisory ", callFunc: "advisory" },
+        { name: "Incident", callFunc: "mainIncident" },
+        { name: "Soc Reports", callFunc: "socReports" },
+      ],
+    },
+    {
+      section: "Administration",
+      sectionName: "Administration",
+      class: "fas fa-file-alt",
+      subPages: [{ name: "Users ", callFunc: "users" }],
     },
   ],
 });
@@ -219,8 +245,15 @@ export const mutations = {
 };
 
 export const actions = {
+  changeHomeContent({ state, commit }, content) {
+    const newHomeSections = state.homeSections.map((s) => {
+      //   s.description = content[s.name];
+      return { ...s, description: content[s.name] };
+    });
+    console.log(newHomeSections);
+  },
   async getData({ state, commit }, apiName) {
-    // console.log("email:" + dataObj.email + " password:" + dataObj.password);
+    console.log("gettingData");
     try {
       console.log(state.url[apiName]);
       await fetch(state.url[apiName])
@@ -228,7 +261,7 @@ export const actions = {
         .then((data) => {
           if (apiName == "staff") {
             const { left, right, top } = data;
-            
+
             const leftParent = left.filter((p) => p.child == false)[0],
               leftChilds = left.filter((c) => c.child == true),
               leftStaff = { parent: leftParent, childs: leftChilds };
@@ -339,9 +372,26 @@ export const actions = {
       return false;
     }
   },
-  // updateActionValue({ commit }) {
-  //   commit("updateValue", payload);
-  // },
+  async editData({ state, commit }, dataObj) {
+    try {
+      console.log(dataObj);
+      console.log(state.url[dataObj.apiName]);
+      await fetch(state.url[dataObj.apiName], {
+        method: "PUT",
+        headers: { "Content-Type": " application/json" },
+        body: JSON.stringify(dataObj.body),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          commit("editData", dataObj);
+        });
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  },
 
   uploadPdf({ state, commit }, dataObj) {
     try {
@@ -364,7 +414,7 @@ export const actions = {
       console.log(err);
     }
   },
-  deletePdf({ state, commit }, dataObj) {
+  delete({ state, commit }, dataObj) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 

@@ -50,7 +50,7 @@
                 <span>{{ serviceCard.owner }}</span>
               </p>
             </div>
-            <div class="col" :class="serviceCard.status">
+            <div class="col"  :class="serviceCard.status">
               <p>
                 <span>{{ serviceCard.status }}</span>
               </p>
@@ -154,10 +154,19 @@ export default {
 .service .inactive {
   background: rgb(90, 7, 7);
 }
+.service .inactive p span,.service .active p span{
+  color: #fff;
+}
 .service .table__row:last-of-type {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+.service .row-btn{
+  color: #fff;
+}
+
+
+
 </style>

@@ -1,47 +1,57 @@
 <template>
-  <div class="service__form-wrapper">
+  <div class="play__form-wrapper">
     <h1 class="form__title">Playbooks</h1>
 
     <form class="long__form" v-on:submit.prevent>
-   
-
-       <div class="form__control full textarea">
+      <div class="form__control full textarea">
         <textarea
           required
           name="IssueDescription"
-          v-model="IssueDescription"
+          v-model="description"
           cols="20"
           rows="3"
         ></textarea>
         <span class="form__control-label">Description</span>
       </div>
 
-      <div class="form__table">
-        <div class="form__control">
-          <input
-            type="text"
-            name="category"
-            v-model="category"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Category</span>
-        </div>
-        <div class="form__control">
-          <input
-            type="text"
-            name="title"
-            v-model="title"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Title</span>
-        </div>
-        <div class="form__control">
-          <input type="file" id="file" ref="file" />
-        </div>
+      <div class="form__control">
+        <input type="file" id="file" ref="file" />
       </div>
-      <div class="form__table">
+      <div class="form__control">
+        <select name="category" v-model="category" required>
+          <option
+            v-for="(c, index) in playbookCategories"
+            :key="index"
+            :value="c"
+          >
+            {{ c }}
+          </option>
+        </select>
+        <span class="form__control-label">Category</span>
+      </div>
+      <div class="form__control full" v-if="category == 'Other'">
+        <input
+          type="text"
+          name="otherCategory"
+          v-model="otherCategory"
+          required
+        />
+        <span class="form__control-label">Other Category</span>
+      </div>
+
+      <div class="form__control full">
+        <input
+          type="text"
+          name="title"
+          v-model="title"
+          autocomplete="off"
+          required
+        />
+        <span class="form__control-label">Title</span>
+      </div>
+
+      <div class="form__table full">
+        <p>Playbook Table</p>
         <div class="form__control">
           <input
             type="text"
@@ -76,6 +86,8 @@
           add row <BaseSpinner class="smallSpinner" v-if="loadingAdd" />
         </button>
       </div>
+    </form>
+    <div class="submit-btn__wrapper full">
       <button class="submit-btn" type="submit" @click="submitData">
         Submit <BaseSpinner v-if="loading" />
         <svg
@@ -92,14 +104,14 @@
           />
         </svg>
       </button>
-      <p class="errMessage">{{ messageErr }}</p>
-    </form>
+    </div>
+    <p class="errMessage">{{ messageErr }}</p>
   </div>
 </template>
 
 <script>
 import baseSpinner from "@/components/baseSpinner.vue";
-
+import { playbookCategories } from "../assets/data";
 export default {
   components: {
     baseSpinner,
@@ -107,8 +119,10 @@ export default {
 
   data() {
     return {
+      playbookCategories,
       title: "",
       category: "",
+      otherCategory: "",
       activity: "",
       irStage: "",
       team: "",
@@ -131,7 +145,10 @@ export default {
       formData.append("file", file.files[0]);
       formData.append("title", this.title);
       formData.append("description", this.description);
-      formData.append("category", this.category);
+      let category =
+        this.category == "Other" ? this.otherCategory : this.category;
+
+      formData.append("category", category);
       formData.append("data", this.data);
       return {
         formData,
@@ -161,7 +178,9 @@ export default {
       formData.append("file", file.files[0]);
       formData.append("title", this.title);
       formData.append("description", this.description);
-      formData.append("category", this.category);
+      let category =
+        this.category == "Other" ? this.otherCategory : this.category;
+      formData.append("category", category);
 
       formData.append("data", JSON.stringify(this.data));
       var requestOptions = {
@@ -196,8 +215,14 @@ export default {
 </script>
 
 <style scoped>
-.service__form-wrapper {
+.play__form-wrapper {
   width: 85%;
+}
+.play__form-wrapper .long__form {
+  max-height: 30rem;
+}
+.play__form-wrapper .submit-btn__wrapper {
+  margin-top: 1rem;
 }
 .errMessage {
   text-align: center;

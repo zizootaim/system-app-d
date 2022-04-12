@@ -11,9 +11,7 @@
         <li>
           <nuxt-link to="/staff">Staff</nuxt-link>
         </li>
-        <li v-if="getRole == 'admin'">
-          <nuxt-link to="/users">Users</nuxt-link>
-        </li>
+
         <li
           v-if="
             getRole == 'Employee' || getRole == 'admin' || getRole == 'visitor'
@@ -43,11 +41,11 @@
             Log Out
           </button>
         </li>
-        <li>
+        <!-- <li>
           <button class="theme-btn" @click="toggleTheme">
             <i class="fas fa-moon"></i>
           </button>
-        </li>
+        </li> -->
       </ul>
       <modal v-on:close="changeStatus" v-if="statusChosen != ''">
         <login-form v-if="statusChosen == 'login'" />
