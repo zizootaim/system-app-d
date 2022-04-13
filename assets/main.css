@@ -22,7 +22,6 @@ textarea {
 }
 
 .body {
-  height: 100vh;
   background-position: center;
   background-size: cover;
   background: rgb(8,36,96);
@@ -30,6 +29,7 @@ textarea {
 }
 .home{
   background: url('./background.jpeg');
+
 }
 
 
@@ -831,7 +831,6 @@ button {
   right: 0.3rem;
   top: 38%;
   bottom: 40%;
-  z-index: -1;
 }
 .wiki__menu .menu__item button i:first-child {
   margin-right: 0.25rem;
