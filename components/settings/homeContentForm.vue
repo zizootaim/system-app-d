@@ -29,10 +29,10 @@ export default {
   name: "homeContentForm",
   data() {
     return {
-      title: "asd",
-      mission: "ds",
-      vision: "ads",
-      goals: "asd",
+      title: "",
+      mission: "",
+      vision: "",
+      goals: "",
     };
   },
   dataObj() {

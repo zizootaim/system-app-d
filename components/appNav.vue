@@ -7,8 +7,8 @@
         @click="displayLinksMenu"
         :class="showLinksMenu ? 'wiki__links show' : 'wiki__links'"
       >
-        <li @click="() => changeBg(true)"><nuxt-link to="/" >Home</nuxt-link></li>
-        <li @click="() => changeBg(false)">
+        <li><nuxt-link to="/" >Home</nuxt-link></li>
+        <li>
           <nuxt-link to="/staff">Staff</nuxt-link>
         </li>
 
@@ -16,11 +16,11 @@
           v-if="
             getRole == 'Employee' || getRole == 'admin' || getRole == 'visitor'
           "
-          @click="() => changeBg(false)"
+          
         >
           <nuxt-link to="/wikiPage" >WIKI</nuxt-link>
         </li>
-        <li @click="() => changeBg(false)">
+        <li >
           <nuxt-link to="/serviceCatalog" >Service Catalog</nuxt-link>
         </li>
         <li v-if="getRole == '' || getRole == ' '">
@@ -61,6 +61,8 @@ import { mapGetters } from "vuex";
 import modal from "@/components/modal.vue";
 import loginForm from "@/components/loginForm.vue";
 import register from "@/components/register.vue";
+          // var currentUrl = ;
+
 export default {
   data() {
     return {
@@ -81,6 +83,10 @@ export default {
       this.showLinksMenu = newValue;
     },
   },
+
+
+
+
   components: {
     modal,
     loginForm,
@@ -101,11 +107,7 @@ export default {
       console.log("changes");
       this.status = choice;
     },
-changeBg(home){
-  const appContainer = document.querySelector('.body')
-  if(home) appContainer.className = 'body home';
-  else appContainer.className = 'body'
-},
+    
     displayLinksMenu() {
       this.showLinksMenu = !this.showLinksMenu;
     },

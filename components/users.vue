@@ -1,5 +1,5 @@
 <template>
-  <section class="settings__wrapper" v-if="getRole == 'admin'">
+  <section class="settings__wrapper" >
     <h1 class="sec__title">Settings</h1>
 
       <button class="form-btn" @click="() => showModal(false)">Home Settings</button>

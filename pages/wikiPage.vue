@@ -30,8 +30,7 @@
                   v-if="
                     item.section == 'Shift Handover' ||
                     item.section == 'Reports' ||
-                    item.section == 'Soc Governance' ||
-                    item.section == 'Administration'
+                    item.section == 'Soc Governance'
                   "
                 ></i>
               </button>
@@ -40,8 +39,7 @@
                 v-if="
                   item.section == 'Shift Handover' ||
                   item.section == 'Reports' ||
-                  item.section == 'Soc Governance' ||
-                  item.section == 'Administration'
+                  item.section == 'Soc Governance'
                 "
               >
                 <li
@@ -57,17 +55,50 @@
         </div>
 
         <div class="wiki__items" v-if="wikiPage == ''">
-          <div
+          <div v-for="wikiItem in wikiSections" :key="wikiItem.section">
+            <div
+              @click="changeWikiPage(wikiItem.section)"
+              class="wiki__item"
+              v-if="wikiItem.section != 'Administration' || getRole == 'admin'"
+            >
+              <h3
+                class="wiki__item-title"
+                :class="
+                  wikiItem.section == 'Shift Handover' ||
+                  wikiItem.section == 'Reports' ||
+                  wikiItem.section == 'Soc Governance'
+                    ? 'top'
+                    : ''
+                "
+              >
+                {{ wikiItem.sectionName }}
+              </h3>
+              <ul
+                v-if="
+                  wikiItem.section == 'Shift Handover' ||
+                  wikiItem.section == 'Reports' ||
+                  wikiItem.section == 'Soc Governance'
+                "
+                class="wiki__item-menu"
+              >
+                <li
+                  v-for="i in wikiItem.subPages"
+                  :key="i"
+                  @click="(event) => changeCat(i.callFunc, event)"
+                >
+                  {{ i.name }}
+                </li>
+              </ul>
+            </div>
+            <!-- <div
             @click="changeWikiPage(wikiItem.section)"
             class="wiki__item"
-            v-for="wikiItem in wikiSections"
-            :key="wikiItem.section"
+            v-if="wikiItem.section == 'Administration' && getRole == 'admin'"
           >
             <h3
               class="wiki__item-title"
               :class="
                 wikiItem.section == 'Shift Handover' ||
-                wikiItem.section == 'Administration' ||
                 wikiItem.section == 'Reports' ||
                 wikiItem.section == 'Soc Governance'
                   ? 'top'
@@ -79,10 +110,10 @@
             <ul
               v-if="
                 wikiItem.section == 'Shift Handover' ||
-                wikiItem.section == 'Administration' ||
                 wikiItem.section == 'Reports' ||
                 wikiItem.section == 'Soc Governance'
               "
+              
               class="wiki__item-menu"
             >
               <li
@@ -93,14 +124,17 @@
                 {{ i.name }}
               </li>
             </ul>
+          </div> -->
           </div>
         </div>
 
         <div class="wiki__container">
           <!-- Use Case Intro -->
+
           <div class="use__img" v-if="wikiPage == 'Use Case Library'">
             <img src="../assets/usecase.jpeg" />
           </div>
+
           <!-- Filteration -->
 
           <!-- <div v-if="chosenCat" class="filteration__wrapper">
@@ -1029,9 +1063,12 @@
             </div>
           </div>
 
-          <!-- Users -->
-          <div v-if="wikiPage == 'Administration'" class="users">
-            <users v-if="chosenCat == 'users'" />
+          <!-- Administration -->
+          <div
+            v-if="wikiPage == 'Administration' && getRole == 'admin'"
+            class="users"
+          >
+            <users />
           </div>
         </div>
       </div>
@@ -1092,7 +1129,6 @@
 </template>
 
 <script>
-// Use Case Framework Shift Handover
 import { mapState } from "vuex";
 import { mapGetters } from "vuex";
 import incidentMainFormfrom from "@/components/incidentMainForm.vue";
@@ -1466,7 +1502,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-.book__table .header .col h4{
+.book__table .header .col h4 {
   color: #fff;
 }
 .nothing {

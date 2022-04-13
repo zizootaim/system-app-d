@@ -29,7 +29,7 @@ textarea {
 }
 .home{
   background: url('./background.jpeg');
-
+  background-size: 100% 100%;
 }
 
 

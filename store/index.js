@@ -131,7 +131,6 @@ export const state = () => ({
       section: "Administration",
       sectionName: "Administration",
       class: "fas fa-file-alt",
-      subPages: [{ name: "Users ", callFunc: "users" }],
     },
   ],
 });
