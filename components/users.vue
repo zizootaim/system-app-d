@@ -142,7 +142,7 @@ export default {
 .users .table__row:nth-child(even) *:not(.approve-btn),.users .table__row:nth-child(odd):not(.table__row.header) *:not(.approve-btn){
   color: #000;
 }
-.users .table__row:nth-child(even) .approve-btn ,.users .table__row:nth-child(odd):not(.table__row.header) .approve-btn {
+.users .table__row:nth-child(even) .approve-btn ,.users .table__row:nth-child(odd):not(.table__row.header) .approve-btn{
   color: #fff;
 }
 .users .col{
@@ -154,8 +154,6 @@ export default {
   max-height: unset;
   max-width: unset;
 }
-
-
 
 .approve-btn {
   width: 8rem;
@@ -176,10 +174,11 @@ export default {
   margin-right: 0.3rem;
   display: none;
 }
-.approve-btn:hover {
+.users .table__row:nth-child(odd):not(.table__row.header) .approve-btn:hover,.users .table__row:nth-child(even):not(.table__row.header) .approve-btn:hover {
   background: #fff;
   color: #162682;
 }
+
 .approved {
   cursor: auto;
   background: green;

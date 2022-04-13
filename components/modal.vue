@@ -84,9 +84,7 @@ export default {
   width: auto;
   height: 100%;
   background: none;
- display: flex;
-
-
+  display: flex;
 }
 .secform .modal__wrapper {
   border-radius: 2rem;
@@ -158,20 +156,19 @@ export default {
   .modal {
     width: 45%;
   }
-
 }
 @media screen and (max-width: 1000px) {
   .modal {
     width: 60%;
   }
-.secform{
-  left: 0;
-  right: 0;
-  width: 100%;
-}
-    .secform .modal__wrapper {
+  .secform {
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+  .secform .modal__wrapper {
     border-radius: 0;
-    }
+  }
 }
 @media screen and (max-width: 680px) {
   .modal {

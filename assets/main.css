@@ -22,17 +22,16 @@ textarea {
 }
 
 .body {
-  min-height: 100vh;
-  background-size: 100% 100%;
-  background: linear-gradient(
-    90deg,
-    #34009c,
-    rgba(0, 0, 0, 0.9),
-    rgba(0, 0, 0, 0.8),
-    #34009c
-  );
-  background-repeat: no-repeat;
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+  background: rgb(8,36,96);
+  background: linear-gradient(95deg, rgba(8,36,96,1) 4%, rgba(12,13,18,1) 27%);
 }
+.home{
+  background: url('./background.jpeg');
+}
+
 
 h1,
 h2,
@@ -64,11 +63,7 @@ label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0.5)
-  );
+
 }
 .wiki__links {
   display: flex;
@@ -311,7 +306,7 @@ button {
   grid-column: -1 / 1;
 }
 
-.container *,
+/* .container *,
 .wiki *,
 .Home * {
   animation: opacity 0.3s 0.05s forwards;
@@ -320,7 +315,7 @@ button {
   100% {
     opacity: 1;
   }
-}
+} */
 @media screen and (max-width: 600px) {
   .form__control {
     width: 90%;
@@ -635,7 +630,6 @@ textarea::placeholder {
 }
 
 /* Table */
-
 
 .table__wrapper {
   width: 100%;

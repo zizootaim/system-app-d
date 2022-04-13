@@ -157,6 +157,9 @@ export default {
 .service .inactive p span,.service .active p span{
   color: #fff;
 }
+.service .table__wrapper{
+  border-radius: 1rem;
+}
 .service .table__row:last-of-type {
   border-top-left-radius: 0;
   border-top-right-radius: 0;

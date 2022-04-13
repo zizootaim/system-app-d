@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body home">
     <AppNav />
     <div class="mainContent">
       <Nuxt />
@@ -24,13 +24,8 @@ export default {
 </script>
 <style>
 .mainContent {
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0.5)
-  );
   min-height: 91vh;
-}
+} 
 .light-mode .mainContent {
   background: #eee;
 }
