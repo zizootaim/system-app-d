@@ -117,11 +117,7 @@
         </select>
         <span class="form__control-label">Use Case Type</span>
       </div>
-      <div
-        class="form__control full"
-      
-        v-if="useCaseType == 'Other'"
-      >
+      <div class="form__control full" v-if="useCaseType == 'Other'">
         <input
           type="text"
           name="otherUseCaseType"

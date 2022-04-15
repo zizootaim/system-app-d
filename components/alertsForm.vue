@@ -28,9 +28,9 @@
 
       <div class="form__control time-control">
         <label for="startDate" class="date">Start Date</label>
-        <input id="startDate" type="date" v-model="startDate" />
+        <input id="startDate" type="date" required v-model="startDate" />
         <label for="startTime" class="time">Start Time</label>
-        <input type="time" v-model="startTime" id="startTime" />
+        <input type="time" required v-model="startTime" id="startTime" />
       </div>
       <div class="form__control">
         <input type="text" name="who" required v-model="who" />
@@ -59,8 +59,9 @@
 
       <div class="form__control">
         <select required name="status" v-model="status">
-            <option v-for="(i,index) in shiftStatus" :key="index" :value="i">{{i}}</option>
-     
+          <option v-for="(i, index) in shiftStatus" :key="index" :value="i">
+            {{ i }}
+          </option>
         </select>
         <span class="form__control-label">Status</span>
       </div>
@@ -71,6 +72,7 @@
           name="CloseDate"
           id="closeDate"
           v-model="closeDate"
+          required
         />
         <label for="closeTime" class="time">Close Time</label>
         <input
@@ -78,6 +80,7 @@
           name="CloseTime"
           id="closeTime"
           v-model="closeTime"
+          required
         />
       </div>
 
@@ -103,12 +106,11 @@
   </div>
 </template>
 <script>
-import {
-  shiftStatus
-} from "../assets/data";
+import { shiftStatus } from "../assets/data";
 export default {
   data() {
-    return {shiftStatus,
+    return {
+      shiftStatus,
       alertName: "",
       alertNumber: "",
       startDate: "",

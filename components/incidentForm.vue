@@ -25,9 +25,9 @@
 
       <div class="form__control time-control">
         <label for="incidentDate" class="date">Incident Date</label>
-        <input id="incidentDate" type="date" v-model="incidentDate" />
+        <input id="incidentDate" type="date" v-model="incidentDate" required />
         <label for="incidentTime" class="time">Incident Time</label>
-        <input type="time" v-model="incidentTime" id="incidentTime" />
+        <input type="time" v-model="incidentTime" id="incidentTime" required />
       </div>
       <div class="form__control">
         <input type="text" name="who" required v-model="who" />
@@ -56,16 +56,17 @@
 
       <div class="form__control full">
         <select name="status" required v-model="status">
- <option v-for="(i,index) in shiftStatus" :key="index" :value="i">{{i}}</option>
-
+          <option v-for="(i, index) in shiftStatus" :key="index" :value="i">
+            {{ i }}
+          </option>
         </select>
         <span class="form__control-label">Status</span>
       </div>
       <div class="form__control time-control">
         <label for="incidentDate2" class="date">Close Date</label>
-        <input id="incidentDate2" type="date" v-model="closeDate" />
+        <input id="incidentDate2" type="date" v-model="closeDate" required />
         <label for="incidentTime2" class="time">Close Time</label>
-        <input type="time" v-model="closeTime" id="incidentTime2" />
+        <input type="time" v-model="closeTime" id="incidentTime2" required />
       </div>
 
       <button class="submit-btn" type="submit">
@@ -88,12 +89,11 @@
   </div>
 </template>
 <script>
-import {
-  shiftStatus
-} from "../assets/data";
+import { shiftStatus } from "../assets/data";
 export default {
   data() {
-    return {shiftStatus,
+    return {
+      shiftStatus,
       incidentName: "",
       incidentNumber: "",
       incidentDate: "",

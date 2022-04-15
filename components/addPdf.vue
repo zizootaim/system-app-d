@@ -11,7 +11,7 @@
           required
         />
       </div>
-      <input type="file" id="file" ref="file" />
+      <input type="file" id="file" ref="file" required />
     </div>
     <div class="submit__btn-wrapper">
       <button class="submit-btn upload-btn" @click="upload">

@@ -90,41 +90,7 @@
                 </li>
               </ul>
             </div>
-            <!-- <div
-            @click="changeWikiPage(wikiItem.section)"
-            class="wiki__item"
-            v-if="wikiItem.section == 'Administration' && getRole == 'admin'"
-          >
-            <h3
-              class="wiki__item-title"
-              :class="
-                wikiItem.section == 'Shift Handover' ||
-                wikiItem.section == 'Reports' ||
-                wikiItem.section == 'Soc Governance'
-                  ? 'top'
-                  : ''
-              "
-            >
-              {{ wikiItem.sectionName }}
-            </h3>
-            <ul
-              v-if="
-                wikiItem.section == 'Shift Handover' ||
-                wikiItem.section == 'Reports' ||
-                wikiItem.section == 'Soc Governance'
-              "
-              
-              class="wiki__item-menu"
-            >
-              <li
-                v-for="i in wikiItem.subPages"
-                :key="i"
-                @click="(event) => changeCat(i.callFunc, event)"
-              >
-                {{ i.name }}
-              </li>
-            </ul>
-          </div> -->
+ 
           </div>
         </div>
 
@@ -438,7 +404,7 @@
               class="pdfs__wrapper"
               v-if="chosenCat == 'Procedures' || chosenCat == 'Policies'"
             >
-              <h1 class="sec__title">{{ chosenCat }}</h1>
+              <h1 class="sec__title">{{ chosenCat == 'Procedures' ? 'Process' : 'Policies' }}</h1>
               <button
                 class="form-btn"
                 @click="setChosenForm('addPdf')"
@@ -626,9 +592,9 @@
 
                       <div
                         class="col"
-                        :class="h.Status == 'Not Ok' ? 'issue' : 'not-issue'"
+                        
                       >
-                        <p>
+                        <p :class="`status ${h.Status == 'Not Ok' ? 'issue' : 'not-issue'}`">
                           {{ h.Status }}
                         </p>
                       </div>
@@ -707,8 +673,8 @@
                           <span>{{ alertsCard.StartTime }}</span>
                         </p>
                       </div>
-                      <div class="col" :class="statusClass(alertsCard.status)">
-                        <p>
+                      <div class="col" >
+                        <p :class="`status ${statusClass(alertsCard.status)}`">
                           <span>{{ alertsCard.status }}</span>
                         </p>
                       </div>
@@ -718,11 +684,7 @@
                       <div>Action Taken : {{ alertsCard.ActionTaken }}</div>
                       <div>Next Action : {{ alertsCard.NextAction }}</div>
                       <div>Who : {{ alertsCard.who }}</div>
-                      <div :class="statusClass(alertsCard.status)">
-                        <p>
-                          <span>{{ alertsCard.status }}</span>
-                        </p>
-                      </div>
+                  
                       <div>Close Time : {{ alertsCard.CloseTime }}</div>
                     </div>
                   </div>
@@ -786,9 +748,9 @@
                       </div>
                       <div
                         class="col"
-                        :class="statusClass(incidentsCard.status)"
+                       
                       >
-                        <p>
+                        <p :class="`status ${statusClass(incidentsCard.status)}`">
                           <span>{{ incidentsCard.status }}</span>
                         </p>
                       </div>
@@ -862,9 +824,9 @@
                       </div>
                       <div
                         class="col"
-                        :class="statusClass(pendingIssuesCard.status)"
+                       
                       >
-                        <p>
+                        <p  :class="`status ${statusClass(pendingIssuesCard.status)}`">
                           <span>{{ pendingIssuesCard.status }}</span>
                         </p>
                       </div>

@@ -50,8 +50,8 @@
                 <span>{{ serviceCard.owner }}</span>
               </p>
             </div>
-            <div class="col"  :class="serviceCard.status">
-              <p>
+            <div class="col">
+              <p :class="`status ${statusClass(serviceCard.status)}`">
                 <span>{{ serviceCard.status }}</span>
               </p>
             </div>
@@ -132,6 +132,11 @@ export default {
         else p.style.maxHeight = "1.8rem";
       });
     },
+  statusClass(status) {
+    return status.includes(" ")
+      ? status.substring(0, status.indexOf(" ")).toLowerCase()
+      : status.toLowerCase();
+  },
   },
   mounted() {
     this.$store.dispatch("getData", "serviceCatalog");
@@ -152,24 +157,13 @@ export default {
   background: green;
 }
 .service .inactive {
-  background: rgb(90, 7, 7);
+  background: rgb(156, 17, 17);
 }
-.service .inactive p span,.service .active p span{
+.service .inactive p span,
+.service .active p span {
   color: #fff;
 }
-.service .table__wrapper{
-  border-radius: 1rem;
-}
-.service .table__row:last-of-type {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.service .row-btn{
+.service .row-btn {
   color: #fff;
 }
-
-
-
 </style>

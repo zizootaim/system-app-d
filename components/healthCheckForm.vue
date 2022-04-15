@@ -3,12 +3,11 @@
     <h1 class="form__title">Daily Health Check</h1>
     <form class="health__form" v-on:submit.prevent="submitData">
       <div class="form__control select full" style="margin-top: 1rem">
-       
-        <select  required
-          name="description"
-          v-model="description">
-          <option v-for="(d,index) in dailyChecks" :value="d" :key="index">{{d}}</option>
-          </select>
+        <select required name="description" v-model="description">
+          <option v-for="(d, index) in dailyChecks" :value="d" :key="index">
+            {{ d }}
+          </option>
+        </select>
         <span class="form__control-label">Check Description</span>
       </div>
 
@@ -66,9 +65,19 @@
           </div>
           <div class="form__control time-control">
             <label for="startDate" class="date">Start Date</label>
-            <input id="startDate" type="date" v-model="healthIssue.startDate" />
+            <input
+              id="startDate"
+              type="date"
+              v-model="healthIssue.startDate"
+              required
+            />
             <label for="startTime" class="time">Start Time</label>
-            <input type="time" v-model="healthIssue.startTime" id="startTime" />
+            <input
+              type="time"
+              v-model="healthIssue.startTime"
+              id="startTime"
+              required
+            />
           </div>
           <div class="form__control">
             <input type="text" name="who" required v-model="healthIssue.who" />
@@ -111,8 +120,9 @@
               name="issueStatus"
               v-model="healthIssue.issueStatus"
             >
-            <option v-for="(i,index) in shiftStatus" :key="index" :value="i">{{i}}</option>
-              
+              <option v-for="(i, index) in shiftStatus" :key="index" :value="i">
+                {{ i }}
+              </option>
             </select>
             <span class="form__control-label">Issue Status</span>
           </div>
@@ -122,12 +132,14 @@
               type="date"
               name="CloseDate"
               v-model="healthIssue.closeDate"
+              required
             />
             <label for="CloseTime" class="time">Close Time</label>
             <input
               type="time"
               name="CloseTime"
               v-model="healthIssue.closeTime"
+              required
             />
           </div>
         </div>
@@ -154,10 +166,12 @@
   </div>
 </template>
 <script>
-import {dailyChecks,shiftStatus} from '../assets/data'
+import { dailyChecks, shiftStatus } from "../assets/data";
 export default {
   data() {
-    return {dailyChecks,shiftStatus,
+    return {
+      dailyChecks,
+      shiftStatus,
       description: "",
       status: "",
       issuesfound: "",
@@ -235,7 +249,7 @@ export default {
   overflow: auto;
   padding-right: 1rem;
 }
-.health__issues-form .long__form{
+.health__issues-form .long__form {
   max-height: unset;
 }
 textarea {

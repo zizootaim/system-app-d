@@ -8,9 +8,9 @@
       <div>
         <p>Incident Identification</p>
         <div class="form__control time-control">
-          <input type="date" v-model="detectionDate" />
+          <input type="date" v-model="detectionDate" required />
 
-          <input type="time" v-model="detectionTime" />
+          <input type="time" v-model="detectionTime" required />
         </div>
         <div class="form__control">
           <input
@@ -126,6 +126,7 @@
               :value="c"
             >
               <input
+                required
                 type="checkbox"
                 :value="c"
                 v-model="incidentClassification"
@@ -282,9 +283,9 @@
         </div>
 
         <div class="form__control time-control">
-          <input type="date" v-model="closureDate" />
+          <input type="date" v-model="closureDate" required />
 
-          <input type="time" v-model="closureTime" />
+          <input type="time" v-model="closureTime" required />
         </div>
         <p>Reviewed By</p>
         <div class="form__control">
@@ -302,9 +303,9 @@
           <span class="form__control-label">Signature</span>
         </div>
         <div class="form__control time-control">
-          <input type="date" v-model="signatureDate" />
+          <input type="date" v-model="signatureDate" required />
 
-          <input type="time" v-model="signatureTime" />
+          <input type="time" v-model="signatureTime" required />
         </div>
       </div>
     </form>

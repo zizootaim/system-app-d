@@ -59,6 +59,7 @@ export const state = () => ({
   staff: [],
   Playbooks: [],
   Shifts: {},
+  Standards: [],
   homeSections: [
     {
       name: "Mission",
@@ -84,7 +85,7 @@ export const state = () => ({
       subPages: [
         { name: "Policies", callFunc: "Policies" },
 
-        { name: "Process & Standards", callFunc: "Procedures" },
+        { name: "Process ", callFunc: "Procedures" },
         { name: "Play Books", callFunc: "Playbooks" },
       ],
     },

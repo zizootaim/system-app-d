@@ -38,7 +38,7 @@
               v-for="employee in shiftValue"
               :key="employee.name"
             >
-              <div class="left">{{ employee.name }}</div>
+              <div class="left"><p>{{ employee.name }}</p></div>
               <div class="cols">
                 <div
                   class="col"
@@ -112,7 +112,6 @@ export default {
   height: 100%;
 }
 .shifts__wrapper .col:first-of-type{
-
   border-left: 1px solid #000;
 }
 .shifts__wrapper .col {
@@ -139,7 +138,9 @@ border-right: 1px solid #000;
   width: 10rem;
   display: grid;
   place-items: center;
-
+}
+.left p{
+  color: #000;
 }
 .cols {
   width: calc(100% - 10rem);

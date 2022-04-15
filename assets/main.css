@@ -24,14 +24,17 @@ textarea {
 .body {
   background-position: center;
   background-size: cover;
-  background: rgb(8,36,96);
-  background: linear-gradient(95deg, rgba(8,36,96,1) 4%, rgba(12,13,18,1) 27%);
+  background: rgb(8, 36, 96);
+  background: linear-gradient(
+    95deg,
+    rgba(8, 36, 96, 1) 4%,
+    rgba(12, 13, 18, 1) 27%
+  );
 }
-.home{
-  background: url('./background.jpeg');
-  background-size: 100% 100%;
+.home {
+  background: url("./background.jpeg") no-repeat;
+  background-size: 100%;
 }
-
 
 h1,
 h2,
@@ -63,7 +66,6 @@ label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
 }
 .wiki__links {
   display: flex;
@@ -87,7 +89,7 @@ label {
   background: #fff;
   transition: 0.4s;
 }
-.wiki__links li a{
+.wiki__links li a {
   color: #fff;
 }
 .wiki__links li:hover::after {
@@ -231,20 +233,20 @@ button {
 .form__control input:focus ~ .form__control-label,
 .form__control input:valid ~ .form__control-label,
 .form__control select:valid ~ .form__control-label,
-.form__control.textarea textarea:focus  ~ .form__control-label,
-.form__control.textarea textarea:valid  ~ .form__control-label {
+.form__control.textarea textarea:focus ~ .form__control-label,
+.form__control.textarea textarea:valid ~ .form__control-label {
   top: -1rem;
   left: 0;
   color: #fff;
   font-size: 0.8rem;
 }
-.form__control.textarea{
-  padding-top: .5rem;
+.form__control.textarea {
+  padding-top: 0.5rem;
   border: none;
-  margin-bottom: .1rem;
+  margin-bottom: 0.1rem;
   max-height: unset;
 }
-.form__control.textarea textarea{
+.form__control.textarea textarea {
   background: none;
 }
 .secform .form__control-label {
@@ -252,9 +254,9 @@ button {
 }
 .secform .form__control input:focus ~ .form__control-label,
 .secform .form__control input:valid ~ .form__control-label,
-.form__control select:valid ~ .form__control-label ,
-.form__control.textarea textarea:focus  ~ .form__control-label,
-.form__control.textarea textarea:valid  ~ .form__control-label {
+.form__control select:valid ~ .form__control-label,
+.form__control.textarea textarea:focus ~ .form__control-label,
+.form__control.textarea textarea:valid ~ .form__control-label {
   color: #010f60;
 }
 
@@ -367,20 +369,20 @@ form::-webkit-scrollbar-thumb {
 
 form::-webkit-scrollbar-track {
   background-color: #fff;
-  
 }
 
-form::-webkit-scrollbar,body::-webkit-scrollbar {
+form::-webkit-scrollbar,
+body::-webkit-scrollbar {
   border-radius: 2rem;
   width: 10px;
   height: 0.5rem;
   background-color: #352d77;
 }
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
   background: #010f60;
   border-radius: 0;
 }
-body::-webkit-scrollbar-thumb{
+body::-webkit-scrollbar-thumb {
   background: #fff;
   border-radius: 2rem;
 }
@@ -396,7 +398,6 @@ textarea {
 textarea::placeholder {
   font-size: 0.9rem;
 }
-
 
 /* Status Colors */
 .initial,
@@ -487,27 +488,20 @@ textarea::placeholder {
 .light-mode .wiki__links-icon {
   color: #000;
 }
-.light-mode .pdf p{
+.light-mode .pdf p {
   color: #000;
 }
-.light-mode .wiki__menu .menu__item button:hover{
+.light-mode .wiki__menu .menu__item button:hover {
   background: #010f60;
   color: #fff;
 }
-.light-mode .menu__icon{
+.light-mode .menu__icon {
   color: #000;
 }
 .body.light-mode {
   background: #eee;
 }
 /* Wiki Page */
-
-.issue {
-  background: #cc0000;
-}
-.not-issue {
-  background: #00c851;
-}
 
 /* Playbooks */
 
@@ -533,7 +527,7 @@ textarea::placeholder {
 
 /* PDF Styles */
 
-.pdfs__top{
+.pdfs__top {
   width: 75%;
   margin: auto;
 }
@@ -638,14 +632,7 @@ textarea::placeholder {
   padding-right: 0.5rem;
   overflow: auto;
 }
-.table__row:first-of-type {
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-}
-.table__row:last-of-type {
-  border-bottom-left-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-}
+
 .table {
   margin: auto;
   display: flex;
@@ -743,10 +730,10 @@ textarea::placeholder {
   margin: auto;
   overflow: hidden;
 }
-.table__row.header{
+.table__row.header {
   background-color: #030d44;
 }
-.table__row.header *{
+.table__row.header {
   color: #fff;
 }
 .table__row:nth-child(odd):not(.table__row.header) {
@@ -755,13 +742,27 @@ textarea::placeholder {
 .table__row:nth-child(even) {
   background: #fff;
 }
-.table__row:nth-child(even) *{
+.table__row:nth-child(even) .row,.table__row:nth-child(even) p,.table__row:nth-child(even) h3{
   color: #000;
 }
-.table__row{
+.table__row {
   box-shadow: 0px 0 10px 0px rgba(0, 0, 0, 0.4);
 }
-
+.table__row:not(.table__row:first-child) .col p.status{
+  max-height: unset;
+  padding: .2rem 1rem;
+  color: white;
+  border-radius: 11px;
+  width: fit-content;
+  max-height: unset;
+  max-width: unset;
+}
+.issue{
+  background: rgb(213, 43, 43);
+}
+.not-issue {
+  background: #04aa46;
+}
 /* Wiki Page */
 
 .reports .pdfs__wrapper {
@@ -983,7 +984,6 @@ button {
   color: #40358e;
 }
 
-
 /* Media Queries */
 
 @media screen and (max-width: 1380px) {
@@ -992,7 +992,9 @@ button {
   }
 }
 @media screen and (max-width: 1200px) {
-  .use-case__panar .title:first-child,  .use-case__panar .title:nth-child(2),  .use-case__panar .title:nth-child(3)  {
+  .use-case__panar .title:first-child,
+  .use-case__panar .title:nth-child(2),
+  .use-case__panar .title:nth-child(3) {
     transform: translateX(0);
   }
 
@@ -1060,5 +1062,4 @@ button {
     display: block;
     margin-left: 1rem;
   }
- 
 }
