@@ -90,7 +90,6 @@
                 </li>
               </ul>
             </div>
- 
           </div>
         </div>
 
@@ -103,7 +102,7 @@
 
           <!-- Filteration -->
 
-          <!-- <div v-if="chosenCat" class="filteration__wrapper">
+          <div v-if="chosenCat && wikiPage != 'Shifts' && wikiPage != 'Administration'" class="filteration__wrapper">
             <h2>Filter By :</h2>
             <div class="filter__form">
               <div class="form__control" v-if="filterObj.inputName">
@@ -137,7 +136,7 @@
                 <div v-if="nothingToSee" class="nothing">Nothing Existed</div>
               </div>
             </div>
-          </div> -->
+          </div>
 
           <!-- Reports -->
 
@@ -153,7 +152,7 @@
               </button>
               <div
                 class="pdf-wrapper"
-                v-for="report in getReports"
+                v-for="report in filteredArray"
                 :key="report.id"
               >
                 <button
@@ -210,7 +209,7 @@
 
                   <div
                     class="table__row"
-                    v-for="advisoryCard in getAdvisory"
+                    v-for="advisoryCard in filteredArray"
                     :key="advisoryCard.id"
                   >
                     <div class="row top-row">
@@ -282,7 +281,7 @@
                   </div>
                   <div
                     class="table__row"
-                    v-for="i in getMainIncident"
+                    v-for="i in filteredArray"
                     :key="i.id"
                   >
                     <div class="row top-row">
@@ -398,13 +397,15 @@
               </div>
             </div>
           </div>
-
+<!-- Soc Governance -->
           <div v-if="wikiPage == 'Soc Governance'">
             <div
               class="pdfs__wrapper"
               v-if="chosenCat == 'Procedures' || chosenCat == 'Policies'"
             >
-              <h1 class="sec__title">{{ chosenCat == 'Procedures' ? 'Process' : 'Policies' }}</h1>
+              <h1 class="sec__title">
+                {{ chosenCat == "Procedures" ? "Process" : "Policies" }}
+              </h1>
               <button
                 class="form-btn"
                 @click="setChosenForm('addPdf')"
@@ -416,7 +417,7 @@
               <div class="pdfs__container" v-if="chosenCat == 'Policies'">
                 <div
                   class="pdf-wrapper"
-                  v-for="policy in getPolicies"
+                  v-for="policy in filteredArray"
                   :key="policy.name"
                 >
                   <button
@@ -450,7 +451,7 @@
               <div class="pdfs__container" v-if="chosenCat == 'Procedures'">
                 <div
                   class="pdf-wrapper"
-                  v-for="procedure in getProcedures"
+                  v-for="procedure in filteredArray"
                   :key="procedure.name"
                 >
                   <button
@@ -495,11 +496,9 @@
 
               <div class="table__wrapper">
                 <div class="table">
-                  <div class="table__row header"></div>
-
                   <div
                     class="table__row"
-                    v-for="book in getPlayBook"
+                    v-for="book in filteredArray"
                     :key="book.id"
                   >
                     <div class="row top-row">
@@ -530,6 +529,24 @@
                                 <h4>Team</h4>
                               </div>
                             </div>
+
+                            <div
+                              class="table__row"
+                              v-for="(r, index) in parse(
+                                JSON.stringify(book.data.slice(-1, 1))
+                              )"
+                              :key="index"
+                            >
+                              <div class="col">
+                                {{ r.activity }}
+                              </div>
+                              <div class="col">
+                                {{ r.irStage }}
+                              </div>
+                              <div class="col">
+                                {{ r.team }}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -544,6 +561,7 @@
           </div>
 
           <!-- Shift Hand -->
+
           <div v-if="wikiPage == 'Shifts'" class="shifts-container">
             <h1 class="sec__title">Shifts</h1>
             <div class="shifts__wrapper">
@@ -551,7 +569,9 @@
             </div>
           </div>
           <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
+
             <!-- Health Check -->
+            
             <div v-if="chosenCat == 'healthCheck'">
               <h1 class="sec__title">Health Check</h1>
               <button
@@ -573,7 +593,7 @@
                   </div>
                   <div
                     class="table__row top-row"
-                    v-for="h in getHealthCheck"
+                    v-for="h in filteredArray"
                     :key="h.id"
                   >
                     <div class="row top-row">
@@ -590,11 +610,12 @@
                         </p>
                       </div>
 
-                      <div
-                        class="col"
-                        
-                      >
-                        <p :class="`status ${h.Status == 'Not Ok' ? 'issue' : 'not-issue'}`">
+                      <div class="col">
+                        <p
+                          :class="`status ${
+                            h.Status == 'Not Ok' ? 'issue' : 'not-issue'
+                          }`"
+                        >
                           {{ h.Status }}
                         </p>
                       </div>
@@ -650,7 +671,7 @@
                   </div>
                   <div
                     class="table__row"
-                    v-for="alertsCard in getAlerts"
+                    v-for="alertsCard in filteredArray"
                     :key="alertsCard.id"
                   >
                     <div class="row top-row">
@@ -673,7 +694,7 @@
                           <span>{{ alertsCard.StartTime }}</span>
                         </p>
                       </div>
-                      <div class="col" >
+                      <div class="col">
                         <p :class="`status ${statusClass(alertsCard.status)}`">
                           <span>{{ alertsCard.status }}</span>
                         </p>
@@ -684,7 +705,7 @@
                       <div>Action Taken : {{ alertsCard.ActionTaken }}</div>
                       <div>Next Action : {{ alertsCard.NextAction }}</div>
                       <div>Who : {{ alertsCard.who }}</div>
-                  
+
                       <div>Close Time : {{ alertsCard.CloseTime }}</div>
                     </div>
                   </div>
@@ -707,10 +728,10 @@
                 <div class="table">
                   <div class="table__row header">
                     <div class="col">
-                      <h4>Incident Date</h4>
+                      <h4>Incident Name</h4>
                     </div>
                     <div class="col">
-                      <h4>Incident Name</h4>
+                      <h4>Incident Date</h4>
                     </div>
                     <div class="col">
                       <h4>Incident Number</h4>
@@ -723,7 +744,7 @@
 
                   <div
                     class="table__row"
-                    v-for="incidentsCard in getIncidents"
+                    v-for="incidentsCard in filteredArray"
                     :key="incidentsCard.id"
                   >
                     <div class="row top-row">
@@ -731,26 +752,26 @@
                         class="fas fa-angle-down row-btn"
                         @click="(event) => showContent(event)"
                       ></i>
-                      <div class="col">
-                        <p>
-                          <span>{{ incidentsCard.date }}</span>
-                        </p>
-                      </div>
-                      <div class="col">
+                           <div class="col">
                         <p>
                           <span>{{ incidentsCard.name }}</span>
                         </p>
                       </div>
                       <div class="col">
                         <p>
+                          <span>{{ incidentsCard.date }}</span>
+                        </p>
+                      </div>
+                 
+                      <div class="col">
+                        <p>
                           <span>{{ incidentsCard.number }}</span>
                         </p>
                       </div>
-                      <div
-                        class="col"
-                       
-                      >
-                        <p :class="`status ${statusClass(incidentsCard.status)}`">
+                      <div class="col">
+                        <p
+                          :class="`status ${statusClass(incidentsCard.status)}`"
+                        >
                           <span>{{ incidentsCard.status }}</span>
                         </p>
                       </div>
@@ -798,7 +819,7 @@
 
                   <div
                     class="table__row"
-                    v-for="pendingIssuesCard in getPendingIssues"
+                    v-for="pendingIssuesCard in filteredArray"
                     :key="pendingIssuesCard.id"
                   >
                     <div class="row top-row">
@@ -822,11 +843,12 @@
                           <span>{{ pendingIssuesCard.StartTime }}</span>
                         </p>
                       </div>
-                      <div
-                        class="col"
-                       
-                      >
-                        <p  :class="`status ${statusClass(pendingIssuesCard.status)}`">
+                      <div class="col">
+                        <p
+                          :class="`status ${statusClass(
+                            pendingIssuesCard.status
+                          )}`"
+                        >
                           <span>{{ pendingIssuesCard.status }}</span>
                         </p>
                       </div>
@@ -904,7 +926,7 @@
 
                   <div
                     class="table__row"
-                    v-for="useCaseCard in getUseCase"
+                    v-for="useCaseCard in filteredArray"
                     :key="useCaseCard.id"
                   >
                     <div class="row top-row">
@@ -985,11 +1007,7 @@
                   </div>
                 </div>
 
-                <div
-                  class="table__row"
-                  v-for="c in getCommunication"
-                  :key="c.id"
-                >
+                <div class="table__row" v-for="c in filteredArray" :key="c.id">
                   <div class="row top-row">
                     <i
                       class="fas fa-angle-down row-btn"
@@ -1133,6 +1151,7 @@ export default {
         select: [],
         filteringCategory: "",
         filterInputValue: "",
+        filterTextName: "",
         selectValues: [],
       },
     };
@@ -1181,6 +1200,10 @@ export default {
       "getPlayBook",
     ]),
   },
+  mounted(){
+    this.$store.dispatch("getData", "Communication");
+    this.$store.dispatch("getData", "useCase");
+  },
   watch: {
     chosenCat: {
       handler() {
@@ -1188,15 +1211,112 @@ export default {
       },
       immediate: true,
     },
+    
   },
-
   methods: {
     displaySideMenu() {
       this.showSideMenu = !this.showSideMenu;
     },
     getFilterObj(value) {
       this.filteringCategory = value;
+      console.log(value);
       switch (value) {
+        case "Use Case Library":{
+               this.filteredArray = this.getUseCase;
+            this.allData = this.getUseCase;
+            this.filterObj.filterTextName = "identifier";
+            this.filterObj.inputName = "Identifier";
+            this.filterObj.select = [
+              {
+                name: "volume",
+                values: [...selectCategories.alertVolumes],
+              },
+            ];
+        }break;
+        case "pendingIssues":{
+            this.filteredArray = this.getPendingIssues;
+            this.allData = this.getPendingIssues;
+            this.filterObj.filterTextName = "issue";
+            this.filterObj.inputName = "Name";
+            this.filterObj.select = [
+              {
+                name: "status",
+                values: [...selectCategories.shiftStatus],
+              },
+            ];
+        }break;
+        case "incidents":{
+            this.filteredArray = this.getIncidents;
+            this.allData = this.getIncidents;
+            this.filterObj.filterTextName = "name";
+            this.filterObj.inputName = "Name";
+            this.filterObj.select = [
+              {
+                name: "status",
+                values: [...selectCategories.shiftStatus],
+              },
+            ];
+        }break;
+        case "alerts":
+          {
+            this.filteredArray = this.getAlerts;
+            this.allData = this.getAlerts;
+            this.filterObj.filterTextName = "name";
+            this.filterObj.inputName = "Name";
+
+            this.filterObj.select = {};
+          }
+          break;
+        case "healthCheck":
+          {
+            this.filteredArray = this.getHealthCheck;
+            this.allData = this.getHealthCheck;
+            this.filterObj.filterTextName = "Who";
+            this.filterObj.inputName = "Who";
+            this.filterObj.select = [
+              {
+                name: "Issue Status",
+                values: [...selectCategories.shiftStatus],
+              },
+            ];
+          }
+          break;
+        case "Communication":
+          {
+            this.filteredArray = this.getCommunication;
+            this.allData = this.getCommunication;
+            this.filterObj.filterTextName = "Team";
+            this.filterObj.inputName = "Team";
+            this.filterObj.select = {};
+          }
+          break;
+        case "Policies":
+          {
+            this.filteredArray = this.getPolicies;
+            this.allData = this.getPolicies;
+            this.filterObj.filterTextName = "title";
+            this.filterObj.inputName = "Policy Title";
+            this.filterObj.select = {};
+          }
+          break;
+        case "Procedures":
+          {
+            this.filteredArray = this.getProcedures;
+            this.allData = this.getProcedures;
+            this.filterObj.filterTextName = "title";
+            this.filterObj.inputName = "Process Title";
+            this.filterObj.select = {};
+          }
+          break;
+        case "Playbooks":
+          {
+            this.filteredArray = this.getPlayBook;
+            this.allData = this.getPlayBook;
+            this.filterObj.filterTextName = "title";
+            this.filterObj.inputName = "PlayBook Title";
+            this.filterObj.select = {};
+          }
+          break;
         case "advisory":
           {
             this.filteredArray = this.getAdvisory;
@@ -1220,18 +1340,13 @@ export default {
             this.filteredArray = this.getMainIncident;
             this.allData = this.getMainIncident;
             this.filterObj.inputName = "Incident Name";
+            this.filterObj.filterTextName = "IncidentName";
             this.filterObj.select = [
               {
                 name: "Priority",
                 values: [...selectCategories.incidentPriority],
               },
             ];
-          }
-          break;
-        case "healthCheck":
-          {
-            this.filterObj.inputName = "";
-            this.filterObj.select = {};
           }
           break;
       }
@@ -1251,6 +1366,12 @@ export default {
       switch (this.filteringCategory) {
         case "advisory":
         case "socReports":
+        case "Policies":
+        case "Procedures":
+        case "Playbooks":
+        case "Communication":
+        case "alerts":
+          
           {
             console.log(this.filteringCategory);
             console.log(val);
@@ -1266,22 +1387,39 @@ export default {
           break;
 
         case "mainIncident":
+        case "healthCheck":
+                 case "incidents":
+                   case "pendingIssues":
+                      case "Use Case Library":
           {
             if (selectCat != undefined && selectCat.length >= 1) {
               selectCat = this.editString(selectCat);
               const selectValue = this.filterObj.selectValues[0];
               console.log(selectValue);
-
-              newArr = newArr.filter(
-                (el) => el[selectCat].toLowerCase() == selectValue.toLowerCase()
-              );
+              // console.log(selectCat);
+              // newArr.forEach(el => {
+              //   console.log(el[selectCat]);
+              // })
+              newArr = newArr.filter((el) => {
+                if (
+                  el[selectCat] &&
+                  el[selectCat].toLowerCase() == selectValue.toLowerCase()
+                )
+                  return el;
+              });
             }
-
+            console.log(val);
             if (val) {
-              newArr = newArr.filter(
-                (el) =>
-                  el.IncidentName.trim().toLowerCase().startsWith(val) == true
-              );
+              newArr = newArr.filter((el) => {
+                if (
+                  el[this.filterObj.filterTextName] &&
+                  el[this.filterObj.filterTextName]
+                    .trim()
+                    .toLowerCase()
+                    .startsWith(val) == true
+                )
+                  return el;
+              });
             }
           }
           break;
@@ -1305,6 +1443,8 @@ export default {
     changeWikiPage(page) {
       console.log("change" + " " + page);
       this.wikiPage = page;
+      if(page == 'Communication' || page == 'Use Case Library')
+      this.chosenCat = page;
       if (
         [
           "Policies",
@@ -1318,6 +1458,9 @@ export default {
       }
       if (page == "Use Case Library")
         this.$store.dispatch("getData", "useCase");
+
+      
+        
     },
     showMenu(event) {
       console.log(event.target);
@@ -1433,6 +1576,7 @@ export default {
       if (!this.$store.state[pdfCat].length) {
         this.$store.dispatch("getData", pdfCat);
       }
+        
     },
     upload() {
       let formData = new FormData();
@@ -1460,6 +1604,16 @@ export default {
 };
 </script>
 <style>
+.book__table > div {
+  padding: 0.5rem 0;
+  width: 18rem;
+}
+.book__table .col {
+  padding: 0;
+}
+.book__img img {
+  height: 15rem;
+}
 .use__img img {
   width: 100%;
   height: 100%;
@@ -1494,6 +1648,11 @@ export default {
   justify-content: space-around;
   flex-direction: row;
   width: 100%;
+  margin-left: 1rem;
+}
+.filter__form .form__control .form__control-label {
+  z-index: 1;
+  text-transform: capitalize;
 }
 .filter__selects .select {
   margin-left: 1rem;
@@ -1515,5 +1674,8 @@ export default {
 }
 .users {
   width: 80%;
+}
+.playbooks .table__row .col p {
+  text-align: center;
 }
 </style>

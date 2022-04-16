@@ -2,10 +2,11 @@
   <div class="shift__form-wrapper">
     <h1 class="form__title">Incidents</h1>
     <form
-      class="long__form incident-main__form"
+      class="incident-main__form"
       v-on:submit.prevent="submitData"
     >
-      <div>
+<div class="long__form">
+        <div>
         <p>Incident Identification</p>
         <div class="form__control time-control">
           <input type="date" v-model="detectionDate" required />
@@ -308,9 +309,9 @@
           <input type="time" v-model="signatureTime" required />
         </div>
       </div>
-    </form>
+</div>
     <div class="submit-btn__wrapper">
-      <button class="submit-btn" type="submit" @click="submitData">
+      <button class="submit-btn" type="submit">
         Submit
         <svg
           v-if="submitIcon"
@@ -327,6 +328,7 @@
         <BaseSpinner v-if="loading" />
       </button>
     </div>
+    </form>
   </div>
 </template>
 <script>
@@ -452,11 +454,7 @@ export default {
 };
 </script>
 <style scoped>
-.incident-main__form {
-  max-height: 28rem;
-  overflow: auto;
-  padding-right: 0.6rem;
-}
+
 
 .long__form p {
   text-transform: capitalize;

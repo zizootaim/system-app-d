@@ -111,13 +111,4 @@ export default {
   background: #fff;
   color: #162682;
 }
-.approve-btn.approved {
-  cursor: auto;
-  background: green;
-  pointer-events: none;
-}
-.approve-btn.approved:hover {
-  background: green;
-  color: #fff;
-}
 </style>

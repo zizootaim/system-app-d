@@ -1,5 +1,5 @@
 <template>
-  <section class="settings__wrapper" >
+  <section class="settings__wrapper">
     <h1 class="sec__title">Settings</h1>
 
     <button class="form-btn" @click="() => showModal(false)">
@@ -27,62 +27,71 @@
         }
       "
     >
-
-
-    <div class="users">
-          <h1 class="sec__title">Users</h1>
-      <div class="table__wrapper">
-        <div class="table">
-          <div class="table__row header">
-            <div class="col">
-              <h4>Name</h4>
-            </div>
-            <div class="col">
-              <h4>Email</h4>
-            </div>
-            <div class="col">
-              <h4>Role</h4>
-            </div>
-            <div class="col">
-              <h4>Approved</h4>
-            </div>
-          </div>
-
-          <div class="table__row" v-for="user in getUsers" :key="user.id">
-            <div class="row top-row" v-if="user.role != 'admin'">
-         
+      <div class="users">
+        <h1 class="sec__title">Users</h1>
+        <div class="table__wrapper">
+          <div class="table">
+            <div class="table__row header">
               <div class="col">
-                <p>
-                  <span>{{ user.name }}</span>
-                </p>
+                <h4>Name</h4>
               </div>
               <div class="col">
-                <p>
-                  <span>{{ user.email }}</span>
-                </p>
+                <h4>Email</h4>
               </div>
               <div class="col">
-                <p>
-                  <span>{{ user.role }}</span>
-                </p>
+                <h4>Role</h4>
               </div>
-              <div :class="user.role == 'Employee' ?  'col approved' : 'col'" style="color: #fff;">
-                  <button
+              <div class="col">
+                <h4>Approved</h4>
+              </div>
+            </div>
+
+            <div class="table__row" v-for="user in getUsers" :key="user.id">
+              <div class="row top-row" v-if="user.role != 'admin'">
+                <div class="col">
+                  <p>
+                    <span>{{ user.name }}</span>
+                  </p>
+                </div>
+                <div class="col">
+                  <p>
+                    <span>{{ user.email }}</span>
+                  </p>
+                </div>
+                <div class="col">
+                  <p>
+                    <span>{{ user.role }}</span>
+                  </p>
+                </div>
+                <div
+                  class="col"
+                >
+                  <!-- <button
                     v-if="getRole == 'admin' && user.role != 'admin'"
                     class="approve-btn"
                     @click="(event) => approveUser(user.email, event)"
                   >
                     {{ user.role == "Employee" ? "approved" : "approve" }}
                     <BaseSpinner />
+                  </button> -->
+                  <button
+                    v-if="user.role == 'visitor'"
+                    class="approve-btn"
+                    @click="(event) => approveUser(user.email, event)"
+                  >
+                    approve
+                    <BaseSpinner />
                   </button>
-                
+                  <button v-if="user.role != 'visitor'" class="approve-btn">
+                    disapprove
+                    <BaseSpinner />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-    </div>
     </modal>
   </section>
 </template>
@@ -154,11 +163,11 @@ export default {
   background: #ffffff;
 }
 
-.users .table__row .col p{
+.users .table__row .col p {
   color: #000;
 }
 
-.users .col{
+.users .col {
   border: 1px solid #162682;
   display: grid;
   place-items: center;
@@ -188,20 +197,8 @@ export default {
   margin-right: 0.3rem;
   display: none;
 }
-
-.approved {
-  cursor: auto;
-  background: green;
-  border: none;
-  color: #fff;
-  pointer-events: none;
-}
-.approved .approve-btn {
-  background: none;
-  border: none;
-}
-.approve-btn.approved:hover {
-  background: green;
-  color: #fff;
+.approve-btn:hover {
+  background: #fff;
+  color: #162682;
 }
 </style>

@@ -1,64 +1,71 @@
 <template>
   <div class="shift__form-wrapper">
     <h1 class="form__title">Pending Issues</h1>
-    <form
-      class="shift__form pending-form long__form"
-      v-on:submit.prevent="submitData"
-    >
-      <div class="form__control">
-        <input
-          type="text"
-          name="issue"
-          required
-          v-model="issue"
-          autocomplete="off"
-        />
-        <span class="form__control-label">Issue</span>
-      </div>
+    <form class="shift__form pending-form" v-on:submit.prevent="submitData">
+      <div class="long__form">
+        <div class="form__control">
+          <input
+            type="text"
+            name="issue"
+            required
+            v-model="issue"
+            autocomplete="off"
+          />
+          <span class="form__control-label">Issue</span>
+        </div>
 
-      <div class="form__control time-control">
-        <label for="startDate" class="date">Start Date</label>
-        <input id="startDate" type="date" v-model="startDate" />
-        <label for="startTime" class="time">Start Time</label>
-        <input type="time" v-model="startTime" id="startTime" />
-      </div>
+        <div class="form__control time-control">
+          <label for="startDate" class="date">Start Date</label>
+          <input id="startDate" type="date" v-model="startDate" />
+          <label for="startTime" class="time">Start Time</label>
+          <input type="time" v-model="startTime" id="startTime" />
+        </div>
 
-      <div class="form__control full textarea">
-        <textarea
-          required
-          name="IssueDescription"
-          v-model="IssueDescription"
-          cols="20"
-          rows="3"
-        ></textarea>
-        <span class="form__control-label">Issue Description</span>
-      </div>
+        <div class="form__control full textarea">
+          <textarea
+            required
+            name="IssueDescription"
+            v-model="IssueDescription"
+            cols="20"
+            rows="3"
+          ></textarea>
+          <span class="form__control-label">Issue Description</span>
+        </div>
 
-      <div class="form__control">
-        <input type="text" name="ActionTaken" required v-model="ActionTaken" />
-        <span class="form__control-label">Action Taken</span>
+        <div class="form__control">
+          <input
+            type="text"
+            name="ActionTaken"
+            required
+            v-model="ActionTaken"
+          />
+          <span class="form__control-label">Action Taken</span>
+        </div>
+        <div class="form__control">
+          <input type="text" name="NextAction" required v-model="NextAction" />
+          <span class="form__control-label">Next Action</span>
+        </div>
+        <div class="form__control">
+          <input type="text" name="who" required v-model="who" />
+          <span class="form__control-label">Who</span>
+        </div>
+        <div class="form__control">
+          <select required name="status" v-model="status">
+            <option v-for="(i, index) in shiftStatus" :key="index" :value="i">
+              {{ i }}
+            </option>
+          </select>
+          <span class="form__control-label">Status</span>
+        </div>
+        <div class="form__control time-control">
+          <label for="CloseDate" class="date">Close Date</label>
+          <input type="date" name="CloseDate" v-model="closeDate" />
+          <label for="CloseTime" class="time">Close Time</label>
+          <input type="time" name="CloseTime" v-model="closeTime" />
+        </div>
       </div>
-      <div class="form__control">
-        <input type="text" name="NextAction" required v-model="NextAction" />
-        <span class="form__control-label">Next Action</span>
-      </div>
-      <div class="form__control">
-        <input type="text" name="who" required v-model="who" />
-        <span class="form__control-label">Who</span>
-      </div>
-      <div class="form__control">
-        <select required name="status" v-model="status">
-<option v-for="(i,index) in shiftStatus" :key="index" :value="i">{{i}}</option>
-        </select>
-        <span class="form__control-label">Status</span>
-      </div>
-      <div class="form__control time-control">
-        <label for="CloseDate" class="date">Close Date</label>
-        <input type="date" name="CloseDate" v-model="closeDate" />
-        <label for="CloseTime" class="time">Close Time</label>
-        <input type="time" name="CloseTime" v-model="closeTime" />
-      </div>
-      <button class="submit-btn" type="submit">
+<div class="submit-btn__wrapper">
+        <button class="submit-btn" type="submit">
         Submit
         <svg
           v-if="submitIcon"
@@ -74,16 +81,16 @@
         </svg>
         <BaseSpinner v-if="spinnerLoading" />
       </button>
+</div>
     </form>
   </div>
 </template>
 <script>
-import {
-  shiftStatus
-} from "../assets/data";
+import { shiftStatus } from "../assets/data";
 export default {
   data() {
-    return {shiftStatus,
+    return {
+      shiftStatus,
       issue: "",
       startDate: "",
       startTime: "",

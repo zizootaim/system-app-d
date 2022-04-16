@@ -4,6 +4,7 @@
     <div class="mainContent">
       <Nuxt />
     </div>
+      <footer>Powered by Group-IB</footer>
   </div>
 </template>
 <script>
@@ -24,19 +25,16 @@ export default {
       localStorage.setItem("role", "");
     }
     this.$store.commit("changeRole");
+    this.setBg();
   },
   watch: {
     $route: function () {
       this.setBg();
     },
   },
-  mounted() {
-    this.setBg();
-  },
   methods: {
     setBg() {
       this.url = window.location.pathname;
-      console.log(this.url);
       const appContainer = document.querySelector(".body");
       if (this.url == "/") {
         appContainer.className = "body home";
@@ -47,9 +45,20 @@ export default {
 </script>
 <style>
 .mainContent {
-  min-height: 91vh;
+  min-height: 87vh;
+}
+.body{
+  min-height: 100vh;
 }
 .light-mode .mainContent {
   background: #eee;
+}
+footer{
+  text-align: center;
+  color: #fff;
+
+}
+.light-mode footer{
+  color: #000;
 }
 </style>

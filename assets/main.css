@@ -337,6 +337,10 @@ button {
   max-height: 35rem;
   overflow: auto;
   padding-right: 1rem;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  max-height: 30rem;
+  overflow: auto;
 }
 .time-control {
   position: relative;
@@ -362,16 +366,16 @@ button {
   height: 1.7rem;
   width: 1.8rem;
 }
-form::-webkit-scrollbar-thumb {
+.long__form::-webkit-scrollbar-thumb {
   background: #342c6d;
   border-radius: 2rem;
 }
 
-form::-webkit-scrollbar-track {
+.long__form::-webkit-scrollbar-track {
   background-color: #fff;
 }
 
-form::-webkit-scrollbar,
+.long__form::-webkit-scrollbar,
 body::-webkit-scrollbar {
   border-radius: 2rem;
   width: 10px;
@@ -629,7 +633,7 @@ textarea::placeholder {
   width: 100%;
   margin: 1rem auto;
   max-height: 68vh;
-  padding-right: 0.5rem;
+  padding-right: 1rem;
   overflow: auto;
 }
 
@@ -732,10 +736,10 @@ textarea::placeholder {
 }
 .table__row.header {
   background-color: #030d44;
-}
-.table__row.header {
   color: #fff;
+  padding: .3rem 0;
 }
+
 .table__row:nth-child(odd):not(.table__row.header) {
   background: #141d6c;
 }
@@ -756,13 +760,10 @@ textarea::placeholder {
   width: fit-content;
   max-height: unset;
   max-width: unset;
+  min-width: 6rem;
+
 }
-.issue{
-  background: rgb(213, 43, 43);
-}
-.not-issue {
-  background: #04aa46;
-}
+
 /* Wiki Page */
 
 .reports .pdfs__wrapper {
@@ -982,6 +983,12 @@ button {
 .form-btn:hover {
   background: #fff;
   color: #40358e;
+}
+.issue{
+  background: rgb(213, 43, 43);
+}
+.not-issue {
+  background: #04aa46;
 }
 
 /* Media Queries */

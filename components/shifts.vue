@@ -25,7 +25,7 @@
           <div class="row">
             <div class="left">{{ shiftName }}</div>
             <div class="cols">
-              <div class="col" v-for="cnt in monthCount(shiftName)" :key="cnt">
+              <div class="col" v-for="(cnt,index) in monthCount(shiftName)" :key="index">
                 {{ cnt }}
               </div>
             </div>
@@ -35,16 +35,16 @@
           <div class="rows">
             <div
               class="row"
-              v-for="employee in shiftValue"
-              :key="employee.name"
+              v-for="(employee,index) in shiftValue"
+              :key="index"
             >
               <div class="left"><p>{{ employee.name }}</p></div>
               <div class="cols">
                 <div
                   class="col"
                   :class="i.toUpperCase()"
-                  v-for="i in employee.shifts"
-                  :key="i"
+                  v-for="(i,index) in employee.shifts"
+                  :key="index"
                 >
                   {{ i }}
                 </div>
@@ -122,7 +122,7 @@ export default {
 border-right: 1px solid #000;
 }
 .shifts__wrapper .table {
-  min-width: 76rem;
+  min-width: 75rem;
 }
 .table__row:nth-child(even){
   margin-bottom: .7rem;

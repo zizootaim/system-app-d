@@ -2,10 +2,11 @@
   <div class="shift__form-wrapper">
     <h1 class="form__title">Alerts</h1>
     <form
-      class="shift__form alerts__form long__form"
+      class="shift__form alerts__form "
       v-on:submit.prevent="submitData"
     >
-      <div class="form__control">
+   <div class="long__form">
+        <div class="form__control">
         <input
           type="text"
           name="alertName"
@@ -57,7 +58,7 @@
         <span class="form__control-label">Next Action</span>
       </div>
 
-      <div class="form__control">
+      <div class="form__control full">
         <select required name="status" v-model="status">
           <option v-for="(i, index) in shiftStatus" :key="index" :value="i">
             {{ i }}
@@ -83,6 +84,7 @@
           required
         />
       </div>
+   </div>
 
       <div class="submit-btn__wrapper full">
         <button class="submit-btn">

@@ -1,8 +1,9 @@
 <template>
   <div class="use-case__form-wrapper">
     <h1 class="form__title">{{ formTitle }}</h1>
-    <form class="use-case__form" v-on:submit.prevent="submitData">
-      <div class="form__control">
+    <form  v-on:submit.prevent="submitData">
+     <div class="long__form">
+        <div class="form__control">
         <input
           type="text"
           name="identifier"
@@ -152,9 +153,9 @@
         </select>
         <span class="form__control-label">Production</span>
       </div>
-    </form>
+     </div>
     <div class="submit-btn__wrapper">
-      <button class="submit-btn" type="submit" @click="submitData">
+      <button class="submit-btn" type="submit">
         Submit
         <svg
           v-if="submitIcon"
@@ -172,6 +173,7 @@
         <BaseSpinner v-if="loading" />
       </button>
     </div>
+    </form>
   </div>
 </template>
 
@@ -269,12 +271,7 @@ export default {
 .use-case__form-wrapper {
   width: 85%;
 }
-.use-case__form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.6rem;
-  padding-top: 1rem;
-}
+
 .form__title {
   color: #000;
   text-transform: capitalize;
@@ -307,15 +304,5 @@ export default {
 .secform .form__control * {
   color: #010f60;
 }
-.use-case__form {
-  max-height: 30rem;
-  overflow: auto;
-  padding-right: 0.6rem;
-}
 
-@media screen and (max-width: 680px) {
-  .use-case__form {
-    grid-template-columns: 1fr;
-  }
-}
 </style>
