@@ -204,6 +204,7 @@ export default {
 </script>
 
 <style scoped>
+
 .container div:first-of-type .level-1::before {
   height: 50px;
 }
@@ -469,7 +470,9 @@ export default {
 .light-mode .container *::before {
   background: #010a3d;
 }
-
+.light-mode .person__info h4{
+  color: #fff;
+}
 @media screen and (max-width: 769px) {
   .level-1 {
     width: 75%;

@@ -55,6 +55,7 @@
           <p>Playbook Table</p>
           <div class="form__control">
             <input
+              ref="activity"
               type="text"
               name="activity"
               v-model="activity"
@@ -65,6 +66,7 @@
           </div>
           <div class="form__control">
             <input
+              ref="irStage"
               type="text"
               name="irStage"
               v-model="irStage"
@@ -89,7 +91,7 @@
         </div>
       </div>
       <div class="submit-btn__wrapper full">
-        <button class="submit-btn" type="submit">
+        <button class="submit-btn" @click="submitData">
           Submit <BaseSpinner v-if="loading" />
           <svg
             v-if="submitIcon"
@@ -114,11 +116,39 @@
 <script>
 import baseSpinner from "@/components/baseSpinner.vue";
 import { playbookCategories } from "../assets/data";
+import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+
 export default {
   components: {
     baseSpinner,
   },
-
+  computed: {
+    ...mapState(["chosenFormMethod", "chosenFormId"]),
+    ...mapGetters(["getPlayBook"]),
+    messageErr() {
+      return this.message;
+    },
+    playBookData() {
+      if (this.chosenFormMethod == "PUT") {
+        console.log("dvasefv");
+        let res = this.getPlayBook.filter(
+          (book) => book.id == this.chosenFormId
+        );
+        console.log(res);
+      } else {
+        return {
+          title: "",
+          category: "",
+          otherCategory: "",
+          activity: "",
+          irStage: "",
+          team: "",
+          description: "",
+        };
+      }
+    },
+  },
   data() {
     return {
       playbookCategories,
@@ -132,7 +162,6 @@ export default {
       data: [],
       message: "",
       loading: false,
-
       loadingAdd: false,
       submitIcon: false,
     };
@@ -140,27 +169,17 @@ export default {
   props: {
     formTitle: "",
   },
-  computed: {
-    dataObj() {
-      let formData = new FormData();
-      let file = document.querySelector("input[type=file]");
-      formData.append("file", file.files[0]);
-      formData.append("title", this.title);
-      formData.append("description", this.description);
-      let category =
-        this.category == "Other" ? this.otherCategory : this.category;
+  mounted() {
+    if (this.chosenFormMethod == "PUT") {
+      let res = this.getPlayBook.filter((book) => book.id == this.chosenFormId);
+      console.log(res);
+      this.title = res[0].title;
+      this.description = res[0].description;
 
-      formData.append("category", category);
-      formData.append("data", this.data);
-      return {
-        formData,
-      };
-    },
-    messageErr() {
-      return this.message;
-    },
+      this.category = res[0].category;
+      this.$refs["file"].required = false;
+    }
   },
-
   methods: {
     addRow() {
       this.data.push({
@@ -171,10 +190,10 @@ export default {
       this.loadingAdd = true;
       setTimeout(() => {
         this.loadingAdd = false;
+        this.activity = " ";
+        this.irStage = " ";
+        this.team = " ";
       }, 500);
-      this.activity = "";
-      this.irStage = "";
-      this.team = "";
     },
     async submitData() {
       this.loading = true;
@@ -205,7 +224,7 @@ export default {
               this.submitIcon = false;
               document.querySelector(".close").click();
             }, 1000);
-            this.$store.dispatch("getData", "Playbooks");
+            this.$store.dispatch("getData", "home");
           }
         })
         .catch((error) => {

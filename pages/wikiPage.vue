@@ -12,7 +12,7 @@
           </div>
           <div :class="showSideMenu ? 'wiki__menu' : 'wiki__menu show'">
             <div
-              @click="changeWikiPage(item.section)"
+              @click="()=>changeWikiPage(item.section)"
               :class="
                 item.subPages ? 'menu__item submenu-wrapper' : 'menu__item'
               "
@@ -20,7 +20,9 @@
               :key="item.section"
             >
               <button
-                @click="showMenu($event)"
+                @click="(event)=>{
+                  
+                  showMenu(event)}"
                 v-if="item.section != 'Administration' || getRole == 'admin'"
               >
                 <i :class="item.class"></i>
@@ -102,7 +104,12 @@
 
           <!-- Filteration -->
 
-          <div v-if="chosenCat && wikiPage != 'Shifts' && wikiPage != 'Administration'" class="filteration__wrapper">
+          <div
+            v-if="
+              chosenCat && wikiPage != 'Shifts' && wikiPage != 'Administration'
+            "
+            class="filteration__wrapper"
+          >
             <h2>Filter By :</h2>
             <div class="filter__form">
               <div class="form__control" v-if="filterObj.inputName">
@@ -145,39 +152,44 @@
               <h1 class="sec__title">Soc Reports</h1>
               <button
                 class="form-btn"
-                @click="setChosenForm('addPdf')"
+                @click="setChosenForm('addPdf', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 +add
               </button>
-              <div
-                class="pdf-wrapper"
-                v-for="report in filteredArray"
-                :key="report.id"
-              >
-                <button
-                  v-if="getRole == 'Employee' || getRole == 'admin'"
-                  class="delete-btn"
-                  @click="
-                    deleteData({ body: { id: report.id }, apiName: 'Reports' })
-                  "
+              <div v-if="filteredArray.length > 0">
+                <div
+                  class="pdf-wrapper"
+                  v-for="report in filteredArray"
+                  :key="report.id"
                 >
-                  <i class="fas fa-trash-alt"></i>
-                </button>
+                  <button
+                    v-if="getRole == 'Employee' || getRole == 'admin'"
+                    class="delete-btn"
+                    @click="
+                      deleteData({
+                        body: { id: report.id },
+                        apiName: 'Reports',
+                      })
+                    "
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
 
-                <div class="pdf">
-                  <i
-                    class="fas fa-angle-down open-pdf"
-                    @click="(event) => showPDF(event)"
-                  ></i>
-                  <p>{{ report.title }}</p>
+                  <div class="pdf">
+                    <i
+                      class="fas fa-angle-down open-pdf"
+                      @click="(event) => showPDF(event)"
+                    ></i>
+                    <p>{{ report.title }}</p>
 
-                  <embed
-                    :src="report.url"
-                    type=""
-                    width="500px"
-                    height="500px"
-                  />
+                    <embed
+                      :src="report.url"
+                      type=""
+                      width="500px"
+                      height="500px"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -185,65 +197,67 @@
               <h1 class="sec__title">Advisory</h1>
               <button
                 class="form-btn"
-                @click="setChosenForm('advisory')"
+                @click="setChosenForm('advisory', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 + add
               </button>
-              <div class="table__wrapper">
-                <div class="table">
-                  <div class="table__row header">
-                    <div class="col">
-                      <h4>Advisory Source</h4>
+              <div v-if="filteredArray.length > 0">
+                <div class="table__wrapper">
+                  <div class="table">
+                    <div class="table__row header">
+                      <div class="col">
+                        <h4>Advisory Source</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Date</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Reference ID</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Applicable</h4>
+                      </div>
                     </div>
-                    <div class="col">
-                      <h4>Date</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Reference ID</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Applicable</h4>
-                    </div>
-                  </div>
 
-                  <div
-                    class="table__row"
-                    v-for="advisoryCard in filteredArray"
-                    :key="advisoryCard.id"
-                  >
-                    <div class="row top-row">
-                      <i
-                        class="fas fa-angle-down row-btn"
-                        @click="(event) => showContent(event)"
-                      ></i>
-                      <div class="col">
-                        <p>
-                          <span>{{ advisoryCard.source }}</span>
-                        </p>
+                    <div
+                      class="table__row"
+                      v-for="advisoryCard in filteredArray"
+                      :key="advisoryCard.id"
+                    >
+                      <div class="row top-row">
+                        <i
+                          class="fas fa-angle-down row-btn"
+                          @click="(event) => showContent(event)"
+                        ></i>
+                        <div class="col">
+                          <p>
+                            <span>{{ advisoryCard.source }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ advisoryCard.date }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ advisoryCard.referenceid }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ advisoryCard.applicable }}</span>
+                          </p>
+                        </div>
                       </div>
-                      <div class="col">
-                        <p>
-                          <span>{{ advisoryCard.date }}</span>
-                        </p>
+                      <div class="row bottom-row">
+                        <div>Description : {{ advisoryCard.description }}</div>
+                        <div v-if="advisoryCard.applicable == 'No'">
+                          Actions Taken : {{ advisoryCard.token }}
+                        </div>
+                        <div>Notes : {{ advisoryCard.notes }}</div>
                       </div>
-                      <div class="col">
-                        <p>
-                          <span>{{ advisoryCard.referenceid }}</span>
-                        </p>
-                      </div>
-                      <div class="col">
-                        <p>
-                          <span>{{ advisoryCard.applicable }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row bottom-row">
-                      <div>Description : {{ advisoryCard.description }}</div>
-                      <div v-if="advisoryCard.applicable == 'No'">
-                        Actions Taken : {{ advisoryCard.token }}
-                      </div>
-                      <div>Notes : {{ advisoryCard.notes }}</div>
                     </div>
                   </div>
                 </div>
@@ -257,139 +271,141 @@
                 <h1 class="sec__title">Incidents</h1>
                 <button
                   class="form-btn"
-                  @click="setChosenForm('incidentMainForm')"
+                  @click="setChosenForm('incidentMainForm', 'POST')"
                   v-if="getRole == 'Employee' || getRole == 'admin'"
                 >
                   +add
                 </button>
               </div>
-              <div class="table__wrapper">
-                <div class="table">
-                  <div class="table__row header">
-                    <div class="col">
-                      <h4>Incident Name</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Detector</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Ref Number</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Priority</h4>
-                    </div>
-                  </div>
-                  <div
-                    class="table__row"
-                    v-for="i in filteredArray"
-                    :key="i.id"
-                  >
-                    <div class="row top-row">
-                      <i
-                        class="fas fa-angle-down row-btn"
-                        @click="(event) => showContent(event)"
-                      ></i>
+              <div v-if="filteredArray.length > 0">
+                <div class="table__wrapper">
+                  <div class="table">
+                    <div class="table__row header">
                       <div class="col">
-                        <p>
-                          <span>{{ i.IncidentName }}</span>
-                        </p>
+                        <h4>Incident Name</h4>
                       </div>
                       <div class="col">
-                        <p>
-                          <span>{{ i.DetectorName }}</span>
-                        </p>
+                        <h4>Detector</h4>
                       </div>
                       <div class="col">
-                        <p>
-                          <span>{{ i.IncidentReferenceNo }}</span>
-                        </p>
+                        <h4>Ref Number</h4>
                       </div>
                       <div class="col">
-                        <p>
-                          <span>{{ i.Priority }}</span>
-                        </p>
+                        <h4>Priority</h4>
                       </div>
                     </div>
-                    <div class="row bottom-row">
-                      <div class="incident-sec__wrapper">
-                        <h3>Incident Identification</h3>
-                        <div>Location : {{ i.Location }}</div>
-                        <div>
-                          Contact Info :
-                          {{ i.ContactInfo }}
+                    <div
+                      class="table__row"
+                      v-for="i in filteredArray"
+                      :key="i.id"
+                    >
+                      <div class="row top-row">
+                        <i
+                          class="fas fa-angle-down row-btn"
+                          @click="(event) => showContent(event)"
+                        ></i>
+                        <div class="col">
+                          <p>
+                            <span>{{ i.IncidentName }}</span>
+                          </p>
                         </div>
-                        <div>
-                          Time Of Detection :
-                          {{ i.TimeOfDetection }}
+                        <div class="col">
+                          <p>
+                            <span>{{ i.DetectorName }}</span>
+                          </p>
                         </div>
-                        <div>
-                          Repeated Incident :
-                          {{ i.RepeatedIncident }}
+                        <div class="col">
+                          <p>
+                            <span>{{ i.IncidentReferenceNo }}</span>
+                          </p>
                         </div>
-                        <div>
-                          Impact Duration :
-                          {{ i.ImpactDuration }}
-                        </div>
-                        <div>
-                          Affected System :
-                          {{ i.AffectedSystem }}
-                        </div>
-                      </div>
-                      <div class="incident-sec__wrapper">
-                        <h3>Incident Triage</h3>
-                        <div>
-                          Incident Verification :
-                          {{ i.IncidentVerification }}
-                        </div>
-                        <div>
-                          Incident Classification:
-                          {{ i.IncidentClassification }}
-                        </div>
-                        <div>Description : {{ i.Description }}</div>
-                      </div>
-                      <div class="incident-sec__wrapper">
-                        <h3>Incident Containment</h3>
-                        <div>
-                          Evidence Acquiring :
-                          {{ i.EvidenceAcquiring }}
-                        </div>
-                        <div>Data Health : {{ i.DataHealth }}</div>
-                        <div>
-                          Containment Measures :
-                          {{ i.ContainmentMeasures }}
-                        </div>
-                        <div>
-                          Eradication Measures :
-                          {{ i.EradicationMeasures }}
-                        </div>
-                        <div>
-                          Recovery Measures :
-                          {{ i.RecoveryMeasures }}
+                        <div class="col">
+                          <p>
+                            <span>{{ i.Priority }}</span>
+                          </p>
                         </div>
                       </div>
+                      <div class="row bottom-row">
+                        <div class="incident-sec__wrapper">
+                          <h3>Incident Identification</h3>
+                          <div>Location : {{ i.Location }}</div>
+                          <div>
+                            Contact Info :
+                            {{ i.ContactInfo }}
+                          </div>
+                          <div>
+                            Time Of Detection :
+                            {{ i.TimeOfDetection }}
+                          </div>
+                          <div>
+                            Repeated Incident :
+                            {{ i.RepeatedIncident }}
+                          </div>
+                          <div>
+                            Impact Duration :
+                            {{ i.ImpactDuration }}
+                          </div>
+                          <div>
+                            Affected System :
+                            {{ i.AffectedSystem }}
+                          </div>
+                        </div>
+                        <div class="incident-sec__wrapper">
+                          <h3>Incident Triage</h3>
+                          <div>
+                            Incident Verification :
+                            {{ i.IncidentVerification }}
+                          </div>
+                          <div>
+                            Incident Classification:
+                            {{ i.IncidentClassification }}
+                          </div>
+                          <div>Description : {{ i.Description }}</div>
+                        </div>
+                        <div class="incident-sec__wrapper">
+                          <h3>Incident Containment</h3>
+                          <div>
+                            Evidence Acquiring :
+                            {{ i.EvidenceAcquiring }}
+                          </div>
+                          <div>Data Health : {{ i.DataHealth }}</div>
+                          <div>
+                            Containment Measures :
+                            {{ i.ContainmentMeasures }}
+                          </div>
+                          <div>
+                            Eradication Measures :
+                            {{ i.EradicationMeasures }}
+                          </div>
+                          <div>
+                            Recovery Measures :
+                            {{ i.RecoveryMeasures }}
+                          </div>
+                        </div>
 
-                      <div class="incident-sec__wrapper">
-                        <h3>Post Incident Activity</h3>
-                        <div>Notification : {{ i.Notification }}</div>
-                        <div>
-                          Case Analysis :
-                          {{ i.CaseAnalysis }}
+                        <div class="incident-sec__wrapper">
+                          <h3>Post Incident Activity</h3>
+                          <div>Notification : {{ i.Notification }}</div>
+                          <div>
+                            Case Analysis :
+                            {{ i.CaseAnalysis }}
+                          </div>
+                          <div>
+                            Incident Availability :
+                            {{ i.IncidentAvailability }}
+                          </div>
                         </div>
-                        <div>
-                          Incident Availability :
-                          {{ i.IncidentAvailability }}
+                        <div class="incident-sec__wrapper">
+                          <h3>Incident Closure</h3>
+                          <div>Improvements : {{ i.Improvements }}</div>
+                          <div>Time Of Closure : {{ i.TimeOfClosure }}</div>
                         </div>
-                      </div>
-                      <div class="incident-sec__wrapper">
-                        <h3>Incident Closure</h3>
-                        <div>Improvements : {{ i.Improvements }}</div>
-                        <div>Time Of Closure : {{ i.TimeOfClosure }}</div>
-                      </div>
-                      <div class="incident-sec__wrapper">
-                        <h3>Reviewed By</h3>
-                        <div>Title : {{ i.Title }}</div>
-                        <div>Signature : {{ i.Signature }}</div>
-                        <div>Date : {{ i.Date }}</div>
+                        <div class="incident-sec__wrapper">
+                          <h3>Reviewed By</h3>
+                          <div>Title : {{ i.Title }}</div>
+                          <div>Signature : {{ i.Signature }}</div>
+                          <div>Date : {{ i.Date }}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -397,7 +413,7 @@
               </div>
             </div>
           </div>
-<!-- Soc Governance -->
+          <!-- Soc Governance -->
           <div v-if="wikiPage == 'Soc Governance'">
             <div
               class="pdfs__wrapper"
@@ -408,77 +424,81 @@
               </h1>
               <button
                 class="form-btn"
-                @click="setChosenForm('addPdf')"
+                @click="setChosenForm('addPdf', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 +add
               </button>
 
               <div class="pdfs__container" v-if="chosenCat == 'Policies'">
-                <div
-                  class="pdf-wrapper"
-                  v-for="policy in filteredArray"
-                  :key="policy.name"
-                >
-                  <button
-                    class="delete-btn"
-                    @click="
-                      deleteData({
-                        body: { id: policy.id },
-                        apiName: 'Policies',
-                      })
-                    "
+                <div v-if="filteredArray.length > 0">
+                  <div
+                    class="pdf-wrapper"
+                    v-for="policy in filteredArray"
+                    :key="policy.name"
                   >
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                  <div class="pdf">
-                    <i
-                      class="fas fa-angle-down open-pdf"
-                      @click="(event) => showPDF(event)"
-                    ></i>
+                    <button
+                      class="delete-btn"
+                      @click="
+                        deleteData({
+                          body: { id: policy.id },
+                          apiName: 'Policies',
+                        })
+                      "
+                    >
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <div class="pdf">
+                      <i
+                        class="fas fa-angle-down open-pdf"
+                        @click="(event) => showPDF(event)"
+                      ></i>
 
-                    <p>{{ policy.title }}</p>
+                      <p>{{ policy.title }}</p>
 
-                    <embed
-                      :src="policy.url"
-                      type=""
-                      width="500px"
-                      height="500px"
-                    />
+                      <embed
+                        :src="policy.url"
+                        type=""
+                        width="500px"
+                        height="500px"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="pdfs__container" v-if="chosenCat == 'Procedures'">
-                <div
-                  class="pdf-wrapper"
-                  v-for="procedure in filteredArray"
-                  :key="procedure.name"
-                >
-                  <button
-                    class="delete-btn"
-                    @click="
-                      deleteData({
-                        body: { id: procedure.id },
-                        apiName: 'Procedures',
-                      })
-                    "
+                <div v-if="filteredArray.length > 0">
+                  <div
+                    class="pdf-wrapper"
+                    v-for="procedure in filteredArray"
+                    :key="procedure.name"
                   >
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                  <div class="pdf">
-                    <i
-                      class="fas fa-angle-down open-pdf"
-                      @click="(event) => showPDF(event)"
-                    ></i>
+                    <button
+                      class="delete-btn"
+                      @click="
+                        deleteData({
+                          body: { id: procedure.id },
+                          apiName: 'Procedures',
+                        })
+                      "
+                    >
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <div class="pdf">
+                      <i
+                        class="fas fa-angle-down open-pdf"
+                        @click="(event) => showPDF(event)"
+                      ></i>
 
-                    <p>{{ procedure.title }}</p>
+                      <p>{{ procedure.title }}</p>
 
-                    <embed
-                      :src="procedure.url"
-                      type=""
-                      width="500px"
-                      height="500px"
-                    />
+                      <embed
+                        :src="procedure.url"
+                        type=""
+                        width="500px"
+                        height="500px"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -488,70 +508,80 @@
               <h1 class="sec__title">Playbooks</h1>
               <button
                 class="form-btn"
-                @click="setChosenForm('playBookForm')"
+                @click="setChosenForm('playBookForm', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 + add
               </button>
+              <div v-if="filteredArray.length > 0">
+                <div class="table__wrapper">
+                  <div class="table">
+                    <div
+                      class="table__row"
+                      v-for="book in filteredArray"
+                      :key="book.id"
+                    >
+                      <div class="row top-row">
+                        <i
+                          class="fas fa-angle-down row-btn"
+                          @click="(event) => showContent(event)"
+                        ></i>
 
-              <div class="table__wrapper">
-                <div class="table">
-                  <div
-                    class="table__row"
-                    v-for="book in filteredArray"
-                    :key="book.id"
-                  >
-                    <div class="row top-row">
-                      <i
-                        class="fas fa-angle-down row-btn"
-                        @click="(event) => showContent(event)"
-                      ></i>
-
-                      <div class="col">
-                        <p>
-                          <span>{{ book.title }}</span>
-                        </p>
+                        <div class="col">
+                          <p>
+                            <span>{{ book.title }}</span>
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <div class="row bottom-row">
-                      <div class="book__data">
-                        <div>Description : {{ book.description }}</div>
-                        <div class="book__table">
-                          <div>
-                            <div class="table__row header">
-                              <div class="col">
-                                <h4>Activity</h4>
+                      <div class="row bottom-row">
+                        <div class="book__data">
+                          <div>Description : {{ book.description }}</div>
+                          <div class="book__table">
+                            <div>
+                              <div class="table__row header">
+                                <div class="col">
+                                  <h4>Activity</h4>
+                                </div>
+                                <div class="col">
+                                  <h4>IR Stage</h4>
+                                </div>
+                                <div class="col">
+                                  <h4>Team</h4>
+                                </div>
                               </div>
-                              <div class="col">
-                                <h4>IR Stage</h4>
-                              </div>
-                              <div class="col">
-                                <h4>Team</h4>
-                              </div>
-                            </div>
 
-                            <div
-                              class="table__row"
-                              v-for="(r, index) in parse(
-                                JSON.stringify(book.data.slice(-1, 1))
-                              )"
-                              :key="index"
-                            >
-                              <div class="col">
-                                {{ r.activity }}
-                              </div>
-                              <div class="col">
-                                {{ r.irStage }}
-                              </div>
-                              <div class="col">
-                                {{ r.team }}
+                              <div
+                                class="table__row"
+                                v-for="(r, index) in parse(book.data)"
+                                :key="index"
+                              >
+                                <div class="row">
+                                  <div class="col">
+                                  {{ r.activity }}
+                                </div>
+                                <div class="col">
+                                  {{ r.irStage }}
+                                </div>
+                                <div class="col">
+                                  {{ r.team }}
+                                </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="book__img">
-                        <img :src="book.url" :alt="book.name" />
+                        <div class="book__img">
+                          <img :src="book.url" :alt="book.name" />
+                        </div>
+                     <div class="btns__wrapper">
+                          <button
+                          class="form-btn"
+                          @click="setChosenForm('playBookForm', 'PUT', book.id)"
+                        >
+                          Edit
+                        </button>
+                        <button class="form-btn">delete</button>
+                     </div>
                       </div>
                     </div>
                   </div>
@@ -569,73 +599,74 @@
             </div>
           </div>
           <div class="shiftHand" v-if="wikiPage == 'Shift Handover'">
-
             <!-- Health Check -->
-            
+
             <div v-if="chosenCat == 'healthCheck'">
               <h1 class="sec__title">Health Check</h1>
               <button
                 class="form-btn"
-                @click="setChosenForm('healthCheck')"
+                @click="setChosenForm('healthCheck', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 + add
               </button>
-              <div class="table__wrapper">
-                <div class="table">
-                  <div class="table__row header">
-                    <div class="col">
-                      <h4>Check Description</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Check Status</h4>
-                    </div>
-                  </div>
-                  <div
-                    class="table__row top-row"
-                    v-for="h in filteredArray"
-                    :key="h.id"
-                  >
-                    <div class="row top-row">
-                      <i
-                        v-if="h.Status == 'Not Ok'"
-                        class="fas fa-angle-down row-btn"
-                        @click="(event) => showContent(event)"
-                      ></i>
+              <div v-if="filteredArray.length > 0">
+                <div class="table__wrapper">
+                  <div class="table">
+                    <div class="table__row header">
                       <div class="col">
-                        <p>
-                          <span>
-                            {{ h.Description }}
-                          </span>
-                        </p>
+                        <h4>Check Description</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Check Status</h4>
+                      </div>
+                    </div>
+                    <div
+                      class="table__row top-row"
+                      v-for="h in filteredArray"
+                      :key="h.id"
+                    >
+                      <div class="row top-row">
+                        <i
+                          v-if="h.Status == 'Not Ok'"
+                          class="fas fa-angle-down row-btn"
+                          @click="(event) => showContent(event)"
+                        ></i>
+                        <div class="col">
+                          <p>
+                            <span>
+                              {{ h.Description }}
+                            </span>
+                          </p>
+                        </div>
+
+                        <div class="col">
+                          <p
+                            :class="`status ${
+                              h.Status == 'Not Ok' ? 'issue' : 'not-issue'
+                            }`"
+                          >
+                            {{ h.Status }}
+                          </p>
+                        </div>
                       </div>
 
-                      <div class="col">
-                        <p
-                          :class="`status ${
-                            h.Status == 'Not Ok' ? 'issue' : 'not-issue'
-                          }`"
-                        >
-                          {{ h.Status }}
-                        </p>
+                      <div v-if="h.Status == 'Not Ok'" class="row bottom-row">
+                        <h3 style="padding-left: 0.6rem">Health Issue</h3>
+                        <div>Issue Found : {{ h.IssuesFound }}</div>
+                        <div>Component : {{ h.Component }}</div>
+                        <div>IP : {{ h.Ip }}</div>
+                        <div>Hostname : {{ h.Hostname }}</div>
+                        <div>Start Time : {{ h.StartTime }}</div>
+                        <div>Issue Description : {{ h.IssueDescription }}</div>
+                        <div>Action Taken : {{ h.ActionTaken }}</div>
+                        <div>Next Action : {{ h.NextAction }}</div>
+                        <div>Who : {{ h.Who }}</div>
+                        <div :class="statusClass(h.IssueStatus)">
+                          Issue Status : {{ h.IssueStatus }}
+                        </div>
+                        <div>Close Time : {{ h.CloseTime }}</div>
                       </div>
-                    </div>
-
-                    <div v-if="h.Status == 'Not Ok'" class="row bottom-row">
-                      <h3 style="padding-left: 0.6rem">Health Issue</h3>
-                      <div>Issue Found : {{ h.IssuesFound }}</div>
-                      <div>Component : {{ h.Component }}</div>
-                      <div>IP : {{ h.Ip }}</div>
-                      <div>Hostname : {{ h.Hostname }}</div>
-                      <div>Start Time : {{ h.StartTime }}</div>
-                      <div>Issue Description : {{ h.IssueDescription }}</div>
-                      <div>Action Taken : {{ h.ActionTaken }}</div>
-                      <div>Next Action : {{ h.NextAction }}</div>
-                      <div>Who : {{ h.Who }}</div>
-                      <div :class="statusClass(h.IssueStatus)">
-                        Issue Status : {{ h.IssueStatus }}
-                      </div>
-                      <div>Close Time : {{ h.CloseTime }}</div>
                     </div>
                   </div>
                 </div>
@@ -648,65 +679,69 @@
               <h1 class="sec__title">Alerts</h1>
               <button
                 class="form-btn"
-                @click="setChosenForm('alerts')"
+                @click="setChosenForm('alerts', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 + add
               </button>
-              <div class="table__wrapper">
-                <div class="table">
-                  <div class="table__row header">
-                    <div class="col">
-                      <h4>Alert Name</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Alert Number</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Start Time</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Alert Status</h4>
-                    </div>
-                  </div>
-                  <div
-                    class="table__row"
-                    v-for="alertsCard in filteredArray"
-                    :key="alertsCard.id"
-                  >
-                    <div class="row top-row">
-                      <i
-                        class="fas fa-angle-down row-btn"
-                        @click="(event) => showContent(event)"
-                      ></i>
+              <div v-if="filteredArray.length > 0">
+                <div class="table__wrapper">
+                  <div class="table">
+                    <div class="table__row header">
                       <div class="col">
-                        <p>
-                          <span>{{ alertsCard.name }}</span>
-                        </p>
+                        <h4>Alert Name</h4>
                       </div>
                       <div class="col">
-                        <p>
-                          <span>{{ alertsCard.number }}</span>
-                        </p>
+                        <h4>Alert Number</h4>
                       </div>
                       <div class="col">
-                        <p>
-                          <span>{{ alertsCard.StartTime }}</span>
-                        </p>
+                        <h4>Start Time</h4>
                       </div>
                       <div class="col">
-                        <p :class="`status ${statusClass(alertsCard.status)}`">
-                          <span>{{ alertsCard.status }}</span>
-                        </p>
+                        <h4>Alert Status</h4>
                       </div>
                     </div>
-                    <div class="row bottom-row">
-                      <div>Description: {{ alertsCard.description }}</div>
-                      <div>Action Taken : {{ alertsCard.ActionTaken }}</div>
-                      <div>Next Action : {{ alertsCard.NextAction }}</div>
-                      <div>Who : {{ alertsCard.who }}</div>
+                    <div
+                      class="table__row"
+                      v-for="alertsCard in filteredArray"
+                      :key="alertsCard.id"
+                    >
+                      <div class="row top-row">
+                        <i
+                          class="fas fa-angle-down row-btn"
+                          @click="(event) => showContent(event)"
+                        ></i>
+                        <div class="col">
+                          <p>
+                            <span>{{ alertsCard.name }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ alertsCard.number }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ alertsCard.StartTime }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p
+                            :class="`status ${statusClass(alertsCard.status)}`"
+                          >
+                            <span>{{ alertsCard.status }}</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row bottom-row">
+                        <div>Description: {{ alertsCard.description }}</div>
+                        <div>Action Taken : {{ alertsCard.ActionTaken }}</div>
+                        <div>Next Action : {{ alertsCard.NextAction }}</div>
+                        <div>Who : {{ alertsCard.who }}</div>
 
-                      <div>Close Time : {{ alertsCard.CloseTime }}</div>
+                        <div>Close Time : {{ alertsCard.CloseTime }}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -719,70 +754,76 @@
               <h1 class="sec__title">Incidents</h1>
               <button
                 class="form-btn"
-                @click="setChosenForm('incidents')"
+                @click="setChosenForm('incidents', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 + add
               </button>
-              <div class="table__wrapper">
-                <div class="table">
-                  <div class="table__row header">
-                    <div class="col">
-                      <h4>Incident Name</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Incident Date</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Incident Number</h4>
-                    </div>
-
-                    <div class="col">
-                      <h4>Incident Status</h4>
-                    </div>
-                  </div>
-
-                  <div
-                    class="table__row"
-                    v-for="incidentsCard in filteredArray"
-                    :key="incidentsCard.id"
-                  >
-                    <div class="row top-row">
-                      <i
-                        class="fas fa-angle-down row-btn"
-                        @click="(event) => showContent(event)"
-                      ></i>
-                           <div class="col">
-                        <p>
-                          <span>{{ incidentsCard.name }}</span>
-                        </p>
+              <div v-if="filteredArray.length > 0">
+                <div class="table__wrapper">
+                  <div class="table">
+                    <div class="table__row header">
+                      <div class="col">
+                        <h4>Incident Name</h4>
                       </div>
                       <div class="col">
-                        <p>
-                          <span>{{ incidentsCard.date }}</span>
-                        </p>
-                      </div>
-                 
-                      <div class="col">
-                        <p>
-                          <span>{{ incidentsCard.number }}</span>
-                        </p>
+                        <h4>Incident Date</h4>
                       </div>
                       <div class="col">
-                        <p
-                          :class="`status ${statusClass(incidentsCard.status)}`"
-                        >
-                          <span>{{ incidentsCard.status }}</span>
-                        </p>
+                        <h4>Incident Number</h4>
+                      </div>
+
+                      <div class="col">
+                        <h4>Incident Status</h4>
                       </div>
                     </div>
-                    <div class="row bottom-row">
-                      <div>Description : {{ incidentsCard.description }}</div>
-                      <div>Action Taken : {{ incidentsCard.ActionTaken }}</div>
-                      <div>Next Action : {{ incidentsCard.NextAction }}</div>
-                      <div>Who : {{ incidentsCard.who }}</div>
 
-                      <div>Close Time : {{ incidentsCard.CloseTime }}</div>
+                    <div
+                      class="table__row"
+                      v-for="incidentsCard in filteredArray"
+                      :key="incidentsCard.id"
+                    >
+                      <div class="row top-row">
+                        <i
+                          class="fas fa-angle-down row-btn"
+                          @click="(event) => showContent(event)"
+                        ></i>
+                        <div class="col">
+                          <p>
+                            <span>{{ incidentsCard.name }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ incidentsCard.date }}</span>
+                          </p>
+                        </div>
+
+                        <div class="col">
+                          <p>
+                            <span>{{ incidentsCard.number }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p
+                            :class="`status ${statusClass(
+                              incidentsCard.status
+                            )}`"
+                          >
+                            <span>{{ incidentsCard.status }}</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row bottom-row">
+                        <div>Description : {{ incidentsCard.description }}</div>
+                        <div>
+                          Action Taken : {{ incidentsCard.ActionTaken }}
+                        </div>
+                        <div>Next Action : {{ incidentsCard.NextAction }}</div>
+                        <div>Who : {{ incidentsCard.who }}</div>
+
+                        <div>Close Time : {{ incidentsCard.CloseTime }}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -795,75 +836,80 @@
               <h1 class="sec__title">Pending Issues</h1>
               <button
                 class="form-btn"
-                @click="setChosenForm('pendingIssues')"
+                @click="setChosenForm('pendingIssues', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 + add
               </button>
-              <div class="table__wrapper">
-                <div class="table">
-                  <div class="table__row header">
-                    <div class="col">
-                      <h4>Issue Name</h4>
+              <div v-if="filteredArray.length > 0">
+                <div class="table__wrapper">
+                  <div class="table">
+                    <div class="table__row header">
+                      <div class="col">
+                        <h4>Issue Name</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Who</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Start Time</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Status</h4>
+                      </div>
                     </div>
-                    <div class="col">
-                      <h4>Who</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Start Time</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Status</h4>
-                    </div>
-                  </div>
 
-                  <div
-                    class="table__row"
-                    v-for="pendingIssuesCard in filteredArray"
-                    :key="pendingIssuesCard.id"
-                  >
-                    <div class="row top-row">
-                      <i
-                        class="fas fa-angle-down row-btn"
-                        @click="(event) => showContent(event)"
-                      ></i>
+                    <div
+                      class="table__row"
+                      v-for="pendingIssuesCard in filteredArray"
+                      :key="pendingIssuesCard.id"
+                    >
+                      <div class="row top-row">
+                        <i
+                          class="fas fa-angle-down row-btn"
+                          @click="(event) => showContent(event)"
+                        ></i>
 
-                      <div class="col">
-                        <p>
-                          <span>{{ pendingIssuesCard.issue }}</span>
-                        </p>
+                        <div class="col">
+                          <p>
+                            <span>{{ pendingIssuesCard.issue }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ pendingIssuesCard.who }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ pendingIssuesCard.StartTime }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p
+                            :class="`status ${statusClass(
+                              pendingIssuesCard.status
+                            )}`"
+                          >
+                            <span>{{ pendingIssuesCard.status }}</span>
+                          </p>
+                        </div>
                       </div>
-                      <div class="col">
-                        <p>
-                          <span>{{ pendingIssuesCard.who }}</span>
-                        </p>
+                      <div class="row bottom-row">
+                        <div>
+                          Next Action : {{ pendingIssuesCard.NextAction }}
+                        </div>
+                        <div>
+                          Issue Description :
+                          {{ pendingIssuesCard.description }}
+                        </div>
+                        <div>
+                          Action Taken : {{ pendingIssuesCard.ActionTaken }}
+                        </div>
+                        <div>
+                          Close Time : {{ pendingIssuesCard.CloseTime }}
+                        </div>
                       </div>
-                      <div class="col">
-                        <p>
-                          <span>{{ pendingIssuesCard.StartTime }}</span>
-                        </p>
-                      </div>
-                      <div class="col">
-                        <p
-                          :class="`status ${statusClass(
-                            pendingIssuesCard.status
-                          )}`"
-                        >
-                          <span>{{ pendingIssuesCard.status }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row bottom-row">
-                      <div>
-                        Next Action : {{ pendingIssuesCard.NextAction }}
-                      </div>
-                      <div>
-                        Issue Description : {{ pendingIssuesCard.description }}
-                      </div>
-                      <div>
-                        Action Taken : {{ pendingIssuesCard.ActionTaken }}
-                      </div>
-                      <div>Close Time : {{ pendingIssuesCard.CloseTime }}</div>
                     </div>
                   </div>
                 </div>
@@ -898,83 +944,84 @@
 
               <button
                 class="form-btn"
-                @click="setChosenForm('useCase')"
+                @click="setChosenForm('useCase', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
                 + add
               </button>
+              <div v-if="filteredArray.length > 0">
+                <div class="table__wrapper">
+                  <div class="table">
+                    <div class="table__row header">
+                      <div class="col">
+                        <h4>Use Case Identifier</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Use Case Purpose</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Threat/Risk</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Use Case Type</h4>
+                      </div>
+                      <div class="col">
+                        <h4>Stakeholders</h4>
+                      </div>
+                    </div>
 
-              <div class="table__wrapper">
-                <div class="table">
-                  <div class="table__row header">
-                    <div class="col">
-                      <h4>Use Case Identifier</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Use Case Purpose</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Threat/Risk</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Use Case Type</h4>
-                    </div>
-                    <div class="col">
-                      <h4>Stakeholders</h4>
-                    </div>
-                  </div>
+                    <div
+                      class="table__row"
+                      v-for="useCaseCard in filteredArray"
+                      :key="useCaseCard.id"
+                    >
+                      <div class="row top-row">
+                        <i
+                          class="fas fa-angle-down row-btn"
+                          @click="(event) => showContent(event)"
+                        ></i>
+                        <div class="col">
+                          <p>
+                            <span>{{ useCaseCard.identifier }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ useCaseCard.purpose }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ useCaseCard.risk }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ useCaseCard.type }}</span>
+                          </p>
+                        </div>
+                        <div class="col">
+                          <p>
+                            <span>{{ useCaseCard.stakeholders }}</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div class="row bottom-row">
+                        <div>Risk : {{ useCaseCard.risk }}</div>
+                        <div>
+                          Data Requirements : {{ useCaseCard.requirements }}
+                        </div>
+                        <div>Logic : {{ useCaseCard.logic }}</div>
+                        <div>Output : {{ useCaseCard.output }}</div>
 
-                  <div
-                    class="table__row"
-                    v-for="useCaseCard in filteredArray"
-                    :key="useCaseCard.id"
-                  >
-                    <div class="row top-row">
-                      <i
-                        class="fas fa-angle-down row-btn"
-                        @click="(event) => showContent(event)"
-                      ></i>
-                      <div class="col">
-                        <p>
-                          <span>{{ useCaseCard.identifier }}</span>
-                        </p>
+                        <div>Alert Volume : {{ useCaseCard.volume }}</div>
+                        <div>Testing : {{ useCaseCard.testing }}</div>
+                        <div>
+                          Known False Positive : {{ useCaseCard.falsepositive }}
+                        </div>
+                        <div>Playbook : {{ useCaseCard.playbook }}</div>
+                        <div>Production: {{ useCaseCard.production }}</div>
                       </div>
-                      <div class="col">
-                        <p>
-                          <span>{{ useCaseCard.purpose }}</span>
-                        </p>
-                      </div>
-                      <div class="col">
-                        <p>
-                          <span>{{ useCaseCard.risk }}</span>
-                        </p>
-                      </div>
-                      <div class="col">
-                        <p>
-                          <span>{{ useCaseCard.type }}</span>
-                        </p>
-                      </div>
-                      <div class="col">
-                        <p>
-                          <span>{{ useCaseCard.stakeholders }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="row bottom-row">
-                      <div>Risk : {{ useCaseCard.risk }}</div>
-                      <div>
-                        Data Requirements : {{ useCaseCard.requirements }}
-                      </div>
-                      <div>Logic : {{ useCaseCard.logic }}</div>
-                      <div>Output : {{ useCaseCard.output }}</div>
-
-                      <div>Alert Volume : {{ useCaseCard.volume }}</div>
-                      <div>Testing : {{ useCaseCard.testing }}</div>
-                      <div>
-                        Known False Positive : {{ useCaseCard.falsepositive }}
-                      </div>
-                      <div>Playbook : {{ useCaseCard.playbook }}</div>
-                      <div>Production: {{ useCaseCard.production }}</div>
                     </div>
                   </div>
                 </div>
@@ -988,55 +1035,61 @@
             <h1 class="sec__title">Commiunication</h1>
             <button
               class="form-btn"
-              @click="setChosenForm('communicationForm')"
+              @click="setChosenForm('communicationForm', 'POST')"
               v-if="getRole == 'Employee' || getRole == 'admin'"
             >
               + add
             </button>
-            <div class="table__wrapper">
-              <div class="table">
-                <div class="table__row header">
-                  <div class="col">
-                    <h4>Team</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Primary Name</h4>
-                  </div>
-                  <div class="col">
-                    <h4>Secondary Name</h4>
-                  </div>
-                </div>
-
-                <div class="table__row" v-for="c in filteredArray" :key="c.id">
-                  <div class="row top-row">
-                    <i
-                      class="fas fa-angle-down row-btn"
-                      @click="(event) => showContent(event)"
-                    ></i>
+            <div v-if="filteredArray.length > 0">
+              <div class="table__wrapper">
+                <div class="table">
+                  <div class="table__row header">
                     <div class="col">
-                      <p>
-                        <span>{{ c.Team }}</span>
-                      </p>
+                      <h4>Team</h4>
                     </div>
                     <div class="col">
-                      <p>
-                        <span>{{ c.PrimaryName }}</span>
-                      </p>
+                      <h4>Primary Name</h4>
                     </div>
                     <div class="col">
-                      <p>
-                        <span>{{ c.SecondaryName }}</span>
-                      </p>
+                      <h4>Secondary Name</h4>
                     </div>
                   </div>
-                  <div class="row bottom-row">
-                    <div>Action : {{ c.Action }}</div>
-                    <div>Primary Email : {{ c.PrimaryEmail }}</div>
 
-                    <div>Primary Phone : {{ c.PrimaryPhone }}</div>
+                  <div
+                    class="table__row"
+                    v-for="c in filteredArray"
+                    :key="c.id"
+                  >
+                    <div class="row top-row">
+                      <i
+                        class="fas fa-angle-down row-btn"
+                        @click="(event) => showContent(event)"
+                      ></i>
+                      <div class="col">
+                        <p>
+                          <span>{{ c.Team }}</span>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p>
+                          <span>{{ c.PrimaryName }}</span>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p>
+                          <span>{{ c.SecondaryName }}</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="row bottom-row">
+                      <div>Action : {{ c.Action }}</div>
+                      <div>Primary Email : {{ c.PrimaryEmail }}</div>
 
-                    <div>Secondary Email : {{ c.SecondaryEmail }}</div>
-                    <div>Secondary Phone : {{ c.SecondaryPhone }}</div>
+                      <div>Primary Phone : {{ c.PrimaryPhone }}</div>
+
+                      <div>Secondary Email : {{ c.SecondaryEmail }}</div>
+                      <div>Secondary Phone : {{ c.SecondaryPhone }}</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1055,7 +1108,7 @@
 
       <modal
         class="secform"
-        v-on:close="setChosenForm('')"
+        v-on:close="setChosenForm('', '')"
         v-if="getChosenForm"
       >
         <add-shift-form v-if="getChosenForm == 'addShift'" />
@@ -1142,6 +1195,7 @@ export default {
       wikiPage: "",
       chosenCat: "",
       title: "",
+      currentWikiPage: "",
       newAddedObjects: [],
       filteredArray: [],
       allData: [],
@@ -1182,6 +1236,7 @@ export default {
     ...mapState(["wikiSections", "chosenForm"]),
     ...mapGetters([
       "getRole",
+
       "getUseCase",
       "getAdvisory",
       "getServiceCatalog",
@@ -1200,7 +1255,7 @@ export default {
       "getPlayBook",
     ]),
   },
-  mounted(){
+  mounted() {
     this.$store.dispatch("getData", "Communication");
     this.$store.dispatch("getData", "useCase");
   },
@@ -1211,7 +1266,6 @@ export default {
       },
       immediate: true,
     },
-    
   },
   methods: {
     displaySideMenu() {
@@ -1221,8 +1275,9 @@ export default {
       this.filteringCategory = value;
       console.log(value);
       switch (value) {
-        case "Use Case Library":{
-               this.filteredArray = this.getUseCase;
+        case "Use Case Library":
+          {
+            this.filteredArray = this.getUseCase;
             this.allData = this.getUseCase;
             this.filterObj.filterTextName = "identifier";
             this.filterObj.inputName = "Identifier";
@@ -1232,8 +1287,10 @@ export default {
                 values: [...selectCategories.alertVolumes],
               },
             ];
-        }break;
-        case "pendingIssues":{
+          }
+          break;
+        case "pendingIssues":
+          {
             this.filteredArray = this.getPendingIssues;
             this.allData = this.getPendingIssues;
             this.filterObj.filterTextName = "issue";
@@ -1244,8 +1301,10 @@ export default {
                 values: [...selectCategories.shiftStatus],
               },
             ];
-        }break;
-        case "incidents":{
+          }
+          break;
+        case "incidents":
+          {
             this.filteredArray = this.getIncidents;
             this.allData = this.getIncidents;
             this.filterObj.filterTextName = "name";
@@ -1256,7 +1315,8 @@ export default {
                 values: [...selectCategories.shiftStatus],
               },
             ];
-        }break;
+          }
+          break;
         case "alerts":
           {
             this.filteredArray = this.getAlerts;
@@ -1371,7 +1431,6 @@ export default {
         case "Playbooks":
         case "Communication":
         case "alerts":
-          
           {
             console.log(this.filteringCategory);
             console.log(val);
@@ -1388,9 +1447,9 @@ export default {
 
         case "mainIncident":
         case "healthCheck":
-                 case "incidents":
-                   case "pendingIssues":
-                      case "Use Case Library":
+        case "incidents":
+        case "pendingIssues":
+        case "Use Case Library":
           {
             if (selectCat != undefined && selectCat.length >= 1) {
               selectCat = this.editString(selectCat);
@@ -1425,7 +1484,7 @@ export default {
           break;
       }
 
-      if (newArr.length >= 1) this.filteredArray = newArr;
+      if (newArr.length > 0) this.filteredArray = newArr;
       else {
         this.nothingToSee = true;
         this.filteredArray = this.allData;
@@ -1433,6 +1492,10 @@ export default {
           this.filterObj.selectValues[i] = "";
         }
         this.filterObj.filterInputValue = "";
+      }
+      if (!val) {
+        this.nothingToSee = false;
+        this.filteredArray = this.allData;
       }
       if (this.nothingToSee) {
         setTimeout(() => {
@@ -1442,25 +1505,22 @@ export default {
     },
     changeWikiPage(page) {
       console.log("change" + " " + page);
-      this.wikiPage = page;
-      if(page == 'Communication' || page == 'Use Case Library')
-      this.chosenCat = page;
-      if (
-        [
-          "Policies",
-          "Procedures",
-          "Communication",
-          "Playbooks",
-          "Shafts",
-        ].includes(page)
-      ) {
-        this.getWikiData(page);
-      }
-      if (page == "Use Case Library")
-        this.$store.dispatch("getData", "useCase");
+      this.currentWikiPage = page;
 
-      
-        
+      if (
+        page == "Communication" ||
+        page == "Use Case Library" ||
+        page == "Shifts" ||
+        page == "Administration"
+      ) {
+        this.chosenCat = "";
+        this.wikiPage = page;
+        if (page == "Use Case Library") this.getWikiData("useCase");
+        else if (page == "Administration") {
+        } else this.getWikiData(page);
+      }
+      if (page == "Communication" || page == "Use Case Library")
+        this.chosenCat = page;
     },
     showMenu(event) {
       console.log(event.target);
@@ -1491,8 +1551,10 @@ export default {
         list.style.height = `${height}px`;
       } else return;
     },
-    setChosenForm(formName) {
+    setChosenForm(formName, method, id = "") {
       this.$store.commit("setChosenForm", formName);
+      this.$store.commit("setChosenFormMethod", method);
+      this.$store.commit("setChosenFormId", id);
     },
     showContent(event) {
       Array.from(document.querySelectorAll(".row-btn")).forEach((i) => {
@@ -1565,18 +1627,18 @@ export default {
       console.log(val);
       this.activateLink(event);
       this.chosenCat = val;
+      this.wikiPage = this.currentWikiPage;
       if (val == "socReports") this.getWikiData("Reports");
       else if (val.length && !this.$store.state[val].length) {
         let response = await this.$store.dispatch("getData", val);
         this.getFilterObj(val);
       }
     },
-    getWikiData(pdfCat) {
-      console.log(pdfCat);
-      if (!this.$store.state[pdfCat].length) {
-        this.$store.dispatch("getData", pdfCat);
+    getWikiData(target) {
+      console.log(target);
+      if (!this.$store.state[target].length) {
+        this.$store.dispatch("getData", target);
       }
-        
     },
     upload() {
       let formData = new FormData();
@@ -1593,6 +1655,7 @@ export default {
       this.$store.dispatch("delete", data);
     },
     parse(data) {
+      console.log(JSON.parse(data));
       return JSON.parse(data);
     },
     statusClass(status) {
@@ -1604,15 +1667,35 @@ export default {
 };
 </script>
 <style>
+.btns__wrapper{
+  height: 6rem;
+}
 .book__table > div {
-  padding: 0.5rem 0;
+  padding: 0;
   width: 18rem;
+  border: 1px solid;
+  border-top: 0;
+}
+.book__table .table__row  div{
+  padding: .2rem;
+  margin: 0;
+  border: 0;
+  text-align: center;
+}
+
+.book__table .table__row:nth-child(even):not(.table__row.header),
+.book__table .table__row:nth-child(odd):not(.table__row.header){
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  box-shadow: unset;
+  color: #000;
 }
 .book__table .col {
   padding: 0;
 }
 .book__img img {
-  height: 15rem;
+  height: 18rem;
 }
 .use__img img {
   width: 100%;
@@ -1634,14 +1717,14 @@ export default {
   align-self: flex-start;
   justify-self: flex-start;
   height: auto;
-  width: 80%;
+  width: 98%;
   margin: auto;
 }
 .filter__form {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-direction: row;
-  margin-top: 2rem;
+  margin-top: 1.3rem;
 }
 .filter__selects {
   display: flex;
@@ -1653,9 +1736,14 @@ export default {
 .filter__form .form__control .form__control-label {
   z-index: 1;
   text-transform: capitalize;
+  left: 3%;
 }
 .filter__selects .select {
   margin-left: 1rem;
+}
+.filteration__wrapper h2 {
+  font-size: 1rem;
+  font-weight: 400;
 }
 .filter__selects .select:first-of-type {
   margin-left: 0;
@@ -1666,6 +1754,25 @@ export default {
 .filteration__wrapper .form__control input:focus ~ .form__control-label,
 .filteration__wrapper .form__control select:valid ~ .form__control-label {
   color: #fff;
+}
+.light-mode .filteration__wrapper h2,
+.light-mode .filter__form select,
+.light-mode .filter__form .form__control input,
+.light-mode .filteration__wrapper .form__control span,
+.light-mode
+  .filteration__wrapper
+  .form__control
+  input:focus
+  ~ .form__control-label,
+.light-mode
+  .filteration__wrapper
+  .form__control
+  select:valid
+  ~ .form__control-label {
+  color: #000;
+}
+.light-mode .filter__form .form__control {
+  border-color: #000;
 }
 @media screen and (max-width: 1200px) {
   .wiki__container {

@@ -3,6 +3,8 @@ export const state = () => ({
   name: "",
   message: "",
   chosenForm: "",
+  chosenFormMethod: "",
+  chosenFormId: "",
   url: {
     useCase: "https://beapis.herokuapp.com/api/usecases",
     advisory: "https://beapis.herokuapp.com/api/advisorysource",
@@ -22,6 +24,7 @@ export const state = () => ({
     staff: "https://beapis.herokuapp.com/api/Staff",
     Playbooks: "https://beapis.herokuapp.com/api/PlayBook",
     Shifts: "https://beapis.herokuapp.com/api/Shifts",
+    home: "https://beapis.herokuapp.com/api/Home",
   },
   months: {
     January: "31",
@@ -40,8 +43,8 @@ export const state = () => ({
     feb: "30",
     march: "30",
   },
-  useCase: [],
   mainIncident: [],
+  useCase: [],
   advisory: [],
   serviceCatalog: [],
   healthCheck: [],
@@ -60,6 +63,7 @@ export const state = () => ({
   Playbooks: [],
   Shifts: {},
   Standards: [],
+  home: [{ mission: " ", vision: " ", goal: " ", subtitle: " ", title: " " }],
   homeSections: [
     {
       name: "Mission",
@@ -204,6 +208,9 @@ export const getters = {
   getMonths: (state) => {
     return state.months;
   },
+  getHomeData: (state) => {
+    return state.home;
+  },
 };
 
 export const mutations = {
@@ -226,6 +233,12 @@ export const mutations = {
   },
   setChosenForm(state, status) {
     state.chosenForm = status;
+  },
+  setChosenFormId(state, status) {
+    state.chosenFormId = status;
+  },
+  setChosenFormMethod(state, status) {
+    state.chosenFormMethod = status;
   },
   showNewObjects(state, data) {
     state[showNewObjects].push(data);
@@ -309,6 +322,32 @@ export const actions = {
         this.dispatch("getData", "users");
       })
       .catch((error) => console.log("error", error));
+  },
+  async disApproveUser({ state, commit }, email) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("email", email);
+
+    var requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: urlencoded,
+      redirect: "follow",
+    };
+    try {
+      console.log(urlencoded);
+      fetch("https://beapis.herokuapp.com/api/disapprove/user", requestOptions)
+        .then((response) => response.text())
+        .then((result) => {
+          console.log(result);
+          this.dispatch("getData", "users");
+        });
+      return true;
+    } catch {
+      (error) => console.log("error", error);
+    }
   },
   async editStaff({ state, commit }, dataObj) {
     console.log(dataObj);

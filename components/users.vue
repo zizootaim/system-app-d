@@ -2,31 +2,18 @@
   <section class="settings__wrapper">
     <h1 class="sec__title">Settings</h1>
 
-    <button class="form-btn" @click="() => showModal(false)">
-      Home Settings
-    </button>
+    <button class="form-btn" @click="showHomeModal">Home Settings</button>
     <modal
       v-if="homeFormModal"
       class="secform"
-      v-on:close="
-        () => {
-          this.homeFormModal = false;
-        }
-      "
+      v-on:close="homeFormModal = false"
     >
       <home-content-form />
     </modal>
 
-    <button class="form-btn" @click="() => showModal(true)">Show Users</button>
-    <modal
-      v-if="usersModal"
-      class="usersmodal"
-      v-on:close="
-        () => {
-          this.usersModal = false;
-        }
-      "
-    >
+    <button class="form-btn" @click="showUsersModal">Show Users</button>
+
+    <modal v-if="usersModal" class="usersmodal" v-on:close="usersModal = false">
       <div class="users">
         <h1 class="sec__title">Users</h1>
         <div class="table__wrapper">
@@ -63,9 +50,7 @@
                     <span>{{ user.role }}</span>
                   </p>
                 </div>
-                <div
-                  class="col"
-                >
+                <div class="col">
                   <!-- <button
                     v-if="getRole == 'admin' && user.role != 'admin'"
                     class="approve-btn"
@@ -77,14 +62,16 @@
                   <button
                     v-if="user.role == 'visitor'"
                     class="approve-btn"
-                    @click="(event) => approveUser(user.email, event)"
+                    @click="approveUser(user.email)"
                   >
                     approve
-                    <BaseSpinner />
                   </button>
-                  <button v-if="user.role != 'visitor'" class="approve-btn">
+                  <button
+                    v-if="user.role != 'visitor'"
+                    class="disapprove-btn"
+                    @click="disapproveUser(user.email)"
+                  >
                     disapprove
-                    <BaseSpinner />
                   </button>
                 </div>
               </div>
@@ -123,19 +110,23 @@ export default {
     HomeContentForm,
   },
   methods: {
-    approveUser(email, event) {
-      this.$store.dispatch("approveUser", email);
-      const loader = event.target.querySelector(".loader");
-      loader.style.display = "block";
+    async approveUser(email) {
+      this.loading = true;
+      let response = await this.$store.dispatch("approveUser", email);
       setTimeout(() => {
-        loader.style.display = "none";
-        event.target.classList.add("approved");
-        event.target.innerText = "approved";
+        this.loading = false;
       }, 1000);
     },
-    showModal(users) {
-      if (users) this.usersModal = true;
-      else this.homeFormModal = true;
+    async disapproveUser(email) {
+      this.loading = true;
+      let response = await this.$store.dispatch("disApproveUser", email);
+      this.loading = false;
+    },
+    showHomeModal() {
+      this.homeFormModal = true;
+    },
+    showUsersModal() {
+      this.usersModal = true;
     },
   },
 };
@@ -178,7 +169,7 @@ export default {
   max-width: unset;
 }
 
-.approve-btn {
+.approve-btn,.disapprove-btn {
   width: 8rem;
   padding: 0.2rem 0;
   text-align: center;
@@ -190,6 +181,10 @@ export default {
   text-transform: capitalize;
   position: relative;
 }
+.disapprove-btn{
+  background: #c34b47;
+  border-color: #c34b47;
+}
 .approve-btn .loader {
   width: 15px;
   height: 15px;
@@ -197,8 +192,12 @@ export default {
   margin-right: 0.3rem;
   display: none;
 }
-.approve-btn:hover {
+.approve-btn:hover,.disapprove-btn:hover {
   background: #fff;
   color: #162682;
+}
+.disapprove-btn:hover {
+  
+  color: #c34b47;
 }
 </style>

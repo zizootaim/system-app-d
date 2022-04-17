@@ -1,16 +1,24 @@
 <template>
-  <div class="Home">
-    <section class="panar">
-      <h1>
-        Hi-TECH CRIME TRENDS 2021/2022
-      </h1>
-      <p class="para">A Look At The Clobal Cyber Threat LandScape</p>
-    </section>
+  <div>
+    <div class="Home" v-for="data in getHomeData" :key="data.id">
+      <section class="panar">
+        <h1>{{ data.title }}</h1>
+        <p class="para">{{ data.subtitle }}</p>
+      </section>
 
-    <div class="info">
-      <div v-for="section in homeSections" :key="section.name">
-        <h3>{{ section.name }}</h3>
-        <p>{{ section.description }}</p>
+      <div class="info">
+        <div>
+          <h3>Mission</h3>
+          <p>{{ data.mission }}</p>
+        </div>
+        <div>
+          <h3>Vision</h3>
+          <p>{{ data.vision }}</p>
+        </div>
+        <div>
+          <h3>Goals</h3>
+          <p>{{ data.goal }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -18,9 +26,12 @@
 
 <script>
 import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   computed: {
+    ...mapGetters(["getHomeData"]),
+
     ...mapState(["homeSections"]),
   },
 
@@ -40,7 +51,6 @@ export default {
 };
 </script>
 <style>
-
 .para {
   font-weight: bold;
 }
