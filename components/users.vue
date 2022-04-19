@@ -14,7 +14,7 @@
     <button class="form-btn" @click="showUsersModal">Show Users</button>
 
     <modal v-if="usersModal" class="usersmodal" v-on:close="usersModal = false">
-      <div class="users">
+      <div class="users" v-if="getUsers.length > 1">
         <h1 class="sec__title">Users</h1>
         <div class="table__wrapper">
           <div class="table">
@@ -42,7 +42,7 @@
                 </div>
                 <div class="col">
                   <p>
-                    <span>{{ user.email }}</span>
+                    <span style="text-transform: none;">{{ user.email }}</span>
                   </p>
                 </div>
                 <div class="col">
@@ -59,7 +59,7 @@
                     {{ user.role == "Employee" ? "approved" : "approve" }}
                     <BaseSpinner />
                   </button> -->
-                  <button
+                  <!-- <button
                     v-if="user.role == 'visitor'"
                     class="approve-btn"
                     @click="approveUser(user.email)"
@@ -72,7 +72,17 @@
                     @click="disapproveUser(user.email)"
                   >
                     disapprove
-                  </button>
+                  </button> -->
+                  <label class="switch" @click="changeRole(user)">
+                    <input type="checkbox" />
+                    <span
+                      :class="`slider round${
+                        user.role == 'Employee' ? ' approved' : ''
+                      }`"
+                    ></span>
+                    <span :class="`user-status ${user.role == 'Employee' ? 'enabled' : 'disabled'
+                      }`">{{user.role == 'Employee' ? 'Enabled' : 'Disabled'}}</span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -110,6 +120,12 @@ export default {
     HomeContentForm,
   },
   methods: {
+    changeRole(user) {
+      console.log(user);
+      const { email, role } = user;
+      if (role == "visitor") this.approveUser(email);
+      else this.disapproveUser(email);
+    },
     async approveUser(email) {
       this.loading = true;
       let response = await this.$store.dispatch("approveUser", email);
@@ -132,6 +148,84 @@ export default {
 };
 </script>
 <style>
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 130px;
+  height: 34px;
+}
+.user-status{
+  position: absolute;
+  color: #fff ;
+  top: 12%;
+
+}
+.enabled{
+  left: 1.2rem;
+}
+.disabled{
+  right: 1.2rem;
+}
+
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(201, 13, 13);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+
+.slider.approved {
+  background-color: green;
+}
+
+
+.slider.approved {
+  box-shadow: 0 0 1px green;
+}
+
+.slider.approved::before {
+  -webkit-transform: translateX(95px);
+  -ms-transform: translateX(95px);
+  transform: translateX(95px);
+
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 .sec__title {
   text-align: center;
 }
@@ -159,7 +253,6 @@ export default {
 }
 
 .users .col {
-  border: 1px solid #162682;
   display: grid;
   place-items: center;
 }
@@ -169,7 +262,8 @@ export default {
   max-width: unset;
 }
 
-.approve-btn,.disapprove-btn {
+.approve-btn,
+.disapprove-btn {
   width: 8rem;
   padding: 0.2rem 0;
   text-align: center;
@@ -181,7 +275,7 @@ export default {
   text-transform: capitalize;
   position: relative;
 }
-.disapprove-btn{
+.disapprove-btn {
   background: #c34b47;
   border-color: #c34b47;
 }
@@ -192,12 +286,12 @@ export default {
   margin-right: 0.3rem;
   display: none;
 }
-.approve-btn:hover,.disapprove-btn:hover {
+.approve-btn:hover,
+.disapprove-btn:hover {
   background: #fff;
   color: #162682;
 }
 .disapprove-btn:hover {
-  
   color: #c34b47;
 }
 </style>

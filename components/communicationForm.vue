@@ -106,6 +106,9 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
@@ -124,6 +127,7 @@ export default {
   computed: {
     dataObj() {
       return {
+        id: this.chosenFormId,
         Team: this.team,
         Action: this.action,
         PrimaryEmail: this.primaryEmail,
@@ -134,18 +138,45 @@ export default {
         SecondaryPhone: this.secondaryPhone,
       };
     },
+    ...mapState(["chosenFormMethod", "chosenFormId"]),
+    ...mapGetters(["getCommunication"]),
+  },
+  mounted() {
+    if (this.chosenFormMethod == "PUT") {
+      let res = this.getCommunication.filter(
+        (communication) => communication.id == this.chosenFormId
+      );
+      console.log(res);
+      this.team = res[0].Team;
+      this.action = res[0].Action;
+      this.primaryEmail = res[0].PrimaryEmail;
+      this.primaryName = res[0].PrimaryName;
+      this.primaryPhone = res[0].PrimaryPhone;
+      this.secondaryEmail = res[0].SecondaryEmail;
+      this.secondaryName = res[0].SecondaryName;
+      this.secondaryPhone = res[0].SecondaryPhone;
+    }
   },
   methods: {
     async submitData() {
       console.log(this.dataObj);
       this.loading = true;
-      let response = await this.$store.dispatch("postData", {
-        apiName: "Communication",
-        body: this.dataObj,
-      });
+      let response;
+      if (this.chosenFormMethod == "POST") {
+        response = await this.$store.dispatch("postData", {
+          apiName: "Communication",
+          body: this.dataObj,
+        });
+      }
+      if (this.chosenFormMethod == "PUT") {
+        response = await this.$store.dispatch("editData", {
+          apiName: "Communication",
+          body: this.dataObj,
+        });
+      }
       console.log(response);
+      this.loading = false;
       if (response) {
-        this.loading = false;
         this.submitIcon = true;
         setTimeout(() => {
           this.submitIcon = false;

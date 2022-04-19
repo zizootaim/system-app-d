@@ -669,11 +669,8 @@ textarea::placeholder {
 .col {
   width: 100%;
   padding: 0.5rem 1rem 0.5rem 0.3rem;
-  border-right: 1px solid #000;
 }
-.col:last-of-type {
-  border-right: 0;
-}
+
 
 .row {
   display: flex;
@@ -716,6 +713,11 @@ textarea::placeholder {
 .table__row.header {
   width: 100%;
   flex-direction: row;
+  background: #0000ff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #fff;
+    padding: 0.5rem 0;
 }
 .col h4 {
   text-align: center;
@@ -735,22 +737,20 @@ textarea::placeholder {
   margin: auto;
   overflow: hidden;
 }
-.table__row.header {
-  background-color: #030d44;
-  color: #fff;
-  padding: 0.3rem 0;
+.table__row .bottom-row div span{
+  font-weight: 600;
 }
 
-.table__row:nth-child(odd):not(.table__row.header) {
-  background: #141d6c;
-}
-.table__row:nth-child(even) {
+.table__row:not(.table__row.header) {
   background: #fff;
-}
-.table__row:nth-child(even) .row,
-.table__row:nth-child(even) p,
-.table__row:nth-child(even) h3 {
   color: #000;
+}
+.table__row:not(.table__row.header) .row,
+.table__row:not(.table__row.header) p {
+  color: #000;
+}
+.table__row:not(.table__row.header) h3{
+  color: #11207e;
 }
 .table__row {
   box-shadow: 0px 0 10px 0px rgba(0, 0, 0, 0.4);
@@ -970,21 +970,31 @@ button {
 }
 
 .form-btn {
-  background: #40358e;
-  padding: 0.2rem 0.5rem;
+  background: none;
+  padding: 10px 25px;
   margin-bottom: 1rem;
-  border-radius: 0.2rem;
+  border-radius: 50px;
+  font-size: 20px;
   text-transform: capitalize;
-  border: 1px solid #40358e;
+  border: .1px solid #40358e;
+  box-shadow: 1.5px 2px 5px #ccc;
+  font-weight: bold;
+}
+.form-btn i{
+  margin-right: .5rem;
+}
+.form-btn:hover {
+  background: #fff;
+  box-shadow: 0 0 5px #ccc;
+  color: #40358e;
+}
+.light-mode .form-btn{
+  color: #34009c;
 }
 .sec__title {
   text-align: center;
   font-size: 1.2rem;
   margin-top: 0.8rem;
-}
-.form-btn:hover {
-  background: #fff;
-  color: #40358e;
 }
 .issue {
   background: rgb(213, 43, 43);

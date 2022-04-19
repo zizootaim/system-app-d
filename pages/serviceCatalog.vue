@@ -6,9 +6,9 @@
       @click="showForm"
       v-if="getRole == 'Employee' || getRole == 'admin'"
     >
-      + add
+      <i class="fas fa-plus"></i> add
     </button>
-    <div class="table__wrapper">
+    <div class="table__wrapper" v-if="getServiceCatalog.length > 0">
       <div class="table">
         <div class="table__row header">
           <div class="col">
@@ -64,6 +64,20 @@
             <div>Consumers : {{ serviceCard.consumers }}</div>
             <div>Processes : {{ serviceCard.processes }}</div>
           </div>
+          <button class="form-btn" @click="showForm('PUT', serviceCard.id)">
+            Edit
+          </button>
+          <button
+            class="form-btn"
+            @click="
+              deleteData({
+                body: { id: serviceCard.id },
+                apiName: 'serviceCatalog',
+              })
+            "
+          >
+            DELETE
+          </button>
         </div>
       </div>
     </div>
@@ -93,8 +107,13 @@ export default {
     ...mapGetters(["getServiceCatalog", "getRole"]),
   },
   methods: {
-    showForm() {
+    deleteData(data) {
+      this.$store.dispatch("delete", data);
+    },
+    showForm(method, id) {
       this.addService = !this.addService;
+      this.$store.commit("setChosenFormMethod", method);
+      this.$store.commit("setChosenFormId", id);
     },
     showContent(event) {
       Array.from(document.querySelectorAll(".row-btn")).forEach((i) => {
@@ -132,11 +151,11 @@ export default {
         else p.style.maxHeight = "1.8rem";
       });
     },
-  statusClass(status) {
-    return status.includes(" ")
-      ? status.substring(0, status.indexOf(" ")).toLowerCase()
-      : status.toLowerCase();
-  },
+    statusClass(status) {
+      return status.includes(" ")
+        ? status.substring(0, status.indexOf(" ")).toLowerCase()
+        : status.toLowerCase();
+    },
   },
   mounted() {
     this.$store.dispatch("getData", "serviceCatalog");

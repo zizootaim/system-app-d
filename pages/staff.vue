@@ -6,7 +6,7 @@
         class="form-btn"
         @click="changeForm('add')"
       >
-        + add
+        <i class="fas fa-plus"></i> add
       </button>
     </div>
     <org-structure />

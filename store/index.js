@@ -17,7 +17,7 @@ export const state = () => ({
     Reports: "https://beapis.herokuapp.com/api/ReportsPDF",
     Policies: "https://beapis.herokuapp.com/api/PoliciesPDF",
     Procedures: "https://beapis.herokuapp.com/api/ProceduresPDF",
-    mainIncident: "https://beapis.herokuapp.com/api/IncidentG",
+
     users: "https://beapis.herokuapp.com/api/users",
     mainIncident: "https://beapis.herokuapp.com/api/IncidentG",
     Communication: "https://beapis.herokuapp.com/api/Communication",
@@ -63,7 +63,15 @@ export const state = () => ({
   Playbooks: [],
   Shifts: {},
   Standards: [],
-  home: [{ mission: " ", vision: " ", goal: " ", subtitle: " ", title: " " }],
+  home: [
+    {
+      mission: " mission",
+      vision: "Vision ",
+      goal: "Goal ",
+      subtitle: " Sub",
+      title: " tit",
+    },
+  ],
   homeSections: [
     {
       name: "Mission",
@@ -251,6 +259,16 @@ export const mutations = {
       if (state[data.dataContainer][i].id == data.id) {
         state[data.dataContainer].splice(i, 1);
         console.log("dele");
+        break;
+      }
+    }
+  },
+  editData: (state, data) => {
+    for (let i = 0; i < state[data.apiName].length; i++) {
+      console.log(state[data.apiName][i].id);
+      if (state[data.apiName][i].id == data.body.id) {
+        state[data.apiName].splice(i, 1, data.body);
+        console.log("edited");
         break;
       }
     }
@@ -472,12 +490,11 @@ export const actions = {
       .then((response) => response.text())
       .then((result) => {
         console.log(result);
-        if (result == "File Has Been Deleted") {
-          commit("deleteData", {
-            dataContainer: dataObj.apiName,
-            id: dataObj.body.id,
-          });
-        }
+
+        commit("deleteData", {
+          dataContainer: dataObj.apiName,
+          id: dataObj.body.id,
+        });
       })
       .catch((error) => console.log("error", error));
   },

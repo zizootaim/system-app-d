@@ -52,8 +52,9 @@
           v-model="source"
           required
         >
-        <option v-for="(s,index) in advisorySource" :key="index" :value="s">{{s}}</option>
-         
+          <option v-for="(s, index) in advisorySource" :key="index" :value="s">
+            {{ s }}
+          </option>
         </select>
         <span class="form__control-label">Advisory Source</span>
       </div>
@@ -100,7 +101,9 @@
 
 <script>
 import baseSpinner from "@/components/baseSpinner.vue";
-import {advisorySource} from '../assets/data'
+import { advisorySource } from "../assets/data";
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -109,7 +112,8 @@ export default {
 
   name: "advisoryForm",
   data() {
-    return {advisorySource,
+    return {
+      advisorySource,
       source: "",
       dateY: "",
       dateT: "",
@@ -129,6 +133,7 @@ export default {
   computed: {
     dataObj() {
       return {
+        id: this.chosenFormId,
         source: this.currentSource,
         date: this.dateY + " " + this.dateT,
         referenceid: this.referenceid,
@@ -141,17 +146,42 @@ export default {
     currentSource() {
       return this.source == "Other" ? this.otherSource : this.source;
     },
+    ...mapState(["chosenFormMethod", "chosenFormId"]),
+    ...mapGetters(["getAdvisory"]),
+  },
+  mounted() {
+    if (this.chosenFormMethod == "PUT") {
+      let res = this.getAdvisory.filter(
+        (advisory) => advisory.id == this.chosenFormId
+      );
+      console.log(res);
+      this.source = res[0].source;
+      this.description = res[0].description;
+      this.applicable = res[0].applicable;
+      this.token = res[0].token;
+      this.notes = res[0].notes;
+      this.referenceid = res[0].referenceid;
+    }
   },
   methods: {
     async submitData(e) {
       this.loading = true;
-      let response = await this.$store.dispatch("postData", {
-        apiName: "advisory",
-        body: this.dataObj,
-      });
+      let response;
+      if (this.chosenFormMethod == "POST") {
+        response = await this.$store.dispatch("postData", {
+          apiName: "advisory",
+          body: this.dataObj,
+        });
+      }
+      if (this.chosenFormMethod == "PUT") {
+        response = await this.$store.dispatch("editData", {
+          apiName: "advisory",
+          body: this.dataObj,
+        });
+      }
       console.log(response);
+      this.loading = false;
       if (response) {
-        this.loading = false;
         this.submitIcon = true;
         setTimeout(() => {
           this.submitIcon = false;

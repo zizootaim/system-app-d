@@ -156,7 +156,7 @@
         </div>
       </div>
       <div class="submit-btn__wrapper">
-        <button class="submit-btn" type="submit" >
+        <button class="submit-btn" type="submit">
           Submit
           <svg
             v-if="submitIcon"
@@ -177,12 +177,16 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
+
 import { dailyChecks, shiftStatus } from "../assets/data";
 export default {
   data() {
     return {
       dailyChecks,
       shiftStatus,
+      spinnerLoading: false,
       description: "",
       status: "",
       issuesfound: "",
@@ -200,13 +204,14 @@ export default {
         closeTime: "",
         closeDate: "",
       },
-      spinnerLoading: false,
+
       submitIcon: false,
     };
   },
   computed: {
     dataObj() {
       return {
+        id: this.chosenFormId,
         Description: this.description,
         Status: this.status,
         IssuesFound: this.issuesfound,
@@ -222,18 +227,49 @@ export default {
         CloseTime: `${this.healthIssue.closeDate} ${this.healthIssue.closeTime}`,
       };
     },
+    ...mapState(["chosenFormMethod", "chosenFormId"]),
+    ...mapGetters(["getHealthCheck"]),
+  },
+  mounted() {
+    if (this.chosenFormMethod == "PUT") {
+      let res = this.getHealthCheck.filter(
+        (issue) => issue.id == this.chosenFormId
+      );
+      let a = res[0].Description;
+      this.status = res[0].Status;
+      this.issuesfound = res[0].IssuesFound;
+      this.description = res[0].Description;
+      this.healthIssue.component = res[0].Component;
+      this.healthIssue.ip = res[0].Ip;
+      this.healthIssue.issueDescription = res[0].IssueDescription;
+      this.healthIssue.hostname = res[0].Hostname;
+      this.healthIssue.actionTaken = res[0].ActionTaken;
+      this.healthIssue.nextAction = res[0].NextAction;
+      this.healthIssue.issueStatus = res[0].IssueStatus;
+      this.healthIssue.who = res[0].Who;
+    }
   },
   methods: {
     async submitData() {
       console.log(this.dataObj);
       this.spinnerLoading = true;
-      let response = await this.$store.dispatch("postData", {
-        apiName: "healthCheck",
-        body: this.dataObj,
-      });
+      let response;
+      if (this.chosenFormMethod == "POST") {
+        response = await this.$store.dispatch("postData", {
+          apiName: "healthCheck",
+          body: this.dataObj,
+        });
+      }
+      if (this.chosenFormMethod == "PUT") {
+        this.$store.dispatch("getData", "healthCheck");
+        response = await this.$store.dispatch("editData", {
+          apiName: "healthCheck",
+          body: this.dataObj,
+        });
+      }
       console.log(response);
+      this.spinnerLoading = false;
       if (response) {
-        this.spinnerLoading = false;
         this.submitIcon = true;
         setTimeout(() => {
           this.submitIcon = false;

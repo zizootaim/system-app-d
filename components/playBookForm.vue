@@ -52,7 +52,7 @@
         </div>
 
         <div class="form__table full">
-          <p>Playbook Table</p>
+          <p style="margin-bottom: .5rem;">Playbook Table</p>
           <div class="form__control">
             <input
               ref="activity"
@@ -128,25 +128,6 @@ export default {
     ...mapGetters(["getPlayBook"]),
     messageErr() {
       return this.message;
-    },
-    playBookData() {
-      if (this.chosenFormMethod == "PUT") {
-        console.log("dvasefv");
-        let res = this.getPlayBook.filter(
-          (book) => book.id == this.chosenFormId
-        );
-        console.log(res);
-      } else {
-        return {
-          title: "",
-          category: "",
-          otherCategory: "",
-          activity: "",
-          irStage: "",
-          team: "",
-          description: "",
-        };
-      }
     },
   },
   data() {

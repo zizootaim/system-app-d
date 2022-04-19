@@ -1,184 +1,201 @@
 <template>
   <div class="use-case__form-wrapper">
     <h1 class="form__title">{{ formTitle }}</h1>
-    <form  v-on:submit.prevent="submitData">
-     <div class="long__form">
+    <form v-on:submit.prevent="submitData">
+      <div class="long__form">
         <div class="form__control">
-        <input
-          type="text"
-          name="identifier"
-          v-model="identifier"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Use Case Identifier</span>
-      </div>
-      <div class="form__control select">
-        <select required name="priority" id="priority" v-model="priority">
-          <option value="p1">P1</option>
-          <option value="p2">P2</option>
-          <option value="p3">P3</option>
-          required
-        </select>
-        <span class="form__control-label">Priority</span>
-      </div>
-
-      <div class="form__control full textarea">
-        <textarea
-          name="purpose"
-          v-model="purpose"
-          autocomplete="off"
-          required
-          cols="20"
-          rows="2"
-        ></textarea>
-        <span class="form__control-label">Purpose</span>
-      </div>
-
-      <div class="form__control">
-        <input
-          v-model="stakeholders"
-          type="text"
-          name="stakeholders"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Stakeholders</span>
-      </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="requirements"
-          v-model="requirements"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Data Requirements</span>
-      </div>
-      <div class="form__control">
-        <input
-          v-model="logic"
-          type="text"
-          name="logic"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Logic</span>
-      </div>
-      <div class="form__control">
-        <input
-          type="text"
-          v-model="output"
-          name="output"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Output</span>
-      </div>
-      <div class="form__control">
-        <input
-          type="text"
-          v-model="playbook"
-          name="playbook"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Playbook</span>
-      </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="falsepositive"
-          v-model="falsepositive"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Know False Positive ?</span>
-      </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="risk"
-          v-model="risk"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Risk or Threat</span>
-      </div>
-      <div class="form__control select">
-        <select
-          required
-          v-model="useCaseType"
-          name="usecasetype"
-          id="use-case__type"
-        >
-          <option v-for="(t, index) in caseTypes" :key="index" :value="t">
-            {{ t }}
-          </option>
-        </select>
-        <span class="form__control-label">Use Case Type</span>
-      </div>
-      <div class="form__control full" v-if="useCaseType == 'Other'">
-        <input
-          type="text"
-          name="otherUseCaseType"
-          v-model="otherUseCaseType"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Use Case Type</span>
-      </div>
-      <div class="form__control select">
-        <select required name="alertvolume" v-model="volume" id="alert-volume">
-          <option v-for="(v, index) in alertVolumes" :key="index" :value="v">
-            {{ v }}
-          </option>
-        </select>
-        <span class="form__control-label">Alert Volume</span>
-      </div>
-      <div class="form__control select">
-        <select required name="testing" id="testing" v-model="testing">
-          <option v-for="(t, index) in caseTesting" :key="index" :value="t">
-            {{ t }}
-          </option>
-        </select>
-        <span class="form__control-label">Testing</span>
-      </div>
-
-      <div class="form__control select">
-        <select required v-model="production" name="production" id="production">
-          <option v-for="(p, index) in caseProductions" :key="index" :value="p">
-            {{ p }}
-          </option>
-        </select>
-        <span class="form__control-label">Production</span>
-      </div>
-     </div>
-    <div class="submit-btn__wrapper">
-      <button class="submit-btn" type="submit">
-        Submit
-        <svg
-          v-if="submitIcon"
-          class="svgIcon"
-          viewBox="0 0 1024 1024"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <p>Success</p>
-          <path
-            d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
-            fill="#43A047"
+          <input
+            type="text"
+            name="identifier"
+            v-model="identifier"
+            autocomplete="off"
+            required
           />
-        </svg>
-        <BaseSpinner v-if="loading" />
-      </button>
-    </div>
+          <span class="form__control-label">Use Case Identifier</span>
+        </div>
+        <div class="form__control select">
+          <select required name="priority" id="priority" v-model="priority">
+            <option value="p1">P1</option>
+            <option value="p2">P2</option>
+            <option value="p3">P3</option>
+            required
+          </select>
+          <span class="form__control-label">Priority</span>
+        </div>
+
+        <div class="form__control full textarea">
+          <textarea
+            name="purpose"
+            v-model="purpose"
+            autocomplete="off"
+            required
+            cols="20"
+            rows="2"
+          ></textarea>
+          <span class="form__control-label">Purpose</span>
+        </div>
+
+        <div class="form__control">
+          <input
+            v-model="stakeholders"
+            type="text"
+            name="stakeholders"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Stakeholders</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="text"
+            name="requirements"
+            v-model="requirements"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Data Requirements</span>
+        </div>
+        <div class="form__control">
+          <input
+            v-model="logic"
+            type="text"
+            name="logic"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Logic</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="text"
+            v-model="output"
+            name="output"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Output</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="text"
+            v-model="playbook"
+            name="playbook"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Playbook</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="text"
+            name="falsepositive"
+            v-model="falsepositive"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Know False Positive ?</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="text"
+            name="risk"
+            v-model="risk"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Risk or Threat</span>
+        </div>
+        <div class="form__control select">
+          <select
+            required
+            v-model="useCaseType"
+            name="usecasetype"
+            id="use-case__type"
+          >
+            <option v-for="(t, index) in caseTypes" :key="index" :value="t">
+              {{ t }}
+            </option>
+          </select>
+          <span class="form__control-label">Use Case Type</span>
+        </div>
+        <div class="form__control full" v-if="useCaseType == 'Other'">
+          <input
+            type="text"
+            name="otherUseCaseType"
+            v-model="otherUseCaseType"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Use Case Type</span>
+        </div>
+        <div class="form__control select">
+          <select
+            required
+            name="alertvolume"
+            v-model="volume"
+            id="alert-volume"
+          >
+            <option v-for="(v, index) in alertVolumes" :key="index" :value="v">
+              {{ v }}
+            </option>
+          </select>
+          <span class="form__control-label">Alert Volume</span>
+        </div>
+        <div class="form__control select">
+          <select required name="testing" id="testing" v-model="testing">
+            <option v-for="(t, index) in caseTesting" :key="index" :value="t">
+              {{ t }}
+            </option>
+          </select>
+          <span class="form__control-label">Testing</span>
+        </div>
+
+        <div class="form__control select">
+          <select
+            required
+            v-model="production"
+            name="production"
+            id="production"
+          >
+            <option
+              v-for="(p, index) in caseProductions"
+              :key="index"
+              :value="p"
+            >
+              {{ p }}
+            </option>
+          </select>
+          <span class="form__control-label">Production</span>
+        </div>
+      </div>
+      <div class="submit-btn__wrapper">
+        <button class="submit-btn" type="submit">
+          Submit
+          <svg
+            v-if="submitIcon"
+            class="svgIcon"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <p>Success</p>
+            <path
+              d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+              fill="#43A047"
+            />
+          </svg>
+          <BaseSpinner v-if="loading" />
+        </button>
+      </div>
     </form>
   </div>
 </template>
 
 <script>
 import baseSpinner from "@/components/baseSpinner.vue";
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
+
 import {
   caseTypes,
   alertVolumes,
@@ -222,6 +239,7 @@ export default {
   computed: {
     dataObj() {
       return {
+        id: this.chosenFormId,
         identifier: this.identifier,
         purpose: this.purpose,
         risk: this.risk,
@@ -238,24 +256,57 @@ export default {
         production: this.production,
       };
     },
+    ...mapState(["chosenFormMethod", "chosenFormId"]),
+    ...mapGetters(["getUseCase"]),
     currentType() {
       return this.useCaseType == "other"
         ? this.otherUseCaseType
         : this.useCaseType;
     },
   },
+  mounted() {
+    if (this.chosenFormMethod == "PUT") {
+      let res = this.getUseCase.filter(
+        (useCase) => useCase.id == this.chosenFormId
+      );
+      console.log(res);
+      this.identifier = res[0].identifier;
+      this.purpose = res[0].purpose;
+      this.risk = res[0].risk;
+      this.type = res[0].currentType;
+      this.stakeholders = res[0].stakeholders;
+      this.requirements = res[0].requirements;
+      this.logic = res[0].logic;
+      this.output = res[0].output;
+      this.volume = res[0].volume;
+      this.falsepositive = res[0].falsepositive;
+      this.testing = res[0].testing;
+      this.priority = res[0].priority;
+      this.playbook = res[0].playbook;
+      this.production = res[0].production;
+    }
+  },
   methods: {
     async submitData() {
       console.log(this.dataObj);
       this.loading = true;
-      let response = await this.$store.dispatch("postData", {
-        apiName: "useCase",
-        body: this.dataObj,
-      });
+      let response;
+      if (this.chosenFormMethod == "POST") {
+        response = await this.$store.dispatch("postData", {
+          apiName: "useCase",
+          body: this.dataObj,
+        });
+      }
+      if (this.chosenFormMethod == "PUT") {
+        response = await this.$store.dispatch("editData", {
+          apiName: "useCase",
+          body: this.dataObj,
+        });
+      }
       console.log(response);
+      this.loading = false;
       if (response) {
         this.submitIcon = true;
-        this.loading = false;
         setTimeout(() => {
           this.submitIcon = false;
           document.querySelector(".close").click();
@@ -304,5 +355,4 @@ export default {
 .secform .form__control * {
   color: #010f60;
 }
-
 </style>

@@ -4,15 +4,16 @@
       class="form-btn"
       @click="setChosenForm('addShift')"
       v-if="getRole == 'admin'"
+      style="margin-right: 1rem;"
     >
-      Add
+      <i class="fas fa-plus"></i> Add
     </button>
     <button
       class="form-btn"
       @click="setChosenForm('editShift')"
       v-if="getRole == 'admin'"
     >
-      Edit
+      <i class="fas fa-edit"></i> Edit
     </button>
 
     <div class="table__wrapper">
@@ -98,10 +99,7 @@ export default {
 .shifts__wrapper {
   margin: 1rem auto;
 }
-.shifts__wrapper .table__row {
-  border-bottom: 1px solid black;
-  border-radius: 0;
-}
+
 
 .shifts__wrapper .table__row {
   flex-direction: column;
@@ -119,12 +117,16 @@ export default {
 .shifts__wrapper .col:first-of-type {
   border-left: 1px solid #000;
 }
+
 .shifts__wrapper .col {
   text-transform: capitalize;
   width: 2.1rem;
   width: 100%;
   border: none;
   border-right: 1px solid #000;
+}
+.shifts__wrapper .col:last-of-type {
+  border-right: 0;
 }
 .shifts__wrapper .table {
   min-width: 75rem;

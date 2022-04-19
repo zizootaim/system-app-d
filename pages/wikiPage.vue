@@ -12,7 +12,7 @@
           </div>
           <div :class="showSideMenu ? 'wiki__menu' : 'wiki__menu show'">
             <div
-              @click="()=>changeWikiPage(item.section)"
+              @click="changeWikiPage(item.section)"
               :class="
                 item.subPages ? 'menu__item submenu-wrapper' : 'menu__item'
               "
@@ -20,9 +20,7 @@
               :key="item.section"
             >
               <button
-                @click="(event)=>{
-                  
-                  showMenu(event)}"
+                @click="showMenu($event)"
                 v-if="item.section != 'Administration' || getRole == 'admin'"
               >
                 <i :class="item.class"></i>
@@ -106,7 +104,10 @@
 
           <div
             v-if="
-              chosenCat && wikiPage != 'Shifts' && wikiPage != 'Administration'
+              chosenCat &&
+              wikiPage != 'Shifts' &&
+              wikiPage != 'Administration' &&
+              filteredArray.length > 1
             "
             class="filteration__wrapper"
           >
@@ -155,7 +156,7 @@
                 @click="setChosenForm('addPdf', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
-                +add
+                <i class="fas fa-plus"></i> add
               </button>
               <div v-if="filteredArray.length > 0">
                 <div
@@ -200,14 +201,14 @@
                 @click="setChosenForm('advisory', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
-                + add
+                <i class="fas fa-plus"></i> add
               </button>
               <div v-if="filteredArray.length > 0">
                 <div class="table__wrapper">
                   <div class="table">
                     <div class="table__row header">
                       <div class="col">
-                        <h4>Advisory Source</h4>
+                        <h4>Source</h4>
                       </div>
                       <div class="col">
                         <h4>Date</h4>
@@ -218,6 +219,7 @@
                       <div class="col">
                         <h4>Applicable</h4>
                       </div>
+                      <div class="col"></div>
                     </div>
 
                     <div
@@ -250,14 +252,42 @@
                             <span>{{ advisoryCard.applicable }}</span>
                           </p>
                         </div>
+                            <div class="col">
+                        <div class="btns__wrapper">
+
+                      <button
+                        class="table-btn"
+                        @click="
+                          setChosenForm('advisory', 'PUT', advisoryCard.id)
+                        "
+                      >
+                        <i class="fal fa-pen"></i>
+                      </button>
+                      <button
+                        class="table-btn"
+                        @click="
+                          deleteData({
+                            body: { id: advisoryCard.id },
+                            apiName: 'advisory',
+                          })
+                        "
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                        </div>
+                      </div>
                       </div>
                       <div class="row bottom-row">
-                        <div>Description : {{ advisoryCard.description }}</div>
-                        <div v-if="advisoryCard.applicable == 'No'">
-                          Actions Taken : {{ advisoryCard.token }}
+                        <div>
+                          <span>Description</span> :
+                          {{ advisoryCard.description }}
                         </div>
-                        <div>Notes : {{ advisoryCard.notes }}</div>
+                        <div v-if="advisoryCard.applicable == 'No'">
+                          <span> Actions Taken</span> : {{ advisoryCard.token }}
+                        </div>
+                        <div><span>Notes</span> : {{ advisoryCard.notes }}</div>
                       </div>
+                  
                     </div>
                   </div>
                 </div>
@@ -274,7 +304,7 @@
                   @click="setChosenForm('incidentMainForm', 'POST')"
                   v-if="getRole == 'Employee' || getRole == 'admin'"
                 >
-                  +add
+                  <i class="fas fa-plus"></i> add
                 </button>
               </div>
               <div v-if="filteredArray.length > 0">
@@ -282,7 +312,7 @@
                   <div class="table">
                     <div class="table__row header">
                       <div class="col">
-                        <h4>Incident Name</h4>
+                        <h4>Name</h4>
                       </div>
                       <div class="col">
                         <h4>Detector</h4>
@@ -293,6 +323,7 @@
                       <div class="col">
                         <h4>Priority</h4>
                       </div>
+                      <div class="col"></div>
                     </div>
                     <div
                       class="table__row"
@@ -324,96 +355,129 @@
                             <span>{{ i.Priority }}</span>
                           </p>
                         </div>
+                          <div class="col">
+                        <div class="btns__wrapper">
+                          
+                      <button
+                        class="table-btn"
+                        @click="setChosenForm('incidentMainForm', 'PUT', i.id)"
+                      >
+                        <i class="fal fa-pen"></i>
+                      </button>
+                      <button
+                        class="table-btn"
+                        @click="
+                          deleteData({
+                            body: { id: i.id },
+                            apiName: 'mainIncident',
+                          })
+                        "
+                      >
+                          <i class="fas fa-trash-alt"></i>
+                      </button>
+                        </div>
+                      </div>
                       </div>
                       <div class="row bottom-row">
                         <div class="incident-sec__wrapper">
                           <h3>Incident Identification</h3>
-                          <div>Location : {{ i.Location }}</div>
+                          <div><span>Location</span> : {{ i.Location }}</div>
                           <div>
-                            Contact Info :
+                            <span>Contact Info</span> :
                             {{ i.ContactInfo }}
                           </div>
                           <div>
-                            Time Of Detection :
+                            <span>Time Of Detection</span> :
                             {{ i.TimeOfDetection }}
                           </div>
                           <div>
-                            Repeated Incident :
+                            <span>Repeated Incident</span> :
                             {{ i.RepeatedIncident }}
                           </div>
                           <div>
-                            Impact Duration :
+                            <span>Impact Duration</span> :
                             {{ i.ImpactDuration }}
                           </div>
                           <div>
-                            Affected System :
+                            <span>Affected System </span> :
                             {{ i.AffectedSystem }}
                           </div>
                         </div>
                         <div class="incident-sec__wrapper">
                           <h3>Incident Triage</h3>
                           <div>
-                            Incident Verification :
+                            <span>Incident Verification</span> :
                             {{ i.IncidentVerification }}
                           </div>
                           <div>
-                            Incident Classification:
+                            <span>Incident Classification</span> :
                             {{ i.IncidentClassification }}
                           </div>
-                          <div>Description : {{ i.Description }}</div>
+                          <div>
+                            <span>Description</span> : {{ i.Description }}
+                          </div>
                         </div>
                         <div class="incident-sec__wrapper">
                           <h3>Incident Containment</h3>
                           <div>
-                            Evidence Acquiring :
+                            <span>Evidence Acquiring</span> :
                             {{ i.EvidenceAcquiring }}
                           </div>
                           <div>Data Health : {{ i.DataHealth }}</div>
                           <div>
-                            Containment Measures :
+                            <span>Containment Measures</span> :
                             {{ i.ContainmentMeasures }}
                           </div>
                           <div>
-                            Eradication Measures :
+                            <span>Eradication Measures</span> :
                             {{ i.EradicationMeasures }}
                           </div>
                           <div>
-                            Recovery Measures :
+                            <span>Recovery Measures</span> :
                             {{ i.RecoveryMeasures }}
                           </div>
                         </div>
 
                         <div class="incident-sec__wrapper">
                           <h3>Post Incident Activity</h3>
-                          <div>Notification : {{ i.Notification }}</div>
                           <div>
-                            Case Analysis :
+                            <span>Notification</span> : {{ i.Notification }}
+                          </div>
+                          <div>
+                            <span>Case Analysis</span> :
                             {{ i.CaseAnalysis }}
                           </div>
                           <div>
-                            Incident Availability :
+                            <span>Incident Availability</span> :
                             {{ i.IncidentAvailability }}
                           </div>
                         </div>
                         <div class="incident-sec__wrapper">
                           <h3>Incident Closure</h3>
-                          <div>Improvements : {{ i.Improvements }}</div>
-                          <div>Time Of Closure : {{ i.TimeOfClosure }}</div>
+                          <div>
+                            <span>Improvements</span> : {{ i.Improvements }}
+                          </div>
+                          <div>
+                            <span>Time Of Closure</span> : {{ i.TimeOfClosure }}
+                          </div>
                         </div>
                         <div class="incident-sec__wrapper">
                           <h3>Reviewed By</h3>
-                          <div>Title : {{ i.Title }}</div>
-                          <div>Signature : {{ i.Signature }}</div>
-                          <div>Date : {{ i.Date }}</div>
+                          <div><span>Title</span> : {{ i.Title }}</div>
+                          <div><span>Signature</span> : {{ i.Signature }}</div>
+                          <div><span>Date</span> : {{ i.Date }}</div>
                         </div>
                       </div>
+                    
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
           <!-- Soc Governance -->
+
           <div v-if="wikiPage == 'Soc Governance'">
             <div
               class="pdfs__wrapper"
@@ -427,7 +491,7 @@
                 @click="setChosenForm('addPdf', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
-                +add
+                <i class="fas fa-plus"></i> add
               </button>
 
               <div class="pdfs__container" v-if="chosenCat == 'Policies'">
@@ -503,7 +567,9 @@
                 </div>
               </div>
             </div>
+
             <!-- Playbooks -->
+
             <div class="playbooks" v-if="chosenCat == 'Playbooks'">
               <h1 class="sec__title">Playbooks</h1>
               <button
@@ -511,7 +577,7 @@
                 @click="setChosenForm('playBookForm', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
-                + add
+                <i class="fas fa-plus"></i> add
               </button>
               <div v-if="filteredArray.length > 0">
                 <div class="table__wrapper">
@@ -531,6 +597,29 @@
                           <p>
                             <span>{{ book.title }}</span>
                           </p>
+                        </div>
+                        <div class="col">
+                          <div class="btns__wrapper">
+                            <button
+                              class="table-btn"
+                              @click="
+                                setChosenForm('playBookForm', 'PUT', book.id)
+                              "
+                            >
+                              <i class="fal fa-pen"></i>
+                            </button>
+                            <button
+                              class="table-btn"
+                              @click="
+                                deleteData({
+                                  body: { id: book.id },
+                                  apiName: 'playBook',
+                                })
+                              "
+                            >
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="row bottom-row">
@@ -555,8 +644,7 @@
                                 v-for="(r, index) in parse(book.data)"
                                 :key="index"
                               >
-                                <div class="row">
-                                  <div class="col">
+                                <div class="col">
                                   {{ r.activity }}
                                 </div>
                                 <div class="col">
@@ -565,7 +653,6 @@
                                 <div class="col">
                                   {{ r.team }}
                                 </div>
-                                </div>
                               </div>
                             </div>
                           </div>
@@ -573,15 +660,6 @@
                         <div class="book__img">
                           <img :src="book.url" :alt="book.name" />
                         </div>
-                     <div class="btns__wrapper">
-                          <button
-                          class="form-btn"
-                          @click="setChosenForm('playBookForm', 'PUT', book.id)"
-                        >
-                          Edit
-                        </button>
-                        <button class="form-btn">delete</button>
-                     </div>
                       </div>
                     </div>
                   </div>
@@ -608,7 +686,7 @@
                 @click="setChosenForm('healthCheck', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
-                + add
+                <i class="fas fa-plus"></i> add
               </button>
               <div v-if="filteredArray.length > 0">
                 <div class="table__wrapper">
@@ -620,6 +698,7 @@
                       <div class="col">
                         <h4>Check Status</h4>
                       </div>
+                      <div class="col"></div>
                     </div>
                     <div
                       class="table__row top-row"
@@ -649,23 +728,51 @@
                             {{ h.Status }}
                           </p>
                         </div>
+                        <div class="col">
+                          <div class="btns__wrapper">
+                            <button
+                              class="table-btn"
+                              @click="setChosenForm('healthCheck', 'PUT', h.id)"
+                            >
+                              <i class="fal fa-pen"></i>
+                            </button>
+                            <button
+                              class="table-btn"
+                              @click="
+                                deleteData({
+                                  body: { id: h.id },
+                                  apiName: 'healthCheck',
+                                })
+                              "
+                            >
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </div>
+                        </div>
                       </div>
 
                       <div v-if="h.Status == 'Not Ok'" class="row bottom-row">
                         <h3 style="padding-left: 0.6rem">Health Issue</h3>
-                        <div>Issue Found : {{ h.IssuesFound }}</div>
-                        <div>Component : {{ h.Component }}</div>
-                        <div>IP : {{ h.Ip }}</div>
-                        <div>Hostname : {{ h.Hostname }}</div>
-                        <div>Start Time : {{ h.StartTime }}</div>
-                        <div>Issue Description : {{ h.IssueDescription }}</div>
-                        <div>Action Taken : {{ h.ActionTaken }}</div>
-                        <div>Next Action : {{ h.NextAction }}</div>
-                        <div>Who : {{ h.Who }}</div>
-                        <div :class="statusClass(h.IssueStatus)">
-                          Issue Status : {{ h.IssueStatus }}
+                        <div>
+                          <span>Issue Found</span> : {{ h.IssuesFound }}
                         </div>
-                        <div>Close Time : {{ h.CloseTime }}</div>
+                        <div><span>Component</span> : {{ h.Component }}</div>
+                        <div><span>IP</span> : {{ h.Ip }}</div>
+                        <div><span>Hostname</span> : {{ h.Hostname }}</div>
+                        <div><span>Start Time </span>: {{ h.StartTime }}</div>
+                        <div>
+                          <span>Issue Description</span> :
+                          {{ h.IssueDescription }}
+                        </div>
+                        <div>
+                          <span>Action Taken</span> : {{ h.ActionTaken }}
+                        </div>
+                        <div><span>Next Action</span> : {{ h.NextAction }}</div>
+                        <div><span>Who</span> : {{ h.Who }}</div>
+                        <div :class="statusClass(h.IssueStatus)">
+                          <span>Issue Status</span> : {{ h.IssueStatus }}
+                        </div>
+                        <div><span>Close Time</span> : {{ h.CloseTime }}</div>
                       </div>
                     </div>
                   </div>
@@ -682,24 +789,25 @@
                 @click="setChosenForm('alerts', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
-                + add
+                <i class="fas fa-plus"></i> add
               </button>
               <div v-if="filteredArray.length > 0">
                 <div class="table__wrapper">
                   <div class="table">
                     <div class="table__row header">
                       <div class="col">
-                        <h4>Alert Name</h4>
+                        <h4>Name</h4>
                       </div>
                       <div class="col">
-                        <h4>Alert Number</h4>
+                        <h4>Number</h4>
                       </div>
                       <div class="col">
                         <h4>Start Time</h4>
                       </div>
                       <div class="col">
-                        <h4>Alert Status</h4>
+                        <h4>Status</h4>
                       </div>
+                      <div class="col"></div>
                     </div>
                     <div
                       class="table__row"
@@ -733,14 +841,48 @@
                             <span>{{ alertsCard.status }}</span>
                           </p>
                         </div>
+
+                        <div class="col">
+                          <div class="btns__wrapper">
+                            <button
+                              class="table-btn"
+                              @click="
+                                setChosenForm('alerts', 'PUT', alertsCard.id)
+                              "
+                            >
+                              <i class="fal fa-pen"></i>
+                            </button>
+                            <button
+                              class="table-btn"
+                              @click="
+                                deleteData({
+                                  body: { id: alertsCard.id },
+                                  apiName: 'alerts',
+                                })
+                              "
+                            >
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </div>
+                        </div>
                       </div>
                       <div class="row bottom-row">
-                        <div>Description: {{ alertsCard.description }}</div>
-                        <div>Action Taken : {{ alertsCard.ActionTaken }}</div>
-                        <div>Next Action : {{ alertsCard.NextAction }}</div>
-                        <div>Who : {{ alertsCard.who }}</div>
+                        <div>
+                          <span>Description</span> :
+                          {{ alertsCard.description }}
+                        </div>
+                        <div>
+                          <span>Action Taken</span> :
+                          {{ alertsCard.ActionTaken }}
+                        </div>
+                        <div>
+                          <span>Next Action</span> : {{ alertsCard.NextAction }}
+                        </div>
+                        <div><span>Who</span> : {{ alertsCard.who }}</div>
 
-                        <div>Close Time : {{ alertsCard.CloseTime }}</div>
+                        <div>
+                          <span>Close Time</span> : {{ alertsCard.CloseTime }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -757,25 +899,26 @@
                 @click="setChosenForm('incidents', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
-                + add
+                <i class="fas fa-plus"></i> add
               </button>
               <div v-if="filteredArray.length > 0">
                 <div class="table__wrapper">
                   <div class="table">
                     <div class="table__row header">
                       <div class="col">
-                        <h4>Incident Name</h4>
+                        <h4>Name</h4>
                       </div>
                       <div class="col">
-                        <h4>Incident Date</h4>
+                        <h4>Date</h4>
                       </div>
                       <div class="col">
-                        <h4>Incident Number</h4>
+                        <h4>Number</h4>
                       </div>
 
                       <div class="col">
-                        <h4>Incident Status</h4>
+                        <h4>Status</h4>
                       </div>
+                      <div class="col"></div>
                     </div>
 
                     <div
@@ -813,101 +956,52 @@
                             <span>{{ incidentsCard.status }}</span>
                           </p>
                         </div>
-                      </div>
-                      <div class="row bottom-row">
-                        <div>Description : {{ incidentsCard.description }}</div>
-                        <div>
-                          Action Taken : {{ incidentsCard.ActionTaken }}
-                        </div>
-                        <div>Next Action : {{ incidentsCard.NextAction }}</div>
-                        <div>Who : {{ incidentsCard.who }}</div>
-
-                        <div>Close Time : {{ incidentsCard.CloseTime }}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pending Issues -->
-
-            <div v-if="chosenCat == 'pendingIssues'">
-              <h1 class="sec__title">Pending Issues</h1>
-              <button
-                class="form-btn"
-                @click="setChosenForm('pendingIssues', 'POST')"
-                v-if="getRole == 'Employee' || getRole == 'admin'"
-              >
-                + add
-              </button>
-              <div v-if="filteredArray.length > 0">
-                <div class="table__wrapper">
-                  <div class="table">
-                    <div class="table__row header">
-                      <div class="col">
-                        <h4>Issue Name</h4>
-                      </div>
-                      <div class="col">
-                        <h4>Who</h4>
-                      </div>
-                      <div class="col">
-                        <h4>Start Time</h4>
-                      </div>
-                      <div class="col">
-                        <h4>Status</h4>
-                      </div>
-                    </div>
-
-                    <div
-                      class="table__row"
-                      v-for="pendingIssuesCard in filteredArray"
-                      :key="pendingIssuesCard.id"
-                    >
-                      <div class="row top-row">
-                        <i
-                          class="fas fa-angle-down row-btn"
-                          @click="(event) => showContent(event)"
-                        ></i>
-
                         <div class="col">
-                          <p>
-                            <span>{{ pendingIssuesCard.issue }}</span>
-                          </p>
-                        </div>
-                        <div class="col">
-                          <p>
-                            <span>{{ pendingIssuesCard.who }}</span>
-                          </p>
-                        </div>
-                        <div class="col">
-                          <p>
-                            <span>{{ pendingIssuesCard.StartTime }}</span>
-                          </p>
-                        </div>
-                        <div class="col">
-                          <p
-                            :class="`status ${statusClass(
-                              pendingIssuesCard.status
-                            )}`"
-                          >
-                            <span>{{ pendingIssuesCard.status }}</span>
-                          </p>
+                          <div class="btns__wrapper">
+                            <button
+                              class="table-btn"
+                              @click="
+                                setChosenForm(
+                                  'incidents',
+                                  'PUT',
+                                  incidentsCard.id
+                                )
+                              "
+                            >
+                              <i class="fal fa-pen"></i>
+                            </button>
+                            <button
+                              class="table-btn"
+                              @click="
+                                deleteData({
+                                  body: { id: incidentsCard.id },
+                                  apiName: 'incidents',
+                                })
+                              "
+                            >
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="row bottom-row">
                         <div>
-                          Next Action : {{ pendingIssuesCard.NextAction }}
+                          <span>Description</span> :
+                          {{ incidentsCard.description }}
                         </div>
                         <div>
-                          Issue Description :
-                          {{ pendingIssuesCard.description }}
+                          <span>Action Taken</span> :
+                          {{ incidentsCard.ActionTaken }}
                         </div>
                         <div>
-                          Action Taken : {{ pendingIssuesCard.ActionTaken }}
+                          <span>Next Action</span> :
+                          {{ incidentsCard.NextAction }}
                         </div>
+                        <div><span>Who</span> : {{ incidentsCard.who }}</div>
+
                         <div>
-                          Close Time : {{ pendingIssuesCard.CloseTime }}
+                          <span>Close Time</span> :
+                          {{ incidentsCard.CloseTime }}
                         </div>
                       </div>
                     </div>
@@ -917,6 +1011,122 @@
             </div>
           </div>
 
+          <!-- Pending Issues -->
+
+          <div v-if="chosenCat == 'pendingIssues'">
+            <h1 class="sec__title">Pending Issues</h1>
+            <button
+              class="form-btn"
+              @click="setChosenForm('pendingIssues', 'POST')"
+              v-if="getRole == 'Employee' || getRole == 'admin'"
+            >
+              <i class="fas fa-plus"></i> add
+            </button>
+            <div v-if="filteredArray.length > 0">
+              <div class="table__wrapper">
+                <div class="table">
+                  <div class="table__row header">
+                    <div class="col">
+                      <h4>Name</h4>
+                    </div>
+                    <div class="col">
+                      <h4>Who</h4>
+                    </div>
+                    <div class="col">
+                      <h4>Start Time</h4>
+                    </div>
+                    <div class="col">
+                      <h4>Status</h4>
+                    </div>
+                    <div class="col"></div>
+                  </div>
+
+                  <div
+                    class="table__row"
+                    v-for="pendingIssuesCard in filteredArray"
+                    :key="pendingIssuesCard.id"
+                  >
+                    <div class="row top-row">
+                      <i
+                        class="fas fa-angle-down row-btn"
+                        @click="(event) => showContent(event)"
+                      ></i>
+
+                      <div class="col">
+                        <p>
+                          <span>{{ pendingIssuesCard.issue }}</span>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p>
+                          <span>{{ pendingIssuesCard.who }}</span>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p>
+                          <span>{{ pendingIssuesCard.StartTime }}</span>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p
+                          :class="`status ${statusClass(
+                            pendingIssuesCard.status
+                          )}`"
+                        >
+                          <span>{{ pendingIssuesCard.status }}</span>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <div class="btns__wrapper">
+                          <button
+                            class="table-btn"
+                            @click="
+                              setChosenForm(
+                                'pendingIssues',
+                                'PUT',
+                                pendingIssuesCard.id
+                              )
+                            "
+                          >
+                            <i class="fal fa-pen"></i>
+                          </button>
+                          <button
+                            class="table-btn"
+                            @click="
+                              deleteData({
+                                body: { id: pendingIssuesCard.id },
+                                apiName: 'pendingIssues',
+                              })
+                            "
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row bottom-row">
+                      <div>
+                        <span> Next Action :</span>
+                        {{ pendingIssuesCard.NextAction }}
+                      </div>
+                      <div>
+                        <span> Description : </span>
+                        {{ pendingIssuesCard.description }}
+                      </div>
+                      <div>
+                        <span> Action Taken : </span>
+                        {{ pendingIssuesCard.ActionTaken }}
+                      </div>
+                      <div>
+                        <span> Close Time : </span>
+                        {{ pendingIssuesCard.CloseTime }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- Use Case -->
 
           <div class="useCase" v-if="wikiPage == 'Use Case Library'">
@@ -947,17 +1157,17 @@
                 @click="setChosenForm('useCase', 'POST')"
                 v-if="getRole == 'Employee' || getRole == 'admin'"
               >
-                + add
+                <i class="fas fa-plus"></i> add
               </button>
               <div v-if="filteredArray.length > 0">
                 <div class="table__wrapper">
                   <div class="table">
                     <div class="table__row header">
                       <div class="col">
-                        <h4>Use Case Identifier</h4>
+                        <h4>Identifier</h4>
                       </div>
                       <div class="col">
-                        <h4>Use Case Purpose</h4>
+                        <h4>Purpose</h4>
                       </div>
                       <div class="col">
                         <h4>Threat/Risk</h4>
@@ -965,9 +1175,8 @@
                       <div class="col">
                         <h4>Use Case Type</h4>
                       </div>
-                      <div class="col">
-                        <h4>Stakeholders</h4>
-                      </div>
+
+                      <div class="col"></div>
                     </div>
 
                     <div
@@ -1000,27 +1209,61 @@
                             <span>{{ useCaseCard.type }}</span>
                           </p>
                         </div>
+
                         <div class="col">
-                          <p>
-                            <span>{{ useCaseCard.stakeholders }}</span>
-                          </p>
+                          <div class="btns__wrapper">
+                            <button
+                              class="table-btn"
+                              @click="
+                                setChosenForm('useCase', 'PUT', useCaseCard.id)
+                              "
+                            >
+                              <i class="fas fa-pen"> </i>
+                            </button>
+                            <button
+                              class="table-btn"
+                              @click="
+                                deleteData({
+                                  body: { id: useCaseCard.id },
+                                  apiName: 'useCase',
+                                })
+                              "
+                            >
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </div>
                         </div>
                       </div>
                       <div class="row bottom-row">
-                        <div>Risk : {{ useCaseCard.risk }}</div>
                         <div>
-                          Data Requirements : {{ useCaseCard.requirements }}
+                          <span>Stakeholders</span> :
+                          {{ useCaseCard.stakeholders }}
                         </div>
-                        <div>Logic : {{ useCaseCard.logic }}</div>
-                        <div>Output : {{ useCaseCard.output }}</div>
+                        <div>
+                          <span>Data Requirements </span>:
+                          {{ useCaseCard.requirements }}
+                        </div>
+                        <div><span>Logic</span> : {{ useCaseCard.logic }}</div>
+                        <div>
+                          <span>Output</span> : {{ useCaseCard.output }}
+                        </div>
 
-                        <div>Alert Volume : {{ useCaseCard.volume }}</div>
-                        <div>Testing : {{ useCaseCard.testing }}</div>
                         <div>
-                          Known False Positive : {{ useCaseCard.falsepositive }}
+                          <span>Alert Volume</span> : {{ useCaseCard.volume }}
                         </div>
-                        <div>Playbook : {{ useCaseCard.playbook }}</div>
-                        <div>Production: {{ useCaseCard.production }}</div>
+                        <div>
+                          <span>Testing</span> : {{ useCaseCard.testing }}
+                        </div>
+                        <div>
+                          <span>Known False Positive</span> :
+                          {{ useCaseCard.falsepositive }}
+                        </div>
+                        <div>
+                          <span>Playbook</span> : {{ useCaseCard.playbook }}
+                        </div>
+                        <div>
+                          <span>Production</span> : {{ useCaseCard.production }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1038,7 +1281,7 @@
               @click="setChosenForm('communicationForm', 'POST')"
               v-if="getRole == 'Employee' || getRole == 'admin'"
             >
-              + add
+              <i class="fas fa-plus"></i> add
             </button>
             <div v-if="filteredArray.length > 0">
               <div class="table__wrapper">
@@ -1053,6 +1296,7 @@
                     <div class="col">
                       <h4>Secondary Name</h4>
                     </div>
+                    <div class="col"></div>
                   </div>
 
                   <div
@@ -1080,22 +1324,52 @@
                           <span>{{ c.SecondaryName }}</span>
                         </p>
                       </div>
+                      <div class="col">
+                        <div class="btns__wrapper">
+                          <button
+                            class="table-btn"
+                            @click="
+                              setChosenForm('communicationFormus', 'PUT', c.id)
+                            "
+                          >
+                            <i class="fal fa-pen"></i>
+                          </button>
+                          <button
+                            class="table-btn"
+                            @click="
+                              deleteData({
+                                body: { id: c.id },
+                                apiName: 'Communication',
+                              })
+                            "
+                          >
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </div>
+                      </div>
                     </div>
                     <div class="row bottom-row">
-                      <div>Action : {{ c.Action }}</div>
-                      <div>Primary Email : {{ c.PrimaryEmail }}</div>
+                      <div><span>Action</span> : {{ c.Action }}</div>
+                      <div>
+                        <span>Primary Email</span> : {{ c.PrimaryEmail }}
+                      </div>
 
-                      <div>Primary Phone : {{ c.PrimaryPhone }}</div>
+                      <div>
+                        <span>Primary Phone</span> : {{ c.PrimaryPhone }}
+                      </div>
 
-                      <div>Secondary Email : {{ c.SecondaryEmail }}</div>
-                      <div>Secondary Phone : {{ c.SecondaryPhone }}</div>
+                      <div>
+                        <span>Secondary Email</span> : {{ c.SecondaryEmail }}
+                      </div>
+                      <div>
+                        <span>Secondary Phone</span> : {{ c.SecondaryPhone }}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
           <!-- Administration -->
           <div
             v-if="wikiPage == 'Administration' && getRole == 'admin'"
@@ -1184,7 +1458,6 @@ import addShiftForm from "@/components//shifts/addShiftForm.vue";
 import editShiftForm from "@/components//shifts/editShiftForm.vue";
 import * as selectCategories from "../assets/data";
 import users from "../components/users.vue";
-
 export default {
   name: "wikiPage",
   data() {
@@ -1231,12 +1504,10 @@ export default {
     addPdf,
     users,
   },
-
   computed: {
     ...mapState(["wikiSections", "chosenForm"]),
     ...mapGetters([
       "getRole",
-
       "getUseCase",
       "getAdvisory",
       "getServiceCatalog",
@@ -1323,7 +1594,6 @@ export default {
             this.allData = this.getAlerts;
             this.filterObj.filterTextName = "name";
             this.filterObj.inputName = "Name";
-
             this.filterObj.select = {};
           }
           break;
@@ -1417,12 +1687,10 @@ export default {
     },
     filterData(selectCat) {
       let newArr = this.filteredArray;
-
       let val = "";
       if (this.filterObj.filterInputValue) {
         val = this.filterObj.filterInputValue.trim().toLowerCase();
       }
-
       switch (this.filteringCategory) {
         case "advisory":
         case "socReports":
@@ -1444,7 +1712,6 @@ export default {
             console.log(newArr);
           }
           break;
-
         case "mainIncident":
         case "healthCheck":
         case "incidents":
@@ -1483,8 +1750,7 @@ export default {
           }
           break;
       }
-
-      if (newArr.length > 0) this.filteredArray = newArr;
+      if (newArr.length >= 1) this.filteredArray = newArr;
       else {
         this.nothingToSee = true;
         this.filteredArray = this.allData;
@@ -1492,10 +1758,6 @@ export default {
           this.filterObj.selectValues[i] = "";
         }
         this.filterObj.filterInputValue = "";
-      }
-      if (!val) {
-        this.nothingToSee = false;
-        this.filteredArray = this.allData;
       }
       if (this.nothingToSee) {
         setTimeout(() => {
@@ -1546,7 +1808,6 @@ export default {
           i.className = "fas fa-angle-down sub-menu-icon";
         });
         icon.className = "fas fa-angle-up sub-menu-icon";
-
         list.classList.add("show");
         list.style.height = `${height}px`;
       } else return;
@@ -1574,7 +1835,6 @@ export default {
         Array.from(document.querySelectorAll(".bottom-row")).forEach((row) => {
           row.style.height = 0;
         });
-
         let height = 0;
         Array.from(bottomRow.children).forEach((el) => {
           height += el.getBoundingClientRect().height;
@@ -1601,7 +1861,6 @@ export default {
           li.classList.remove("active");
         });
       });
-
       if (event.srcElement.localName == "span") {
         event.target.parentElement.classList.add("active");
       } else {
@@ -1616,7 +1875,6 @@ export default {
       Array.from(container.children).forEach((c) => {
         height += c.getBoundingClientRect().height;
       });
-
       if (open) {
         event.target.className = "fas fa-angle-down open-pdf";
         height = 56;
@@ -1645,7 +1903,6 @@ export default {
       let file = document.querySelector("input[type=file]");
       formData.append("file", file.files[0]);
       formData.append("title", this.title);
-
       this.$store.dispatch("uploadPdf", {
         apiName: this.wikiPage,
         body: formData,
@@ -1655,7 +1912,6 @@ export default {
       this.$store.dispatch("delete", data);
     },
     parse(data) {
-      console.log(JSON.parse(data));
       return JSON.parse(data);
     },
     statusClass(status) {
@@ -1667,35 +1923,26 @@ export default {
 };
 </script>
 <style>
-.btns__wrapper{
-  height: 6rem;
+.btns__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.btns__wrapper .table-btn:nth-child(2) {
+  color: rgb(202, 42, 42);
+}
+.btns__wrapper .table-btn:nth-child(1) {
+  color: rgb(86, 143, 86);
 }
 .book__table > div {
-  padding: 0;
+  padding: 0.5rem 0;
   width: 18rem;
-  border: 1px solid;
-  border-top: 0;
-}
-.book__table .table__row  div{
-  padding: .2rem;
-  margin: 0;
-  border: 0;
-  text-align: center;
-}
-
-.book__table .table__row:nth-child(even):not(.table__row.header),
-.book__table .table__row:nth-child(odd):not(.table__row.header){
-  margin: 0;
-  padding: 0;
-  background: #fff;
-  box-shadow: unset;
-  color: #000;
 }
 .book__table .col {
   padding: 0;
 }
 .book__img img {
-  height: 18rem;
+  height: 15rem;
 }
 .use__img img {
   width: 100%;
@@ -1717,14 +1964,14 @@ export default {
   align-self: flex-start;
   justify-self: flex-start;
   height: auto;
-  width: 98%;
+  width: 80%;
   margin: auto;
 }
 .filter__form {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: row;
-  margin-top: 1.3rem;
+  margin-top: 2rem;
 }
 .filter__selects {
   display: flex;
@@ -1736,14 +1983,9 @@ export default {
 .filter__form .form__control .form__control-label {
   z-index: 1;
   text-transform: capitalize;
-  left: 3%;
 }
 .filter__selects .select {
   margin-left: 1rem;
-}
-.filteration__wrapper h2 {
-  font-size: 1rem;
-  font-weight: 400;
 }
 .filter__selects .select:first-of-type {
   margin-left: 0;
@@ -1754,25 +1996,6 @@ export default {
 .filteration__wrapper .form__control input:focus ~ .form__control-label,
 .filteration__wrapper .form__control select:valid ~ .form__control-label {
   color: #fff;
-}
-.light-mode .filteration__wrapper h2,
-.light-mode .filter__form select,
-.light-mode .filter__form .form__control input,
-.light-mode .filteration__wrapper .form__control span,
-.light-mode
-  .filteration__wrapper
-  .form__control
-  input:focus
-  ~ .form__control-label,
-.light-mode
-  .filteration__wrapper
-  .form__control
-  select:valid
-  ~ .form__control-label {
-  color: #000;
-}
-.light-mode .filter__form .form__control {
-  border-color: #000;
 }
 @media screen and (max-width: 1200px) {
   .wiki__container {

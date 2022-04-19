@@ -108,6 +108,9 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
+
 import { shiftStatus } from "../assets/data";
 export default {
   data() {
@@ -140,25 +143,52 @@ export default {
         who: this.who,
         status: this.status,
         CloseTime: this.closeDate + " " + this.closeTime,
+        id: this.chosenFormId,
       };
     },
+    ...mapState(["chosenFormMethod", "chosenFormId"]),
+    ...mapGetters(["getIncidents"]),
+  },
+  mounted() {
+    if (this.chosenFormMethod == "PUT") {
+      let res = this.getIncidents.filter(
+        (incident) => incident.id == this.chosenFormId
+      );
+      console.log(res);
+      this.incidentName = res[0].name;
+      this.incidentDescription = res[0].description;
+      this.incidentNumber = res[0].number;
+      this.ActionTaken = res[0].ActionTaken;
+      this.NextAction = res[0].NextAction;
+      this.status = res[0].status;
+      this.who = res[0].who;
+    }
   },
   methods: {
     async submitData() {
       console.log(this.dataObj);
       this.spinnerLoading = true;
-      let response = await this.$store.dispatch("postData", {
-        apiName: "incidents",
-        body: this.dataObj,
-      });
+      let response;
+      if (this.chosenFormMethod == "POST") {
+        response = await this.$store.dispatch("postData", {
+          apiName: "incidents",
+          body: this.dataObj,
+        });
+      }
+      if (this.chosenFormMethod == "PUT") {
+        response = await this.$store.dispatch("editData", {
+          apiName: "incidents",
+          body: this.dataObj,
+        });
+      }
+      this.spinnerLoading = false;
       console.log(response);
       if (response) {
-        this.spinnerLoading = false;
         this.submitIcon = true;
         setTimeout(() => {
           this.submitIcon = false;
           document.querySelector(".close").click();
-        }, 2000);
+        }, 1000);
       }
     },
   },

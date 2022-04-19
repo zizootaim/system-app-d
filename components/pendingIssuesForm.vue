@@ -64,29 +64,32 @@
           <input type="time" name="CloseTime" v-model="closeTime" />
         </div>
       </div>
-<div class="submit-btn__wrapper">
+      <div class="submit-btn__wrapper">
         <button class="submit-btn" type="submit">
-        Submit
-        <svg
-          v-if="submitIcon"
-          class="svgIcon"
-          viewBox="0 0 1024 1024"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
-            fill="#43A047"
-          />
-        </svg>
-        <BaseSpinner v-if="spinnerLoading" />
-      </button>
-</div>
+          Submit
+          <svg
+            v-if="submitIcon"
+            class="svgIcon"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+              fill="#43A047"
+            />
+          </svg>
+          <BaseSpinner v-if="spinnerLoading" />
+        </button>
+      </div>
     </form>
   </div>
 </template>
 <script>
 import { shiftStatus } from "../assets/data";
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
@@ -109,6 +112,7 @@ export default {
   computed: {
     dataObj() {
       return {
+        id: this.chosenFormId,
         issue: this.issue,
         StartTime: this.startDate + " " + this.startTime,
         description: this.IssueDescription,
@@ -119,23 +123,48 @@ export default {
         CloseTime: this.closeDate + " " + this.closeTime,
       };
     },
+    ...mapState(["chosenFormMethod", "chosenFormId"]),
+    ...mapGetters(["getPendingIssues"]),
+  },
+  mounted() {
+    if (this.chosenFormMethod == "PUT") {
+      let res = this.getPendingIssues.filter(
+        (issue) => issue.id == this.chosenFormId
+      );
+      console.log(res);
+      this.issue = res[0].issue;
+      this.IssueDescription = res[0].description;
+
+      this.ActionTaken = res[0].ActionTaken;
+      this.NextAction = res[0].NextAction;
+      this.status = res[0].status;
+      this.who = res[0].who;
+    }
   },
   methods: {
     async submitData() {
-      console.log(this.dataObj);
       this.spinnerLoading = true;
-      let response = await this.$store.dispatch("postData", {
-        apiName: "pendingIssues",
-        body: this.dataObj,
-      });
+      let response;
+      if (this.chosenFormMethod == "POST") {
+        response = await this.$store.dispatch("postData", {
+          apiName: "pendingIssues",
+          body: this.dataObj,
+        });
+      }
+      if (this.chosenFormMethod == "PUT") {
+        response = await this.$store.dispatch("editData", {
+          apiName: "pendingIssues",
+          body: this.dataObj,
+        });
+      }
       console.log(response);
+      this.spinnerLoading = false;
       if (response) {
-        this.spinnerLoading = false;
         this.submitIcon = true;
         setTimeout(() => {
           this.submitIcon = false;
           document.querySelector(".close").click();
-        }, 2000);
+        }, 1000);
       }
     },
   },

@@ -24,8 +24,7 @@
         <span class="form__control-label">Service Owner</span>
       </div>
 
-
-      <div class="form__control  textarea">
+      <div class="form__control textarea">
         <textarea
           required
           name="inputs"
@@ -37,7 +36,7 @@
         <span class="form__control-label">Inputs</span>
       </div>
 
-      <div class="form__control  textarea">
+      <div class="form__control textarea">
         <textarea
           required
           name="output"
@@ -47,7 +46,7 @@
         ></textarea>
         <span class="form__control-label">Outputs</span>
       </div>
-      <div class="form__control  textarea">
+      <div class="form__control textarea">
         <textarea
           required
           name="description"
@@ -57,7 +56,7 @@
         ></textarea>
         <span class="form__control-label">Description</span>
       </div>
-      <div class="form__control  textarea">
+      <div class="form__control textarea">
         <textarea
           required
           name="consumers"
@@ -67,8 +66,6 @@
         ></textarea>
         <span class="form__control-label">Consumers</span>
       </div>
-
-
 
       <div class="form__control">
         <input
@@ -128,6 +125,8 @@
 
 <script>
 import baseSpinner from "@/components/baseSpinner.vue";
+import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -136,6 +135,7 @@ export default {
 
   data() {
     return {
+      id: this.chosenFormId,
       name: "",
       owner: "",
       description: "",
@@ -156,6 +156,7 @@ export default {
   computed: {
     dataObj() {
       return {
+        id: this.chosenFormId,
         name: this.name,
         owner: this.owner,
         description: this.description,
@@ -170,15 +171,41 @@ export default {
     messageErr() {
       return this.message;
     },
+    ...mapState(["chosenFormMethod", "chosenFormId"]),
+    ...mapGetters(["getServiceCatalog"]),
   },
-
+  mounted() {
+    if (this.chosenFormMethod == "PUT") {
+      let res = this.getServiceCatalog.filter(
+        (serviceCatalog) => serviceCatalog.id == this.chosenFormId
+      );
+      console.log(res);
+      this.name = res[0].name;
+      this.owner = res[0].owner;
+      this.description = res[0].description;
+      this.status = res[0].status;
+      this.inputs = res[0].inputs;
+      this.outputs = res[0].outputs;
+      this.consumers = res[0].consumers;
+      this.processes = res[0].processes;
+    }
+  },
   methods: {
     async submitData() {
       this.loading = true;
-      let response = await this.$store.dispatch("postData", {
-        apiName: "serviceCatalog",
-        body: this.dataObj,
-      });
+      let response;
+      if (this.chosenFormMethod == "POST") {
+        response = await this.$store.dispatch("postData", {
+          apiName: "serviceCatalog",
+          body: this.dataObj,
+        });
+      }
+      if (this.chosenFormMethod == "PUT") {
+        response = await this.$store.dispatch("editData", {
+          apiName: "serviceCatalog",
+          body: this.dataObj,
+        });
+      }
       console.log(response);
       this.loading = false;
       if (response) {
