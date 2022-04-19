@@ -225,7 +225,7 @@ export default {
 
 <style scoped>
 .service__form-wrapper {
-  width: 85%;
+  width: 90%;
 }
 label,
 p {

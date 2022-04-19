@@ -5,7 +5,7 @@
     <div class="modal__wrapper">
       <div class="modal__top">
         <span @click="close" class="close">&times;</span>
-        <Logo />
+       
       </div>
       <!-- Modal content -->
       <div class="modal-content">
@@ -70,7 +70,7 @@ export default {
 /* Modal Content */
 .modal-content {
   margin: auto;
-  padding: 20px;
+  padding: 0px;
   max-width: 25rem;
   transform: scale(0.94);
   animation: scale 0.5s 0.2s forwards;

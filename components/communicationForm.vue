@@ -1,107 +1,109 @@
 <template>
   <div class="shift__form-wrapper">
     <h1 class="form__title">Communication</h1>
-    <form class="long__form" v-on:submit.prevent="submitData">
-      <div class="form__control">
-        <input
-          type="text"
-          name="team"
-          v-model="team"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Team</span>
-      </div>
+    <form v-on:submit.prevent="submitData">
+      <div class="long__form">
+        <div class="form__control">
+          <input
+            type="text"
+            name="team"
+            v-model="team"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Team</span>
+        </div>
 
-      <div class="form__control">
-        <input
-          type="text"
-          name="action"
-          v-model="action"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Action</span>
-      </div>
-      <div class="form__control">
-        <input
-          type="email"
-          name="primaryEmail"
-          v-model="primaryEmail"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Primary Email</span>
-      </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="primaryName"
-          v-model="primaryName"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Primary Name</span>
-      </div>
-      <div class="form__control">
-        <input
-          type="number"
-          name="primaryPhone"
-          v-model="primaryPhone"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Primary Phone</span>
-      </div>
-      <div class="form__control">
-        <input
-          type="email"
-          name="secondaryEmail"
-          v-model="secondaryEmail"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Secondary Email</span>
-      </div>
-      <div class="form__control">
-        <input
-          type="text"
-          name="aecondaryName"
-          v-model="secondaryName"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Secondary Name</span>
-      </div>
+        <div class="form__control">
+          <input
+            type="text"
+            name="action"
+            v-model="action"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Action</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="email"
+            name="primaryEmail"
+            v-model="primaryEmail"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Primary Email</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="text"
+            name="primaryName"
+            v-model="primaryName"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Primary Name</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="number"
+            name="primaryPhone"
+            v-model="primaryPhone"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Primary Phone</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="email"
+            name="secondaryEmail"
+            v-model="secondaryEmail"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Secondary Email</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="text"
+            name="aecondaryName"
+            v-model="secondaryName"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Secondary Name</span>
+        </div>
 
-      <div class="form__control">
-        <input
-          type="number"
-          name="secondaryPhone"
-          v-model="secondaryPhone"
-          autocomplete="off"
-          required
-        />
-        <span class="form__control-label">Secondary Phone</span>
+        <div class="form__control">
+          <input
+            type="number"
+            name="secondaryPhone"
+            v-model="secondaryPhone"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Secondary Phone</span>
+        </div>
       </div>
-      <div class="submit-btn__wrapper full">
-        <button class="submit-btn" type="submit">
-          Submit
-          <svg
-            v-if="submitIcon"
-            class="svgIcon"
-            viewBox="0 0 1024 1024"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
-              fill="#43A047"
-            />
-          </svg>
-          <BaseSpinner v-if="loading" />
-        </button>
-      </div>
+        <div class="submit-btn__wrapper full">
+          <button class="submit-btn" type="submit">
+            Submit
+            <svg
+              v-if="submitIcon"
+              class="svgIcon"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+                fill="#43A047"
+              />
+            </svg>
+            <BaseSpinner v-if="loading" />
+          </button>
+        </div>
     </form>
   </div>
 </template>

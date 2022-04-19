@@ -284,7 +284,7 @@ export default {
 </script>
 <style>
 .shift__form-wrapper {
-  width: 80%;
+  width: 88%;
 }
 .submit-btn__wrapper {
   width: 100%;

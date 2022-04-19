@@ -150,7 +150,7 @@
           <span class="form__control-label">Testing</span>
         </div>
 
-        <div class="form__control select">
+        <div class="form__control select full">
           <select
             required
             v-model="production"
@@ -166,6 +166,49 @@
             </option>
           </select>
           <span class="form__control-label">Production</span>
+        </div>
+        <div class="full mitre">
+          <div>
+            <p>ATT&CK Tactics</p>
+            <div class="btns__wrapper">
+              <label
+                type="button"
+                v-for="(k, index) in mitreKeys"
+                :class="`mitre-btn${isChecked(choosenMitres,k) ? ' checked':''}`"
+                :key="index"
+                @click="showTech(k)"
+              >
+                <span> {{ k }}</span>
+                <input
+                  type="checkbox"
+                  :value="k"
+                  :id="k"
+                  :name="k"
+                  style="opacity: 1"
+                  v-model="choosenMitres"
+                />
+              </label>
+            </div>
+          </div>
+          <div v-if="mitreTechs.length > 0">
+            <p>ATT&CK Techniques</p>
+            <div class="btns__wrapper tech">
+              <label
+               
+                v-for="(t, index) in mitreTechs"
+                :class="`mitre-btn${isChecked(choosenTechs,t) ? ' checked':''}`"
+                :key="index"
+                ><span> {{ t }}</span>
+
+                <input
+                  type="checkbox"
+                  :value="t"
+                  :name="t"
+                  style="opacity: 1"
+                  v-model="choosenTechs"
+              /></label>
+            </div>
+          </div>
         </div>
       </div>
       <div class="submit-btn__wrapper">
@@ -195,6 +238,7 @@
 import baseSpinner from "@/components/baseSpinner.vue";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+import mitre from "../assets/mitre";
 
 import {
   caseTypes,
@@ -210,6 +254,11 @@ export default {
 
   data() {
     return {
+      mitre,
+      mitreKeys: [],
+      mitreTechs: [],
+      choosenMitres: [],
+      choosenTechs: [],
       caseTypes,
       alertVolumes,
       caseTesting,
@@ -242,6 +291,8 @@ export default {
         id: this.chosenFormId,
         identifier: this.identifier,
         purpose: this.purpose,
+        tactics: `[${this.choosenMitres}]`,
+        techniques: `[${this.choosenTechs}]`,
         risk: this.risk,
         type: this.currentType,
         stakeholders: this.stakeholders,
@@ -265,6 +316,8 @@ export default {
     },
   },
   mounted() {
+    this.mitreKeys = Object.keys(mitre);
+    console.log(this.mitreKeys);
     if (this.chosenFormMethod == "PUT") {
       let res = this.getUseCase.filter(
         (useCase) => useCase.id == this.chosenFormId
@@ -287,7 +340,14 @@ export default {
     }
   },
   methods: {
-    async submitData() {
+    isChecked(arr,value){
+      return arr.includes(value);
+    },
+    showTech(key) {
+      this.mitreTechs = mitre[key];
+      this.choosenMitre = key;
+    },
+     async submitData() {
       console.log(this.dataObj);
       this.loading = true;
       let response;
@@ -319,15 +379,84 @@ export default {
 };
 </script>
 <style>
+.mitre {
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  overflow: auto;
+  padding-bottom: 1rem;
+}
+.mitre{
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+
+.use-case__form-wrapper .btns__wrapper {
+  flex-wrap: wrap;
+  justify-content: unset;
+  align-items: flex-start;
+}
+
+.use-case__form-wrapper .long__form {
+  overflow-x: unset;
+}
+.mitre p {
+  display: block;
+  margin: 1rem 0;
+  color: #010f60;
+}
+.mitre-btn {
+  padding: 0.2rem 0.5rem;
+  background: none;
+  border: 1px solid #010f60;
+  border-radius: 0.5rem;
+  margin: 0.2rem;
+  position: relative;
+  cursor: pointer;
+}
+.mitre-btn span{
+  color: #010f60;
+}
+.mitre-btn input{
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+}
+
+/* .tech .mitre-btn {
+  background: purple;
+} */
+.checked{
+  /* background: green; */
+background: rgb(179, 179, 179);
+background: #8e8e8e;
+border: none;
+
+}
+.checked span{
+  color: #fff;
+}
+
+
+/* .mitre .tech{
+  min-width: 35rem;
+} */
 .use-case__form-wrapper {
-  width: 85%;
+  width: 90%;
 }
 
 .form__title {
   color: #000;
   text-transform: capitalize;
   text-align: center;
-  margin-bottom: 0.6rem;
+  margin-top: -1.5rem;
+  margin-bottom: .6rem;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.1rem;
 }
 
 .secform .form__control {
@@ -352,7 +481,8 @@ export default {
 .secform .form__control input[type="date"] {
   color: #010f60;
 }
-.secform .form__control * {
+.secform .form__control *:not(.mitre-btn span) {
   color: #010f60;
 }
+
 </style>

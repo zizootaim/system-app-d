@@ -107,7 +107,7 @@
               chosenCat &&
               wikiPage != 'Shifts' &&
               wikiPage != 'Administration' &&
-              filteredArray.length > 1
+              allData.length > 1
             "
             class="filteration__wrapper"
           >
