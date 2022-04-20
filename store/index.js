@@ -1,10 +1,11 @@
-export const state = () => ({
+export const state = (state) => ({
   role: "",
   name: "",
   message: "",
   chosenForm: "",
   chosenFormMethod: "",
   chosenFormId: "",
+  baseUrl: "free",
   url: {
     useCase: "https://beapis.herokuapp.com/api/usecases",
     advisory: "https://beapis.herokuapp.com/api/advisorysource",
@@ -25,6 +26,7 @@ export const state = () => ({
     Playbooks: "https://beapis.herokuapp.com/api/PlayBook",
     Shifts: "https://beapis.herokuapp.com/api/Shifts",
     home: "https://beapis.herokuapp.com/api/Home",
+    skillMatrix: "https://beapis.herokuapp.com/api/SkillMatrix",
   },
   months: {
     January: "31",
@@ -63,13 +65,14 @@ export const state = () => ({
   Playbooks: [],
   Shifts: {},
   Standards: [],
+  skillMatrix: [],
   home: [
     {
       mission: " mission",
       vision: "Vision ",
-      goal: "Goal ",
+      goal: "Goals",
       subtitle: " Sub",
-      title: " tit",
+      title: " TITLE",
     },
   ],
   homeSections: [
@@ -143,6 +146,11 @@ export const state = () => ({
     {
       section: "Administration",
       sectionName: "Administration",
+      class: "fas fa-file-alt",
+    },
+    {
+      section: "skillMatrix",
+      sectionName: "Skill Matrix",
       class: "fas fa-file-alt",
     },
   ],
@@ -270,6 +278,15 @@ export const mutations = {
         state[data.apiName].splice(i, 1, data.body);
         console.log("edited");
         break;
+      }
+    }
+  },
+  deleteShift: (state, data) => {
+    console.log(state.Shifts[data.month].length);
+    for (let i = 0; i < state.Shifts[data.month].length; i++) {
+      if (state.Shifts[data.month][i].name == data.name) {
+        state.Shifts[data.month].splice(i, 1);
+        console.log("del");
       }
     }
   },
@@ -476,7 +493,10 @@ export const actions = {
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     var urlencoded = new URLSearchParams();
-    urlencoded.append("id", dataObj.body.id);
+    if (dataObj.apiName == "Shifts") {
+      urlencoded.append("name", dataObj.body.name);
+      urlencoded.append("month", dataObj.body.month);
+    } else urlencoded.append("id", dataObj.body.id);
 
     var requestOptions = {
       method: "DELETE",
@@ -484,17 +504,22 @@ export const actions = {
       body: urlencoded,
       redirect: "follow",
     };
-    console.log(dataObj.body.id);
+
     console.log(state.url[dataObj.apiName]);
     fetch(state.url[dataObj.apiName], requestOptions)
-      .then((response) => response.text())
+      .then((response) => response.json())
       .then((result) => {
         console.log(result);
-
-        commit("deleteData", {
-          dataContainer: dataObj.apiName,
-          id: dataObj.body.id,
-        });
+        if (result.message == "Deleted Successfully") {
+          if (dataObj.apiName != "Shifts") {
+            commit("deleteData", {
+              dataContainer: dataObj.apiName,
+              id: dataObj.body.id,
+            });
+          } else {
+            commit("deleteShift", dataObj.body);
+          }
+        }
       })
       .catch((error) => console.log("error", error));
   },

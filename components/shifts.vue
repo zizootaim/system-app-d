@@ -4,7 +4,7 @@
       class="form-btn"
       @click="setChosenForm('addShift')"
       v-if="getRole == 'admin'"
-      style="margin-right: 1rem;"
+      style="margin-right: 1rem"
     >
       <i class="fas fa-plus"></i> Add
     </button>
@@ -25,6 +25,7 @@
         <div class="table__row header">
           <div class="row">
             <div class="left">{{ shiftName }}</div>
+
             <div class="cols">
               <div
                 class="col"
@@ -33,6 +34,7 @@
               >
                 {{ cnt }}
               </div>
+              <div class="col"></div>
             </div>
           </div>
         </div>
@@ -44,6 +46,7 @@
               :key="index"
             >
               <div class="left">
+          
                 <p>{{ employee.name }}</p>
               </div>
               <div class="cols">
@@ -54,6 +57,20 @@
                   :key="index"
                 >
                   {{ i }}
+                </div>
+                <div class="col" style="border:0;">
+                        <button
+                  v-if="getRole == 'admin'"
+                  class="delete-btn"
+                  @click="
+                    deleteData({
+                      body: { name: employee.name, month: shiftName },
+                      apiName: 'Shifts',
+                    })
+                  "
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
                 </div>
               </div>
             </div>
@@ -88,6 +105,10 @@ export default {
     monthCount(month) {
       return parseInt(this.getMonths[month]);
     },
+    deleteData(data) {
+      console.log(data.body.name);
+      this.$store.dispatch("delete", data);
+    },
   },
   mounted() {
     this.$store.dispatch("getData", "Shifts");
@@ -99,7 +120,6 @@ export default {
 .shifts__wrapper {
   margin: 1rem auto;
 }
-
 
 .shifts__wrapper .table__row {
   flex-direction: column;
@@ -123,10 +143,13 @@ export default {
   width: 2.1rem;
   width: 100%;
   border: none;
-  border-right: 1px solid #000;
+  border-left: 1px solid #000;
 }
-.shifts__wrapper .col:last-of-type {
-  border-right: 0;
+.shifts__wrapper .col:first-of-type {
+  border-left: 0;
+}
+.header .col:last-of-type{
+  border: 0;
 }
 .shifts__wrapper .table {
   min-width: 75rem;
@@ -145,14 +168,21 @@ export default {
   width: 10rem;
   display: grid;
   place-items: center;
+  position: relative;
 }
 .left p {
   color: #000;
+}
+.col .delete-btn{
+  color: rgb(180, 19, 19);
+  position: absolute;
+  right: .5rem;
 }
 .cols {
   width: calc(100% - 10rem);
   display: flex;
 }
+
 .A {
   background: rgb(188, 188, 95);
 }

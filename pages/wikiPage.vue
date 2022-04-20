@@ -252,30 +252,33 @@
                             <span>{{ advisoryCard.applicable }}</span>
                           </p>
                         </div>
-                            <div class="col">
-                        <div class="btns__wrapper">
-
-                      <button
-                        class="table-btn"
-                        @click="
-                          setChosenForm('advisory', 'PUT', advisoryCard.id)
-                        "
-                      >
-                        <i class="fal fa-pen"></i>
-                      </button>
-                      <button
-                        class="table-btn"
-                        @click="
-                          deleteData({
-                            body: { id: advisoryCard.id },
-                            apiName: 'advisory',
-                          })
-                        "
-                      >
-                        <i class="fas fa-trash-alt"></i>
-                      </button>
+                        <div class="col">
+                          <div class="btns__wrapper">
+                            <button
+                              class="table-btn"
+                              @click="
+                                setChosenForm(
+                                  'advisory',
+                                  'PUT',
+                                  advisoryCard.id
+                                )
+                              "
+                            >
+                              <i class="fal fa-pen"></i>
+                            </button>
+                            <button
+                              class="table-btn"
+                              @click="
+                                deleteData({
+                                  body: { id: advisoryCard.id },
+                                  apiName: 'advisory',
+                                })
+                              "
+                            >
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </div>
                         </div>
-                      </div>
                       </div>
                       <div class="row bottom-row">
                         <div>
@@ -287,7 +290,6 @@
                         </div>
                         <div><span>Notes</span> : {{ advisoryCard.notes }}</div>
                       </div>
-                  
                     </div>
                   </div>
                 </div>
@@ -355,28 +357,29 @@
                             <span>{{ i.Priority }}</span>
                           </p>
                         </div>
-                          <div class="col">
-                        <div class="btns__wrapper">
-                          
-                      <button
-                        class="table-btn"
-                        @click="setChosenForm('incidentMainForm', 'PUT', i.id)"
-                      >
-                        <i class="fal fa-pen"></i>
-                      </button>
-                      <button
-                        class="table-btn"
-                        @click="
-                          deleteData({
-                            body: { id: i.id },
-                            apiName: 'mainIncident',
-                          })
-                        "
-                      >
-                          <i class="fas fa-trash-alt"></i>
-                      </button>
+                        <div class="col">
+                          <div class="btns__wrapper">
+                            <button
+                              class="table-btn"
+                              @click="
+                                setChosenForm('incidentMainForm', 'PUT', i.id)
+                              "
+                            >
+                              <i class="fal fa-pen"></i>
+                            </button>
+                            <button
+                              class="table-btn"
+                              @click="
+                                deleteData({
+                                  body: { id: i.id },
+                                  apiName: 'mainIncident',
+                                })
+                              "
+                            >
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
+                          </div>
                         </div>
-                      </div>
                       </div>
                       <div class="row bottom-row">
                         <div class="incident-sec__wrapper">
@@ -468,7 +471,6 @@
                           <div><span>Date</span> : {{ i.Date }}</div>
                         </div>
                       </div>
-                    
                     </div>
                   </div>
                 </div>
@@ -1264,6 +1266,12 @@
                         <div>
                           <span>Production</span> : {{ useCaseCard.production }}
                         </div>
+                        <div>
+                          <span>Tactics</span> : {{ useCaseCard.tactics }}
+                        </div>
+                        <div>
+                          <span>Techniques</span> : {{ useCaseCard.techniques }}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1291,10 +1299,10 @@
                       <h4>Team</h4>
                     </div>
                     <div class="col">
-                      <h4>Primary Name</h4>
+                      <h4>Group Manager</h4>
                     </div>
                     <div class="col">
-                      <h4>Secondary Name</h4>
+                      <h4>Group Email</h4>
                     </div>
                     <div class="col"></div>
                   </div>
@@ -1316,12 +1324,12 @@
                       </div>
                       <div class="col">
                         <p>
-                          <span>{{ c.PrimaryName }}</span>
+                          <span> {{ c.GroupManager }}</span>
                         </p>
                       </div>
                       <div class="col">
                         <p>
-                          <span>{{ c.SecondaryName }}</span>
+                          <span>{{ c.GroupEmail }}</span>
                         </p>
                       </div>
                       <div class="col">
@@ -1329,7 +1337,7 @@
                           <button
                             class="table-btn"
                             @click="
-                              setChosenForm('communicationFormus', 'PUT', c.id)
+                              setChosenForm('communicationForm', 'PUT', c.id)
                             "
                           >
                             <i class="fal fa-pen"></i>
@@ -1349,7 +1357,11 @@
                       </div>
                     </div>
                     <div class="row bottom-row">
-                      <div><span>Action</span> : {{ c.Action }}</div>
+                   <div class="com-row">
+                   <div class="primary">
+                        <div>
+                        <span>Primary Name</span> : {{ c.PrimaryName }}
+                      </div>
                       <div>
                         <span>Primary Email</span> : {{ c.PrimaryEmail }}
                       </div>
@@ -1357,13 +1369,24 @@
                       <div>
                         <span>Primary Phone</span> : {{ c.PrimaryPhone }}
                       </div>
+                       <div><span>When To Connect</span> : {{ c.Action }}</div>
+                   </div>
 
-                      <div>
+                      <div class="secondary">
+                        <div>
                         <span>Secondary Email</span> : {{ c.SecondaryEmail }}
                       </div>
                       <div>
                         <span>Secondary Phone</span> : {{ c.SecondaryPhone }}
                       </div>
+                      <div>
+                        <span>Secondary Name</span> : {{ c.SecondaryName }}
+                      </div>
+                      </div>
+
+                   </div>
+                  
+                 
                     </div>
                   </div>
                 </div>
@@ -1376,6 +1399,9 @@
             class="users"
           >
             <users />
+          </div>
+          <div v-if="wikiPage == 'skillMatrix'">
+            <skill-matrix />
           </div>
         </div>
       </div>
@@ -1458,6 +1484,7 @@ import addShiftForm from "@/components//shifts/addShiftForm.vue";
 import editShiftForm from "@/components//shifts/editShiftForm.vue";
 import * as selectCategories from "../assets/data";
 import users from "../components/users.vue";
+import skillMatrix from "@/components/skill/skillMatrix.vue";
 export default {
   name: "wikiPage",
   data() {
@@ -1503,6 +1530,7 @@ export default {
     Shifts,
     addPdf,
     users,
+    skillMatrix,
   },
   computed: {
     ...mapState(["wikiSections", "chosenForm"]),
@@ -1759,6 +1787,7 @@ export default {
         }
         this.filterObj.filterInputValue = "";
       }
+      if(!val) this.filteredArray = this.allData;
       if (this.nothingToSee) {
         setTimeout(() => {
           this.nothingToSee = false;
@@ -1773,7 +1802,8 @@ export default {
         page == "Communication" ||
         page == "Use Case Library" ||
         page == "Shifts" ||
-        page == "Administration"
+        page == "Administration" ||
+        page == "skillMatrix"
       ) {
         this.chosenCat = "";
         this.wikiPage = page;
@@ -1843,7 +1873,8 @@ export default {
           event.target.className = "fas fa-angle-down row-btn";
           height = 0;
         }
-        bottomRow.style.height = height + "px";
+  bottomRow.style.height = height + "px";
+       // bottomRow.style.height = 'auto';
       }
       Array.from(document.querySelectorAll(".col p")).forEach((p) => {
         p.style.maxHeight = "1.8rem";
@@ -1923,6 +1954,10 @@ export default {
 };
 </script>
 <style>
+.com-row{
+display: grid;
+grid-template-columns: 1fr 1fr;
+}
 .btns__wrapper {
   display: flex;
   align-items: center;

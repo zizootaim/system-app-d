@@ -85,25 +85,46 @@
           />
           <span class="form__control-label">Secondary Phone</span>
         </div>
-      </div>
-        <div class="submit-btn__wrapper full">
-          <button class="submit-btn" type="submit">
-            Submit
-            <svg
-              v-if="submitIcon"
-              class="svgIcon"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
-                fill="#43A047"
-              />
-            </svg>
-            <BaseSpinner v-if="loading" />
-          </button>
+        <div class="form__control">
+          <input
+            type="email"
+            name="groupEmail"
+            v-model="groupEmail"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Group Email</span>
         </div>
+        <div class="form__control" style="grid-column: unset;">
+          <input
+            type="text"
+            name="groupManager"
+            v-model="groupManager"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Group Manager</span>
+        </div>
+      </div>
+
+      <div class="submit-btn__wrapper full">
+        <button class="submit-btn" type="submit">
+          Submit
+          <svg
+            v-if="submitIcon"
+            class="svgIcon"
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M866.133333 258.133333L362.666667 761.6l-204.8-204.8L98.133333 618.666667 362.666667 881.066667l563.2-563.2z"
+              fill="#43A047"
+            />
+          </svg>
+          <BaseSpinner v-if="loading" />
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -122,6 +143,8 @@ export default {
       secondaryEmail: "",
       secondaryPhone: "",
       secondaryName: "",
+      groupEmail: "",
+      groupManager: "",
       loading: false,
       submitIcon: false,
     };
@@ -138,6 +161,8 @@ export default {
         SecondaryEmail: this.secondaryEmail,
         SecondaryName: this.secondaryName,
         SecondaryPhone: this.secondaryPhone,
+        GroupEmail: this.groupEmail,
+        GroupManager: this.groupManager,
       };
     },
     ...mapState(["chosenFormMethod", "chosenFormId"]),
@@ -157,6 +182,8 @@ export default {
       this.secondaryEmail = res[0].SecondaryEmail;
       this.secondaryName = res[0].SecondaryName;
       this.secondaryPhone = res[0].SecondaryPhone;
+      this.groupEmail = res[0].GroupEmail;
+      this.groupManager = res[0].GroupManager;
     }
   },
   methods: {

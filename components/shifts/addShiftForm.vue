@@ -17,17 +17,15 @@
           <option value="November">November</option>
           <option value="December">December</option>
         </select>
-                <span class="form__control-label">Month</span>
-
+        <span class="form__control-label">Month</span>
       </div>
-      <div class="form__control" style="margin:1.4rem 0;">
+      <div class="form__control" style="margin: 1.4rem 0">
         <select required v-model="employee">
-
           <option v-for="user in users" :value="user.name" :key="user.name">
             {{ user.name }}
           </option>
         </select>
-                <span class="form__control-label">Employee</span>
+        <span class="form__control-label">Employee</span>
       </div>
       <div class="form__control">
         <input
@@ -39,7 +37,9 @@
         />
         <span class="form__control-label">Shifts</span>
       </div>
-
+      <p v-if="month" class="indicator">
+        You Enterd {{ shifts.length }}/{{ val }} Shifts
+      </p>
       <div class="submit__btn-wrapper">
         <button class="submit-btn" type="submit">
           Submit
@@ -74,6 +74,7 @@ export default {
       shifts: "",
       month: "",
       message: "",
+
       loading: false,
       submitIcon: false,
     };
@@ -81,19 +82,17 @@ export default {
   computed: {
     ...mapGetters(["getUsers"]),
     users: function () {
-      return this.getUsers.filter((user) => user.role != "visitor");
+      return this.getUsers.filter((user) => user.role == "Employee");
     },
     dataObj: () => {
       return { name: this.employee, month: this.month, shifts: this.shifts };
     },
+    val: function () {
+      return this.$store.state.months[this.month];
+    },
   },
 
   methods: {
-    add() {
-      if (this.shifts.length == 30) {
-        this.roaster[this.month][this.employee] = this.shifts;
-      } else this.message = "Please Complete all month days";
-    },
     async submitData() {
       this.message = "";
 
@@ -137,6 +136,9 @@ export default {
           });
       } else {
         this.message = "Please Fill all days shifts";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },
@@ -156,5 +158,10 @@ export default {
 }
 .errMessage {
   text-align: center;
+}
+.indicator {
+  padding-bottom: 5px;
+  text-align: center;
+  color: #010f60;
 }
 </style>
