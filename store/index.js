@@ -227,6 +227,9 @@ export const getters = {
   getHomeData: (state) => {
     return state.home;
   },
+  getSkillMatrix: (state) => {
+    return state.skillMatrix;
+  },
 };
 
 export const mutations = {
@@ -309,17 +312,29 @@ export const actions = {
         .then((data) => {
           if (apiName == "staff") {
             const { left, right, top } = data;
-
-            const leftParent = left.filter((p) => p.child == false)[0],
-              leftChilds = left.filter((c) => c.child == true),
-              leftStaff = { parent: leftParent, childs: leftChilds };
-            const rightParent = right.filter((p) => p.child == false)[0],
-              rightChilds = right.filter((c) => c.child == true),
+            let leftStaff = [],rightStaff = [],staff = [];
+            if (left) {
+              const leftParent = left.filter((p) => p.child == false)[0],
+                leftChilds = left.filter((c) => c.child == true);
+                leftStaff = { parent: leftParent, childs: leftChilds };
+             
+            }
+            if (right) {
+              const rightParent = right.filter((p) => p.child == false)[0],
+              rightChilds = right.filter((c) => c.child == true);
               rightStaff = { parent: rightParent, childs: rightChilds };
-            data = [rightStaff, leftStaff, top];
+              
+            }
+            rightStaff = right ? rightStaff : undefined;
+            leftStaff = left ? leftStaff : undefined;
+        
+
+            staff = [rightStaff, leftStaff, top]
+            data = staff;
+
           }
           console.log(data);
-          if (apiName != "Shifts") {
+          if (apiName != "Shifts" && apiName != "skillMatrix") {
             commit("saveData", {
               dataContainer: apiName,
               dataValue: data.reverse(),
@@ -509,15 +524,17 @@ export const actions = {
     fetch(state.url[dataObj.apiName], requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         if (result.message == "Deleted Successfully") {
-          if (dataObj.apiName != "Shifts") {
+          console.log(result);
+          if (dataObj.apiName != "Shifts" && dataObj.apiName != "skillMatrix") {
             commit("deleteData", {
               dataContainer: dataObj.apiName,
               id: dataObj.body.id,
             });
-          } else {
+          } else if (dataObj.apiName == "Shifts") {
             commit("deleteShift", dataObj.body);
+          } else {
+            this.dispatch("getData", "skillMatrix");
           }
         }
       })

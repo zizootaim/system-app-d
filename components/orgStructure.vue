@@ -1,36 +1,49 @@
 <template>
-  <div class="container" v-if="getStaff.length >= 1">
-    <div
-      class="level-1 rectangle"
-      v-for="(t, index) in getStaff[0]"
-      :key="index"
-    >
-      <i
-        v-if="getRole == 'admin'"
-        class="fas fa-edit edit-btn"
-        @click="() => showEditForm(t)"
-      ></i>
+  <div class="container">
+    <div v-if="getStaff[0]">
+      <div
+        class="level-1 rectangle"
+        v-for="(t, index) in getStaff[0]"
+        :key="index"
+      >
+        <i
+          v-if="getRole == 'admin'"
+          class="fas fa-edit edit-btn"
+          @click="() => showEditForm(t)"
+        ></i>
+        <i
+          v-if="getRole == 'admin'"
+          class="fas fa-trash-alt delete-btn"
+          @click="() => deleteMember(t.id)"
+        ></i>
 
-      <manSvg />
-      <div class="person__info">
-        <h4>{{ t.Name }}</h4>
-        <p>
-          {{ t.Title }}
-        </p>
-        <div class="person__data">
-          <p>{{ t.Email }}</p>
-          <p><span>Phone : </span> {{ t.Phone }}</p>
-          <p><span>Mobile : </span> {{ t.Mobile }}</p>
+        <manSvg />
+        <div class="person__info">
+          <h4>{{ t.Name }}</h4>
+          <p>
+            {{ t.Title }}
+          </p>
+          <div class="person__data">
+            <p>{{ t.Email }}</p>
+            <p><span>Phone : </span> {{ t.Phone }}</p>
+            <p><span>Mobile : </span> {{ t.Mobile }}</p>
+          </div>
         </div>
       </div>
     </div>
-    <ol class="level-2-wrapper">
-      <li>
-        <div class="level-2 rectangle">
+
+    <ol class="level-2-wrapper" v-if="getStaff[1] || getStaff[2]">
+      <li v-if="getStaff[1]">
+        <div class="level-2 rectangle" v-if="getStaff[1].parent">
           <i
             v-if="getRole == 'admin'"
             class="fas fa-edit edit-btn"
             @click="() => showEditForm(getStaff[1].parent)"
+          ></i>
+          <i
+            v-if="getRole == 'admin'"
+            class="fas fa-trash-alt delete-btn"
+            @click="() => deleteMember(getStaff[1].parent.id)"
           ></i>
 
           <manSvg />
@@ -47,7 +60,7 @@
           </div>
         </div>
         <ol class="level-3-wrapper">
-          <li>
+          <li v-if="getStaff[1].childs">
             <div
               class="level-3 rectangle"
               v-for="s in getStaff[1].childs"
@@ -58,6 +71,11 @@
                 class="fas fa-edit edit-btn"
                 @click="() => showEditForm(s)"
               ></i>
+               <i
+          v-if="getRole == 'admin'"
+          class="fas fa-trash-alt delete-btn"
+          @click="() => deleteMember(s.id)"
+        ></i>
 
               <manSvg />
               <div class="person__info">
@@ -75,12 +93,17 @@
           </li>
         </ol>
       </li>
-      <li>
-        <div class="level-2 rectangle">
+      <li v-if="getStaff[2]">
+        <div class="level-2 rectangle" v-if="getStaff[2].parent">
           <i
             v-if="getRole == 'admin'"
             class="fas fa-edit edit-btn"
             @click="() => showEditForm(getStaff[2].parent)"
+          ></i>
+          <i
+            v-if="getRole == 'admin'"
+            class="fas fa-trash-alt delete-btn"
+            @click="() => deleteMember(getStaff[2].parent.id)"
           ></i>
 
           <manSvg />
@@ -97,18 +120,22 @@
           </div>
         </div>
         <ol class="level-3-wrapper">
-          <li>
+          <li v-if="getStaff[2].childs">
             <div
               class="level-3 rectangle"
               v-for="s in getStaff[2].childs"
               :key="s.id"
             >
               <i
-                v-if="getRole == 'admin'"
-                class="fas fa-edit edit-btn"
-                @click="() => showEditForm(s)"
-              ></i>
-
+          v-if="getRole == 'admin'"
+          class="fas fa-edit edit-btn"
+          @click="() => showEditForm(s)"
+        ></i>
+        <i
+          v-if="getRole == 'admin'"
+          class="fas fa-trash-alt delete-btn"
+          @click="() => deleteMember(s.id)"
+        ></i>
               <manSvg />
               <div class="person__info">
                 <h4>{{ s.Name }}</h4>
@@ -126,6 +153,7 @@
         </ol>
       </li>
     </ol>
+
     <modal
       class="secform"
       v-on:close="setChosenForm('')"
@@ -147,7 +175,7 @@ import EditForm from "./staff/editForm.vue";
 
 export default {
   data() {
-    return { showModal: false, editingUser: {} };
+    return { showModal: false, editingUser: {}, checkStaff: false };
   },
   components: {
     manSvg,
@@ -161,7 +189,12 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getData", "staff");
+    this.getStaff.forEach((s) => {
+      if (s != undefined) this.checkStaff = true;
+    });
   },
+
+
   methods: {
     setChosenForm(formName) {
       this.showModal = false;
@@ -174,11 +207,7 @@ export default {
     },
     async deleteMember(id) {
       console.log(id);
-      //   await fetch(state.url[dataObj.apiName], {
-      //   method: "POST",
-      //   headers: { "Content-Type": " application/json" },
-      //   body: JSON.stringify(dataObj.body),
-      // })
+  
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -194,10 +223,10 @@ export default {
         .then((res) => res.text())
         .then((result) => {
           console.log(result);
+      this.$store.dispatch("getData", "staff");
         })
         .catch((err) => console.log(err));
 
-      this.$store.dispatch("getData", "staff");
     },
   },
 };
@@ -205,9 +234,6 @@ export default {
 
 <style scoped>
 
-.container div:first-of-type .level-1::before {
-  height: 50px;
-}
 .container {
   width: 90%;
   margin: 0 auto;
@@ -470,7 +496,7 @@ export default {
 .light-mode .container *::before {
   background: #010a3d;
 }
-.light-mode .person__info h4{
+.light-mode .person__info h4 {
   color: #fff;
 }
 @media screen and (max-width: 769px) {

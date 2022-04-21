@@ -384,91 +384,137 @@
                       <div class="row bottom-row">
                         <div class="incident-sec__wrapper">
                           <h3>Incident Identification</h3>
-                          <div><span>Location</span> : {{ i.Location }}</div>
-                          <div>
-                            <span>Contact Info</span> :
-                            {{ i.ContactInfo }}
-                          </div>
-                          <div>
-                            <span>Time Of Detection</span> :
-                            {{ i.TimeOfDetection }}
-                          </div>
-                          <div>
-                            <span>Repeated Incident</span> :
-                            {{ i.RepeatedIncident }}
-                          </div>
-                          <div>
-                            <span>Impact Duration</span> :
-                            {{ i.ImpactDuration }}
-                          </div>
-                          <div>
-                            <span>Affected System </span> :
-                            {{ i.AffectedSystem }}
+                          <div class="com-row">
+                            <div class="primary">
+                              <div>
+                                <span>Location</span> : {{ i.Location }}
+                              </div>
+                              <div>
+                                <span>Contact Info</span> :
+                                {{ i.ContactInfo }}
+                              </div>
+
+                              <div>
+                                <span>Affected System </span> :
+                                {{ i.AffectedSystem }}
+                              </div>
+                            </div>
+                            <div class="secondary">
+                              <div>
+                                <span>Time Of Detection</span> :
+                                {{ i.TimeOfDetection }}
+                              </div>
+                              <div>
+                                <span>Repeated Incident</span> :
+                                {{ i.RepeatedIncident }}
+                              </div>
+                              <div>
+                                <span>Impact Duration</span> :
+                                {{ i.ImpactDuration }}
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div class="incident-sec__wrapper">
                           <h3>Incident Triage</h3>
-                          <div>
-                            <span>Incident Verification</span> :
-                            {{ i.IncidentVerification }}
-                          </div>
-                          <div>
-                            <span>Incident Classification</span> :
-                            {{ i.IncidentClassification }}
-                          </div>
-                          <div>
-                            <span>Description</span> : {{ i.Description }}
+
+                          <div class="com-row">
+                            <div class="primary">
+                              <div>
+                                <span>Incident Verification</span> :
+                                {{ i.IncidentVerification }}
+                              </div>
+                              <div>
+                                <span>Incident Classification</span> :
+                                {{ i.IncidentClassification }}
+                              </div>
+                            </div>
+                            <div class="secondary">
+                              <div>
+                                <span>Description</span> : {{ i.Description }}
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div class="incident-sec__wrapper">
                           <h3>Incident Containment</h3>
-                          <div>
-                            <span>Evidence Acquiring</span> :
-                            {{ i.EvidenceAcquiring }}
+                          <div class="com-row">
+                            <div class="primary">
+                              <div>
+                                <span>Recovery Measures</span> :
+                                {{ i.RecoveryMeasures }}
+                              </div>
+                              <div>
+                                <span>Evidence Acquiring</span> :
+                                {{ i.EvidenceAcquiring }}
+                              </div>
+                            </div>
+                            <div class="secondary">
+                              <div>
+                                <span>Containment Measures</span> :
+                                {{ i.ContainmentMeasures }}
+                              </div>
+                              <div>
+                                <span>Eradication Measures</span> :
+                                {{ i.EradicationMeasures }}
+                              </div>
+                            </div>
                           </div>
-                          <div>Data Health : {{ i.DataHealth }}</div>
-                          <div>
-                            <span>Containment Measures</span> :
-                            {{ i.ContainmentMeasures }}
-                          </div>
-                          <div>
-                            <span>Eradication Measures</span> :
-                            {{ i.EradicationMeasures }}
-                          </div>
-                          <div>
-                            <span>Recovery Measures</span> :
-                            {{ i.RecoveryMeasures }}
+
+                          <div class="desc">
+                            <span>Data Health</span> : {{ i.DataHealth }}
                           </div>
                         </div>
 
                         <div class="incident-sec__wrapper">
                           <h3>Post Incident Activity</h3>
-                          <div>
-                            <span>Notification</span> : {{ i.Notification }}
-                          </div>
-                          <div>
-                            <span>Case Analysis</span> :
-                            {{ i.CaseAnalysis }}
-                          </div>
-                          <div>
-                            <span>Incident Availability</span> :
-                            {{ i.IncidentAvailability }}
+                          <div class="com-row">
+                            <div class="primary">
+                              <div>
+                                <span>Notification</span> : {{ i.Notification }}
+                              </div>
+                              <div>
+                                <span>Incident Availability</span> :
+                                {{ i.IncidentAvailability }}
+                              </div>
+                            </div>
+                            <div class="secondary">
+                              <div>
+                                <span>Case Analysis</span> :
+                                {{ i.CaseAnalysis }}
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div class="incident-sec__wrapper">
                           <h3>Incident Closure</h3>
-                          <div>
-                            <span>Improvements</span> : {{ i.Improvements }}
-                          </div>
-                          <div>
-                            <span>Time Of Closure</span> : {{ i.TimeOfClosure }}
+                          <div class="com-row">
+                            <div class="primary">
+                              <div>
+                                <span>Improvements</span> : {{ i.Improvements }}
+                              </div>
+                            </div>
+                            <div class="secondary">
+                              <div>
+                                <span>Time Of Closure</span> :
+                                {{ i.TimeOfClosure }}
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div class="incident-sec__wrapper">
                           <h3>Reviewed By</h3>
-                          <div><span>Title</span> : {{ i.Title }}</div>
-                          <div><span>Signature</span> : {{ i.Signature }}</div>
-                          <div><span>Date</span> : {{ i.Date }}</div>
+                          <div class="com-row">
+                            <div class="primary">
+                              <div><span>Title</span> : {{ i.Title }}</div>
+                              <div>
+                                <span>Signature</span> : {{ i.Signature }}
+                              </div>
+                            </div>
+                            <div class="secondary">
+                              <div><span>Date</span> : {{ i.Date }}</div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -754,27 +800,48 @@
                       </div>
 
                       <div v-if="h.Status == 'Not Ok'" class="row bottom-row">
-                        <h3 style="padding-left: 0.6rem">Health Issue</h3>
-                        <div>
-                          <span>Issue Found</span> : {{ h.IssuesFound }}
+                        <h3 style="padding-left: 0.6rem; text-align: center">
+                          Health Issue
+                        </h3>
+                        <div class="com-row">
+                          <div class="primary">
+                            <div>
+                              <span>Issue Found</span> : {{ h.IssuesFound }}
+                            </div>
+                            <div>
+                              <span>Component</span> : {{ h.Component }}
+                            </div>
+                            <div><span>IP</span> : {{ h.Ip }}</div>
+                            <div><span>Hostname</span> : {{ h.Hostname }}</div>
+                            <div>
+                              <span>Start Time </span>: {{ h.StartTime }}
+                            </div>
+                          </div>
+                          <div class="secondary">
+                            <div>
+                              <span>Action Taken</span> : {{ h.ActionTaken }}
+                            </div>
+                            <div>
+                              <span>Next Action</span> : {{ h.NextAction }}
+                            </div>
+                            <div><span>Who</span> : {{ h.Who }}</div>
+                            <div>
+                              <span>Issue Status</span> :
+                              <span
+                                :class="'status ' + statusClass(h.IssueStatus)"
+                              >
+                                {{ h.IssueStatus }}
+                              </span>
+                            </div>
+                            <div>
+                              <span>Close Time</span> : {{ h.CloseTime }}
+                            </div>
+                          </div>
                         </div>
-                        <div><span>Component</span> : {{ h.Component }}</div>
-                        <div><span>IP</span> : {{ h.Ip }}</div>
-                        <div><span>Hostname</span> : {{ h.Hostname }}</div>
-                        <div><span>Start Time </span>: {{ h.StartTime }}</div>
-                        <div>
+                        <div class="desc">
                           <span>Issue Description</span> :
                           {{ h.IssueDescription }}
                         </div>
-                        <div>
-                          <span>Action Taken</span> : {{ h.ActionTaken }}
-                        </div>
-                        <div><span>Next Action</span> : {{ h.NextAction }}</div>
-                        <div><span>Who</span> : {{ h.Who }}</div>
-                        <div :class="statusClass(h.IssueStatus)">
-                          <span>Issue Status</span> : {{ h.IssueStatus }}
-                        </div>
-                        <div><span>Close Time</span> : {{ h.CloseTime }}</div>
                       </div>
                     </div>
                   </div>
@@ -869,21 +936,29 @@
                         </div>
                       </div>
                       <div class="row bottom-row">
-                        <div>
+                        <div class="com-row">
+                          <div class="primary">
+                            <div><span>Who</span> : {{ alertsCard.who }}</div>
+                            <div>
+                              <span>Action Taken</span> :
+                              {{ alertsCard.ActionTaken }}
+                            </div>
+                          </div>
+                          <div class="secondary">
+                            <div>
+                              <span>Next Action</span> :
+                              {{ alertsCard.NextAction }}
+                            </div>
+
+                            <div>
+                              <span>Close Time</span> :
+                              {{ alertsCard.CloseTime }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="desc">
                           <span>Description</span> :
                           {{ alertsCard.description }}
-                        </div>
-                        <div>
-                          <span>Action Taken</span> :
-                          {{ alertsCard.ActionTaken }}
-                        </div>
-                        <div>
-                          <span>Next Action</span> : {{ alertsCard.NextAction }}
-                        </div>
-                        <div><span>Who</span> : {{ alertsCard.who }}</div>
-
-                        <div>
-                          <span>Close Time</span> : {{ alertsCard.CloseTime }}
                         </div>
                       </div>
                     </div>
@@ -987,23 +1062,31 @@
                         </div>
                       </div>
                       <div class="row bottom-row">
-                        <div>
+                        <div class="com-row">
+                          <div class="primary">
+                            <div>
+                              <span>Who</span> : {{ incidentsCard.who }}
+                            </div>
+
+                            <div>
+                              <span>Close Time</span> :
+                              {{ incidentsCard.CloseTime }}
+                            </div>
+                          </div>
+                          <div class="secondary">
+                            <div>
+                              <span>Action Taken</span> :
+                              {{ incidentsCard.ActionTaken }}
+                            </div>
+                            <div>
+                              <span>Next Action</span> :
+                              {{ incidentsCard.NextAction }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="desc">
                           <span>Description</span> :
                           {{ incidentsCard.description }}
-                        </div>
-                        <div>
-                          <span>Action Taken</span> :
-                          {{ incidentsCard.ActionTaken }}
-                        </div>
-                        <div>
-                          <span>Next Action</span> :
-                          {{ incidentsCard.NextAction }}
-                        </div>
-                        <div><span>Who</span> : {{ incidentsCard.who }}</div>
-
-                        <div>
-                          <span>Close Time</span> :
-                          {{ incidentsCard.CloseTime }}
                         </div>
                       </div>
                     </div>
@@ -1107,21 +1190,27 @@
                       </div>
                     </div>
                     <div class="row bottom-row">
-                      <div>
-                        <span> Next Action :</span>
-                        {{ pendingIssuesCard.NextAction }}
+                      <div class="com-row">
+                        <div class="primary">
+                          <div>
+                            <span> Action Taken : </span>
+                            {{ pendingIssuesCard.ActionTaken }}
+                          </div>
+                          <div>
+                            <span> Next Action :</span>
+                            {{ pendingIssuesCard.NextAction }}
+                          </div>
+                        </div>
+                        <div class="secondary">
+                          <div>
+                            <span> Close Time : </span>
+                            {{ pendingIssuesCard.CloseTime }}
+                          </div>
+                        </div>
                       </div>
-                      <div>
+                      <div class="desc">
                         <span> Description : </span>
                         {{ pendingIssuesCard.description }}
-                      </div>
-                      <div>
-                        <span> Action Taken : </span>
-                        {{ pendingIssuesCard.ActionTaken }}
-                      </div>
-                      <div>
-                        <span> Close Time : </span>
-                        {{ pendingIssuesCard.CloseTime }}
                       </div>
                     </div>
                   </div>
@@ -1237,41 +1326,54 @@
                         </div>
                       </div>
                       <div class="row bottom-row">
-                        <div>
-                          <span>Stakeholders</span> :
-                          {{ useCaseCard.stakeholders }}
+                        <div class="com-row">
+                          <div class="primary">
+                            <div>
+                              <span>Stakeholders</span> :
+                              {{ useCaseCard.stakeholders }}
+                            </div>
+                            <div>
+                              <span>Logic</span> : {{ useCaseCard.logic }}
+                            </div>
+                            <div>
+                              <span>Testing</span> : {{ useCaseCard.testing }}
+                            </div>
+                            <div>
+                              <span>Alert Volume</span> :
+                              {{ useCaseCard.volume }}
+                            </div>
+                          </div>
+                          <div class="secondary">
+                            <div>
+                              <span>Playbook</span> : {{ useCaseCard.playbook }}
+                            </div>
+                            <div>
+                              <span>Data Requirements </span>:
+                              {{ useCaseCard.requirements }}
+                            </div>
+                            <div>
+                              <span>Production</span> :
+                              {{ useCaseCard.production }}
+                            </div>
+                            <div>
+                              <span>Known False Positive</span> :
+                              {{ useCaseCard.falsepositive }}
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <span>Data Requirements </span>:
-                          {{ useCaseCard.requirements }}
-                        </div>
-                        <div><span>Logic</span> : {{ useCaseCard.logic }}</div>
-                        <div>
-                          <span>Output</span> : {{ useCaseCard.output }}
+                        <div class="desc">
+                          <div>
+                            <span>Output</span> : {{ useCaseCard.output }}
+                          </div>
+                          <div>
+                            <span>Tactics</span> : {{ useCaseCard.tactics }}
+                          </div>
+                          <div>
+                            <span>Techniques</span> :
+                            {{ useCaseCard.techniques }}
+                          </div>
                         </div>
 
-                        <div>
-                          <span>Alert Volume</span> : {{ useCaseCard.volume }}
-                        </div>
-                        <div>
-                          <span>Testing</span> : {{ useCaseCard.testing }}
-                        </div>
-                        <div>
-                          <span>Known False Positive</span> :
-                          {{ useCaseCard.falsepositive }}
-                        </div>
-                        <div>
-                          <span>Playbook</span> : {{ useCaseCard.playbook }}
-                        </div>
-                        <div>
-                          <span>Production</span> : {{ useCaseCard.production }}
-                        </div>
-                        <div>
-                          <span>Tactics</span> : {{ useCaseCard.tactics }}
-                        </div>
-                        <div>
-                          <span>Techniques</span> : {{ useCaseCard.techniques }}
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -1283,7 +1385,7 @@
           <!-- Communication -->
 
           <div class="communication" v-if="wikiPage == 'Communication'">
-            <h1 class="sec__title">Commiunication</h1>
+            <h1 class="sec__title">Commiunication Matrix</h1>
             <button
               class="form-btn"
               @click="setChosenForm('communicationForm', 'POST')"
@@ -1304,6 +1406,7 @@
                     <div class="col">
                       <h4>Group Email</h4>
                     </div>
+                    <div class="col"><h4>When To Connect</h4></div>
                     <div class="col"></div>
                   </div>
 
@@ -1333,6 +1436,11 @@
                         </p>
                       </div>
                       <div class="col">
+                        <p>
+                          <span>{{ c.Action }}</span>
+                        </p>
+                      </div>
+                      <div class="col">
                         <div class="btns__wrapper">
                           <button
                             class="table-btn"
@@ -1357,36 +1465,34 @@
                       </div>
                     </div>
                     <div class="row bottom-row">
-                   <div class="com-row">
-                   <div class="primary">
-                        <div>
-                        <span>Primary Name</span> : {{ c.PrimaryName }}
-                      </div>
-                      <div>
-                        <span>Primary Email</span> : {{ c.PrimaryEmail }}
-                      </div>
+                      <div class="com-row">
+                        <div class="primary">
+                          <div>
+                            <span>Primary Name</span> : {{ c.PrimaryName }}
+                          </div>
+                          <div>
+                            <span>Primary Email</span> : {{ c.PrimaryEmail }}
+                          </div>
 
-                      <div>
-                        <span>Primary Phone</span> : {{ c.PrimaryPhone }}
-                      </div>
-                       <div><span>When To Connect</span> : {{ c.Action }}</div>
-                   </div>
+                          <div>
+                            <span>Primary Phone</span> : {{ c.PrimaryPhone }}
+                          </div>
+                        </div>
 
-                      <div class="secondary">
-                        <div>
-                        <span>Secondary Email</span> : {{ c.SecondaryEmail }}
+                        <div class="secondary">
+                          <div>
+                            <span>Secondary Email</span> :
+                            {{ c.SecondaryEmail }}
+                          </div>
+                          <div>
+                            <span>Secondary Phone</span> :
+                            {{ c.SecondaryPhone }}
+                          </div>
+                          <div>
+                            <span>Secondary Name</span> : {{ c.SecondaryName }}
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <span>Secondary Phone</span> : {{ c.SecondaryPhone }}
-                      </div>
-                      <div>
-                        <span>Secondary Name</span> : {{ c.SecondaryName }}
-                      </div>
-                      </div>
-
-                   </div>
-                  
-                 
                     </div>
                   </div>
                 </div>
@@ -1400,6 +1506,7 @@
           >
             <users />
           </div>
+          <!-- Skill Matrix -->
           <div v-if="wikiPage == 'skillMatrix'">
             <skill-matrix />
           </div>
@@ -1787,7 +1894,7 @@ export default {
         }
         this.filterObj.filterInputValue = "";
       }
-      if(!val) this.filteredArray = this.allData;
+      if (!val) this.filteredArray = this.allData;
       if (this.nothingToSee) {
         setTimeout(() => {
           this.nothingToSee = false;
@@ -1873,8 +1980,8 @@ export default {
           event.target.className = "fas fa-angle-down row-btn";
           height = 0;
         }
-  bottomRow.style.height = height + "px";
-       // bottomRow.style.height = 'auto';
+        bottomRow.style.height = height + "px";
+        // bottomRow.style.height = 'auto';
       }
       Array.from(document.querySelectorAll(".col p")).forEach((p) => {
         p.style.maxHeight = "1.8rem";
@@ -1954,9 +2061,9 @@ export default {
 };
 </script>
 <style>
-.com-row{
-display: grid;
-grid-template-columns: 1fr 1fr;
+.com-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 .btns__wrapper {
   display: flex;
@@ -2043,4 +2150,5 @@ grid-template-columns: 1fr 1fr;
 .playbooks .table__row .col p {
   text-align: center;
 }
+
 </style>

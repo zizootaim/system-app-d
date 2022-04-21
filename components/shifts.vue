@@ -61,7 +61,7 @@
                 <div class="col" style="border:0;">
                         <button
                   v-if="getRole == 'admin'"
-                  class="delete-btn"
+                  class="delete"
                   @click="
                     deleteData({
                       body: { name: employee.name, month: shiftName },
@@ -173,7 +173,7 @@ export default {
 .left p {
   color: #000;
 }
-.col .delete-btn{
+.col .delete{
   color: rgb(180, 19, 19);
   position: absolute;
   right: .5rem;
@@ -198,4 +198,5 @@ export default {
 .X {
   background: #fff;
 }
+
 </style>

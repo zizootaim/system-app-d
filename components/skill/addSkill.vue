@@ -1,13 +1,15 @@
 <template>
   <div class="shift__form-wrapper">
     <form v-on:submit.prevent="submitData">
-      <h1 class="form__title">Add Skill</h1>
+      <h1 class="form__title">Add Competency</h1>
       <div class="form__control">
         <select required v-model="Category">
-          <option value="SOFTSKILL">SOFT SKILL</option>
-          <option value="TECHNICALSKILL">TECHNICAL SKILL</option>
+          <option value="Soft Skills">Soft Skills</option>
+          <option value="Technical Skills">Technical Skills</option>
+          <option value="Certifications">Certifications</option>
+          <option value="Edu">Edu</option>
         </select>
-        <span class="form__control-label">Skill Category</span>
+        <span class="form__control-label">Competency</span>
       </div>
 
       <div class="form__control">
@@ -18,63 +20,127 @@
           v-model="Skill"
           autocomplete="off"
         />
-        <span class="form__control-label">Skill Name</span>
+        <span class="form__control-label">Competency Name</span>
       </div>
-
-      <div class="form__control">
+      <div
+        v-if="Category == 'Certifications' || Category == 'Edu'"
+        class="form__control"
+      >
+        <select required v-model="L1">
+          <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
+        </select>
+        <span class="form__control-label">Analysis 1</span>
+      </div>
+      <div
+        v-if="Category == 'Certifications' || Category == 'Edu'"
+        class="form__control"
+      >
+        <select required v-model="L2">
+          <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
+        </select>
+        <span class="form__control-label">Analysis 2</span>
+      </div>
+      <div
+        v-if="Category == 'Certifications' || Category == 'Edu'"
+        class="form__control"
+      >
+        <select required v-model="L3">
+          <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
+        </select>
+        <span class="form__control-label">Analysis 3</span>
+      </div>
+      <div
+        v-if="Category == 'Certifications' || Category == 'Edu'"
+        class="form__control"
+      >
+        <select required v-model="admin">
+          <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
+        </select>
+        <span class="form__control-label">Soc Admin</span>
+      </div>
+      <div
+        v-if="Category == 'Certifications' || Category == 'Edu'"
+        class="form__control"
+      >
+        <select required v-model="manager">
+          <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
+        </select>
+        <span class="form__control-label">Soc Manager</span>
+      </div>
+      <div
+        v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
+        class="form__control"
+      >
         <input
           type="number"
           name="skillName"
           required
-          v-model="level1"
+          v-model="L1"
+          min="0"
           max="5"
           autocomplete="off"
         />
-        <span class="form__control-label">Beginner Level</span>
+        <span class="form__control-label">Analysis 1</span>
       </div>
-      <div class="form__control">
+      <div
+        v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
+        class="form__control"
+      >
         <input
           type="number"
           name="skillName"
           required
-          v-model="level2"
+          v-model="L2"
+          min="0"
           max="5"
           autocomplete="off"
         />
-        <span class="form__control-label">Senior Level</span>
+        <span class="form__control-label">Analysis 2</span>
       </div>
-      <div class="form__control">
+      <div
+        v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
+        class="form__control"
+      >
         <input
           type="number"
           name="skillName"
           required
-          v-model="level3"
+          v-model="L3"
+          min="0"
           max="5"
           autocomplete="off"
         />
-        <span class="form__control-label">Team Lead Level</span>
+        <span class="form__control-label">Analysis 3</span>
       </div>
-      <div class="form__control">
+      <div
+        v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
+        class="form__control"
+      >
         <input
           type="number"
           name="skillName"
           required
-          v-model="level4"
+          v-model="admin"
+          min="0"
           max="5"
           autocomplete="off"
         />
-        <span class="form__control-label">Beginner Level</span>
+        <span class="form__control-label">Soc Admin</span>
       </div>
-      <div class="form__control">
+      <div
+        v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
+        class="form__control"
+      >
         <input
           type="number"
           name="skillName"
           required
-          v-model="level5"
+          v-model="manager"
+          min="0"
           max="5"
           autocomplete="off"
         />
-        <span class="form__control-label">Beginner Level</span>
+        <span class="form__control-label">Soc Manager</span>
       </div>
 
       <div class="submit__btn-wrapper">
@@ -95,90 +161,79 @@
           <BaseSpinner v-if="loading" />
         </button>
       </div>
-      <div>
-        <p v-if="message" class="errMessage">{{ message }}</p>
-      </div>
     </form>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       Category: "",
       Skill: "",
-      level1: "",
-      level2: "",
-      level3: "",
-      level4: "",
-      level5: "",
-
+      L1: "",
+      L2: "",
+      L3: "",
+      admin: "",
+      manager: "",
+      level: [
+        "Mandatory",
+        "Nice to Have",
+        "Not a Priority",
+        "Significant Value ",
+      ],
       loading: false,
       submitIcon: false,
     };
   },
   computed: {
-    ...mapGetters(["getUsers"]),
-    users: function () {
-      return this.getUsers.filter((user) => user.role == "Employee");
+    dataObj: function () {
+      return {
+        Category: this.Category,
+        Skill: this.Skill,
+        Level:
+          this.L1 +
+          "," +
+          this.L2 +
+          "," +
+          this.L3 +
+          "," +
+          this.admin +
+          "," +
+          this.manager,
+      };
     },
-    dataObj: () => {
-      return { name: this.employee, month: this.month, shifts: this.shifts };
-    },
-    val: function () {
-      return this.$store.state.months[this.month];
-    },
+    ...mapState(["chosenFormMethod", "chosenFormId"]),
+    ...mapGetters(["getSkillMatrix"]),
   },
 
   methods: {
     async submitData() {
-      this.message = "";
-
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-
-      var urlencoded = new URLSearchParams();
-      urlencoded.append("name", this.employee);
-      urlencoded.append("month", this.month);
-      urlencoded.append("shifts", this.shifts);
-
-      var requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: "follow",
-      };
-      //   for (let i of this.$store.state.shifts[this.month]) {
-      //     console.log(i.id);
-      //   }
-      console.log(this.$store.state.months[this.month]);
-      if (this.shifts.length == this.$store.state.months[this.month]) {
-        this.loading = true;
-        fetch("https://beapis.herokuapp.com/api/Shifts", requestOptions)
-          .then((response) => response.json())
-          .then((result) => {
-            this.loading = false;
-            console.log(result.message);
-            if (result.message == "Created Successfully") {
-              this.submitIcon = true;
-              setTimeout(() => {
-                this.submitIcon = false;
-              }, 1000);
-              this.$store.dispatch("getData", "Shifts");
-            }
-          })
-          .catch((error) => {
-            console.log("error", error);
-            this.loading = false;
-            this.message = "Some thing Went Wrong";
-          });
-      } else {
-        this.message = "Please Fill all days shifts";
+      this.loading = true;
+      let response;
+      if (this.chosenFormMethod == "POST") {
+        response = await this.$store.dispatch("postData", {
+          apiName: "skillMatrix",
+          body: this.dataObj,
+        });
+      }
+      if (this.chosenFormMethod == "PUT") {
+        response = await this.$store.dispatch("editData", {
+          apiName: "skillMatrix",
+          body: this.dataObj,
+        });
+      }
+      console.log(response);
+      this.loading = false;
+      if (response) {
+        this.submitIcon = true;
+        this.$store.dispatch("getData", "skillMatrix");
         setTimeout(() => {
-          this.message = "";
-        }, 3000);
+          this.submitIcon = false;
+          document.querySelector(".close").click();
+        }, 1000);
       }
     },
   },
