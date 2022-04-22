@@ -328,7 +328,16 @@ button {
   color: red;
   padding: 10px;
 }
-/* Shift Forms */
+.no-data {
+  width: 100%;
+  text-align: center;
+  margin-top: 3rem;
+  text-transform: capitalize;
+}
+.no-data h3{
+  color: #dc3545!important;
+}
+/* Forms */
 
 .long__form {
   display: grid;
@@ -337,6 +346,7 @@ button {
   max-height: 35rem;
   overflow: auto;
   padding-right: 1rem;
+  margin-top: 1rem;
   padding-top: 1rem;
   margin-bottom: 1rem;
   max-height: 30rem;
@@ -381,7 +391,7 @@ button {
 body::-webkit-scrollbar,
 .mitre::-webkit-scrollbar {
   border-radius: 2rem;
-  width: 10px;
+  width: 5px;
   height: 0.5rem;
   background-color: #352d77;
 }
@@ -660,7 +670,7 @@ textarea::placeholder {
 }
 
 .table__wrapper::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
   height: 0.5rem;
   background-color: #40358e;
 }
@@ -755,9 +765,10 @@ textarea::placeholder {
   color: #11207e;
   text-align: center;
 }
-.table__row {
+.table__row:not(.table__row:last-of-type) {
   border-bottom: 1px solid #000;
 }
+
 .table__row:not(.table__row:first-child) .col p.status,
 span.status {
   max-height: unset;

@@ -154,9 +154,7 @@ export default {
 .shifts__wrapper .table {
   min-width: 75rem;
 }
-.table__row:nth-child(even) {
-  margin-bottom: 0.7rem;
-}
+
 .shifts__wrapper .table__row .row .col {
   padding: 0.5rem 0;
   display: grid;

@@ -94,24 +94,24 @@
 
         <div class="wiki__container">
           <!-- Use Case Intro -->
-        <BaseSpinner v-if="loading && wikiPage != ''" class="mainSpinner" />
+          <BaseSpinner v-if="loading && wikiPage != ''" class="mainSpinner" />
 
           <div class="use__img" v-if="wikiPage == 'Use Case Library'">
             <img src="../assets/usecase.jpeg" />
           </div>
 
           <!-- Filteration -->
-          <!-- 
+
           <div
             v-if="
               chosenCat &&
               wikiPage != 'Shifts' &&
-              wikiPage != 'Administration' &&
+              wikiPage != 'Administration' & wikiPage != 'skillMatrix' &&
               allData.length > 1
             "
             class="filteration__wrapper"
           >
-            <h2>Filter By :</h2>
+            <i class="fas fa-filter open-filter" @click="openFilterForm"></i>
             <div class="filter__form">
               <div class="form__control" v-if="filterObj.inputName">
                 <input
@@ -141,10 +141,12 @@
                   </select>
                   <span class="form__control-label">{{ s.name }}</span>
                 </div>
-                <div v-if="nothingToSee" class="nothing">Nothing Existed</div>
+              </div>
+              <div>
+                <button class="clear-btn" @click="setFilters">Clear</button>
               </div>
             </div>
-          </div> -->
+          </div>
 
           <!-- Reports -->
 
@@ -694,18 +696,20 @@
                               >
                                 <div class="row">
                                   <div class="col">
-                                  <p>
-                                   {{ r.activity }}
-                                  </p>
-                                </div>
-                                <div class="col">
-                                 <p>
-                                  {{ r.irStage }}
-                                 </p>
-                                </div>
-                                <div class="col">
-                                  <p><span>{{ r.team }}</span></p>
-                                </div>
+                                    <p>
+                                      {{ r.activity }}
+                                    </p>
+                                  </div>
+                                  <div class="col">
+                                    <p>
+                                      {{ r.irStage }}
+                                    </p>
+                                  </div>
+                                  <div class="col">
+                                    <p>
+                                      <span>{{ r.team }}</span>
+                                    </p>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -1521,7 +1525,7 @@
               !loading &&
               filteredArray.length == 0 &&
               wikiPage != 'Administration' &&
-              wikiPage != ''
+              wikiPage != '' && wikiPage != 'skillMatrix'
             "
           >
             <h3>no data to show.</h3>
@@ -1688,8 +1692,17 @@ export default {
       },
       immediate: true,
     },
+    filterObj: {
+      handler() {
+        console.log(this.filterObj.filterInputValue);
+      },
+      immediate: true,
+    },
   },
   methods: {
+    openFilterForm() {
+      document.querySelector(".filter__form").classList.toggle("open");
+    },
     displaySideMenu() {
       this.showSideMenu = !this.showSideMenu;
     },
@@ -1833,6 +1846,13 @@ export default {
       }
       console.log(this.filteredArray);
     },
+    setFilters() {
+      this.filteredArray = this.allData;
+      for (let i = 0; i < this.filterObj.selectValues.length; i++) {
+        this.filterObj.selectValues[i] = "";
+      }
+      this.filterObj.filterInputValue = "";
+    },
     editString(str) {
       return str.replace(/\s/g, "");
     },
@@ -1851,8 +1871,6 @@ export default {
         case "Communication":
         case "alerts":
           {
-            console.log(this.filteringCategory);
-            console.log(val);
             newArr = this.filteredArray.filter(
               (el) =>
                 el[this.filterObj.filterTextName]
@@ -1860,7 +1878,6 @@ export default {
                   .toLowerCase()
                   .startsWith(val) == true
             );
-            console.log(newArr);
           }
           break;
         case "mainIncident":
@@ -1869,23 +1886,6 @@ export default {
         case "pendingIssues":
         case "Use Case Library":
           {
-            if (selectCat != undefined && selectCat.length >= 1) {
-              selectCat = this.editString(selectCat);
-              const selectValue = this.filterObj.selectValues[0];
-              console.log(selectValue);
-              // console.log(selectCat);
-              // newArr.forEach(el => {
-              //   console.log(el[selectCat]);
-              // })
-              newArr = newArr.filter((el) => {
-                if (
-                  el[selectCat] &&
-                  el[selectCat].toLowerCase() == selectValue.toLowerCase()
-                )
-                  return el;
-              });
-            }
-            console.log(val);
             if (val) {
               newArr = newArr.filter((el) => {
                 if (
@@ -1897,25 +1897,28 @@ export default {
                 )
                   return el;
               });
+            } else this.filteredArray = this.allData;
+            if (selectCat != undefined && selectCat.length >= 1) {
+              selectCat = this.editString(selectCat);
+              const selectValue = this.filterObj.selectValues[0];
+
+              newArr = newArr.filter((el) => {
+                if (
+                  el[selectCat] &&
+                  el[selectCat].toLowerCase() == selectValue.toLowerCase()
+                )
+                  return el;
+              });
             }
           }
           break;
       }
+
       if (newArr.length >= 1) this.filteredArray = newArr;
-      else {
-        this.nothingToSee = true;
+      else this.setFilters();
+
+      if (!val && !this.filterObj.selectValues[0])
         this.filteredArray = this.allData;
-        for (let i = 0; i < this.filterObj.selectValues.length; i++) {
-          this.filterObj.selectValues[i] = "";
-        }
-        this.filterObj.filterInputValue = "";
-      }
-      if (!val) this.filteredArray = this.allData;
-      if (this.nothingToSee) {
-        setTimeout(() => {
-          this.nothingToSee = false;
-        }, 1000);
-      }
     },
     changeWikiPage(page) {
       console.log("change" + " " + page);
@@ -2104,6 +2107,15 @@ export default {
 };
 </script>
 <style>
+.clear-btn {
+  padding: 0.3rem 1rem;
+  margin: 1rem;
+  border: 1px solid #fff;
+  border-radius: 0.5rem;
+}
+.light-mode .clear-btn {
+  border-color: #000;
+}
 .no-data {
   width: 100%;
   text-align: center;
@@ -2165,14 +2177,28 @@ export default {
   align-self: flex-start;
   justify-self: flex-start;
   height: auto;
-  width: 80%;
-  margin: auto;
+  position: relative;
+  margin-top: 2rem;
 }
+.filteration__wrapper .open-filter {
+  position: absolute;
+  color: #fff;
+  cursor: pointer;
+  top: 2rem;
+}
+
 .filter__form {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  margin-top: 2rem;
+  width: 0;
+  margin: auto;
+  overflow-x: hidden;
+  padding: 1rem 0;
+  transition: 0.3s;
+}
+.filter__form.open {
+  width: 90%;
 }
 .filter__selects {
   display: flex;
@@ -2184,6 +2210,7 @@ export default {
 .filter__form .form__control .form__control-label {
   z-index: 1;
   text-transform: capitalize;
+  left: 3%;
 }
 .filter__selects .select {
   margin-left: 1rem;
@@ -2198,15 +2225,35 @@ export default {
 .filteration__wrapper .form__control select:valid ~ .form__control-label {
   color: #fff;
 }
-@media screen and (max-width: 1200px) {
-  .wiki__container {
-    width: 90%;
-  }
+.light-mode
+  .filteration__wrapper
+  .form__control
+  input:focus
+  ~ .form__control-label,
+.light-mode
+  .filteration__wrapper
+  .form__control
+  select:valid
+  ~ .form__control-label {
+  color: #000;
 }
+.light-mode .filteration__wrapper *,
+.light-mode .filteration__wrapper .form__control span {
+  color: #000;
+}
+.light-mode .filteration__wrapper .form__control {
+  border-color: #000;
+}
+
 .users {
   width: 80%;
 }
 .playbooks .table__row .col p {
   text-align: center;
+}
+@media screen and (max-width: 1200px) {
+  .wiki__container {
+    width: 90%;
+  }
 }
 </style>

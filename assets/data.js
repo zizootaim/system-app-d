@@ -1,7 +1,7 @@
 export const dailyChecks = [
     'Check Collectors Healths',
     'Check Log sources status',
-    'Check Daily Backup','Check Daily scheduled reports/jobs ','Check Server Diskspace'
+    'Check Daily Backup','Check Daily scheduled reports/jobs ','Check Server Diskspace','Other'
 ];
 export const shiftStatus = [
     'Initial Investigation','Solution In Progress','Pending','Closed'

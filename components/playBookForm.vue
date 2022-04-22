@@ -85,7 +85,12 @@
             />
             <span class="form__control-label">Team</span>
           </div>
-          <button class="form-btn" type="submit" @click="addRow" style="color:#010f60;">
+          <button
+            class="form-btn"
+            type="submit"
+            @click="addRow"
+            style="color: #010f60"
+          >
             add row <BaseSpinner class="smallSpinner" v-if="loadingAdd" />
           </button>
         </div>
@@ -181,6 +186,7 @@ export default {
       let formData = new FormData();
       let file = document.querySelector("input[type=file]");
       formData.append("file", file.files[0]);
+      formData.append("id", this.chosenFormId);
       formData.append("title", this.title);
       formData.append("description", this.description);
       let category =
@@ -194,25 +200,69 @@ export default {
         redirect: "follow",
       };
 
-      fetch("https://beapis.herokuapp.com/api/PlayBook", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          this.loading = false;
-          console.log(result.message);
-          if (result.message == "Created Successfully") {
+      if (this.chosenFormMethod == "POST") {
+        fetch("https://beapis.herokuapp.com/api/PlayBook", requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            this.loading = false;
+            console.log(result.message);
+            if (result.message == "Created Successfully") {
+              this.submitIcon = true;
+              setTimeout(() => {
+                this.submitIcon = false;
+                document.querySelector(".close").click();
+              }, 1000);
+              this.$store.dispatch("getData", "Playbooks");
+            }
+          })
+          .catch((error) => {
+            console.log("error", error);
+            this.loading = false;
+            this.message = "Some thing Went Wrong";
+          });
+      } else {
+        let formData2 = new FormData();
+        if (file.files[0] != undefined) {
+          formData2.append("file", file.files[0]);
+        }
+        console.log(this.data.length);
+        if (this.data.length) {
+          formData2.append("data", JSON.stringify(this.data));
+        }
+        formData2.append("id", this.chosenFormId);
+        formData2.append("title", this.title);
+        formData2.append("description", this.description);
+        let category =
+          this.category == "Other" ? this.otherCategory : this.category;
+        formData2.append("category", category);
+        var requestOptions1 = {
+          method: "POST",
+          body: formData2,
+          redirect: "follow",
+        };
+
+        fetch(
+          "https://beapis.herokuapp.com/api/PlayBook?_method=PUT",
+          requestOptions1
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            this.loading = false;
+            console.log(result.message);
+
             this.submitIcon = true;
             setTimeout(() => {
               this.submitIcon = false;
               document.querySelector(".close").click();
             }, 1000);
             this.$store.dispatch("getData", "Playbooks");
-          }
-        })
-        .catch((error) => {
-          console.log("error", error);
-          this.loading = false;
-          this.message = "Some thing Went Wrong";
-        });
+          })
+          .catch((error) => {
+            console.log("error", error);
+            this.loading = false;
+            this.message = "Some thing Went Wrong";
+          });
+      }
     },
   },
   name: "serviceCatalogeForm",

@@ -111,8 +111,8 @@ export default {
   padding: 0;
 }
 .secform .modal__top {
-  width: 90%;
-  margin: 0.6rem auto 0;
+  width: 91%;
+  margin: 0 auto 1.5rem;
 }
 .secform .close {
   background: none;
@@ -149,7 +149,6 @@ export default {
   transition: 0.3s;
   background: #010f60;
   color: #fff;
-  margin: 0 1.5rem 0.5rem;
 }
 
 @media screen and (max-width: 1025px) {

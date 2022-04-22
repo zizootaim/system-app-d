@@ -11,7 +11,16 @@
           </select>
           <span class="form__control-label">Check Description</span>
         </div>
-
+<div class="form__control" v-if="description == 'Other'">
+  <input
+                type="text"
+                name="otherCheckDescription"
+                required
+                v-model="otherCheckDescription"
+                autocomplete="off"
+              />
+              <span class="form__control-label">Other Description</span>
+</div>
         <div class="form__control full">
           <select name="status" required v-model="status">
             <option value="Ok">Ok</option>
@@ -188,6 +197,7 @@ export default {
       shiftStatus,
       spinnerLoading: false,
       description: "",
+      otherCheckDescription:"",
       status: "",
       issuesfound: "",
       healthIssue: {
@@ -212,7 +222,7 @@ export default {
     dataObj() {
       return {
         id: this.chosenFormId,
-        Description: this.description,
+        Description: this.currentDescription,
         Status: this.status,
         IssuesFound: this.issuesfound,
         Component: this.healthIssue.component,
@@ -226,6 +236,9 @@ export default {
         IssueStatus: this.healthIssue.issueStatus,
         CloseTime: `${this.healthIssue.closeDate} ${this.healthIssue.closeTime}`,
       };
+    },
+      currentDescription() {
+      return this.description == "Other" ? this.otherCheckDescription : this.description;
     },
     ...mapState(["chosenFormMethod", "chosenFormId"]),
     ...mapGetters(["getHealthCheck"]),
@@ -284,7 +297,8 @@ export default {
 </script>
 <style>
 .shift__form-wrapper {
-  width: 88%;
+  padding: 0rem 1rem 1rem 1.7rem;
+  width: 100%;
 }
 .submit-btn__wrapper {
   width: 100%;
@@ -297,5 +311,8 @@ export default {
 }
 textarea {
   width: 100%;
+}
+.health__issues-form .form__title{
+  margin-top: -1rem;
 }
 </style>

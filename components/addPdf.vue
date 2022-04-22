@@ -51,23 +51,24 @@ export default {
   methods: {
     async upload() {
       console.log("start");
-      this.loading = true;
       let formData = new FormData();
       let file = document.querySelector("input[type=file]");
-      formData.append("file", file.files[0]);
-      formData.append("title", this.title);
-
-      let response = await this.$store.dispatch("uploadPdf", {
-        apiName: this.apiName,
-        body: formData,
-      });
-      this.loading = false;
-      if (response) {
-        this.submitIcon = true;
-        setTimeout(() => {
-          this.submitIcon = false;
-          document.querySelector(".close").click();
-        }, 1000);
+      if (this.title && file.files[0] != undefined) {
+        formData.append("file", file.files[0]);
+        formData.append("title", this.title);
+        this.loading = true;
+        let response = await this.$store.dispatch("uploadPdf", {
+          apiName: this.apiName,
+          body: formData,
+        });
+        this.loading = false;
+        if (response) {
+          this.submitIcon = true;
+          setTimeout(() => {
+            this.submitIcon = false;
+            document.querySelector(".close").click();
+          }, 1000);
+        }
       }
     },
   },

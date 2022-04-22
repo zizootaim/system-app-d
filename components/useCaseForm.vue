@@ -167,12 +167,16 @@
           </select>
           <span class="form__control-label">Production</span>
         </div>
-        <div class="full mitre">
+        <label>
+          <input type="checkbox" v-model="mitre">
+          <span>Tactics & Attacks</span>
+        </label>
+        <div class="full mitre" v-if="mitre">
           <div>
             <p>ATT&CK Tactics</p>
             <div class="btns__wrapper">
               <label
-                type="button"
+                
                 v-for="(k, index) in mitreKeys"
                 :class="`mitre-btn${isChecked(choosenMitres,k) ? ' checked':''}`"
                 :key="index"
@@ -184,7 +188,7 @@
                   :value="k"
                   :id="k"
                   :name="k"
-                  style="opacity: 1"
+                
                   v-model="choosenMitres"
                 />
               </label>
@@ -204,7 +208,7 @@
                   type="checkbox"
                   :value="t"
                   :name="t"
-                  style="opacity: 1"
+                  
                   v-model="choosenTechs"
               /></label>
             </div>
@@ -254,7 +258,7 @@ export default {
 
   data() {
     return {
-      mitre,
+      mitre:false,
       mitreKeys: [],
       mitreTechs: [],
       choosenMitres: [],
@@ -451,12 +455,12 @@ border: none;
   color: #000;
   text-transform: capitalize;
   text-align: center;
-  margin-top: -1.5rem;
+  margin-top: -3.5rem;
   margin-bottom: .6rem;
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 
 .secform .form__control {

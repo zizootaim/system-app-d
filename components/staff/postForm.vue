@@ -2,21 +2,21 @@
   <div class="shift__form-wrapper">
     <h3 class="form__title" style="padding: 1rem 0">Add Staff Member</h3>
     <form class="long__form" v-on:submit.prevent="submitData">
-    <div class="form__control select" >
-      <select required name="type" v-model="type">
-        <option value="parent">Parent</option>
-        <option value="child">Child</option>
-      </select>
-      <span class="form__control-label">Member Type</span>
-    </div>
-    <div class="form__control select">
-      <select required name="parentLevel" v-model="level">
-        <option value="1">Top</option>
-        <option value="2-1">Right</option>
-        <option value="2-2">Left</option>
-      </select>
-      <span class="form__control-label">Parent Position</span>
-    </div>
+      <!-- <div class="form__control select" style="display: none">
+        <select required name="type" v-model="type">
+          <option value="parent">Parent</option>
+          <option value="child">Child</option>
+        </select>
+        <span class="form__control-label">Member Type</span>
+      </div> -->
+      <div class="form__control select">
+        <select required name="parentLevel" v-model="level">
+          <option value="top">Top</option>
+          <option value="right">Right</option>
+          <option value="left">Left</option>
+        </select>
+        <span class="form__control-label">Parent Position</span>
+      </div>
       <div class="form__control">
         <input
           type="text"
@@ -32,19 +32,19 @@
         <span class="form__control-label">Title</span>
       </div>
       <div class="form__control">
-        <input type="text" name="email" required v-model="email" />
+        <input type="email" name="email" required v-model="email" />
         <span class="form__control-label">Email</span>
       </div>
       <div class="form__control">
         <input type="text" name="mobile" required v-model="mobile" />
         <span class="form__control-label">Mobile</span>
       </div>
-      <div class="form__control full">
+      <div class="form__control">
         <input type="text" name="phone" required v-model="phone" />
         <span class="form__control-label">Phone</span>
       </div>
       <div class="submit__btn-wrapper full">
-        <button class="submit-btn" @click="() => submitData()">
+        <button class="submit-btn"  type="submit">
           Submit
           <svg
             v-if="submitIcon"
@@ -65,10 +65,11 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      type: "",
+      type: 0,
       level: "",
       name: "",
       title: "",
@@ -77,31 +78,30 @@ export default {
       phone: "",
       addingChild: false,
       spinnerLoading: false,
+      submitIcon:false,
     };
   },
   computed: {
     dataObj() {
-      let ParentName = "",
-        child = 0;
       let obj = {};
-      if (this.level == "1") ParentName = "top";
-      if (this.level == "2-1") ParentName = "right";
-      if (this.level == "2-2") ParentName = "left";
-
-      if (this.type == "child") child = 1;
-
+      if (this.getStaff[0] && this.level == 'top') this.type = 1;
+      if (this.getStaff[1] && this.getStaff[1].parent && this.level == 'left') this.type = 1;
+      if (this.getStaff[2] && this.getStaff[2].parent && this.level == 'right') this.type = 1;
+      console.log(this.type);
+console.log(this.getStaff);
       obj = {
-        ParentName,
+        ParentName: this.level,
         Name: this.name,
         Title: this.title,
         Email: this.email,
         Mobile: this.mobile,
         Phone: this.phone,
-        child,
+        child: this.type,
       };
 
       return obj;
     },
+    ...mapGetters(["getStaff"]),
   },
   methods: {
     async submitData() {
