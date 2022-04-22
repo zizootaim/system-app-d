@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="skill-matrix">
       <button class="form-btn" @click="showHomeModal('POST')">
         Add Competency
       </button>
@@ -115,4 +115,7 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+
+</style>

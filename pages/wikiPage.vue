@@ -1264,7 +1264,7 @@
                         <h4>Identifier</h4>
                       </div>
                       <div class="col">
-                        <h4>Purpose</h4>
+                        <h4>Alert Volume</h4>
                       </div>
                       <div class="col">
                         <h4>Threat/Risk</h4>
@@ -1293,7 +1293,7 @@
                         </div>
                         <div class="col">
                           <p>
-                            <span>{{ useCaseCard.purpose }}</span>
+                            <span>{{ useCaseCard.volume }}</span>
                           </p>
                         </div>
                         <div class="col">
@@ -1345,8 +1345,8 @@
                               <span>Testing</span> : {{ useCaseCard.testing }}
                             </div>
                             <div>
-                              <span>Alert Volume</span> :
-                              {{ useCaseCard.volume }}
+                              <span>Purpose</span> :
+                              {{ useCaseCard.purpose }}
                             </div>
                           </div>
                           <div class="secondary">

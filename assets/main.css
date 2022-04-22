@@ -693,7 +693,7 @@ textarea::placeholder {
   transition: 0.4s;
   overflow: hidden;
 }
-.bottom-row div:not(.book__table div) {
+.bottom-row div:not(.book__table div):not(.bottom-row .desc):not(.desc div) {
   width: 100%;
   word-break: break-all;
   padding: 0.5rem 1rem;
@@ -773,7 +773,23 @@ span.status {
   padding: 0 3rem .5rem;
   width: 100%;
 }
+.bottom-row div.desc div{
+  padding-bottom: .7rem;
+}
+ .primary div,.secondary div {
+  position: relative;
+}
+ .primary div::after,.secondary div::after{
+  content: '';
+  position: absolute;
+  bottom: 0;
+left: 0%;
 
+  width: 100%;
+  margin: auto;
+  height: .05rem;
+  background: rgb(181, 179, 179);
+}
 /* Wiki Page */
 
 .reports .pdfs__wrapper {
