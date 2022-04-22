@@ -43,7 +43,10 @@
                   </div>
                   <div class="col">
                     <div class="btns__wrapper">
-                      <button class="table-btn">
+                      <button
+                        class="table-btn"
+                        @click="showHomeModal('PUT', skill.id)"
+                      >
                         <i class="fal fa-pen"></i>
                       </button>
                       <button

@@ -53,7 +53,6 @@
             </div>
           </div>
         </div>
-
         <div class="wiki__items" v-if="wikiPage == ''">
           <div v-for="wikiItem in wikiSections" :key="wikiItem.section">
             <div
@@ -95,13 +94,14 @@
 
         <div class="wiki__container">
           <!-- Use Case Intro -->
+        <BaseSpinner v-if="loading && wikiPage != ''" class="mainSpinner" />
 
           <div class="use__img" v-if="wikiPage == 'Use Case Library'">
             <img src="../assets/usecase.jpeg" />
           </div>
 
           <!-- Filteration -->
-
+          <!-- 
           <div
             v-if="
               chosenCat &&
@@ -144,7 +144,7 @@
                 <div v-if="nothingToSee" class="nothing">Nothing Existed</div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Reports -->
 
@@ -627,12 +627,12 @@
               >
                 <i class="fas fa-plus"></i> add
               </button>
-              <div v-if="filteredArray.length > 0">
+              <div v-if="getPlayBook.length > 0">
                 <div class="table__wrapper">
                   <div class="table">
                     <div
                       class="table__row"
-                      v-for="book in filteredArray"
+                      v-for="book in getPlayBook"
                       :key="book.id"
                     >
                       <div class="row top-row">
@@ -661,7 +661,7 @@
                               @click="
                                 deleteData({
                                   body: { id: book.id },
-                                  apiName: 'playBook',
+                                  apiName: 'Playbooks',
                                 })
                               "
                             >
@@ -692,14 +692,20 @@
                                 v-for="(r, index) in parse(book.data)"
                                 :key="index"
                               >
-                                <div class="col">
-                                  {{ r.activity }}
+                                <div class="row">
+                                  <div class="col">
+                                  <p>
+                                   {{ r.activity }}
+                                  </p>
                                 </div>
                                 <div class="col">
+                                 <p>
                                   {{ r.irStage }}
+                                 </p>
                                 </div>
                                 <div class="col">
-                                  {{ r.team }}
+                                  <p><span>{{ r.team }}</span></p>
+                                </div>
                                 </div>
                               </div>
                             </div>
@@ -1373,7 +1379,6 @@
                             {{ useCaseCard.techniques }}
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -1509,6 +1514,17 @@
           <!-- Skill Matrix -->
           <div v-if="wikiPage == 'skillMatrix'">
             <skill-matrix />
+          </div>
+          <div
+            class="no-data"
+            v-if="
+              !loading &&
+              filteredArray.length == 0 &&
+              wikiPage != 'Administration' &&
+              wikiPage != ''
+            "
+          >
+            <h3>no data to show.</h3>
           </div>
         </div>
       </div>
@@ -1909,16 +1925,25 @@ export default {
         page == "Communication" ||
         page == "Use Case Library" ||
         page == "Shifts" ||
-        page == "Administration" ||
-        page == "skillMatrix"
+        page == "skillMatrix" ||
+        page == "Administration"
       ) {
         this.chosenCat = "";
         this.wikiPage = page;
         if (page == "Use Case Library") this.getWikiData("useCase");
-        else if (page == "Administration") {
-        } else this.getWikiData(page);
+        else this.getWikiData(page);
+        document.querySelectorAll(".menu__item .sub-menu").forEach((ul) => {
+          ul.style.height = "0";
+        });
+        Array.from(document.querySelectorAll(".sub-menu-icon")).forEach((i) => {
+          i.className = "fas fa-angle-down sub-menu-icon";
+        });
       }
-      if (page == "Communication" || page == "Use Case Library")
+      if (
+        page == "Communication" ||
+        page == "Use Case Library" ||
+        page == "skillMatrix"
+      )
         this.chosenCat = page;
     },
     showMenu(event) {
@@ -2020,20 +2045,38 @@ export default {
       container.style.height = height + "px";
     },
     async changeCat(val, event) {
-      console.log(val);
+      console.log("changecat");
+
       this.activateLink(event);
-      this.chosenCat = val;
       this.wikiPage = this.currentWikiPage;
-      if (val == "socReports") this.getWikiData("Reports");
-      else if (val.length && !this.$store.state[val].length) {
+      console.log(this.currentWikiPage);
+      if (val == "socReports") {
+        this.loading = true;
+        let response = await this.$store.dispatch("getData", "Reports");
+        if (response) this.loading = false;
+      } else if (val.length && !this.$store.state[val].length) {
+        this.loading = true;
         let response = await this.$store.dispatch("getData", val);
-        this.getFilterObj(val);
+        if (response) {
+          this.getFilterObj(val);
+        }
+        this.loading = false;
       }
+      this.chosenCat = val;
     },
-    getWikiData(target) {
+    async getWikiData(target) {
       console.log(target);
-      if (!this.$store.state[target].length) {
-        this.$store.dispatch("getData", target);
+      if (this.$store.state[target].length == 0) {
+        console.log(this.$store.state[target].length);
+        this.loading = true;
+        let response = await this.$store.dispatch("getData", target);
+        if (response) this.loading = false;
+      }
+      if (Object.entries(this.$store.state[target]).length == 0) {
+        //console.log("ttt");
+        this.loading = true;
+        let response = await this.$store.dispatch("getData", target);
+        if (response) this.loading = false;
       }
     },
     upload() {
@@ -2061,6 +2104,15 @@ export default {
 };
 </script>
 <style>
+.no-data {
+  width: 100%;
+  text-align: center;
+  margin-top: 3rem;
+  text-transform: capitalize;
+}
+.light-mode .no-data h3 {
+  color: #000;
+}
 .com-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2085,6 +2137,13 @@ export default {
 }
 .book__img img {
   height: 15rem;
+}
+.mainSpinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
 }
 .use__img img {
   width: 100%;
@@ -2150,5 +2209,4 @@ export default {
 .playbooks .table__row .col p {
   text-align: center;
 }
-
 </style>

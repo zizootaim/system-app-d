@@ -262,7 +262,7 @@ export const mutations = {
   showNewObjects(state, data) {
     state[showNewObjects].push(data);
   },
-  addShift: () => {},
+
   deleteData: (state, data) => {
     console.log(data.id);
     for (let i = 0; i < state[data.dataContainer].length; i++) {
@@ -312,26 +312,24 @@ export const actions = {
         .then((data) => {
           if (apiName == "staff") {
             const { left, right, top } = data;
-            let leftStaff = [],rightStaff = [],staff = [];
+            let leftStaff = [],
+              rightStaff = [],
+              staff = [];
             if (left) {
               const leftParent = left.filter((p) => p.child == false)[0],
                 leftChilds = left.filter((c) => c.child == true);
-                leftStaff = { parent: leftParent, childs: leftChilds };
-             
+              leftStaff = { parent: leftParent, childs: leftChilds };
             }
             if (right) {
               const rightParent = right.filter((p) => p.child == false)[0],
-              rightChilds = right.filter((c) => c.child == true);
+                rightChilds = right.filter((c) => c.child == true);
               rightStaff = { parent: rightParent, childs: rightChilds };
-              
             }
             rightStaff = right ? rightStaff : undefined;
             leftStaff = left ? leftStaff : undefined;
-        
 
-            staff = [rightStaff, leftStaff, top]
+            staff = [rightStaff, leftStaff, top];
             data = staff;
-
           }
           console.log(data);
           if (apiName != "Shifts" && apiName != "skillMatrix") {
@@ -349,6 +347,7 @@ export const actions = {
       return true;
     } catch (err) {
       console.log(err);
+      return false;
     }
   },
   async approveUser({ state, commit }, email) {
@@ -513,6 +512,7 @@ export const actions = {
       urlencoded.append("month", dataObj.body.month);
     } else urlencoded.append("id", dataObj.body.id);
 
+    console.log(dataObj.body.id);
     var requestOptions = {
       method: "DELETE",
       headers: myHeaders,
@@ -520,22 +520,20 @@ export const actions = {
       redirect: "follow",
     };
 
-    console.log(state.url[dataObj.apiName]);
     fetch(state.url[dataObj.apiName], requestOptions)
-      .then((response) => response.json())
+      .then((response) => response.text())
       .then((result) => {
-        if (result.message == "Deleted Successfully") {
-          console.log(result);
-          if (dataObj.apiName != "Shifts" && dataObj.apiName != "skillMatrix") {
-            commit("deleteData", {
-              dataContainer: dataObj.apiName,
-              id: dataObj.body.id,
-            });
-          } else if (dataObj.apiName == "Shifts") {
-            commit("deleteShift", dataObj.body);
-          } else {
-            this.dispatch("getData", "skillMatrix");
-          }
+        console.log(result);
+        if (dataObj.apiName != "Shifts" && dataObj.apiName != "skillMatrix") {
+          console.log("tryDelete");
+          commit("deleteData", {
+            dataContainer: dataObj.apiName,
+            id: dataObj.body.id,
+          });
+        } else if (dataObj.apiName == "Shifts") {
+          commit("deleteShift", dataObj.body);
+        } else {
+          this.dispatch("getData", "skillMatrix");
         }
       })
       .catch((error) => console.log("error", error));

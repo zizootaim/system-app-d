@@ -693,7 +693,7 @@ textarea::placeholder {
   transition: 0.4s;
   overflow: hidden;
 }
-.bottom-row div {
+.bottom-row div:not(.book__table div) {
   width: 100%;
   word-break: break-all;
   padding: 0.5rem 1rem;
@@ -756,7 +756,7 @@ textarea::placeholder {
   text-align: center;
 }
 .table__row {
-  box-shadow: 0px 0 10px 0px rgba(0, 0, 0, 0.4);
+  border-bottom: 1px solid #000;
 }
 .table__row:not(.table__row:first-child) .col p.status,
 span.status {

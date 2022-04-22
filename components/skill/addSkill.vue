@@ -161,6 +161,7 @@
           <BaseSpinner v-if="loading" />
         </button>
       </div>
+      <p v-if="message" class="errMessage">{{ message }}</p>
     </form>
   </div>
 </template>
@@ -171,6 +172,7 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
+      message: "",
       Category: "",
       Skill: "",
       L1: "",
@@ -191,6 +193,7 @@ export default {
   computed: {
     dataObj: function () {
       return {
+        id: this.chosenFormId,
         Category: this.Category,
         Skill: this.Skill,
         Level:
@@ -234,12 +237,33 @@ export default {
           this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);
+      } else {
+        this.message = "Some Thing Went Wrong , Try Again !";
+        setTimeout(() => {
+          this.message = "";
+        }, 4000);
       }
     },
   },
   mounted() {
-    this.$store.dispatch("getData", "Shifts");
-    this.$store.dispatch("getData", "users");
+    if (this.chosenFormMethod == "PUT") {
+      console.log("sdgdhf");
+      for (let i in this.getSkillMatrix) {
+        console.log(i);
+        for (let j of this.getSkillMatrix[i]) {
+          if (j.id == this.chosenFormId) {
+            this.Skill = j.Skill;
+            this.Category = j.Category;
+            let levels = j.Level.split(",");
+            this.L1 = levels[0];
+            this.L2 = levels[1];
+            this.L3 = levels[2];
+            this.admin = levels[3];
+            this.manager = levels[4];
+          }
+        }
+      }
+    }
   },
 };
 </script>

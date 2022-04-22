@@ -52,7 +52,7 @@
         </div>
 
         <div class="form__table full">
-          <p style="margin-bottom: .5rem;">Playbook Table</p>
+          <p style="margin-bottom: 0.5rem">Playbook Table</p>
           <div class="form__control">
             <input
               ref="activity"
@@ -85,7 +85,7 @@
             />
             <span class="form__control-label">Team</span>
           </div>
-          <button class="form-btn" type="submit" @click="addRow">
+          <button class="form-btn" type="submit" @click="addRow" style="color:#010f60;">
             add row <BaseSpinner class="smallSpinner" v-if="loadingAdd" />
           </button>
         </div>
@@ -205,7 +205,7 @@ export default {
               this.submitIcon = false;
               document.querySelector(".close").click();
             }, 1000);
-            this.$store.dispatch("getData", "home");
+            this.$store.dispatch("getData", "Playbooks");
           }
         })
         .catch((error) => {

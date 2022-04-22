@@ -42,15 +42,20 @@
             />
           </svg>
         </button>
-        <p>{{ message }}</p>
       </div>
+      <p class="errMessage">{{ message }}</p>
     </form>
   </div>
 </template>
 <script>
 import baseSpinner from "@/components/baseSpinner.vue";
+import { mapGetters } from "vuex";
 
 export default {
+  computed: {
+    ...mapGetters(["getHomeData"]),
+  },
+
   components: {
     baseSpinner,
   },
@@ -73,8 +78,9 @@ export default {
   },
   methods: {
     submitData() {
+      console.log(this.getHomeData);
       var formdata = new FormData();
-      formdata.append("id", "2");
+      formdata.append("id", this.getHomeData[0].id);
       formdata.append("title", this.title);
       formdata.append("subtitle", this.subTitle);
       formdata.append("vision", this.vision);
@@ -89,6 +95,7 @@ export default {
         redirect: "follow",
       };
       this.loading = true;
+      console.log(formdata);
       fetch("https://beapis.herokuapp.com/api/Home?_method=PUT", requestOptions)
         .then((response) => response.json())
         .then((result) => {
@@ -102,7 +109,11 @@ export default {
             this.$store.dispatch("getData", "home");
           } else this.message = result;
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => {
+          console.log("error", error);
+          this.loading = false;
+          this.message = "Some Thing Went Wrong";
+        });
     },
   },
 };
