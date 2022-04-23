@@ -46,6 +46,7 @@
         </svg>
         <BaseSpinner v-if="spinnerLoading" />
       </button>
+      <p class="errMessage" v-if="message">{{ message }}</p>
     </form>
   </div>
 </template>
@@ -59,6 +60,7 @@ export default {
       email: "",
       mobile: "",
       phone: "",
+      message: "",
       child: 1,
       spinnerLoading: false,
       submitIcon: false,
@@ -74,7 +76,7 @@ export default {
     this.email = this.editingUser.Email;
     this.phone = this.editingUser.Phone;
     this.mobile = this.editingUser.Mobile;
-    if(this.editingUser.child == false) this.child = 0;
+    if (this.editingUser.child == false) this.child = 0;
   },
   computed: {
     dataObj() {
@@ -87,25 +89,31 @@ export default {
         Email: this.email,
         Mobile: this.mobile,
         Phone: this.phone,
-        child:this.child
+        child: this.child,
       };
     },
   },
   methods: {
     async submitData() {
       console.log(this.dataObj);
+      this.spinnerLoading = true;
       let response = await this.$store.dispatch("editStaff", {
         apiName: "staff",
         body: this.dataObj,
       });
       console.log(response);
-      this.spinnerLoading = true;
-      if (response) {
+      this.spinnerLoading = false;
+      if (response == true) {
+        this.submitIcon = true;
         setTimeout(() => {
-          this.spinnerLoading = false;
           this.submitIcon = false;
           document.querySelector(".close").click();
-        }, 1000);
+        }, 2000);
+      } else {
+        this.message = "Something Went Wrong";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },

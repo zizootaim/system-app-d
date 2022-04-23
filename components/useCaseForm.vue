@@ -168,7 +168,7 @@
           <span class="form__control-label">Production</span>
         </div>
         <label>
-          <input type="checkbox" v-model="mitre">
+          <input type="checkbox" v-model="mitre" />
           <span>Tactics & Attacks</span>
         </label>
         <div class="full mitre" v-if="mitre">
@@ -176,9 +176,10 @@
             <p>ATT&CK Tactics</p>
             <div class="btns__wrapper">
               <label
-                
                 v-for="(k, index) in mitreKeys"
-                :class="`mitre-btn${isChecked(choosenMitres,k) ? ' checked':''}`"
+                :class="`mitre-btn${
+                  isChecked(choosenMitres, k) ? ' checked' : ''
+                }`"
                 :key="index"
                 @click="showTech(k)"
               >
@@ -188,7 +189,6 @@
                   :value="k"
                   :id="k"
                   :name="k"
-                
                   v-model="choosenMitres"
                 />
               </label>
@@ -198,9 +198,10 @@
             <p>ATT&CK Techniques</p>
             <div class="btns__wrapper tech">
               <label
-               
                 v-for="(t, index) in mitreTechs"
-                :class="`mitre-btn${isChecked(choosenTechs,t) ? ' checked':''}`"
+                :class="`mitre-btn${
+                  isChecked(choosenTechs, t) ? ' checked' : ''
+                }`"
                 :key="index"
                 ><span> {{ t }}</span>
 
@@ -208,7 +209,6 @@
                   type="checkbox"
                   :value="t"
                   :name="t"
-                  
                   v-model="choosenTechs"
               /></label>
             </div>
@@ -235,6 +235,8 @@
         </button>
       </div>
     </form>
+
+    <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
 </template>
 
@@ -258,7 +260,7 @@ export default {
 
   data() {
     return {
-      mitre:false,
+      mitre: false,
       mitreKeys: [],
       mitreTechs: [],
       choosenMitres: [],
@@ -282,6 +284,8 @@ export default {
       playbook: "",
       production: "",
       otherUseCaseType: "",
+      message: "",
+
       submitIcon: false,
       loading: false,
     };
@@ -330,7 +334,7 @@ export default {
       this.identifier = res[0].identifier;
       this.purpose = res[0].purpose;
       this.risk = res[0].risk;
-      this.type = res[0].currentType;
+      this.useCaseType = res[0].type;
       this.stakeholders = res[0].stakeholders;
       this.requirements = res[0].requirements;
       this.logic = res[0].logic;
@@ -344,14 +348,14 @@ export default {
     }
   },
   methods: {
-    isChecked(arr,value){
+    isChecked(arr, value) {
       return arr.includes(value);
     },
     showTech(key) {
       this.mitreTechs = mitre[key];
       this.choosenMitre = key;
     },
-     async submitData() {
+    async submitData() {
       console.log(this.dataObj);
       this.loading = true;
       let response;
@@ -375,6 +379,12 @@ export default {
           this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);
+      } else {
+        this.loading = false;
+        this.message = "Something Went Wrong";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },
@@ -391,11 +401,10 @@ export default {
   overflow: auto;
   padding-bottom: 1rem;
 }
-.mitre{
+.mitre {
   display: grid;
   grid-template-columns: 1fr;
 }
-
 
 .use-case__form-wrapper .btns__wrapper {
   flex-wrap: wrap;
@@ -420,10 +429,10 @@ export default {
   position: relative;
   cursor: pointer;
 }
-.mitre-btn span{
+.mitre-btn span {
   color: #010f60;
 }
-.mitre-btn input{
+.mitre-btn input {
   visibility: hidden;
   opacity: 0;
   position: absolute;
@@ -432,17 +441,15 @@ export default {
 /* .tech .mitre-btn {
   background: purple;
 } */
-.checked{
+.checked {
   /* background: green; */
-background: rgb(179, 179, 179);
-background: #8e8e8e;
-border: none;
-
+  background: rgb(179, 179, 179);
+  background: #8e8e8e;
+  border: none;
 }
-.checked span{
+.checked span {
   color: #fff;
 }
-
 
 /* .mitre .tech{
   min-width: 35rem;
@@ -456,7 +463,7 @@ border: none;
   text-transform: capitalize;
   text-align: center;
   margin-top: -3.5rem;
-  margin-bottom: .6rem;
+  margin-bottom: 0.6rem;
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -488,5 +495,4 @@ border: none;
 .secform .form__control *:not(.mitre-btn span) {
   color: #010f60;
 }
-
 </style>

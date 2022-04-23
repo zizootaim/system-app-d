@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="skill-matrix">
+<h1 class="sec__title">
+  Skill Matrix
+</h1>
       <button class="form-btn" @click="showHomeModal('POST')">
         Add Competency
       </button>
-
       <div class="table__wrapper">
         <div
           class="table"
@@ -22,26 +24,26 @@
               <div class="col" v-for="role in header" :key="role">
                 <h4>{{ role }}</h4>
               </div>
-              <div class="col"></div>
+              <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
             </div>
           </div>
           <div class="table__row">
             <div class="rows">
               <div class="row" v-for="skill in skillValue" :key="skill">
-                <div class="left">
+                <div class="col">
                   <p>{{ skill.Skill }}</p>
                 </div>
 
-                <div class="cols">
+                
                   <div
-                    class="col"
+                
                     v-for="i in skill.Level.split(',')"
-                    :class="'class' + i"
+                    :class="'col class' + i"
                     :key="i"
                   >
                     <p>{{ i }}</p>
                   </div>
-                  <div class="col">
+                  <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
                     <div class="btns__wrapper">
                       <button
                         class="table-btn"
@@ -62,7 +64,7 @@
                       </button>
                     </div>
                   </div>
-                </div>
+              
               </div>
             </div>
           </div>

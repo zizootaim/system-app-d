@@ -51,7 +51,7 @@ export const state = (state) => ({
   serviceCatalog: [],
   healthCheck: [],
   healthIssue: [],
-  newAddedObjects: [],
+  changingData: false,
   alerts: [],
   incidents: [],
   pendingIssues: [],
@@ -146,12 +146,12 @@ export const state = (state) => ({
     {
       section: "Administration",
       sectionName: "Administration",
-      class: "fas fa-file-alt",
+      class: "fas fa-cog",
     },
     {
       section: "skillMatrix",
       sectionName: "Skill Matrix",
-      class: "fas fa-file-alt",
+      class: "fal fa-file-certificate",
     },
   ],
 });
@@ -169,7 +169,9 @@ export const getters = {
   getUseCase: (state) => {
     return state.useCase;
   },
-
+  getChangingData(state) {
+    return state.changingData;
+  },
   getAdvisory: (state) => {
     return state.advisory;
   },
@@ -262,7 +264,9 @@ export const mutations = {
   showNewObjects(state, data) {
     state[showNewObjects].push(data);
   },
-
+  setChangingData(state, data) {
+    state.changingData = !state.changingData;
+  },
   deleteData: (state, data) => {
     console.log(data.id);
     for (let i = 0; i < state[data.dataContainer].length; i++) {
@@ -280,6 +284,7 @@ export const mutations = {
       if (state[data.apiName][i].id == data.body.id) {
         state[data.apiName].splice(i, 1, data.body);
         console.log("edited");
+
         break;
       }
     }
@@ -307,7 +312,7 @@ export const actions = {
     console.log("gettingData");
     try {
       console.log(state.url[apiName]);
-      await fetch(state.url[apiName])
+      let res = await fetch(state.url[apiName])
         .then((response) => response.json())
         .then((data) => {
           if (apiName == "staff") {
@@ -331,6 +336,7 @@ export const actions = {
             staff = [rightStaff, leftStaff, top];
             data = staff;
           }
+          commit("setChangingData");
           console.log(data);
           if (apiName != "Shifts" && apiName != "skillMatrix") {
             commit("saveData", {
@@ -343,8 +349,10 @@ export const actions = {
               dataValue: data,
             });
           }
+          return true;
         });
-      return true;
+      if (res == true) return true;
+      else return false;
     } catch (err) {
       console.log(err);
       return false;
@@ -387,15 +395,21 @@ export const actions = {
     };
     try {
       console.log(urlencoded);
-      fetch("https://beapis.herokuapp.com/api/disapprove/user", requestOptions)
+      let res = await fetch(
+        "https://beapis.herokuapp.com/api/disapprove/user",
+        requestOptions
+      )
         .then((response) => response.text())
         .then((result) => {
           console.log(result);
           this.dispatch("getData", "users");
+          return true;
         });
-      return true;
-    } catch {
-      (error) => console.log("error", error);
+      if (res == true) return true;
+      else return false;
+    } catch (err) {
+      console.log(err);
+      return false;
     }
   },
   async editStaff({ state, commit }, dataObj) {
@@ -421,15 +435,24 @@ export const actions = {
     };
 
     try {
-      fetch(state.url[dataObj.apiName], requestOptions)
-        .then((response) => response.text())
+      let res = await fetch(state.url[dataObj.apiName], requestOptions)
+        .then((response) => response.json())
         .then((result) => {
-          console.log(result);
-          this.dispatch("getData", dataObj.apiName);
+          if (result.id) {
+            this.dispatch("getData", dataObj.apiName);
+            return true;
+          } else return false;
         });
-      return true;
+      if (res == true) {
+        return true;
+      } else {
+        return false;
+        console.log("return false");
+      }
     } catch {
+      console.log("return true");
       (error) => console.log("error", error);
+      return false;
     }
   },
 
@@ -437,7 +460,7 @@ export const actions = {
     try {
       console.log(dataObj);
       console.log(state.url[dataObj.apiName]);
-      await fetch(state.url[dataObj.apiName], {
+      let res = await fetch(state.url[dataObj.apiName], {
         method: "POST",
         headers: { "Content-Type": " application/json" },
         body: JSON.stringify(dataObj.body),
@@ -446,15 +469,17 @@ export const actions = {
         .then((data) => {
           console.log(data);
           if (!data.message && dataObj.apiName != "staff") {
-            commit("addData", {
-              dataContainer: dataObj.apiName,
-              dataValue: dataObj.body,
-            });
+            this.dispatch("getData", dataObj.apiName);
           } else {
             this.dispatch("getData", "staff");
           }
+          return true;
         });
-      return true;
+      if (res == true) return true;
+      else {
+        console.log(res);
+        return false;
+      }
     } catch (err) {
       console.log(err);
       return false;
@@ -464,7 +489,7 @@ export const actions = {
     try {
       console.log(dataObj);
       console.log(state.url[dataObj.apiName]);
-      await fetch(state.url[dataObj.apiName], {
+      let res = await fetch(state.url[dataObj.apiName], {
         method: "PUT",
         headers: { "Content-Type": " application/json" },
         body: JSON.stringify(dataObj.body),
@@ -473,18 +498,23 @@ export const actions = {
         .then((data) => {
           console.log(data);
           commit("editData", dataObj);
+          return true;
         });
-      return true;
+      if (res == true) return true;
+      else {
+        console.log(res);
+        return false;
+      }
     } catch (err) {
       console.log(err);
       return false;
     }
   },
 
-  uploadPdf({ state, commit }, dataObj) {
+  async uploadPdf({ state, commit }, dataObj) {
     try {
       console.log(dataObj.apiName);
-      fetch(state.url[dataObj.apiName], {
+      let res = await fetch(state.url[dataObj.apiName], {
         method: "POST",
         body: dataObj.body,
       })
@@ -496,10 +526,16 @@ export const actions = {
               dataValue: data,
             });
           }
+          return true;
         });
-      return true;
+      if (res == true) return true;
+      else {
+        console.log(res);
+        return false;
+      }
     } catch (err) {
       console.log(err);
+      return false;
     }
   },
   delete({ state, commit }, dataObj) {

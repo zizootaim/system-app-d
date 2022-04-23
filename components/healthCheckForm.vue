@@ -11,16 +11,16 @@
           </select>
           <span class="form__control-label">Check Description</span>
         </div>
-<div class="form__control" v-if="description == 'Other'">
-  <input
-                type="text"
-                name="otherCheckDescription"
-                required
-                v-model="otherCheckDescription"
-                autocomplete="off"
-              />
-              <span class="form__control-label">Other Description</span>
-</div>
+        <div class="form__control" v-if="description == 'Other'">
+          <input
+            type="text"
+            name="otherCheckDescription"
+            required
+            v-model="otherCheckDescription"
+            autocomplete="off"
+          />
+          <span class="form__control-label">Other Description</span>
+        </div>
         <div class="form__control full">
           <select name="status" required v-model="status">
             <option value="Ok">Ok</option>
@@ -183,6 +183,7 @@
         </button>
       </div>
     </form>
+    <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
 </template>
 <script>
@@ -197,7 +198,7 @@ export default {
       shiftStatus,
       spinnerLoading: false,
       description: "",
-      otherCheckDescription:"",
+      otherCheckDescription: "",
       status: "",
       issuesfound: "",
       healthIssue: {
@@ -213,6 +214,7 @@ export default {
         issueStatus: "",
         closeTime: "",
         closeDate: "",
+        message: "",
       },
 
       submitIcon: false,
@@ -237,8 +239,10 @@ export default {
         CloseTime: `${this.healthIssue.closeDate} ${this.healthIssue.closeTime}`,
       };
     },
-      currentDescription() {
-      return this.description == "Other" ? this.otherCheckDescription : this.description;
+    currentDescription() {
+      return this.description == "Other"
+        ? this.otherCheckDescription
+        : this.description;
     },
     ...mapState(["chosenFormMethod", "chosenFormId"]),
     ...mapGetters(["getHealthCheck"]),
@@ -264,6 +268,7 @@ export default {
   },
   methods: {
     async submitData() {
+      this.message = "";
       console.log(this.dataObj);
       this.spinnerLoading = true;
       let response;
@@ -288,6 +293,12 @@ export default {
           this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);
+      } else {
+        this.loading = false;
+        this.message = "Something Went Wrong";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },
@@ -312,7 +323,7 @@ export default {
 textarea {
   width: 100%;
 }
-.health__issues-form .form__title{
+.health__issues-form .form__title {
   margin-top: -1rem;
 }
 </style>

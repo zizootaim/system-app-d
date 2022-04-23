@@ -327,6 +327,7 @@
         </button>
       </div>
     </form>
+    <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
 </template>
 <script>
@@ -381,6 +382,7 @@ export default {
       signature: "",
       signatureDate: "",
       signatureTime: "",
+      message: "",
       loading: false,
       submitIcon: false,
     };
@@ -491,6 +493,12 @@ export default {
           this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);
+      } else {
+        this.loading = false;
+        this.message = "Something Went Wrong";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },

@@ -36,15 +36,15 @@
         <span class="form__control-label">Email</span>
       </div>
       <div class="form__control">
-        <input type="text" name="mobile" required v-model="mobile" />
+        <input type="number" name="mobile" required v-model="mobile" />
         <span class="form__control-label">Mobile</span>
       </div>
       <div class="form__control">
-        <input type="text" name="phone" required v-model="phone" />
+        <input type="number" name="phone" required v-model="phone" />
         <span class="form__control-label">Phone</span>
       </div>
       <div class="submit__btn-wrapper full">
-        <button class="submit-btn"  type="submit">
+        <button class="submit-btn" type="submit">
           Submit
           <svg
             v-if="submitIcon"
@@ -62,6 +62,7 @@
         </button>
       </div>
     </form>
+    <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
 </template>
 <script>
@@ -76,19 +77,22 @@ export default {
       email: "",
       mobile: "",
       phone: "",
+      message: "",
       addingChild: false,
       spinnerLoading: false,
-      submitIcon:false,
+      submitIcon: false,
     };
   },
   computed: {
     dataObj() {
       let obj = {};
-      if (this.getStaff[0] && this.level == 'top') this.type = 1;
-      if (this.getStaff[1] && this.getStaff[1].parent && this.level == 'left') this.type = 1;
-      if (this.getStaff[2] && this.getStaff[2].parent && this.level == 'right') this.type = 1;
+      if (this.getStaff[0] && this.level == "top") this.type = 1;
+      if (this.getStaff[1] && this.getStaff[1].parent && this.level == "left")
+        this.type = 1;
+      if (this.getStaff[2] && this.getStaff[2].parent && this.level == "right")
+        this.type = 1;
       console.log(this.type);
-console.log(this.getStaff);
+      console.log(this.getStaff);
       obj = {
         ParentName: this.level,
         Name: this.name,
@@ -113,12 +117,19 @@ console.log(this.getStaff);
         body: obj,
       });
       console.log(response);
+      this.spinnerLoading = false;
       if (response) {
-        this.spinnerLoading = false;
-
+        this.submitIcon = true;
         setTimeout(() => {
+          this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);
+      } else {
+        this.spinnerLoading = false;
+        this.message = "Something Went Wrong";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },

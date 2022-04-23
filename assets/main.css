@@ -259,7 +259,11 @@ button {
 .form__control.textarea textarea:valid ~ .form__control-label {
   color: #010f60;
 }
-
+.errMessage {
+  text-align: center;
+  color: red;
+  padding: 10px;
+}
 .submit-btn {
   margin-top: 1.5rem;
   width: 90%;
@@ -334,8 +338,8 @@ button {
   margin-top: 3rem;
   text-transform: capitalize;
 }
-.no-data h3{
-  color: #dc3545!important;
+.no-data h3 {
+  color: #dc3545 !important;
 }
 /* Forms */
 
@@ -781,24 +785,26 @@ span.status {
   min-width: 6rem;
 }
 .bottom-row .desc {
-  padding: 0 3rem .5rem;
+  padding: 0 3rem 0.5rem;
   width: 100%;
 }
-.bottom-row div.desc div{
-  padding-bottom: .7rem;
+.bottom-row div.desc div {
+  padding-bottom: 0.7rem;
 }
- .primary div,.secondary div {
+.primary div,
+.secondary div {
   position: relative;
 }
- .primary div::after,.secondary div::after{
-  content: '';
+.primary div::after,
+.secondary div::after {
+  content: "";
   position: absolute;
   bottom: 0;
-left: 0%;
+  left: 0%;
 
   width: 100%;
   margin: auto;
-  height: .05rem;
+  height: 0.05rem;
   background: rgb(181, 179, 179);
 }
 /* Wiki Page */

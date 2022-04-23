@@ -6,6 +6,8 @@
         v-for="(t, index) in getStaff[0]"
         :key="index"
       >
+      
+
         <i
           v-if="getRole == 'admin'"
           class="fas fa-edit edit-btn"
@@ -16,7 +18,7 @@
           class="fas fa-trash-alt delete-btn"
           @click="() => deleteMember(t.id)"
         ></i>
-
+     
         <manSvg />
         <div class="person__info">
           <h4>{{ t.Name }}</h4>

@@ -83,6 +83,7 @@
         </button>
       </div>
     </form>
+    <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
 </template>
 <script>
@@ -104,7 +105,7 @@ export default {
       status: "",
       closeTime: "",
       closeDate: "",
-
+      message: "",
       spinnerLoading: false,
       submitIcon: false,
     };
@@ -158,13 +159,19 @@ export default {
         });
       }
       console.log(response);
-      this.spinnerLoading = false;
+      this.loading = false;
       if (response) {
         this.submitIcon = true;
         setTimeout(() => {
           this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);
+      } else {
+        this.loading = false;
+        this.message = "Something Went Wrong";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },

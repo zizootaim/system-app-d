@@ -69,7 +69,7 @@
         </select>
         <span class="form__control-label">Applicable</span>
       </div>
-      <div class="form__control" v-if="applicable == 'No'">
+      <div class="form__control" v-if="applicable == 'Yes'">
         <input
           type="text"
           name="action"
@@ -96,6 +96,7 @@
         </svg>
       </button>
     </form>
+    <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
 </template>
 
@@ -123,6 +124,7 @@ export default {
       token: "",
       notes: "",
       otherSource: "",
+      message: "",
       loading: false,
       submitIcon: false,
     };
@@ -187,6 +189,12 @@ export default {
           this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);
+      } else {
+        this.loading = false;
+        this.message = "Something Went Wrong";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <img :src="this.getHomeData[0].url" alt="" />
+    <img :src="this.getHomeData[0] ? this.getHomeData[0].url : ''" alt="Logo" />
     <!-- <svg
       id="iconSvg"
       width="22"

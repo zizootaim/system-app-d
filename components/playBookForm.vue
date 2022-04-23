@@ -258,9 +258,11 @@ export default {
             this.$store.dispatch("getData", "Playbooks");
           })
           .catch((error) => {
-            console.log("error", error);
             this.loading = false;
-            this.message = "Some thing Went Wrong";
+            this.message = "Something Went Wrong";
+            setTimeout(() => {
+              this.message = "";
+            }, 3000);
           });
       }
     },

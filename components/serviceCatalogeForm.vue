@@ -120,6 +120,7 @@
       </button>
       <p class="errMessage">{{ messageErr }}</p>
     </form>
+    <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
 </template>
 
@@ -215,7 +216,11 @@ export default {
           document.querySelector(".close").click();
         }, 1000);
       } else {
-        this.message = "Some Thing Went Wrong";
+        this.loading = false;
+        this.message = "Something Went Wrong";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },
@@ -238,6 +243,7 @@ p {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.6rem;
+  padding-top: 1rem;
 }
 .errMessage {
   text-align: center;

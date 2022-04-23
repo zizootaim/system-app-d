@@ -107,6 +107,7 @@
         </button>
       </div>
     </form>
+    <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
 </template>
 <script>
@@ -129,7 +130,7 @@ export default {
       status: "",
       closeTime: "",
       closeDate: "",
-
+      message: "",
       spinnerLoading: false,
       submitIcon: false,
     };
@@ -138,6 +139,7 @@ export default {
     dataObj() {
       return {
         id: this.chosenFormId,
+
         name: this.alertName,
         number: this.alertNumber,
         StartTime: this.startDate + " " + this.startTime,
@@ -169,6 +171,7 @@ export default {
     async submitData() {
       console.log(this.dataObj);
       this.spinnerLoading = true;
+      this.message = "";
       let response;
       if (this.chosenFormMethod == "POST") {
         response = await this.$store.dispatch("postData", {
@@ -190,6 +193,12 @@ export default {
           this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);
+      } else {
+        this.spinnerLoading = false;
+        this.message = "Something Went Wrong";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },

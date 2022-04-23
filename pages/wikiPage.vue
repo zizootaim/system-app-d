@@ -101,53 +101,40 @@
           </div>
 
           <!-- Filteration -->
-
           <div
-            v-if="
-              chosenCat &&
-              wikiPage != 'Shifts' &&
-              wikiPage != 'Administration' & wikiPage != 'skillMatrix' &&
-              allData.length > 1
-            "
             class="filteration__wrapper"
+            v-if="
+              allData.length > 1 &&
+              wikiPage != '' &&
+              wikiPage != 'Shifts' &&
+              (wikiPage != 'Administration') & (wikiPage != 'skillMatrix')
+            "
           >
             <i class="fas fa-filter open-filter" @click="openFilterForm"></i>
             <div class="filter__form">
-              <div class="form__control" v-if="filterObj.inputName">
+              <div class="form__control select">
+                <select name="filterKey" required v-model="filterKey">
+                  <option
+                    v-for="(k, index) in filterKeys"
+                    :key="index"
+                    :value="k"
+                  >
+                    {{ k }}
+                  </option>
+                </select>
+                <span class="form__control-label">Key</span>
+              </div>
+              <div class="form__control" v-if="filterKey">
                 <input
                   type="text"
-                  v-model="filterObj.filterInputValue"
                   required
-                  v-on:change="filterData"
+                  name="filterValue"
+                  v-model="filterValue"
                 />
-                <span class="form__control-label">{{
-                  this.filterObj.inputName
-                }}</span>
-              </div>
-              <div class="filter__selects" v-if="filterObj.select">
-                <div
-                  class="form__control select"
-                  v-for="(s, index) in filterObj.select"
-                  :key="index"
-                >
-                  <select
-                    required
-                    v-model="filterObj.selectValues[index]"
-                    v-on:change="() => filterData(s.name)"
-                  >
-                    <option v-for="(v, i) in s.values" :key="i" :value="v">
-                      {{ v }}
-                    </option>
-                  </select>
-                  <span class="form__control-label">{{ s.name }}</span>
-                </div>
-              </div>
-              <div>
-                <button class="clear-btn" @click="setFilters">Clear</button>
+                <span class="form__control-label">Value</span>
               </div>
             </div>
           </div>
-
           <!-- Reports -->
 
           <div class="reports" v-if="wikiPage == 'Reports'">
@@ -221,7 +208,7 @@
                       <div class="col">
                         <h4>Applicable</h4>
                       </div>
-                      <div class="col"></div>
+                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
                     </div>
 
                     <div
@@ -254,10 +241,11 @@
                             <span>{{ advisoryCard.applicable }}</span>
                           </p>
                         </div>
-                        <div class="col">
+                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
+                              
                               @click="
                                 setChosenForm(
                                   'advisory',
@@ -270,6 +258,7 @@
                             </button>
                             <button
                               class="table-btn"
+                              
                               @click="
                                 deleteData({
                                   body: { id: advisoryCard.id },
@@ -327,7 +316,7 @@
                       <div class="col">
                         <h4>Priority</h4>
                       </div>
-                      <div class="col"></div>
+                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
                     </div>
                     <div
                       class="table__row"
@@ -359,7 +348,7 @@
                             <span>{{ i.Priority }}</span>
                           </p>
                         </div>
-                        <div class="col">
+                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -559,6 +548,7 @@
                           apiName: 'Policies',
                         })
                       "
+                      v-if="getRole == 'Employee' || getRole == 'admin'"
                     >
                       <i class="fas fa-trash-alt"></i>
                     </button>
@@ -595,6 +585,7 @@
                           apiName: 'Procedures',
                         })
                       "
+                      v-if="getRole == 'Employee' || getRole == 'admin'"
                     >
                       <i class="fas fa-trash-alt"></i>
                     </button>
@@ -634,7 +625,7 @@
                   <div class="table">
                     <div
                       class="table__row"
-                      v-for="book in getPlayBook"
+                      v-for="book in filteredArray"
                       :key="book.id"
                     >
                       <div class="row top-row">
@@ -648,7 +639,7 @@
                             <span>{{ book.title }}</span>
                           </p>
                         </div>
-                        <div class="col">
+                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -675,7 +666,7 @@
                       <div class="row bottom-row">
                         <div class="book__data">
                           <div>Description : {{ book.description }}</div>
-                          <div class="book__table">
+                          <div class="book__table" v-if="book.data">
                             <div>
                               <div class="table__row header">
                                 <div class="col">
@@ -756,7 +747,7 @@
                       <div class="col">
                         <h4>Check Status</h4>
                       </div>
-                      <div class="col"></div>
+                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
                     </div>
                     <div
                       class="table__row top-row"
@@ -786,7 +777,7 @@
                             {{ h.Status }}
                           </p>
                         </div>
-                        <div class="col">
+                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -886,7 +877,7 @@
                       <div class="col">
                         <h4>Status</h4>
                       </div>
-                      <div class="col"></div>
+                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
                     </div>
                     <div
                       class="table__row"
@@ -921,7 +912,7 @@
                           </p>
                         </div>
 
-                        <div class="col">
+                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -1005,7 +996,7 @@
                       <div class="col">
                         <h4>Status</h4>
                       </div>
-                      <div class="col"></div>
+                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
                     </div>
 
                     <div
@@ -1043,7 +1034,7 @@
                             <span>{{ incidentsCard.status }}</span>
                           </p>
                         </div>
-                        <div class="col">
+                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -1133,7 +1124,7 @@
                     <div class="col">
                       <h4>Status</h4>
                     </div>
-                    <div class="col"></div>
+                    <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
                   </div>
 
                   <div
@@ -1171,7 +1162,7 @@
                           <span>{{ pendingIssuesCard.status }}</span>
                         </p>
                       </div>
-                      <div class="col">
+                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
                         <div class="btns__wrapper">
                           <button
                             class="table-btn"
@@ -1277,7 +1268,7 @@
                         <h4>Use Case Type</h4>
                       </div>
 
-                      <div class="col"></div>
+                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
                     </div>
 
                     <div
@@ -1311,7 +1302,7 @@
                           </p>
                         </div>
 
-                        <div class="col">
+                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -1416,7 +1407,7 @@
                       <h4>Group Email</h4>
                     </div>
                     <div class="col"><h4>When To Connect</h4></div>
-                    <div class="col"></div>
+                    <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
                   </div>
 
                   <div
@@ -1449,7 +1440,7 @@
                           <span>{{ c.Action }}</span>
                         </p>
                       </div>
-                      <div class="col">
+                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
                         <div class="btns__wrapper">
                           <button
                             class="table-btn"
@@ -1525,7 +1516,8 @@
               !loading &&
               filteredArray.length == 0 &&
               wikiPage != 'Administration' &&
-              wikiPage != '' && wikiPage != 'skillMatrix'
+              wikiPage != '' &&
+              wikiPage != 'skillMatrix'
             "
           >
             <h3>no data to show.</h3>
@@ -1626,15 +1618,9 @@ export default {
       newAddedObjects: [],
       filteredArray: [],
       allData: [],
-      nothingToSee: false,
-      filterObj: {
-        inputName: "",
-        select: [],
-        filteringCategory: "",
-        filterInputValue: "",
-        filterTextName: "",
-        selectValues: [],
-      },
+      filterKeys: [],
+      filterKey: "",
+      filterValue: "",
     };
   },
   components: {
@@ -1662,6 +1648,7 @@ export default {
   computed: {
     ...mapState(["wikiSections", "chosenForm"]),
     ...mapGetters([
+      "getChangingData",
       "getRole",
       "getUseCase",
       "getAdvisory",
@@ -1692,9 +1679,15 @@ export default {
       },
       immediate: true,
     },
-    filterObj: {
+    getChangingData: {
       handler() {
-        console.log(this.filterObj.filterInputValue);
+        this.getFilterObj(this.chosenCat);
+      },
+      immediate: true,
+    },
+    filterValue: {
+      handler() {
+        this.filterData(this.filterKey, this.filterValue);
       },
       immediate: true,
     },
@@ -1707,218 +1700,98 @@ export default {
       this.showSideMenu = !this.showSideMenu;
     },
     getFilterObj(value) {
-      this.filteringCategory = value;
-      console.log(value);
       switch (value) {
         case "Use Case Library":
           {
             this.filteredArray = this.getUseCase;
             this.allData = this.getUseCase;
-            this.filterObj.filterTextName = "identifier";
-            this.filterObj.inputName = "Identifier";
-            this.filterObj.select = [
-              {
-                name: "volume",
-                values: [...selectCategories.alertVolumes],
-              },
-            ];
           }
           break;
         case "pendingIssues":
           {
             this.filteredArray = this.getPendingIssues;
             this.allData = this.getPendingIssues;
-            this.filterObj.filterTextName = "issue";
-            this.filterObj.inputName = "Name";
-            this.filterObj.select = [
-              {
-                name: "status",
-                values: [...selectCategories.shiftStatus],
-              },
-            ];
           }
           break;
         case "incidents":
           {
             this.filteredArray = this.getIncidents;
             this.allData = this.getIncidents;
-            this.filterObj.filterTextName = "name";
-            this.filterObj.inputName = "Name";
-            this.filterObj.select = [
-              {
-                name: "status",
-                values: [...selectCategories.shiftStatus],
-              },
-            ];
           }
           break;
         case "alerts":
           {
             this.filteredArray = this.getAlerts;
             this.allData = this.getAlerts;
-            this.filterObj.filterTextName = "name";
-            this.filterObj.inputName = "Name";
-            this.filterObj.select = {};
           }
           break;
         case "healthCheck":
           {
             this.filteredArray = this.getHealthCheck;
             this.allData = this.getHealthCheck;
-            this.filterObj.filterTextName = "Who";
-            this.filterObj.inputName = "Who";
-            this.filterObj.select = [
-              {
-                name: "Issue Status",
-                values: [...selectCategories.shiftStatus],
-              },
-            ];
           }
           break;
         case "Communication":
           {
             this.filteredArray = this.getCommunication;
             this.allData = this.getCommunication;
-            this.filterObj.filterTextName = "Team";
-            this.filterObj.inputName = "Team";
-            this.filterObj.select = {};
           }
           break;
         case "Policies":
           {
             this.filteredArray = this.getPolicies;
             this.allData = this.getPolicies;
-            this.filterObj.filterTextName = "title";
-            this.filterObj.inputName = "Policy Title";
-            this.filterObj.select = {};
           }
           break;
         case "Procedures":
           {
             this.filteredArray = this.getProcedures;
             this.allData = this.getProcedures;
-            this.filterObj.filterTextName = "title";
-            this.filterObj.inputName = "Process Title";
-            this.filterObj.select = {};
           }
           break;
         case "Playbooks":
           {
             this.filteredArray = this.getPlayBook;
             this.allData = this.getPlayBook;
-            this.filterObj.filterTextName = "title";
-            this.filterObj.inputName = "PlayBook Title";
-            this.filterObj.select = {};
           }
           break;
         case "advisory":
           {
             this.filteredArray = this.getAdvisory;
             this.allData = this.getAdvisory;
-            this.filterObj.inputName = "Advisory Source";
-            this.filterObj.filterTextName = "source";
-            this.filterObj.select = {};
           }
           break;
         case "socReports":
           {
             this.filteredArray = this.getReports;
             this.allData = this.getReports;
-            this.filterObj.filterTextName = "title";
-            this.filterObj.inputName = "Soc Title";
-            this.filterObj.select = {};
           }
           break;
         case "mainIncident":
           {
             this.filteredArray = this.getMainIncident;
             this.allData = this.getMainIncident;
-            this.filterObj.inputName = "Incident Name";
-            this.filterObj.filterTextName = "IncidentName";
-            this.filterObj.select = [
-              {
-                name: "Priority",
-                values: [...selectCategories.incidentPriority],
-              },
-            ];
           }
           break;
       }
-      console.log(this.filteredArray);
-    },
-    setFilters() {
-      this.filteredArray = this.allData;
-      for (let i = 0; i < this.filterObj.selectValues.length; i++) {
-        this.filterObj.selectValues[i] = "";
+      if (this.allData[0]) {
+        this.filterKeys = Array.from(Object.keys(this.allData[0])).filter(
+          (key) => key != "id" && key != "created_at" && key != "updated_at"
+        );
       }
-      this.filterObj.filterInputValue = "";
     },
     editString(str) {
       return str.replace(/\s/g, "");
     },
-    filterData(selectCat) {
-      let newArr = this.filteredArray;
-      let val = "";
-      if (this.filterObj.filterInputValue) {
-        val = this.filterObj.filterInputValue.trim().toLowerCase();
-      }
-      switch (this.filteringCategory) {
-        case "advisory":
-        case "socReports":
-        case "Policies":
-        case "Procedures":
-        case "Playbooks":
-        case "Communication":
-        case "alerts":
-          {
-            newArr = this.filteredArray.filter(
-              (el) =>
-                el[this.filterObj.filterTextName]
-                  .trim()
-                  .toLowerCase()
-                  .startsWith(val) == true
-            );
-          }
-          break;
-        case "mainIncident":
-        case "healthCheck":
-        case "incidents":
-        case "pendingIssues":
-        case "Use Case Library":
-          {
-            if (val) {
-              newArr = newArr.filter((el) => {
-                if (
-                  el[this.filterObj.filterTextName] &&
-                  el[this.filterObj.filterTextName]
-                    .trim()
-                    .toLowerCase()
-                    .startsWith(val) == true
-                )
-                  return el;
-              });
-            } else this.filteredArray = this.allData;
-            if (selectCat != undefined && selectCat.length >= 1) {
-              selectCat = this.editString(selectCat);
-              const selectValue = this.filterObj.selectValues[0];
-
-              newArr = newArr.filter((el) => {
-                if (
-                  el[selectCat] &&
-                  el[selectCat].toLowerCase() == selectValue.toLowerCase()
-                )
-                  return el;
-              });
-            }
-          }
-          break;
-      }
+    filterData(key, value) {
+      let newArr = this.filteredArray.filter((el) => {
+        if (el[key].toLowerCase().startsWith(value.trim().toLowerCase()))
+          return el;
+      });
 
       if (newArr.length >= 1) this.filteredArray = newArr;
-      else this.setFilters();
-
-      if (!val && !this.filterObj.selectValues[0])
-        this.filteredArray = this.allData;
+      else this.filteredArray = this.allData;
+      if (!value) this.filteredArray = this.allData;
     },
     changeWikiPage(page) {
       console.log("change" + " " + page);
@@ -1950,7 +1823,6 @@ export default {
         this.chosenCat = page;
     },
     showMenu(event) {
-      console.log(event.target);
       let icon = event.target.querySelector(".sub-menu-icon");
       const parent = event.target.parentElement;
       const list = parent.querySelector(".sub-menu");
@@ -2178,7 +2050,7 @@ export default {
   justify-self: flex-start;
   height: auto;
   position: relative;
-  margin-top: 2rem;
+  margin-top: .2rem;
 }
 .filteration__wrapper .open-filter {
   position: absolute;
@@ -2200,23 +2072,14 @@ export default {
 .filter__form.open {
   width: 90%;
 }
-.filter__selects {
-  display: flex;
-  justify-content: space-around;
-  flex-direction: row;
-  width: 100%;
-  margin-left: 1rem;
-}
+
 .filter__form .form__control .form__control-label {
   z-index: 1;
   text-transform: capitalize;
   left: 3%;
 }
-.filter__selects .select {
-  margin-left: 1rem;
-}
-.filter__selects .select:first-of-type {
-  margin-left: 0;
+.filter__form .form__control:nth-child(1) {
+  margin-right: 2rem;
 }
 .filteration__wrapper .form__control span {
   color: #fff;

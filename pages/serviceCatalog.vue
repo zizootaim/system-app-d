@@ -81,6 +81,10 @@
         </div>
       </div>
     </div>
+    <div class="no-data" v-if="getServiceCatalog.length == 0">
+      <h3>no data to show.</h3>
+    </div>
+
     <modal v-if="addService" class="secform" v-on:close="showForm">
       <service-cataloge-form />
     </modal>

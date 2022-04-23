@@ -95,7 +95,7 @@
           />
           <span class="form__control-label">Group Email</span>
         </div>
-        <div class="form__control" style="grid-column: unset;">
+        <div class="form__control" style="grid-column: unset">
           <input
             type="text"
             name="groupManager"
@@ -126,6 +126,7 @@
         </button>
       </div>
     </form>
+    <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
 </template>
 <script>
@@ -144,6 +145,7 @@ export default {
       secondaryPhone: "",
       secondaryName: "",
       groupEmail: "",
+      message: "",
       groupManager: "",
       loading: false,
       submitIcon: false,
@@ -173,22 +175,25 @@ export default {
       let res = this.getCommunication.filter(
         (communication) => communication.id == this.chosenFormId
       );
-      console.log(res);
-      this.team = res[0].Team;
-      this.action = res[0].Action;
-      this.primaryEmail = res[0].PrimaryEmail;
-      this.primaryName = res[0].PrimaryName;
-      this.primaryPhone = res[0].PrimaryPhone;
-      this.secondaryEmail = res[0].SecondaryEmail;
-      this.secondaryName = res[0].SecondaryName;
-      this.secondaryPhone = res[0].SecondaryPhone;
-      this.groupEmail = res[0].GroupEmail;
-      this.groupManager = res[0].GroupManager;
+      if (res.length != 0) {
+        console.log(res);
+        this.team = res[0].Team;
+        this.action = res[0].Action;
+        this.primaryEmail = res[0].PrimaryEmail;
+        this.primaryName = res[0].PrimaryName;
+        this.primaryPhone = res[0].PrimaryPhone;
+        this.secondaryEmail = res[0].SecondaryEmail;
+        this.secondaryName = res[0].SecondaryName;
+        this.secondaryPhone = res[0].SecondaryPhone;
+        this.groupEmail = res[0].GroupEmail;
+        this.groupManager = res[0].GroupManager;
+      }
     }
   },
   methods: {
     async submitData() {
       console.log(this.dataObj);
+      this.message = "";
       this.loading = true;
       let response;
       if (this.chosenFormMethod == "POST") {
@@ -198,6 +203,9 @@ export default {
         });
       }
       if (this.chosenFormMethod == "PUT") {
+        if (this.dataObj.id == "") {
+          await this.$store.dispatch("getData", "Communication");
+        }
         response = await this.$store.dispatch("editData", {
           apiName: "Communication",
           body: this.dataObj,
@@ -211,6 +219,12 @@ export default {
           this.submitIcon = false;
           document.querySelector(".close").click();
         }, 1000);
+      } else {
+        this.loading = false;
+        this.message = "Something Went Wrong";
+        setTimeout(() => {
+          this.message = "";
+        }, 3000);
       }
     },
   },

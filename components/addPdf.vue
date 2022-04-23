@@ -30,6 +30,7 @@
         </svg>
       </button>
     </div>
+    <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
 </template>
 
@@ -40,6 +41,7 @@ export default {
       title: "",
       loading: false,
       submitIcon: false,
+      message: "",
     };
   },
   props: {
@@ -50,13 +52,14 @@ export default {
   },
   methods: {
     async upload() {
+      this.loading = true;
+      this.message = "";
       console.log("start");
       let formData = new FormData();
       let file = document.querySelector("input[type=file]");
       if (this.title && file.files[0] != undefined) {
         formData.append("file", file.files[0]);
         formData.append("title", this.title);
-        this.loading = true;
         let response = await this.$store.dispatch("uploadPdf", {
           apiName: this.apiName,
           body: formData,
@@ -68,7 +71,21 @@ export default {
             this.submitIcon = false;
             document.querySelector(".close").click();
           }, 1000);
+        } else {
+          console.log("fsfasdfv");
+          this.loading = false;
+          this.message = "Something Went Wrong, Try Again !";
+          setTimeout(() => {
+            this.message = "";
+          }, 4000);
         }
+      } else {
+        console.log("fsfasdfv");
+        this.loading = false;
+        this.message = "Something Went Wrong, Try Again !";
+        setTimeout(() => {
+          this.message = "";
+        }, 4000);
       }
     },
   },
