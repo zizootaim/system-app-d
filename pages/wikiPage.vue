@@ -99,7 +99,7 @@
               (wikiPage != 'Administration') & (wikiPage != 'skillMatrix')
             "
           >
-            <i class="fas fa-filter open-filter" @click="openFilterForm"></i>
+            <button class="filter-btn" @click="openFilterForm"><i class="fas fa-filter" ></i> <span>Filter</span></button>
             <div class="filter__form">
               <div class="form__control select">
                 <select name="filterKey" required v-model="filterKey">
@@ -122,6 +122,7 @@
                 />
                 <span class="form__control-label">Value</span>
               </div>
+              <button class="clear-btn" @click="clearFilter">Clear</button>
             </div>
           </div>
           <!-- Reports -->
@@ -1902,6 +1903,10 @@ export default {
       if (newArr.length >= 1) this.filteredArray = newArr;
       else this.filteredArray = this.allData;
       if (!value) this.filteredArray = this.allData;
+    },
+    clearFilter(){
+      this.filteredArray = this.allData;
+      this.filterValue = '';
     },
     changeWikiPage(page) {
       console.log("change" + " " + page);
