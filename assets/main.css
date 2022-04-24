@@ -301,6 +301,7 @@ button {
   font-size: 0.9rem;
   width: 100%;
   height: 100%;
+  text-transform: capitalize;
 }
 .form__control select option {
   cursor: pointer;
@@ -437,10 +438,6 @@ textarea::placeholder {
 }
 
 /* Light Mode */
-
-.light-mode .nav-logo {
-  filter: invert(1);
-}
 
 .light-mode .wiki__nav {
   background: #fff;

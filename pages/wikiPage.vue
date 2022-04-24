@@ -139,7 +139,7 @@
 
           <div class="reports" v-if="wikiPage == 'Reports'">
             <div v-if="chosenCat == 'socReports'">
-              <h1 class="sec__title">Soc Reports</h1>
+              <h1 class="sec__title">SOC Reports</h1>
               <button
                 class="form-btn"
                 @click="setChosenForm('addPdf', 'POST')"
@@ -276,7 +276,7 @@
                           <span>Description</span> :
                           {{ advisoryCard.description }}
                         </div>
-                        <div v-if="advisoryCard.applicable == 'No'">
+                        <div v-if="advisoryCard.applicable == 'Yes'">
                           <span> Actions Taken</span> : {{ advisoryCard.token }}
                         </div>
                         <div><span>Notes</span> : {{ advisoryCard.notes }}</div>
@@ -399,6 +399,10 @@
                                 <span>Repeated Incident</span> :
                                 {{ i.RepeatedIncident }}
                               </div>
+                              <div v-if="i.RepeatedIncidentNumber">
+                                <span>Repeated Incident Number</span> : 
+                                {{i.RepeatedIncidentNumber}}
+                              </div>
                               <div>
                                 <span>Impact Duration</span> :
                                 {{ i.ImpactDuration }}
@@ -465,7 +469,7 @@
                                 <span>Notification</span> : {{ i.Notification }}
                               </div>
                               <div>
-                                <span>Incident Availability</span> :
+                                <span>Incident Avoidability</span> :
                                 {{ i.IncidentAvailability }}
                               </div>
                             </div>
@@ -1776,8 +1780,9 @@ export default {
       }
       if (this.allData[0]) {
         this.filterKeys = Array.from(Object.keys(this.allData[0])).filter(
-          (key) => key != "id" && key != "created_at" && key != "updated_at"
+          (key) => key != "id" && key != "created_at" && key != "updated_at" && key != 'file_path' && key != 'url' && key != 'name'
         );
+        console.log(this.filterKeys);
       }
     },
     editString(str) {
@@ -2108,9 +2113,7 @@ export default {
   border-color: #000;
 }
 
-.users {
-  width: 80%;
-}
+
 .playbooks .table__row .col p {
   text-align: center;
 }

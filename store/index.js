@@ -95,7 +95,7 @@ export const state = (state) => ({
   wikiSections: [
     {
       section: "Soc Governance",
-      sectionName: "Soc Governance",
+      sectionName: "SOC Governance",
       class: "far fa-file-check",
       subPages: [
         { name: "Policies", callFunc: "Policies" },
@@ -140,7 +140,7 @@ export const state = (state) => ({
       subPages: [
         { name: "Advisory ", callFunc: "advisory" },
         { name: "Incident", callFunc: "mainIncident" },
-        { name: "Soc Reports", callFunc: "socReports" },
+        { name: "SOC Reports", callFunc: "socReports" },
       ],
     },
     {

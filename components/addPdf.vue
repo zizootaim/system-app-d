@@ -1,7 +1,7 @@
 <template>
   <div class="pdfs__top">
+      <h1 class="form__title">Add PDF</h1>
     <div class="upload-file__wrapper">
-      <h4>Upload File</h4>
       <div class="form__control">
         <input
           type="text"
@@ -71,8 +71,8 @@ export default {
             this.submitIcon = false;
             document.querySelector(".close").click();
           }, 1000);
+          this.$store.commit("setChangingData")
         } else {
-          console.log("fsfasdfv");
           this.loading = false;
           this.message = "Something Went Wrong, Try Again !";
           setTimeout(() => {
@@ -80,7 +80,7 @@ export default {
           }, 4000);
         }
       } else {
-        console.log("fsfasdfv");
+     
         this.loading = false;
         this.message = "Something Went Wrong, Try Again !";
         setTimeout(() => {
@@ -94,11 +94,8 @@ export default {
 
 <style>
 .upload-file__wrapper {
-  margin: 2rem;
+  margin: 1rem;
 }
 
-.upload-file__wrapper h4 {
-  color: #000a4a;
-  font-weight: 600;
-}
+
 </style>

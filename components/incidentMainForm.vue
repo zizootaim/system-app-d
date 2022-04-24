@@ -67,6 +67,16 @@
             </select>
             <span class="form__control-label">Repeated Incident</span>
           </div>
+
+          <div class="form__control" v-if="repeatedIncident == 'yes'">
+            <input
+              type="text"
+              name="repeatedIncidentNumber"
+              required
+              v-model="repeatedIncidentNumber"
+            />
+            <span class="form__control-label">Repeated Incident Number</span>
+          </div>
           <div class="form__control">
             <select name="priority" required v-model="priority">
               <option
@@ -114,9 +124,9 @@
             <span class="form__control-label">Incident Verification</span>
           </div>
           <div class="classification">
-            <div>
-              <p>Incident Classification</p>
+            <p>Incident Classification</p>
 
+            <div class="class__grid">
               <div
                 class="classificationItem"
                 v-for="(c, index) in incidentClassifications"
@@ -132,7 +142,11 @@
               </div>
             </div>
           </div>
-          <div class="form__control" v-if="incidentClassification == 'Other'">
+          <div
+          style="margin-top: .5rem;"
+            class="form__control"
+            v-if="incidentClassification.includes('Other')"
+          >
             <input
               type="text"
               v-model="otherIncidentClassification"
@@ -251,19 +265,19 @@
               required
               v-model="incidentAvoidability"
             >
-              <option value="true">True</option>
-              <option value="false">False</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
             </select>
             <span class="form__control-label">Incident Avoidability</span>
           </div>
-          <div class="form__control" v-if="incidentAvoidability == 'true'">
+          <div class="form__control" v-if="incidentAvoidability == 'yes'">
             <input
               type="text"
               name="otherIncidentAvoidability"
               required
               v-model="otherIncidentAvoidability"
             />
-            <span class="form__control-label">Other Incident Avoidability</span>
+            <span class="form__control-label">Incident Avoidability</span>
           </div>
 
           <p>INCIDENT CLOSURE</p>
@@ -309,7 +323,7 @@
         </div>
       </div>
       <div class="submit-btn__wrapper">
-        <button class="submit-btn" type="submit">
+        <button class="submit-btn" @click="submitData">
           Submit
           <svg
             v-if="submitIcon"
@@ -358,6 +372,7 @@ export default {
       contactInfo: "",
       location: "",
       repeatedIncident: "",
+      repeatedIncidentNumber:"",
       priority: "",
       impactDuration: "",
       affectedSystem: "",
@@ -398,6 +413,7 @@ export default {
         Location: this.location,
         IncidentReferenceNo: this.incidentReferenceNumber,
         RepeatedIncident: this.repeatedIncident,
+        RepeatedIncidentNumber:this.repeatedIncidentNumber,
         Priority: this.priority,
         ImpactDuration: this.impactDuration,
         AffectedSystem: this.affectedSystem,
@@ -411,7 +427,7 @@ export default {
         RecoveryMeasures: this.recoveryMeasures,
         Notification: this.currentNotification,
         CaseAnalysis: this.rootCaseAnalysis,
-        IncidentAvailability: this.currentIncidentClassificatioAvoidability,
+        IncidentAvailability: this.currentIncidentAvoidability,
         Improvements: this.recommendations,
         TimeOfClosure: this.closureDate + " " + this.closureTime,
         Title: this.title,
@@ -425,12 +441,14 @@ export default {
         : this.notification;
     },
     currentIncidentClassification: function () {
-      return this.incidentClassification == "Other"
-        ? this.otherIncidentClassification
-        : this.incidentClassification.join("  ,  ");
+      let classes = this.incidentClassification.join("  ,  ");
+      if(this.incidentClassification.includes('Other')){
+          classes = classes.replace('Other',this.otherIncidentClassification)
+      }
+      return classes;
     },
-    currentIncidentClassificatioAvoidability: function () {
-      return this.incidentAvoidability == "true"
+    currentIncidentAvoidability: function () {
+      return this.incidentAvoidability == "yes"
         ? this.otherIncidentAvoidability
         : this.incidentAvoidability;
     },
@@ -470,7 +488,8 @@ export default {
   },
   methods: {
     async submitData() {
-      console.log(this.dataObj);
+      console.log(this.dataObj)
+
       this.loading = true;
       let response;
       if (this.chosenFormMethod == "POST") {
@@ -500,7 +519,7 @@ export default {
           this.message = "";
         }, 3000);
       }
-    },
+     },
   },
 };
 </script>
@@ -536,5 +555,9 @@ export default {
 }
 .classificationItem {
   padding: 0 10px 10px 10px;
+}
+.class__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 </style>

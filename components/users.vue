@@ -51,28 +51,7 @@
                   </p>
                 </div>
                 <div class="col">
-                  <!-- <button
-                    v-if="getRole == 'admin' && user.role != 'admin'"
-                    class="approve-btn"
-                    @click="(event) => approveUser(user.email, event)"
-                  >
-                    {{ user.role == "Employee" ? "approved" : "approve" }}
-                    <BaseSpinner />
-                  </button> -->
-                  <!-- <button
-                    v-if="user.role == 'visitor'"
-                    class="approve-btn"
-                    @click="approveUser(user.email)"
-                  >
-                    approve
-                  </button>
-                  <button
-                    v-if="user.role != 'visitor'"
-                    class="disapprove-btn"
-                    @click="disapproveUser(user.email)"
-                  >
-                    disapprove
-                  </button> -->
+                
                   <label class="switch" @click="changeRole(user)">
                     <input type="checkbox" />
                     <span
@@ -89,6 +68,9 @@
           </div>
         </div>
       </div>
+          <div class="no-data" v-if="getUsers.length == 1">
+      <h3>no data to show.</h3>
+    </div>
     </modal>
   </section>
 </template>
@@ -152,8 +134,11 @@ export default {
 .switch {
   position: relative;
   display: inline-block;
-  width: 130px;
-  height: 34px;
+    width: 50px;
+  height: 25px;
+}
+.users .switch{
+width: 130px;
 }
 .user-status{
   position: absolute;
@@ -167,7 +152,6 @@ export default {
 .disabled{
   right: 1.2rem;
 }
-
 
 /* Hide default HTML checkbox */
 .switch input {
@@ -192,31 +176,39 @@ export default {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
+    height: 18px;
+  width: 20px;
   left: 4px;
   bottom: 4px;
   background-color: white;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
+.users .slider::before{
 
+    height: 26px;
+  width: 26px;
+}
 
-.slider.approved {
+.slider.approved,.switch:not(.users .switch) input:checked + .slider {
   background-color: green;
 }
 
 
-.slider.approved {
+.slider.approved,.switch:not(.users .switch) input:checked + .slider {
   box-shadow: 0 0 1px green;
 }
-
-.slider.approved::before {
+.switch:not(.users .switch) input:checked + .slider::before{
+    -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+.users .slider.approved::before {
   -webkit-transform: translateX(95px);
   -ms-transform: translateX(95px);
   transform: translateX(95px);
-
 }
+
 
 /* Rounded sliders */
 .slider.round {
@@ -239,6 +231,11 @@ export default {
 }
 .settings__wrapper .form-btn {
   width: 30%;
+}
+@media screen and (max-width:800px) {
+  .users .form-btn{
+    width: auto;
+  }
 }
 .users .table__row.header {
   background-color: #0b2094;

@@ -167,13 +167,24 @@
           </select>
           <span class="form__control-label">Production</span>
         </div>
-        <label>
-          <input type="checkbox" v-model="mitre" />
-          <span>Tactics & Attacks</span>
-        </label>
-        <div class="full mitre" v-if="mitre">
-          <div>
-            <p>ATT&CK Tactics</p>
+        
+           
+     
+    
+           <div class="full mitre">
+         <div>
+                     <label class="switch" >
+                    <input type="checkbox" v-model="mitre" />
+                    <span
+                      class="slider round"    
+                    ></span>
+                    
+                  </label>
+                  <p>Advanced</p>
+         </div>
+          
+            <div  v-if="mitre">
+            <p>Mitre Tactics</p>
             <div class="btns__wrapper">
               <label
                 v-for="(k, index) in mitreKeys"
@@ -194,8 +205,8 @@
               </label>
             </div>
           </div>
-          <div v-if="mitreTechs.length > 0">
-            <p>ATT&CK Techniques</p>
+          <div v-if="mitreTechs.length > 0 && mitre">
+            <p>Mitre Techniques</p>
             <div class="btns__wrapper tech">
               <label
                 v-for="(t, index) in mitreTechs"
@@ -213,6 +224,7 @@
               /></label>
             </div>
           </div>
+         
         </div>
       </div>
       <div class="submit-btn__wrapper">
@@ -348,6 +360,9 @@ export default {
     }
   },
   methods: {
+    showMitre(){
+      this.mitre = !this.mitre;
+    },
     isChecked(arr, value) {
       return arr.includes(value);
     },
@@ -393,17 +408,22 @@ export default {
 };
 </script>
 <style>
+
 .mitre {
   border: none;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
   overflow: auto;
   padding-bottom: 1rem;
-}
-.mitre {
   display: grid;
   grid-template-columns: 1fr;
+}
+.mitre div:first-of-type{
+  display: flex;
+  align-items: center;
+}
+.mitre div:first-of-type p{
+  margin-left: 1rem;
+  margin-top: .8rem;
+  font-size: 1.4rem;
 }
 
 .use-case__form-wrapper .btns__wrapper {
