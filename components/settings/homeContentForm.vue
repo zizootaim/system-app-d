@@ -1,7 +1,7 @@
 <template>
   <div class="home__form-wrapper">
     <h1 class="form__title">Home Content</h1>
-    <form @submit.prevent="submitData">
+    <form @submit.prevent>
       <div class="form__control">
         <input type="text" name="title" v-model="title" required />
         <span class="form__control-label">Title</span>
@@ -11,6 +11,14 @@
         <span class="form__control-label">Sub Title</span>
       </div>
       <div class="form__control">
+        <input type="email" name="email" v-model="email" required />
+        <span class="form__control-label">Email</span>
+      </div>
+      <div class="form__control">
+        <input type="tel" name="phone" v-model="phone" required />
+        <span class="form__control-label">Phone</span>
+      </div>
+      <div class="form__control">
         <input type="text" name="mission" v-model="mission" required />
         <span class="form__control-label">Mission</span>
       </div>
@@ -18,15 +26,32 @@
         <input type="text" name="vision" v-model="vision" required />
         <span class="form__control-label">Vision</span>
       </div>
+      <div>
       <div class="form__control">
-        <input type="text" name="goal" v-model="goal" required />
+        <input type="text" name="goalAdded" v-model="goalAdded" />
         <span class="form__control-label">Goals</span>
+      
+      </div>
+    <button
+          class="form-btn btn"
+          type="submit"
+          @click="addRow"
+          style="color: #010f60"
+        >
+          add row <BaseSpinner class="smallSpinner" v-if="loadingAdd" />
+        </button>
+      </div>
+
+      <div class="form__control">
+        <span>Logo:</span>
+        <input type="file" id="file" ref="file" />
       </div>
       <div class="form__control">
-        <input type="file" id="file" ref="file" required />
+        <span>Background:</span>
+        <input type="file" id="background" ref="background" />
       </div>
       <div class="submit-btn__wrapper full">
-        <button class="submit-btn" type="submit">
+        <button class="submit-btn" @click="submitData">
           Submit <BaseSpinner v-if="loading" />
           <svg
             v-if="submitIcon"
@@ -66,17 +91,29 @@ export default {
       title: this.$store.state.home[0].title,
       mission: this.$store.state.home[0].mission,
       vision: this.$store.state.home[0].vision,
-      goal: this.$store.state.home[0].goal,
+      goal: [],
+      goalAdded: "",
       subTitle: this.$store.state.home[0].subtitle,
+      email: this.$store.state.home[0].email,
+      phone: this.$store.state.home[0].phone,
       loading: false,
       submitIcon: false,
       message: "",
+      loadingAdd: false,
     };
   },
   dataObj() {
     return {};
   },
   methods: {
+    addRow() {
+      this.goal.push(this.goalAdded);
+      this.loadingAdd = true;
+      setTimeout(() => {
+        this.loadingAdd = false;
+        this.goalAdded = "";
+      }, 500);
+    },
     submitData() {
       console.log(this.getHomeData);
       var formdata = new FormData();
@@ -85,9 +122,17 @@ export default {
       formdata.append("subtitle", this.subTitle);
       formdata.append("vision", this.vision);
       formdata.append("mission", this.mission);
-      formdata.append("goal", this.goal);
+      formdata.append("email", this.email);
+      formdata.append("phone", this.phone);
+      if (this.goal.length != 0)
+        formdata.append("goal", JSON.stringify(this.goal));
       let file = document.querySelector("input[type=file]");
-      formdata.append("file", file.files[0], "[PROXY]");
+      let background = document.querySelector("input[id='background']");
+      console.log(file.files[0]);
+      if (file.files[0] != undefined)
+        formdata.append("file", file.files[0], "[PROXY]");
+      if (background.files[0] != undefined)
+        formdata.append("background", background.files[0], "[PROXY]");
 
       var requestOptions = {
         method: "POSt",
@@ -120,7 +165,10 @@ export default {
 </script>
 <style>
 .home__form-wrapper {
-  width: 80%;
+  width: 90%;
   margin: auto;
+}
+.btn {
+  font-size: 12px;
 }
 </style>

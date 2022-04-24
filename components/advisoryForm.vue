@@ -62,14 +62,14 @@
         <input type="text" v-model="otherSource" autocomplete="off" required />
         <span class="form__control-label">Other Source</span>
       </div>
-      <div class="form__control select">
+      <div class="form__control select full">
         <select name="applicable" id="applicable" v-model="applicable" required>
           <option value="Yes">Yes</option>
           <option value="No">No</option>
         </select>
         <span class="form__control-label">Applicable</span>
       </div>
-      <div class="form__control" v-if="applicable == 'Yes'">
+      <div class="form__control full" v-if="applicable == 'Yes'">
         <input
           type="text"
           name="action"
@@ -77,7 +77,7 @@
           autocomplete="off"
           required
         />
-        <span class="form__control-label">Action Token</span>
+        <span class="form__control-label">Action Taken</span>
       </div>
       <button class="submit-btn" type="submit">
         Submit <BaseSpinner v-if="loading" />
@@ -137,7 +137,7 @@ export default {
       return {
         id: this.chosenFormId,
         source: this.currentSource,
-        date: this.dateY + " " + this.dateT,
+        date: `${this.dateY} ${this.dateT}`,
         referenceid: this.referenceid,
         description: this.description,
         applicable: this.applicable,
@@ -157,6 +157,23 @@ export default {
         (advisory) => advisory.id == this.chosenFormId
       );
       console.log(res);
+
+      Date.prototype.toDateInputValue = function () {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0, 10);
+      };
+
+      const StartTime = res[0].date.split(/\-|\s/),
+        startDate = new Date(
+          StartTime.slice(0, 3).reverse().join("/") + " " + StartTime[3]
+        );
+
+      console.log(StartTime);
+
+      this.dateY = startDate.toDateInputValue();
+      this.dateT = StartTime[3];
+
       this.source = res[0].source;
       this.description = res[0].description;
       this.applicable = res[0].applicable;

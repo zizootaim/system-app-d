@@ -4,6 +4,8 @@
       <section class="panar">
         <h1>{{ data.title }}</h1>
         <p class="para">{{ data.subtitle }}</p>
+        <p class="para">{{ data.email }}</p>
+        <p class="para">{{ data.phone }}</p>
       </section>
 
       <div class="info">
@@ -17,7 +19,9 @@
         </div>
         <div>
           <h3>Goals</h3>
-          <p>{{ data.goal }}</p>
+          <li v-for="goal in JSON.parse(data.goal)" :key="goal" class="goal">
+            {{ goal }}
+          </li>
         </div>
       </div>
     </div>
@@ -95,6 +99,9 @@ h1 {
   .info div {
     border-radius: 10px;
   }
+}
+.goal {
+  color: #fff;
 }
 
 a {

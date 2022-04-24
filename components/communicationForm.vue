@@ -1,132 +1,137 @@
 <template>
   <div class="shift__form-wrapper">
     <h1 class="form__title">Communication</h1>
-    <form v-on:submit.prevent="submitData">
+    <form class="incident-main__form" v-on:submit.prevent="submitData">
       <div class="long__form">
-        <div class="form__control">
-          <input
-            type="text"
-            name="team"
-            v-model="team"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Team</span>
-        </div>
+        <div>
+          <p>Information</p>
+          <div class="form__control">
+            <input
+              type="text"
+              name="team"
+              v-model="team"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Team</span>
+          </div>
 
-        <div class="form__control">
-          <input
-            type="text"
-            name="action"
-            v-model="action"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Action</span>
-        </div>
-        <div class="form__control">
-          <input
-            type="email"
-            name="primaryEmail"
-            v-model="primaryEmail"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Primary Email</span>
-        </div>
-        <div class="form__control">
-          <input
-            type="text"
-            name="primaryName"
-            v-model="primaryName"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Primary Name</span>
-        </div>
-        <div class="form__control">
-          <input
-            type="number"
-            name="primaryPhone"
-            v-model="primaryPhone"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Primary Phone</span>
-        </div>
-        <div class="form__control">
-          <input
-            type="email"
-            name="secondaryEmail"
-            v-model="secondaryEmail"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Secondary Email</span>
-        </div>
-        <div class="form__control">
-          <input
-            type="text"
-            name="aecondaryName"
-            v-model="secondaryName"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Secondary Name</span>
-        </div>
+          <div class="form__control">
+            <input
+              type="text"
+              name="action"
+              v-model="action"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Action</span>
+          </div>
+          <p>Primary Information</p>
+          <div class="form__control">
+            <input
+              type="email"
+              name="primaryEmail"
+              v-model="primaryEmail"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Primary Email</span>
+          </div>
+          <div class="form__control">
+            <input
+              type="text"
+              name="primaryName"
+              v-model="primaryName"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Primary Name</span>
+          </div>
+          <div class="form__control">
+            <input
+              type="number"
+              name="primaryPhone"
+              v-model="primaryPhone"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Primary Phone</span>
+          </div>
+          <div class="form__control">
+            <input
+              type="number"
+              name="primaryPhone"
+              v-model="primaryMobile"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Primary Mobile</span>
+          </div>
+          <p>Seconadry Information</p>
+          <div class="form__control" style="margin-top: 1rem;">
+            <input
+              type="email"
+              name="secondaryEmail"
+              v-model="secondaryEmail"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Secondary Email</span>
+          </div>
 
-        <div class="form__control">
-          <input
-            type="number"
-            name="secondaryPhone"
-            v-model="secondaryPhone"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Secondary Phone</span>
-        </div>
-        <div class="form__control">
-          <input
-            type="number"
-            name="primaryMobile"
-            v-model="primaryMobile"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Primary Mobile</span>
-        </div>
-        <div class="form__control">
-          <input
-            type="number"
-            name="secondaryMobile"
-            v-model="secondaryMobile"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Secondary Mobile</span>
-        </div>
-        <div class="form__control">
-          <input
-            type="email"
-            name="groupEmail"
-            v-model="groupEmail"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Group Email</span>
-        </div>
-        <div class="form__control" style="grid-column: unset">
-          <input
-            type="text"
-            name="groupManager"
-            v-model="groupManager"
-            autocomplete="off"
-            required
-          />
-          <span class="form__control-label">Group Manager</span>
+          <div class="form__control">
+            <input
+              type="text"
+              name="aecondaryName"
+              v-model="secondaryName"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Secondary Name</span>
+          </div>
+          <div class="form__control">
+            <input
+              type="number"
+              name="secondaryPhone"
+              v-model="secondaryPhone"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Secondary Phone </span>
+          </div>
+          <div class="form__control">
+            <input
+              type="number"
+              name="secondaryMobile"
+              v-model="secondaryMobile"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Secondary Mobile</span>
+          </div>
+          <p>Group Information</p>
+          <div class="form__control">
+            <input
+              type="email"
+              name="groupEmail"
+              v-model="groupEmail"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Group Email</span>
+          </div>
+          <div class="form__control" style="grid-column: unset">
+            <input
+              type="text"
+              name="groupManager"
+              v-model="groupManager"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Group Manager</span>
+          </div>
         </div>
       </div>
-
       <div class="submit-btn__wrapper full">
         <button class="submit-btn" type="submit">
           Submit
@@ -200,7 +205,7 @@ export default {
         (communication) => communication.id == this.chosenFormId
       );
       if (res.length != 0) {
-        console.log(res);
+     
         this.team = res[0].Team;
         this.action = res[0].Action;
         this.primaryEmail = res[0].PrimaryEmail;
@@ -258,4 +263,41 @@ export default {
   name: "healthCheckForm",
 };
 </script>
-<style></style>
+<style>
+.long__form p {
+  text-transform: capitalize;
+  color: #fff;
+  background: #40358e;
+  border-radius: 0.7rem;
+  margin-bottom: 1.3rem;
+  text-align: center;
+  padding: 0.4rem 0;
+  text-transform: uppercase;
+}
+.long__form p:nth-of-type(3) {
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+}
+.submit-btn__wrapper {
+  margin-top: 1.4rem;
+}
+.classification {
+  display: inline-block;
+  color: #010f60;
+}
+.classification label {
+  padding: 10px;
+  color: #010f60;
+}
+.classification p {
+  background: inherit;
+  color: #010f60;
+}
+.classificationItem {
+  padding: 0 10px 10px 10px;
+}
+.class__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+</style>

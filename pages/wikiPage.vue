@@ -27,19 +27,14 @@
                 {{ item.sectionName }}
                 <i
                   class="fas fa-angle-down sub-menu-icon"
-                  v-if="
-                    item.section == 'Shift Handover' ||
-                    item.section == 'Reports' ||
-                    item.section == 'Soc Governance'
-                  "
+                  v-if="item.subPages"
                 ></i>
               </button>
               <ul
                 class="sub-menu"
                 v-if="
-                  item.section == 'Shift Handover' ||
-                  item.section == 'Reports' ||
-                  item.section == 'Soc Governance'
+                  item.subPages &&
+                  (item.section != 'Administration' || getRole == 'admin')
                 "
               >
                 <li
@@ -63,9 +58,8 @@
               <h3
                 class="wiki__item-title"
                 :class="
-                  wikiItem.section == 'Shift Handover' ||
-                  wikiItem.section == 'Reports' ||
-                  wikiItem.section == 'Soc Governance'
+                   wikiItem.subPages &&
+                  (wikiItem.section != 'Administration' || getRole == 'admin')
                     ? 'top'
                     : ''
                 "
@@ -74,9 +68,8 @@
               </h3>
               <ul
                 v-if="
-                  wikiItem.section == 'Shift Handover' ||
-                  wikiItem.section == 'Reports' ||
-                  wikiItem.section == 'Soc Governance'
+                  wikiItem.subPages &&
+                  (wikiItem.section != 'Administration' || getRole == 'admin')
                 "
                 class="wiki__item-menu"
               >
@@ -95,10 +88,6 @@
         <div class="wiki__container">
           <!-- Use Case Intro -->
           <BaseSpinner v-if="loading && wikiPage != ''" class="mainSpinner" />
-
-          <div class="use__img" v-if="wikiPage == 'Use Case Library'">
-            <img src="../assets/usecase.jpeg" />
-          </div>
 
           <!-- Filteration -->
           <div
@@ -281,7 +270,7 @@
                           {{ advisoryCard.description }}
                         </div>
                         <div v-if="advisoryCard.applicable == 'Yes'">
-                          <span> Actions Taken</span> : {{ advisoryCard.token }}
+                          <span> Action Taken</span> : {{ advisoryCard.token }}
                         </div>
                         <div><span>Notes</span> : {{ advisoryCard.notes }}</div>
                       </div>
@@ -410,8 +399,8 @@
                                 {{ i.RepeatedIncident }}
                               </div>
                               <div v-if="i.RepeatedIncidentNumber">
-                                <span>Repeated Incident Number</span> : 
-                                {{i.RepeatedIncidentNumber}}
+                                <span>Repeated Incident Number</span> :
+                                {{ i.RepeatedIncidentNumber }}
                               </div>
                               <div>
                                 <span>Impact Duration</span> :
@@ -529,7 +518,7 @@
             </div>
           </div>
 
-          <!-- Soc Governance -->
+          <!-- SOC Governance -->
 
           <div v-if="wikiPage == 'Soc Governance'">
             <div
@@ -1302,25 +1291,11 @@
           <!-- Use Case -->
 
           <div class="useCase" v-if="wikiPage == 'Use Case Library'">
-            <!-- <div class="use-case__into">
-            <div class="use-case__panar">
-              <h1 class="title">business risks</h1>
-              <h1 class="title">use cases</h1>
-              <h1 class="title">detection rules</h1>
-            </div>
-            <p>Use Cases are driven from Business(Risk,Threates,Compliance).</p>
-            <p>
-              Use Cases Top-down tracebility to determine the completeness of
-              implementation and demonstrable risk reduction.
-            </p>
-            <p>
-              Use Cases Bottom-up tracebility for contextualizing use case
-              output and business alignment.
-            </p>
-          </div> -->
-
-            <!-- Use Case Intro Form -->
-
+            <button class="form-btn" v-on:click="modalType = 'useModal'"><i class="fal fa-info-circle"></i> Help</button>
+            <!-- Use Case Intro -->
+            <modal class="usersmodal" v-if="modalType == 'useModal'" v-on:close="modalType = ''">
+              <use-case-intro />
+            </modal>
             <div>
               <h1 class="sec__title">Use Case Intro</h1>
 
@@ -1601,11 +1576,24 @@
             </div>
           </div>
           <!-- Administration -->
-          <div
-            v-if="wikiPage == 'Administration' && getRole == 'admin'"
-            class="users"
-          >
-            <users />
+          <div v-if="modalType && getRole == 'admin'">
+            <modal
+              v-if="modalType == 'homeForm'"
+              class="secform"
+              v-on:close="modalType = ''"
+            >
+              <home-content-form />
+            </modal>
+
+            <modal
+              v-if="modalType == 'users'"
+              class="usersmodal"
+              v-on:close="modalType = ''"
+            >
+              <users />
+            </modal>
+
+            <!-- <users :modalType="modalType" /> -->
           </div>
           <!-- Skill Matrix -->
           <div v-if="wikiPage == 'skillMatrix'">
@@ -1711,6 +1699,8 @@ import users from "../components/users.vue";
 import skillMatrix from "@/components/skill/skillMatrix.vue";
 import playBookTable from "@/components/playBook/playBookTable.vue";
 import PlayBookForm from "../components/playBookForm.vue";
+import HomeContentForm from "../components/settings/homeContentForm.vue";
+import useCaseIntro from "../components/useCaseIntro.vue";
 export default {
   name: "wikiPage",
   data() {
@@ -1721,6 +1711,8 @@ export default {
       wikiPage: "",
       chosenCat: "",
       title: "",
+      modalType: "",
+
       currentWikiPage: "",
       newAddedObjects: [],
       filteredArray: [],
@@ -1753,6 +1745,8 @@ export default {
     skillMatrix,
     playBookTable,
     PlayBookForm,
+    HomeContentForm,
+    useCaseIntro,
   },
   computed: {
     ...mapState(["wikiSections", "chosenForm"]),
@@ -1885,7 +1879,13 @@ export default {
       }
       if (this.allData[0]) {
         this.filterKeys = Array.from(Object.keys(this.allData[0])).filter(
-          (key) => key != "id" && key != "created_at" && key != "updated_at" && key != 'file_path' && key != 'url' && key != 'name'
+          (key) =>
+            key != "id" &&
+            key != "created_at" &&
+            key != "updated_at" &&
+            key != "file_path" &&
+            key != "url" &&
+            key != "name"
         );
         console.log(this.filterKeys);
       }
@@ -1905,14 +1905,14 @@ export default {
     },
     changeWikiPage(page) {
       console.log("change" + " " + page);
+      if (page == "Administration") return;
       this.currentWikiPage = page;
 
       if (
         page == "Communication" ||
         page == "Use Case Library" ||
         page == "Shifts" ||
-        page == "skillMatrix" ||
-        page == "Administration"
+        page == "skillMatrix"
       ) {
         this.chosenCat = "";
         this.wikiPage = page;
@@ -1936,8 +1936,10 @@ export default {
       let icon = event.target.querySelector(".sub-menu-icon");
       const parent = event.target.parentElement;
       const list = parent.querySelector(".sub-menu");
+      console.log(list);
       if (list) {
         let height = list.getBoundingClientRect().height;
+        console.log(height);
         if (height > 17) {
           list.style.height = "0px";
           list.classList.remove("show");
@@ -2030,9 +2032,13 @@ export default {
       container.style.height = height + "px";
     },
     async changeCat(val, event) {
-      console.log("changecat");
-
       this.activateLink(event);
+      if (val == "users" || val == "homeForm") {
+        this.modalType = val;
+        console.log(this.modalType);
+
+        return;
+      }
       this.wikiPage = this.currentWikiPage;
       console.log(this.currentWikiPage);
       if (val == "socReports") {
@@ -2051,6 +2057,7 @@ export default {
     },
     async getWikiData(target) {
       console.log(target);
+      if (target == "Administration") return;
       if (this.$store.state[target].length == 0) {
         console.log(this.$store.state[target].length);
         this.loading = true;
@@ -2113,7 +2120,6 @@ export default {
 }
 .addBtn {
   color: black;
-  background: blue;
 }
 .btns__wrapper {
   display: flex;
@@ -2221,7 +2227,6 @@ export default {
 .light-mode .filteration__wrapper .form__control {
   border-color: #000;
 }
-
 
 .playbooks .table__row .col p {
   text-align: center;

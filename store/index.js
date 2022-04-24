@@ -70,9 +70,11 @@ export const state = (state) => ({
     {
       mission: " mission",
       vision: "Vision ",
-      goal: "Goals",
+      goal: '["aa","ss","s"]',
       subtitle: " Sub",
       title: " TITLE",
+      email: "Example@gmai.com",
+      phone: "12345",
     },
   ],
   homeSections: [
@@ -147,6 +149,10 @@ export const state = (state) => ({
       section: "Administration",
       sectionName: "Administration",
       class: "fas fa-cog",
+      subPages: [
+        { name: "Users", callFunc: "users" },
+        { name: "Home Settings", callFunc: "homeForm" },
+      ],
     },
     {
       section: "skillMatrix",

@@ -143,7 +143,7 @@
             </div>
           </div>
           <div
-          style="margin-top: .5rem;"
+            style="margin-top: 0.5rem"
             class="form__control"
             v-if="incidentClassification.includes('Other')"
           >
@@ -372,7 +372,7 @@ export default {
       contactInfo: "",
       location: "",
       repeatedIncident: "",
-      repeatedIncidentNumber:"",
+      repeatedIncidentNumber: "",
       priority: "",
       impactDuration: "",
       affectedSystem: "",
@@ -391,8 +391,8 @@ export default {
       eradicationMeasures: "",
       recommendations: "",
       closureDate: "",
-      otherNotification: "",
       closureTime: "",
+      otherNotification: "",
       title: "",
       signature: "",
       signatureDate: "",
@@ -413,7 +413,7 @@ export default {
         Location: this.location,
         IncidentReferenceNo: this.incidentReferenceNumber,
         RepeatedIncident: this.repeatedIncident,
-        RepeatedIncidentNumber:this.repeatedIncidentNumber,
+        RepeatedIncidentNumber: this.repeatedIncidentNumber,
         Priority: this.priority,
         ImpactDuration: this.impactDuration,
         AffectedSystem: this.affectedSystem,
@@ -442,8 +442,8 @@ export default {
     },
     currentIncidentClassification: function () {
       let classes = this.incidentClassification.join("  ,  ");
-      if(this.incidentClassification.includes('Other')){
-          classes = classes.replace('Other',this.otherIncidentClassification)
+      if (this.incidentClassification.includes("Other")) {
+        classes = classes.replace("Other", this.otherIncidentClassification);
       }
       return classes;
     },
@@ -461,6 +461,22 @@ export default {
         (incident) => incident.id == this.chosenFormId
       );
       console.log(res);
+      const { TimeOfDetection, TimeOfClosure } = res[0];
+      const arr = [TimeOfDetection, TimeOfClosure, res[0].Date];
+
+      const newArr = arr.map((e) => {
+        const time = this.getFullDate(e)[3];
+        const date = this.getDay(this.getFullDate(e));
+        return { time, date };
+      });
+
+      this.detectionDate = newArr[0].date;
+      this.detectionTime = newArr[0].time;
+      this.closureDate = newArr[1].date;
+      this.closureTime = newArr[1].time;
+      this.signatureDate = newArr[2].date;
+      this.signatureTime = newArr[2].time;
+
       this.incidentName = res[0].IncidentName;
       this.incidentDetectorName = res[0].DetectorName;
       this.contactInfo = res[0].ContactInfo;
@@ -487,8 +503,20 @@ export default {
     }
   },
   methods: {
+    getFullDate(str) {
+      return str.split(/\-|\s/);
+    },
+    getDay(str) {
+      Date.prototype.toDateInputValue = function () {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0, 10);
+      };
+      const d = new Date(str.slice(0, 3).reverse().join("/") + " " + str[3]);
+      return d.toDateInputValue();
+    },
     async submitData() {
-      console.log(this.dataObj)
+      console.log(this.dataObj);
 
       this.loading = true;
       let response;
@@ -519,7 +547,7 @@ export default {
           this.message = "";
         }, 3000);
       }
-     },
+    },
   },
 };
 </script>

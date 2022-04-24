@@ -15,7 +15,7 @@
             <div class="row">
               <div class="col">
                 <h4>
-                  {{ skillName }}
+                  {{ skillName != "Edu" ? skillName : "Education" }}
                 </h4>
               </div>
 
@@ -44,7 +44,9 @@
                   :class="'col level c-' + statusClass(i)"
                   :key="index"
                 >
-                  <p v-if="skillName == 'Certifications'">{{ i }}</p>
+                  <p v-if="skillName == 'Certifications' || skillName == 'Edu'">
+                    {{ i }}
+                  </p>
                 </div>
                 <div
                   class="col"
@@ -98,8 +100,8 @@ export default {
         "Analysis 1",
         "Analysis 2",
         "Analysis 3",
-        "Soc Admin",
-        "Soc Manager",
+        "SOC Admin",
+        "SOC Manager",
       ],
       skillModal: false,
     };
@@ -179,5 +181,8 @@ export default {
 }
 .c-significant {
   background-color: rgb(214, 214, 144);
+}
+.table {
+  margin-bottom: 10px;
 }
 </style>

@@ -52,7 +52,7 @@
         </div>
 
         <div class="form__table full">
-          <p style="margin-bottom: 0.5rem">Playbook Table</p>
+          <p style="margin-bottom: 0.5rem;color: #fff;">Playbook Table</p>
           <div class="form__control">
             <input
               ref="activity"
@@ -65,14 +65,15 @@
             <span class="form__control-label">Activity</span>
           </div>
           <div class="form__control">
-            <input
-              ref="irStage"
-              type="text"
-              name="irStage"
-              v-model="irStage"
-              autocomplete="off"
-              required
-            />
+            <select required name="issueStatus" v-model="irStage">
+              <option
+                v-for="option in irStageOptions"
+                :value="option"
+                :key="option"
+              >
+                {{ option }}
+              </option>
+            </select>
             <span class="form__control-label">IR Stage</span>
           </div>
           <div class="form__control">
@@ -86,7 +87,7 @@
             <span class="form__control-label">Team</span>
           </div>
           <button
-            class="form-btn"
+            class="form-btn btn"
             type="submit"
             @click="addRow"
             style="color: #010f60"
@@ -139,6 +140,14 @@ export default {
     return {
       playbookCategories,
       title: "",
+      irStageOptions: [
+        "Preparation",
+        "Identification",
+        "Containment",
+        "Eradication",
+        "Recovery",
+        "Lessons Learned",
+      ],
       category: "",
       otherCategory: "",
       activity: "",
@@ -201,7 +210,7 @@ export default {
       };
 
       if (this.chosenFormMethod == "POST") {
-        fetch("https://beapis.herokuapp.com/api/PlayBook", requestOptions)
+        fetch("http://127.0.0.1:8070/api/PlayBook", requestOptions)
           .then((response) => response.json())
           .then((result) => {
             this.loading = false;
@@ -241,10 +250,7 @@ export default {
           redirect: "follow",
         };
 
-        fetch(
-          "https://beapis.herokuapp.com/api/PlayBook?_method=PUT",
-          requestOptions1
-        )
+        fetch("http://127.0.0.1:8070/api/PlayBook?_method=PUT", requestOptions1)
           .then((response) => response.json())
           .then((result) => {
             this.loading = false;

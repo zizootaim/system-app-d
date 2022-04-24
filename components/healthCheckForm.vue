@@ -11,7 +11,7 @@
           </select>
           <span class="form__control-label">Check Description</span>
         </div>
-        <div class="form__control" v-if="description == 'Other'">
+        <div class="form__control full" v-if="description == 'Other'">
           <input
             type="text"
             name="otherCheckDescription"
@@ -214,8 +214,8 @@ export default {
         issueStatus: "",
         closeTime: "",
         closeDate: "",
-        message: "",
       },
+      message: "",
 
       submitIcon: false,
     };
@@ -252,6 +252,28 @@ export default {
       let res = this.getHealthCheck.filter(
         (issue) => issue.id == this.chosenFormId
       );
+
+      console.log(res[0]);
+
+      Date.prototype.toDateInputValue = function () {
+        var local = new Date(this);
+        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+        return local.toJSON().slice(0, 10);
+      };
+
+      const StartTime = res[0].StartTime.split(/\-|\s/),
+        startDate = new Date(
+          StartTime.slice(0, 3).reverse().join("/") + " " + StartTime[3]
+        );
+      const CloseTime = res[0].CloseTime.split(/\-|\s/),
+        closeDate = new Date(
+          CloseTime.slice(0, 3).reverse().join("/") + " " + CloseTime[3]
+        );
+
+      this.healthIssue.startDate = startDate.toDateInputValue();
+      this.healthIssue.startTime = StartTime[3];
+      this.healthIssue.closeDate = closeDate.toDateInputValue();
+      this.healthIssue.closeTime = CloseTime[3];
       let a = res[0].Description;
       this.status = res[0].Status;
       this.issuesfound = res[0].IssuesFound;
@@ -285,6 +307,7 @@ export default {
           body: this.dataObj,
         });
       }
+
       console.log(response);
       this.spinnerLoading = false;
       if (response) {

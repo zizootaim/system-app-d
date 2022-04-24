@@ -439,6 +439,8 @@ export default {
   display: block;
   margin: 1rem 0;
   color: #010f60;
+  background: none;
+  text-transform: capitalize;
 }
 .mitre-btn {
   padding: 0.2rem 0.5rem;

@@ -1,106 +1,82 @@
 <template>
   <section class="settings__wrapper">
-    <h1 class="sec__title">Settings</h1>
-
-    <button class="form-btn" @click="showHomeModal">Home Settings</button>
-    <modal
-      v-if="homeFormModal"
-      class="secform"
-      v-on:close="homeFormModal = false"
-    >
-      <home-content-form />
-    </modal>
-
-    <button class="form-btn" @click="showUsersModal">Show Users</button>
-
-    <modal v-if="usersModal" class="usersmodal" v-on:close="usersModal = false">
-      <div class="users" v-if="getUsers.length > 1">
-        <h1 class="sec__title">Users</h1>
-        <div class="table__wrapper">
-          <div class="table">
-            <div class="table__row header">
-              <div class="col">
-                <h4>Name</h4>
-              </div>
-              <div class="col">
-                <h4>Email</h4>
-              </div>
-              <div class="col">
-                <h4>Role</h4>
-              </div>
-              <div class="col">
-                <h4>Approved</h4>
-              </div>
+    <div class="users" v-if="getUsers.length > 1">
+      <h1 class="sec__title">Users</h1>
+      <div class="table__wrapper">
+        <div class="table">
+          <div class="table__row header">
+            <div class="col">
+              <h4>Name</h4>
             </div>
+            <div class="col">
+              <h4>Email</h4>
+            </div>
+            <div class="col">
+              <h4>Role</h4>
+            </div>
+            <div class="col">
+              <h4>Approved</h4>
+            </div>
+          </div>
 
-            <div class="table__row" v-for="user in getUsers" :key="user.id">
-              <div class="row top-row" v-if="user.role != 'admin'">
-                <div class="col">
-                  <p>
-                    <span>{{ user.name }}</span>
-                  </p>
-                </div>
-                <div class="col">
-                  <p>
-                    <span style="text-transform: none;">{{ user.email }}</span>
-                  </p>
-                </div>
-                <div class="col">
-                  <p>
-                    <span>{{ user.role }}</span>
-                  </p>
-                </div>
-                <div class="col">
-                
-                  <label class="switch" @click="changeRole(user)">
-                    <input type="checkbox" />
-                    <span
-                      :class="`slider round${
-                        user.role == 'Employee' ? ' approved' : ''
-                      }`"
-                    ></span>
-                    <span :class="`user-status ${user.role == 'Employee' ? 'enabled' : 'disabled'
-                      }`">{{user.role == 'Employee' ? 'Enabled' : 'Disabled'}}</span>
-                  </label>
-                </div>
+          <div class="table__row" v-for="user in getUsers" :key="user.id">
+            <div class="row top-row" v-if="user.role != 'admin'">
+              <div class="col">
+                <p>
+                  <span>{{ user.name }}</span>
+                </p>
+              </div>
+              <div class="col">
+                <p>
+                  <span style="text-transform: none">{{ user.email }}</span>
+                </p>
+              </div>
+              <div class="col">
+                <p>
+                  <span>{{ user.role }}</span>
+                </p>
+              </div>
+              <div class="col">
+                <label class="switch" @click="changeRole(user)">
+                  <input type="checkbox" />
+                  <span
+                    :class="`slider round${
+                      user.role == 'Employee' ? ' approved' : ''
+                    }`"
+                  ></span>
+                  <span
+                    :class="`user-status ${
+                      user.role == 'Employee' ? 'enabled' : 'disabled'
+                    }`"
+                    >{{
+                      user.role == "Employee" ? "Enabled" : "Disabled"
+                    }}</span
+                  >
+                </label>
               </div>
             </div>
           </div>
         </div>
       </div>
-          <div class="no-data" v-if="getUsers.length == 1">
+    </div>
+    <div class="no-data" v-if="getUsers.length == 1">
       <h3>no data to show.</h3>
     </div>
-    </modal>
   </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import BaseSpinner from "../components/baseSpinner.vue";
-import modal from "../components/modal.vue";
-import HomeContentForm from "../components/settings/homeContentForm.vue";
 
 export default {
   name: "users",
-  data() {
-    return {
-      loading: false,
-      usersModal: false,
-      homeFormModal: false,
-    };
-  },
   computed: {
     ...mapGetters(["getUsers", "getRole"]),
   },
   mounted() {
     this.$store.dispatch("getData", "users");
   },
-  components: {
-    BaseSpinner,
-    modal,
-    HomeContentForm,
-  },
+
   methods: {
     changeRole(user) {
       console.log(user);
@@ -120,36 +96,34 @@ export default {
       let response = await this.$store.dispatch("disApproveUser", email);
       this.loading = false;
     },
-    showHomeModal() {
-      this.homeFormModal = true;
-    },
-    showUsersModal() {
-      this.usersModal = true;
-    },
   },
 };
 </script>
 <style>
+.settings__wrapper{
+  width: 95%;
+  margin-left: 1rem;
+}
 /* The switch - the box around the slider */
 .switch {
   position: relative;
   display: inline-block;
-    width: 50px;
+  width: 50px;
   height: 25px;
 }
-.users .switch{
-width: 130px;
+.users .switch {
+  width: 130px;
+  height: 34px;
 }
-.user-status{
+.user-status {
   position: absolute;
-  color: #fff ;
+  color: #fff;
   top: 12%;
-
 }
-.enabled{
+.enabled {
   left: 1.2rem;
 }
-.disabled{
+.disabled {
   right: 1.2rem;
 }
 
@@ -176,7 +150,7 @@ width: 130px;
 .slider:before {
   position: absolute;
   content: "";
-    height: 18px;
+  height: 18px;
   width: 20px;
   left: 4px;
   bottom: 4px;
@@ -184,22 +158,22 @@ width: 130px;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
-.users .slider::before{
-
-    height: 26px;
+.users .slider::before {
+  height: 26px;
   width: 26px;
 }
 
-.slider.approved,.switch:not(.users .switch) input:checked + .slider {
+.slider.approved,
+.switch:not(.users .switch) input:checked + .slider {
   background-color: green;
 }
 
-
-.slider.approved,.switch:not(.users .switch) input:checked + .slider {
+.slider.approved,
+.switch:not(.users .switch) input:checked + .slider {
   box-shadow: 0 0 1px green;
 }
-.switch:not(.users .switch) input:checked + .slider::before{
-    -webkit-transform: translateX(20px);
+.switch:not(.users .switch) input:checked + .slider::before {
+  -webkit-transform: translateX(20px);
   -ms-transform: translateX(20px);
   transform: translateX(20px);
 }
@@ -208,7 +182,6 @@ width: 130px;
   -ms-transform: translateX(95px);
   transform: translateX(95px);
 }
-
 
 /* Rounded sliders */
 .slider.round {
@@ -221,19 +194,9 @@ width: 130px;
 .sec__title {
   text-align: center;
 }
-.settings__wrapper {
-  width: 90%;
-  margin: auto;
-  display: grid;
-  place-items: center;
-  gap: 2rem;
-  padding: 1.5rem 0;
-}
-.settings__wrapper .form-btn {
-  width: 30%;
-}
-@media screen and (max-width:800px) {
-  .users .form-btn{
+
+@media screen and (max-width: 800px) {
+  .users .form-btn {
     width: auto;
   }
 }
