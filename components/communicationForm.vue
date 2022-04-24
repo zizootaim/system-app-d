@@ -87,6 +87,26 @@
         </div>
         <div class="form__control">
           <input
+            type="number"
+            name="primaryMobile"
+            v-model="primaryMobile"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Primary Mobile</span>
+        </div>
+        <div class="form__control">
+          <input
+            type="number"
+            name="secondaryMobile"
+            v-model="secondaryMobile"
+            autocomplete="off"
+            required
+          />
+          <span class="form__control-label">Secondary Mobile</span>
+        </div>
+        <div class="form__control">
+          <input
             type="email"
             name="groupEmail"
             v-model="groupEmail"
@@ -140,6 +160,8 @@ export default {
       action: "",
       primaryEmail: "",
       primaryPhone: "",
+      primaryMobile: "",
+      secondaryMobile: "",
       primaryName: "",
       secondaryEmail: "",
       secondaryPhone: "",
@@ -163,6 +185,8 @@ export default {
         SecondaryEmail: this.secondaryEmail,
         SecondaryName: this.secondaryName,
         SecondaryPhone: this.secondaryPhone,
+        PrimaryMobile: this.primaryMobile,
+        SecondaryMobile: this.secondaryMobile,
         GroupEmail: this.groupEmail,
         GroupManager: this.groupManager,
       };
@@ -185,6 +209,8 @@ export default {
         this.secondaryEmail = res[0].SecondaryEmail;
         this.secondaryName = res[0].SecondaryName;
         this.secondaryPhone = res[0].SecondaryPhone;
+        this.secondaryMobile = res[0].SecondaryMobile;
+        this.primaryMobile = res[0].PrimaryMobile;
         this.groupEmail = res[0].GroupEmail;
         this.groupManager = res[0].GroupManager;
       }

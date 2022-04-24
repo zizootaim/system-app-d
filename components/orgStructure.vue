@@ -6,8 +6,6 @@
         v-for="(t, index) in getStaff[0]"
         :key="index"
       >
-      
-
         <i
           v-if="getRole == 'admin'"
           class="fas fa-edit edit-btn"
@@ -18,7 +16,7 @@
           class="fas fa-trash-alt delete-btn"
           @click="() => deleteMember(t.id)"
         ></i>
-     
+
         <manSvg />
         <div class="person__info">
           <h4>{{ t.Name }}</h4>
@@ -73,11 +71,11 @@
                 class="fas fa-edit edit-btn"
                 @click="() => showEditForm(s)"
               ></i>
-               <i
-          v-if="getRole == 'admin'"
-          class="fas fa-trash-alt delete-btn"
-          @click="() => deleteMember(s.id)"
-        ></i>
+              <i
+                v-if="getRole == 'admin'"
+                class="fas fa-trash-alt delete-btn"
+                @click="() => deleteMember(s.id)"
+              ></i>
 
               <manSvg />
               <div class="person__info">
@@ -129,15 +127,15 @@
               :key="s.id"
             >
               <i
-          v-if="getRole == 'admin'"
-          class="fas fa-edit edit-btn"
-          @click="() => showEditForm(s)"
-        ></i>
-        <i
-          v-if="getRole == 'admin'"
-          class="fas fa-trash-alt delete-btn"
-          @click="() => deleteMember(s.id)"
-        ></i>
+                v-if="getRole == 'admin'"
+                class="fas fa-edit edit-btn"
+                @click="() => showEditForm(s)"
+              ></i>
+              <i
+                v-if="getRole == 'admin'"
+                class="fas fa-trash-alt delete-btn"
+                @click="() => deleteMember(s.id)"
+              ></i>
               <manSvg />
               <div class="person__info">
                 <h4>{{ s.Name }}</h4>
@@ -196,7 +194,6 @@ export default {
     });
   },
 
-
   methods: {
     setChosenForm(formName) {
       this.showModal = false;
@@ -209,7 +206,7 @@ export default {
     },
     async deleteMember(id) {
       console.log(id);
-  
+
       var myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -225,17 +222,15 @@ export default {
         .then((res) => res.text())
         .then((result) => {
           console.log(result);
-      this.$store.dispatch("getData", "staff");
+          this.$store.dispatch("getData", "staff");
         })
         .catch((err) => console.log(err));
-
     },
   },
 };
 </script>
 
 <style scoped>
-
 .container {
   width: 90%;
   margin: 0 auto;

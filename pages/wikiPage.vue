@@ -208,7 +208,10 @@
                       <div class="col">
                         <h4>Applicable</h4>
                       </div>
-                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
+                      <div
+                        class="col"
+                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                      ></div>
                     </div>
 
                     <div
@@ -241,11 +244,13 @@
                             <span>{{ advisoryCard.applicable }}</span>
                           </p>
                         </div>
-                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
+                        <div
+                          class="col"
+                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                        >
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
-                              
                               @click="
                                 setChosenForm(
                                   'advisory',
@@ -258,7 +263,6 @@
                             </button>
                             <button
                               class="table-btn"
-                              
                               @click="
                                 deleteData({
                                   body: { id: advisoryCard.id },
@@ -316,7 +320,10 @@
                       <div class="col">
                         <h4>Priority</h4>
                       </div>
-                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
+                      <div
+                        class="col"
+                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                      ></div>
                     </div>
                     <div
                       class="table__row"
@@ -348,7 +355,10 @@
                             <span>{{ i.Priority }}</span>
                           </p>
                         </div>
-                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
+                        <div
+                          class="col"
+                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                        >
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -643,7 +653,10 @@
                             <span>{{ book.title }}</span>
                           </p>
                         </div>
-                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
+                        <div
+                          class="col"
+                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                        >
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -670,7 +683,11 @@
                       <div class="row bottom-row">
                         <div class="book__data">
                           <div>Description : {{ book.description }}</div>
-                          <div class="book__table" v-if="book.data">
+
+                          <div
+                            class="book__table"
+                            v-if="parse(book.data).length"
+                          >
                             <div>
                               <div class="table__row header">
                                 <div class="col">
@@ -688,6 +705,7 @@
                                 class="table__row"
                                 v-for="(r, index) in parse(book.data)"
                                 :key="index"
+                                :id="index"
                               >
                                 <div class="row">
                                   <div class="col">
@@ -705,10 +723,44 @@
                                       <span>{{ r.team }}</span>
                                     </p>
                                   </div>
+                                  <div
+                                    class="col"
+                                    v-if="
+                                      getRole == 'Employee' ||
+                                      getRole == 'admin'
+                                    "
+                                  >
+                                    <div class="btns__wrapper">
+                                      <button
+                                        class="table-btn"
+                                        @click="
+                                          setChosenForm(
+                                            'playBookTable',
+                                            'PUT',
+                                            `${book.id}+${index}`
+                                          )
+                                        "
+                                      >
+                                        <i class="fal fa-pen"></i>
+                                      </button>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
+                          <button
+                            class="addBtn"
+                            @click="
+                              setChosenForm(
+                                'playBookTable',
+                                'ADD',
+                                `${book.id}`
+                              )
+                            "
+                          >
+                            Add Row
+                          </button>
                         </div>
                         <div class="book__img">
                           <img :src="book.url" :alt="book.name" />
@@ -751,7 +803,10 @@
                       <div class="col">
                         <h4>Check Status</h4>
                       </div>
-                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
+                      <div
+                        class="col"
+                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                      ></div>
                     </div>
                     <div
                       class="table__row top-row"
@@ -781,7 +836,10 @@
                             {{ h.Status }}
                           </p>
                         </div>
-                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
+                        <div
+                          class="col"
+                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                        >
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -881,7 +939,10 @@
                       <div class="col">
                         <h4>Status</h4>
                       </div>
-                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
+                      <div
+                        class="col"
+                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                      ></div>
                     </div>
                     <div
                       class="table__row"
@@ -916,7 +977,10 @@
                           </p>
                         </div>
 
-                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
+                        <div
+                          class="col"
+                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                        >
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -1000,7 +1064,10 @@
                       <div class="col">
                         <h4>Status</h4>
                       </div>
-                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
+                      <div
+                        class="col"
+                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                      ></div>
                     </div>
 
                     <div
@@ -1038,7 +1105,10 @@
                             <span>{{ incidentsCard.status }}</span>
                           </p>
                         </div>
-                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
+                        <div
+                          class="col"
+                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                        >
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -1128,7 +1198,10 @@
                     <div class="col">
                       <h4>Status</h4>
                     </div>
-                    <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
+                    <div
+                      class="col"
+                      v-if="getRole == 'Employee' || getRole == 'admin'"
+                    ></div>
                   </div>
 
                   <div
@@ -1166,7 +1239,10 @@
                           <span>{{ pendingIssuesCard.status }}</span>
                         </p>
                       </div>
-                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
+                      <div
+                        class="col"
+                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                      >
                         <div class="btns__wrapper">
                           <button
                             class="table-btn"
@@ -1272,7 +1348,10 @@
                         <h4>Use Case Type</h4>
                       </div>
 
-                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
+                      <div
+                        class="col"
+                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                      ></div>
                     </div>
 
                     <div
@@ -1306,7 +1385,10 @@
                           </p>
                         </div>
 
-                        <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
+                        <div
+                          class="col"
+                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                        >
                           <div class="btns__wrapper">
                             <button
                               class="table-btn"
@@ -1411,7 +1493,10 @@
                       <h4>Group Email</h4>
                     </div>
                     <div class="col"><h4>When To Connect</h4></div>
-                    <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'"></div>
+                    <div
+                      class="col"
+                      v-if="getRole == 'Employee' || getRole == 'admin'"
+                    ></div>
                   </div>
 
                   <div
@@ -1444,7 +1529,11 @@
                           <span>{{ c.Action }}</span>
                         </p>
                       </div>
-                      <div class="col" v-if="getRole == 'Employee' || getRole == 'admin'">
+
+                      <div
+                        class="col"
+                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                      >
                         <div class="btns__wrapper">
                           <button
                             class="table-btn"
@@ -1481,6 +1570,10 @@
                           <div>
                             <span>Primary Phone</span> : {{ c.PrimaryPhone }}
                           </div>
+                          <div>
+                            <span>Primary Mobile</span> :
+                            {{ c.PrimaryMobile }}
+                          </div>
                         </div>
 
                         <div class="secondary">
@@ -1494,6 +1587,10 @@
                           </div>
                           <div>
                             <span>Secondary Name</span> : {{ c.SecondaryName }}
+                          </div>
+                          <div>
+                            <span>Secondary Mobile</span> :
+                            {{ c.SecondaryMobile }}
                           </div>
                         </div>
                       </div>
@@ -1579,6 +1676,10 @@
           v-if="getChosenForm == 'addPdf'"
           formTitle="Add pdf"
         />
+        <play-book-table
+          v-if="getChosenForm == 'playBookTable'"
+          formTitle="Change Table Row"
+        />
       </modal>
     </article>
   </section>
@@ -1608,6 +1709,8 @@ import editShiftForm from "@/components//shifts/editShiftForm.vue";
 import * as selectCategories from "../assets/data";
 import users from "../components/users.vue";
 import skillMatrix from "@/components/skill/skillMatrix.vue";
+import playBookTable from "@/components/playBook/playBookTable.vue";
+import PlayBookForm from "../components/playBookForm.vue";
 export default {
   name: "wikiPage",
   data() {
@@ -1648,6 +1751,8 @@ export default {
     addPdf,
     users,
     skillMatrix,
+    playBookTable,
+    PlayBookForm,
   },
   computed: {
     ...mapState(["wikiSections", "chosenForm"]),
@@ -2006,6 +2111,10 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+.addBtn {
+  color: black;
+  background: blue;
+}
 .btns__wrapper {
   display: flex;
   align-items: center;
@@ -2055,7 +2164,7 @@ export default {
   justify-self: flex-start;
   height: auto;
   position: relative;
-  margin-top: .2rem;
+  margin-top: 0.2rem;
 }
 .filteration__wrapper .open-filter {
   position: absolute;
