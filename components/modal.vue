@@ -47,6 +47,7 @@ export default {
   overflow: auto; /* Enable scroll if needed */
   background-color: #010f60;
   opacity: 0;
+  z-index: 500;
   transition: 0.3s;
   animation: opacity 0.5s 0.1s forwards;
 }

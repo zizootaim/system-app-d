@@ -1,6 +1,6 @@
 <template>
   <div class="service">
-    <h1 class="sec__title">Service Catalog</h1>
+    <h1 class="sec__title" ref="document">Service Catalog</h1>
     <button
       class="form-btn"
       @click="showForm('POST')"
@@ -10,7 +10,7 @@
     </button>
     <div class="table__wrapper" v-if="getServiceCatalog.length > 0">
       <div class="table">
-        <div class="table__row header">
+        <div class="table__row header" ref="header">
           <div class="col">
             <h4>Service ID</h4>
           </div>
@@ -35,6 +35,7 @@
           class="table__row"
           v-for="serviceCard in getServiceCatalog"
           :key="serviceCard.id"
+          :id="serviceCard.id"
         >
           <div class="row top-row">
             <i
@@ -99,6 +100,7 @@
             <div>Consumers : {{ serviceCard.consumers }}</div>
             <div>Processes : {{ serviceCard.processes }}</div>
           </div>
+          
         </div>
       </div>
     </div>
@@ -114,8 +116,8 @@
 <script>
 import { mapGetters } from "vuex";
 import modal from "@/components/modal.vue";
-
 import ServiceCatalogeForm from "../components/serviceCatalogeForm.vue";
+
 
 export default {
   components: {
@@ -132,6 +134,31 @@ export default {
     ...mapGetters(["getServiceCatalog", "getRole", "getPermission"]),
   },
   methods: {
+    download() {
+      let htmlToPdfOptions = {
+        margin: 0,
+
+        filename: `hehehe.pdf`,
+
+        image: {
+          type: "jpeg",
+          quality: 0.98,
+        },
+
+        enableLinks: false,
+
+        html2canvas: {
+          scale: 1,
+          useCORS: true,
+        },
+
+        jsPDF: {
+          unit: "in",
+          format: "a4",
+          orientation: "portrait",
+        },
+      };
+    },
     deleteData(data) {
       this.$store.dispatch("delete", data);
     },

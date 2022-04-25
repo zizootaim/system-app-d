@@ -167,23 +167,17 @@
           </select>
           <span class="form__control-label">Production</span>
         </div>
-        
-           
-     
-    
-           <div class="full mitre">
-         <div>
-                     <label class="switch" >
-                    <input type="checkbox" v-model="mitre" />
-                    <span
-                      class="slider round"    
-                    ></span>
-                    
-                  </label>
-                  <p>Advanced</p>
-         </div>
-          
-            <div  v-if="mitre">
+
+        <div class="full mitre">
+          <div>
+            <label class="switch">
+              <input type="checkbox" v-model="mitre" />
+              <span class="slider round"></span>
+            </label>
+            <p>Advanced</p>
+          </div>
+
+          <div v-if="mitre">
             <p>Mitre Tactics</p>
             <div class="btns__wrapper">
               <label
@@ -224,7 +218,6 @@
               /></label>
             </div>
           </div>
-         
         </div>
       </div>
       <div class="submit-btn__wrapper">
@@ -311,8 +304,8 @@ export default {
         id: this.chosenFormId,
         identifier: this.identifier,
         purpose: this.purpose,
-        tactics: `[${this.choosenMitres}]`,
-        techniques: `[${this.choosenTechs}]`,
+        tactics: `${this.choosenMitres}`,
+        techniques: `${this.choosenTechs}`,
         risk: this.risk,
         type: this.currentType,
         stakeholders: this.stakeholders,
@@ -330,7 +323,7 @@ export default {
     ...mapState(["chosenFormMethod", "chosenFormId"]),
     ...mapGetters(["getUseCase"]),
     currentType() {
-      return this.useCaseType == "other"
+      return this.useCaseType == "Other"
         ? this.otherUseCaseType
         : this.useCaseType;
     },
@@ -360,7 +353,7 @@ export default {
     }
   },
   methods: {
-    showMitre(){
+    showMitre() {
       this.mitre = !this.mitre;
     },
     isChecked(arr, value) {
@@ -408,7 +401,6 @@ export default {
 };
 </script>
 <style>
-
 .mitre {
   border: none;
   overflow: auto;
@@ -416,13 +408,13 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
 }
-.mitre div:first-of-type{
+.mitre div:first-of-type {
   display: flex;
   align-items: center;
 }
-.mitre div:first-of-type p{
+.mitre div:first-of-type p {
   margin-left: 1rem;
-  margin-top: .8rem;
+  margin-top: 0.8rem;
   font-size: 1.4rem;
 }
 

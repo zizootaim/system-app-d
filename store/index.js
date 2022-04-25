@@ -68,6 +68,7 @@ export const state = (state) => ({
   Shifts: {},
   Standards: [],
   skillMatrix: [],
+  resourcesCalculation: ["de"],
   home: [
     {
       mission: " mission",
@@ -162,6 +163,11 @@ export const state = (state) => ({
       sectionName: "Skill Matrix",
       class: "fal fa-file-certificate",
     },
+    {
+      section: "resourcesCalculation",
+      sectionName: "Resources Calculation",
+      class: "fal fa-file-certificate",
+    },
   ],
 });
 
@@ -251,7 +257,6 @@ export const getters = {
 
 export const mutations = {
   saveTheme(state, t) {
-    console.log(t);
     state.theme = t;
   },
   changeRole: (state) => {

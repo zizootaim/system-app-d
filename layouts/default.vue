@@ -1,5 +1,5 @@
 <template>
-  <div class="body home">
+  <div class="body home" >
     <AppNav />
     <div class="mainContent">
       <Nuxt />
@@ -14,21 +14,21 @@ import Logo from "../components/Logo.vue";
 
 export default {
   computed: {
-    ...mapGetters(["getHomeData","getTheme"]),
+    ...mapGetters(["getHomeData", "getTheme"]),
   },
 
   data: () => {
     return {
       url: "",
-      theme:""
+      theme: "",
     };
   },
   components: {
     AppNav,
     Logo,
   },
-  beforeCreate(){
-     this.$store.dispatch("getData", "home");
+  beforeCreate() {
+    this.$store.dispatch("getData", "home");
   },
   mounted() {
     if (!localStorage.getItem("role")) {
@@ -38,39 +38,39 @@ export default {
     }
     this.$store.commit("changeRole");
     this.setBg();
-
   },
   watch: {
-    $route: function () {
+    getHomeData: function () {
       this.setBg();
     },
-    // getTheme:{
-    //   handler(){
-    //     this.setBg()
-    //   }
-    //   ,immediate:true
-    // }
+    $route:function () {
+      this.setBg()
+    }
   },
 
   methods: {
     setBg() {
       this.url = window.location.pathname;
-      
+
       const appContainer = document.querySelector(".body");
       if (this.url == "/") {
         appContainer.className = "body home";
         if (this.getHomeData[0].background_url) {
-          appContainer.style.backgroundImage = `url('${this.getHomeData[0].background_url}')`;
+          
+          appContainer.style = `background: url('${this.getHomeData[0].background_url}');background-repeat: no-repeat; background-size: 100% 100%;background-position: center;`;
         }
       } else {
-        const theme = localStorage.getItem('theme');
-        appContainer.style.backgroundImage = "";
-        if(theme == 'light'){
+        const theme = localStorage.getItem("theme");
+        appContainer.style = "";
+          appContainer.className =
+            "body sec" + ` ${theme == "light" ? "light-mode" : ""}`;
+        if (theme == "light") {
           document.querySelector(".theme-btn i").className = "fas fa-moon";
+        }else{
+          document.querySelector(".theme-btn i").className = "fas fa-sun";
+
         }
-        appContainer.className = "body sec" + ` ${theme == 'light' ? 'light-mode' : ''}`;
       }
-      
     },
   },
 };

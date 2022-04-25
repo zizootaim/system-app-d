@@ -49,15 +49,11 @@ export default {
 .logo {
   display: flex;
   align-items: center;
-  height: 26px;
+  height: 30px;
   width: 206px;
   margin-left: 1rem;
 }
-.logo svg:first-child {
-  height: 1.5rem;
-  margin-right: 0.5rem;
-}
-.logo svg {
-  height: 1rem;
-}
+  .logo img{
+    object-fit: cover;
+  }
 </style>

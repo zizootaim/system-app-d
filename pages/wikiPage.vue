@@ -87,6 +87,10 @@
 
         <div class="wiki__container">
           <!-- Use Case Intro -->
+              <div v-if="wikiPage == 'Use Case Library'">
+            <button class="form-btn" v-on:click="modalType = 'useModal'">
+              <i class="fal fa-info-circle"></i> Help
+            </button></div>
           <BaseSpinner v-if="loading && wikiPage != ''" class="mainSpinner" />
 
           <!-- Filteration -->
@@ -95,6 +99,7 @@
             v-if="
               allData.length > 1 &&
               wikiPage != '' &&
+              wikiPage != 'resourcesCalculation'&&
               wikiPage != 'Shifts' &&
               (wikiPage != 'Administration') & (wikiPage != 'skillMatrix')
             "
@@ -776,8 +781,10 @@
                           </div>
                           <button
                             class="addBtn"
-                            v-if="(getRole == 'admin' || getRole == 'Employee') &&
-                            getPermission == 'write'"
+                            v-if="
+                              (getRole == 'admin' || getRole == 'Employee') &&
+                              getPermission == 'write'
+                            "
                             @click="
                               setChosenForm(
                                 'playBookTable',
@@ -1353,9 +1360,7 @@
           <!-- Use Case -->
 
           <div class="useCase" v-if="wikiPage == 'Use Case Library'">
-            <button class="form-btn" v-on:click="modalType = 'useModal'">
-              <i class="fal fa-info-circle"></i> Help
-            </button>
+          
             <!-- Use Case Intro -->
             <modal
               class="usersmodal"
@@ -1501,10 +1506,10 @@
                           <div>
                             <span>Output</span> : {{ useCaseCard.output }}
                           </div>
-                          <div>
+                          <div v-if="useCaseCard.tactics">
                             <span>Tactics</span> : {{ useCaseCard.tactics }}
                           </div>
-                          <div>
+                          <div v-if="useCaseCard.techniques">
                             <span>Techniques</span> :
                             {{ useCaseCard.techniques }}
                           </div>
@@ -1517,6 +1522,9 @@
             </div>
           </div>
 
+          <div v-if="wikiPage == 'resourcesCalculation'">
+            <resourcesCalc />
+          </div>
           <!-- Communication -->
 
           <div class="communication" v-if="wikiPage == 'Communication'">
@@ -1656,7 +1664,7 @@
             </div>
           </div>
           <!-- Administration -->
-          <div v-if="modalType && getRole == 'admin'">
+          <div v-if="wikiPage == 'Administration' && getRole == 'admin'">
             <modal
               v-if="modalType == 'homeForm'"
               class="secform"
@@ -1665,15 +1673,10 @@
               <home-content-form />
             </modal>
 
-            <modal
-              v-if="modalType == 'users'"
-              class="usersmodal"
-              v-on:close="modalType = ''"
-            >
-              <users />
-            </modal>
+           
+           
+              <users  />
 
-            <!-- <users :modalType="modalType" /> -->
           </div>
           <!-- Skill Matrix -->
           <div v-if="wikiPage == 'skillMatrix'">
@@ -1687,7 +1690,8 @@
               wikiPage != 'Administration' &&
               wikiPage != '' &&
               wikiPage != 'skillMatrix' &&
-              wikiPage != 'Shifts'
+              wikiPage != 'Shifts'&&
+              wikiPage != 'resourcesCalculation'
             "
           >
             <h3>no data to show.</h3>
@@ -1782,6 +1786,7 @@ import playBookTable from "@/components/playBook/playBookTable.vue";
 import PlayBookForm from "../components/playBookForm.vue";
 import HomeContentForm from "../components/settings/homeContentForm.vue";
 import useCaseIntro from "../components/useCaseIntro.vue";
+import resourcesCalc from "@/components/settings/resourcesCalc.vue";
 export default {
   name: "wikiPage",
   data() {
@@ -1828,12 +1833,14 @@ export default {
     PlayBookForm,
     HomeContentForm,
     useCaseIntro,
+    resourcesCalc,
   },
   computed: {
     ...mapState(["wikiSections", "chosenForm"]),
     ...mapGetters([
       "getChangingData",
-      "getRole","getPermission",
+      "getRole",
+      "getPermission",
       "getUseCase",
       "getAdvisory",
       "getServiceCatalog",
@@ -1990,14 +1997,15 @@ export default {
     },
     changeWikiPage(page) {
       console.log("change" + " " + page);
-      if (page == "Administration") return;
+
       this.currentWikiPage = page;
 
       if (
         page == "Communication" ||
         page == "Use Case Library" ||
         page == "Shifts" ||
-        page == "skillMatrix"
+        page == "skillMatrix" ||
+        page == "resourcesCalculation"
       ) {
         this.chosenCat = "";
         this.wikiPage = page;
@@ -2118,13 +2126,14 @@ export default {
     },
     async changeCat(val, event) {
       this.activateLink(event);
-      if (val == "users" || val == "homeForm") {
+        this.wikiPage = this.currentWikiPage;
+        console.log(val);
+      if (val == "homeForm") {
         this.modalType = val;
         console.log(this.modalType);
 
         return;
       }
-      this.wikiPage = this.currentWikiPage;
       console.log(this.currentWikiPage);
       if (val == "socReports") {
         this.loading = true;
@@ -2142,7 +2151,7 @@ export default {
     },
     async getWikiData(target) {
       console.log(target);
-      if (target == "Administration") return;
+   
       if (this.$store.state[target].length == 0) {
         console.log(this.$store.state[target].length);
         this.loading = true;
@@ -2206,8 +2215,8 @@ export default {
 .addBtn {
   color: black;
   border: 1px solid rgb(145, 143, 143);
-  border-radius: .5rem;
-  padding: .3rem;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
   width: 6rem;
   text-align: center;
   margin-left: 1rem;
@@ -2230,8 +2239,12 @@ export default {
 .book__table .col {
   padding: 0;
 }
-.book__img img {
-  height: 15rem;
+.book__data{
+  height: fit-content;
+}
+.book__img {
+  /*height: 20rem;*/
+  height: fit-content;
 }
 .mainSpinner {
   position: fixed;
@@ -2262,7 +2275,7 @@ export default {
   height: 4rem;
   position: relative;
   margin-top: 0.2rem;
- overflow: hidden;
+  overflow: hidden;
 }
 .filteration__wrapper .open-filter {
   position: absolute;
@@ -2317,6 +2330,9 @@ export default {
 }
 .light-mode .filteration__wrapper .form__control {
   border-color: #000;
+}
+.light-mode .filteration__wrapper .form-btn *{
+  color: #34009c;
 }
 
 .playbooks .table__row .col p {

@@ -61,11 +61,12 @@ import { mapGetters } from "vuex";
 import modal from "@/components/modal.vue";
 import loginForm from "@/components/loginForm.vue";
 import register from "@/components/register.vue";
-          // var currentUrl = ;
+
 
 export default {
   data() {
     return {
+      url:"",
       status: "",
       showLinksMenuStatus: false,
       showLinksMenu: "",
@@ -73,19 +74,20 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["getRole"]),
+    ...mapGetters(["getRole","getTheme"]),
     statusChosen: function () {
       return this.status;
     },
+  },
+  mounted(){
+   this.showThemeToggler()
   },
   watch: {
     showLinksMenuStatus(newValue, oldValue) {
       this.showLinksMenu = newValue;
     },
+    
   },
-
-
-
 
   components: {
     modal,
@@ -93,15 +95,26 @@ export default {
     register,
   },
   methods: {
+    showThemeToggler(){
+      this.url = window.location.pathname;
+    },
     toggleTheme() {
       this.$store.dispatch('changeTheme')
-      document.querySelector(".body").classList.toggle("light-mode");
+      const theme = localStorage.getItem('theme')
+      console.log(theme);
+      const appContainer = document.querySelector(".body")
+      if(!appContainer.className.includes('home')){
+        appContainer.className ="body sec" + ` ${theme == "light" ? "light-mode" : ""}`;
+        appContainer.style = ''
+        //document.querySelector(".body").classList.toggle("light-mode");
+
+      }
       if (document.querySelector(".body").className.includes("light-mode")) {
         document.querySelector(".theme-btn i").className = "fas fa-moon";
-        localStorage.setItem('theme','light')
+        
       } else {
         document.querySelector(".theme-btn i").className = "fas fa-sun";
-        localStorage.setItem('theme','dark')
+  
       }
     },
     changeStatus(choice = "") {

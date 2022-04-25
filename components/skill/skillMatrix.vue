@@ -113,7 +113,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getSkillMatrix", "getRole"]),
+    ...mapGetters(["getSkillMatrix", "getRole","getPermission"]),
   },
   components: {
     modal,

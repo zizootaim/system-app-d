@@ -51,7 +51,7 @@
           <span class="form__control-label">Description</span>
         </div>
 
-        <div class="form__table full">
+        <div class="form__table full" v-if="chosenFormMethod=='POST'">
           <p style="margin-bottom: 1rem;color: #fff;">Playbook Table</p>
           <div class="form__control">
             <input
@@ -236,6 +236,7 @@ export default {
         }
         console.log(this.data.length);
         if (this.data.length) {
+        
           formData2.append("data", JSON.stringify(this.data));
         }
         formData2.append("id", this.chosenFormId);

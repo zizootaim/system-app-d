@@ -23,11 +23,11 @@
       </div>
       <div class="shifts">
         <p>Shifts</p>
-        <div class="shift A">A</div>
-        <div class="shift B">B</div>
-        <div class="shift C">C</div>
-        <div class="shift O">O</div>
-        <div class="shift X">X</div>
+        <div class="shift A">A <span>24x7</span></div>
+        <div class="shift B">B <span>12x5</span></div>
+        <div class="shift C">C <span>8x5</span></div>
+        <div class="shift O">O <span>On Call</span></div>
+        <div class="shift X">X <span>Off</span></div>
       </div>
     </div>
 
@@ -49,7 +49,13 @@
               >
                 {{ cnt }}
               </div>
-              <div class="col"></div>
+              <div
+                class="col"
+                v-if="
+                  (getRole == 'admin' || getRole == 'Employee') &&
+                  getPermission == 'write'
+                "
+              ></div>
             </div>
           </div>
         </div>
@@ -156,15 +162,37 @@ export default {
   flex-direction: row;
   margin-right: 1rem;
 }
-.shifts__top .shifts p{
-  margin-right: .5rem;
+.shifts__top .shifts p {
+  margin-right: 0.5rem;
   align-self: center;
 }
-.light-mode .shifts__top .shifts p{
+.light-mode .shifts__top .shifts p {
   color: #000;
 }
 .shifts__top .shifts .shift {
-padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
+  position: relative;
+}
+.shift span {
+  position: absolute;
+  top: -1.6rem;
+  left: 0.4rem;
+  font-size: 0.85rem;
+  color: #fff;
+}
+.light-mode .shift span {
+  color: #000;
+}
+.shift:first-of-type {
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+.shift:last-of-type {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+.O span {
+  left: 0;
 }
 .shifts__wrapper .table__row {
   flex-direction: column;

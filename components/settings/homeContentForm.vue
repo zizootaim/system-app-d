@@ -27,12 +27,11 @@
         <span class="form__control-label">Vision</span>
       </div>
       <div>
-      <div class="form__control">
-        <input type="text" name="goalAdded" v-model="goalAdded" />
-        <span class="form__control-label">Goals</span>
-      
-      </div>
-    <button
+        <div class="form__control">
+          <input type="text" name="goalAdded" v-model="goalAdded" />
+          <span class="form__control-label">Goals</span>
+        </div>
+        <button
           class="form-btn btn"
           type="submit"
           @click="addRow"
@@ -126,13 +125,13 @@ export default {
       formdata.append("phone", this.phone);
       if (this.goal.length != 0)
         formdata.append("goal", JSON.stringify(this.goal));
-      let file = document.querySelector("input[type=file]");
+      let file = document.querySelector("#file");
       let background = document.querySelector("input[id='background']");
       console.log(file.files[0]);
-      if (file.files[0] != undefined)
-        formdata.append("file", file.files[0], "[PROXY]");
+      console.log(background.files[0]);
+      if (file.files[0] != undefined) formdata.append("file", file.files[0]);
       if (background.files[0] != undefined)
-        formdata.append("background", background.files[0], "[PROXY]");
+        formdata.append("background", background.files[0]);
 
       var requestOptions = {
         method: "POSt",
@@ -151,14 +150,14 @@ export default {
               this.loadingAdd = false;
               document.querySelector(".close").click();
             }, 500);
-            
+
             this.$store.dispatch("getData", "home");
-          } else this.message = result;
+          } else this.message = "Something Went Wrong";
         })
         .catch((error) => {
           console.log("error", error);
           this.loading = false;
-          this.message = "Some Thing Went Wrong";
+          this.message = "Something Went Wrong";
         });
     },
   },
@@ -172,4 +171,5 @@ export default {
 .btn {
   font-size: 12px;
 }
+
 </style>

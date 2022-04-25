@@ -14,6 +14,11 @@
   -webkit-animation: spin 0.5s linear infinite;
   animation: spin 0.5s linear infinite;
 }
+.loader.smallSpinner{
+  width: 15px;
+  height: 15px;
+  margin-left: .5rem;
+}
 
 @-webkit-keyframes spin {
   0% {
