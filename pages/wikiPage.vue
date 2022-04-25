@@ -2081,6 +2081,9 @@ export default {
         Array.from(bottomRow.children).forEach((el) => {
           height += el.getBoundingClientRect().height;
         });
+        
+
+        
         if (open) {
           event.target.className = "fas fa-angle-down row-btn";
           height = 0;

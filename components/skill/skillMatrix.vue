@@ -3,7 +3,7 @@
     <div class="skill-matrix">
       <h1 class="sec__title">Skill Matrix</h1>
       <button class="form-btn" @click="showHomeModal('POST')">
-        Add Competency
+        <i class="fas fa-plus"></i> Add Competency
       </button>
       <div class="table__wrapper">
         <div
@@ -103,9 +103,9 @@ export default {
   data() {
     return {
       header: [
-        "Analysis 1",
-        "Analysis 2",
-        "Analysis 3",
+        "Analyst 1",
+        "Analyst 2",
+        "Analyst 3",
         "SOC Admin",
         "SOC Manager",
       ],
@@ -142,6 +142,18 @@ export default {
 </script>
 
 <style>
+.skill-matrix .rows .row{
+  height: 1.3rem;
+}
+.skill-matrix .rows .row *{
+  font-size: .8rem;
+}
+.skill-matrix .rows .row .col{
+  padding: 0;
+}
+.skill-matrix .header .col{
+  padding: 0rem;
+}
 .level {
   position: relative;
   border-left: 2px solid #000;

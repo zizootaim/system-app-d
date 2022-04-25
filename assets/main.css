@@ -424,6 +424,7 @@ textarea::placeholder {
 }
 
 /* Status Colors */
+
 .initial,
 .not {
   background-color: #e9b03d;
@@ -524,8 +525,8 @@ textarea::placeholder {
 /* Playbooks */
 
 .playbooks .bottom-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: row;
 }
 .playbooks .book__data {
   display: flex;
