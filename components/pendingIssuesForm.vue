@@ -90,6 +90,7 @@
 import { shiftStatus } from "../assets/data";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+import * as timeMethods from "../assets/timeMethods";
 
 export default {
   data() {
@@ -115,7 +116,7 @@ export default {
       return {
         id: this.chosenFormId,
         issue: this.issue,
-        StartTime: this.startDate + " " + this.startTime,
+        StartTime: `${this.startDate} ${this.startTime}`,
         description: this.IssueDescription,
         ActionTaken: this.ActionTaken,
         NextAction: this.NextAction,
@@ -132,10 +133,17 @@ export default {
       let res = this.getPendingIssues.filter(
         (issue) => issue.id == this.chosenFormId
       );
-      console.log(res);
+      console.log(res[0]);
+
+
+
+      this.startDate = timeMethods.getDay(res[0].StartTime);
+     this.startTime =  timeMethods.getTime(res[0].StartTime);
+     this.closeDate =  timeMethods.getDay(res[0].CloseTime);
+      this.closeTime =  timeMethods.getTime(res[0].CloseTime);
+
       this.issue = res[0].issue;
       this.IssueDescription = res[0].description;
-
       this.ActionTaken = res[0].ActionTaken;
       this.NextAction = res[0].NextAction;
       this.status = res[0].status;
@@ -144,6 +152,7 @@ export default {
   },
   methods: {
     async submitData() {
+      console.log(this.dataObj);
       this.spinnerLoading = true;
       let response;
       if (this.chosenFormMethod == "POST") {

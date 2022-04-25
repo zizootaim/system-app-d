@@ -105,6 +105,7 @@ import baseSpinner from "@/components/baseSpinner.vue";
 import { advisorySource } from "../assets/data";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+import * as timeMethods from '../assets/timeMethods' 
 
 export default {
   components: {
@@ -158,21 +159,10 @@ export default {
       );
       console.log(res);
 
-      Date.prototype.toDateInputValue = function () {
-        var local = new Date(this);
-        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-        return local.toJSON().slice(0, 10);
-      };
 
-      const StartTime = res[0].date.split(/\-|\s/),
-        startDate = new Date(
-          StartTime.slice(0, 3).reverse().join("/") + " " + StartTime[3]
-        );
 
-      console.log(StartTime);
-
-      this.dateY = startDate.toDateInputValue();
-      this.dateT = StartTime[3];
+      this.dateY = timeMethods.getDay(res[0].date);
+      this.dateT = timeMethods.getTime(res[0].date);
 
       this.source = res[0].source;
       this.description = res[0].description;

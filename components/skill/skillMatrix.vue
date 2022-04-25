@@ -24,7 +24,10 @@
               </div>
               <div
                 class="col"
-                v-if="getRole == 'Employee' || getRole == 'admin'"
+                v-if="
+                  (getRole == 'admin' || getRole == 'Employee') &&
+                  getPermission == 'write'
+                "
               ></div>
             </div>
           </div>
@@ -50,7 +53,10 @@
                 </div>
                 <div
                   class="col"
-                  v-if="getRole == 'Employee' || getRole == 'admin'"
+                  v-if="
+                    (getRole == 'admin' || getRole == 'Employee') &&
+                    getPermission == 'write'
+                  "
                 >
                   <div class="btns__wrapper">
                     <button

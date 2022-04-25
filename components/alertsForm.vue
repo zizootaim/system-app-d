@@ -113,6 +113,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+import * as timeMethods from "../assets/timeMethods";
 
 import { shiftStatus } from "../assets/data";
 export default {
@@ -157,7 +158,11 @@ export default {
   mounted() {
     if (this.chosenFormMethod == "PUT") {
       let res = this.getAlerts.filter((alert) => alert.id == this.chosenFormId);
-      console.log(res);
+
+      this.startDate = timeMethods.getDay(res[0].StartTime);
+      this.startTime = timeMethods.getTime(res[0].StartTime);
+      this.closeDate = timeMethods.getDay(res[0].CloseTime);
+      this.closeTime = timeMethods.getTime(res[0].CloseTime);
       this.alertName = res[0].name;
       this.IssueDescription = res[0].description;
       this.alertNumber = res[0].number;

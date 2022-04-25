@@ -111,7 +111,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
-
+import * as timeMethods from "../assets/timeMethods";
 import { shiftStatus } from "../assets/data";
 export default {
   data() {
@@ -157,6 +157,11 @@ export default {
         (incident) => incident.id == this.chosenFormId
       );
       console.log(res);
+
+      this.incidentDate = timeMethods.getDay(res[0].date);
+      this.incidentTime = timeMethods.getTime(res[0].date);
+      this.closeDate = timeMethods.getDay(res[0].CloseTime);
+      this.closeTime = timeMethods.getTime(res[0].CloseTime);
       this.incidentName = res[0].name;
       this.incidentDescription = res[0].description;
       this.incidentNumber = res[0].number;

@@ -1,20 +1,35 @@
 <template>
   <div>
-    <button
-      class="form-btn"
-      @click="setChosenForm('addShift')"
-      v-if="getRole == 'admin'"
-      style="margin-right: 1rem"
-    >
-      <i class="fas fa-plus"></i> Add
-    </button>
-    <button
-      class="form-btn"
-      @click="setChosenForm('editShift')"
-      v-if="getRole == 'admin'"
-    >
-      <i class="fas fa-edit"></i> Edit
-    </button>
+    <div class="shifts__top">
+      <div>
+        <button
+          class="form-btn"
+          @click="setChosenForm('addShift')"
+          v-if="getRole == 'admin' || getRole == 'Employee'"
+          style="margin-right: 1rem"
+        >
+          <i class="fas fa-plus"></i> Add Shift
+        </button>
+        <button
+          class="form-btn"
+          @click="setChosenForm('editShift')"
+          v-if="
+            (getRole == 'admin' || getRole == 'Employee') &&
+            getPermission == 'write'
+          "
+        >
+          <i class="fas fa-edit"></i> Edit Shift
+        </button>
+      </div>
+      <div class="shifts">
+        <p>Shifts</p>
+        <div class="shift A">A</div>
+        <div class="shift B">B</div>
+        <div class="shift C">C</div>
+        <div class="shift O">O</div>
+        <div class="shift X">X</div>
+      </div>
+    </div>
 
     <div class="table__wrapper">
       <div
@@ -46,7 +61,6 @@
               :key="index"
             >
               <div class="left">
-          
                 <p>{{ employee.name }}</p>
               </div>
               <div class="cols">
@@ -58,25 +72,31 @@
                 >
                   {{ i }}
                 </div>
-                <div class="col" style="border:0;">
-                        <button
-                  v-if="getRole == 'admin'"
-                  class="delete"
-                  @click="
-                    deleteData({
-                      body: { name: employee.name, month: shiftName },
-                      apiName: 'Shifts',
-                    })
-                  "
-                >
-                  <i class="fas fa-trash-alt"></i>
-                </button>
+                <div class="col" style="border: 0">
+                  <button
+                    v-if="
+                      (getRole == 'admin' || getRole == 'Employee') &&
+                      getPermission == 'write'
+                    "
+                    class="delete"
+                    @click="
+                      deleteData({
+                        body: { name: employee.name, month: shiftName },
+                        apiName: 'Shifts',
+                      })
+                    "
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="no-data" v-if="getShifts.length == 0">
+      <h3>no data to show.</h3>
     </div>
   </div>
 </template>
@@ -96,7 +116,13 @@ export default {
   },
   computed: {
     ...mapState(["chosenForm"]),
-    ...mapGetters(["getChosenForm", "getRole", "getShifts", "getMonths"]),
+    ...mapGetters([
+      "getChosenForm",
+      "getRole",
+      "getShifts",
+      "getMonths",
+      "getPermission",
+    ]),
   },
   methods: {
     setChosenForm(formName) {
@@ -120,7 +146,26 @@ export default {
 .shifts__wrapper {
   margin: 1rem auto;
 }
-
+.shifts__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.shifts__top .shifts {
+  display: flex;
+  flex-direction: row;
+  margin-right: 1rem;
+}
+.shifts__top .shifts p{
+  margin-right: .5rem;
+  align-self: center;
+}
+.light-mode .shifts__top .shifts p{
+  color: #000;
+}
+.shifts__top .shifts .shift {
+padding: .5rem 1rem;
+}
 .shifts__wrapper .table__row {
   flex-direction: column;
 }
@@ -148,7 +193,7 @@ export default {
 .shifts__wrapper .col:first-of-type {
   border-left: 0;
 }
-.header .col:last-of-type{
+.header .col:last-of-type {
   border: 0;
 }
 .shifts__wrapper .table {
@@ -171,10 +216,10 @@ export default {
 .left p {
   color: #000;
 }
-.col .delete{
+.col .delete {
   color: rgb(180, 19, 19);
   position: absolute;
-  right: .5rem;
+  right: 0.5rem;
 }
 .cols {
   width: calc(100% - 10rem);
@@ -196,5 +241,4 @@ export default {
 .X {
   background: #fff;
 }
-
 </style>

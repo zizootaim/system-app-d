@@ -58,7 +58,7 @@
               <h3
                 class="wiki__item-title"
                 :class="
-                   wikiItem.subPages &&
+                  wikiItem.subPages &&
                   (wikiItem.section != 'Administration' || getRole == 'admin')
                     ? 'top'
                     : ''
@@ -99,7 +99,9 @@
               (wikiPage != 'Administration') & (wikiPage != 'skillMatrix')
             "
           >
-            <button class="filter-btn" @click="openFilterForm"><i class="fas fa-filter" ></i> <span>Filter</span></button>
+            <button class="form-btn" @click="openFilterForm">
+              <i class="fas fa-filter"></i> <span>Filter</span>
+            </button>
             <div class="filter__form">
               <div class="form__control select">
                 <select name="filterKey" required v-model="filterKey">
@@ -144,7 +146,10 @@
                   :key="report.id"
                 >
                   <button
-                    v-if="getRole == 'Employee' || getRole == 'admin'"
+                    v-if="
+                      (getRole == 'admin' || getRole == 'Employee') &&
+                      getPermission == 'write'
+                    "
                     class="delete-btn"
                     @click="
                       deleteData({
@@ -200,7 +205,10 @@
                       </div>
                       <div
                         class="col"
-                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                        v-if="
+                          (getRole == 'admin' || getRole == 'Employee') &&
+                          getPermission == 'write'
+                        "
                       ></div>
                     </div>
 
@@ -236,7 +244,10 @@
                         </div>
                         <div
                           class="col"
-                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                          v-if="
+                            (getRole == 'admin' || getRole == 'Employee') &&
+                            getPermission == 'write'
+                          "
                         >
                           <div class="btns__wrapper">
                             <button
@@ -312,7 +323,10 @@
                       </div>
                       <div
                         class="col"
-                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                        v-if="
+                          (getRole == 'admin' || getRole == 'Employee') &&
+                          getPermission == 'write'
+                        "
                       ></div>
                     </div>
                     <div
@@ -347,7 +361,10 @@
                         </div>
                         <div
                           class="col"
-                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                          v-if="
+                            (getRole == 'admin' || getRole == 'Employee') &&
+                            getPermission == 'write'
+                          "
                         >
                           <div class="btns__wrapper">
                             <button
@@ -552,7 +569,10 @@
                           apiName: 'Policies',
                         })
                       "
-                      v-if="getRole == 'Employee' || getRole == 'admin'"
+                      v-if="
+                        (getRole == 'admin' || getRole == 'Employee') &&
+                        getPermission == 'write'
+                      "
                     >
                       <i class="fas fa-trash-alt"></i>
                     </button>
@@ -589,7 +609,10 @@
                           apiName: 'Procedures',
                         })
                       "
-                      v-if="getRole == 'Employee' || getRole == 'admin'"
+                      v-if="
+                        (getRole == 'admin' || getRole == 'Employee') &&
+                        getPermission == 'write'
+                      "
                     >
                       <i class="fas fa-trash-alt"></i>
                     </button>
@@ -645,7 +668,10 @@
                         </div>
                         <div
                           class="col"
-                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                          v-if="
+                            (getRole == 'admin' || getRole == 'Employee') &&
+                            getPermission == 'write'
+                          "
                         >
                           <div class="btns__wrapper">
                             <button
@@ -689,6 +715,14 @@
                                 <div class="col">
                                   <h4>Team</h4>
                                 </div>
+                                <div
+                                  class="col"
+                                  v-if="
+                                    (getRole == 'admin' ||
+                                      getRole == 'Employee') &&
+                                    getPermission == 'write'
+                                  "
+                                ></div>
                               </div>
 
                               <div
@@ -716,8 +750,9 @@
                                   <div
                                     class="col"
                                     v-if="
-                                      getRole == 'Employee' ||
-                                      getRole == 'admin'
+                                      (getRole == 'admin' ||
+                                        getRole == 'Employee') &&
+                                      getPermission == 'write'
                                     "
                                   >
                                     <div class="btns__wrapper">
@@ -741,6 +776,8 @@
                           </div>
                           <button
                             class="addBtn"
+                            v-if="(getRole == 'admin' || getRole == 'Employee') &&
+                            getPermission == 'write'"
                             @click="
                               setChosenForm(
                                 'playBookTable',
@@ -795,7 +832,10 @@
                       </div>
                       <div
                         class="col"
-                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                        v-if="
+                          (getRole == 'admin' || getRole == 'Employee') &&
+                          getPermission == 'write'
+                        "
                       ></div>
                     </div>
                     <div
@@ -828,7 +868,10 @@
                         </div>
                         <div
                           class="col"
-                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                          v-if="
+                            (getRole == 'admin' || getRole == 'Employee') &&
+                            getPermission == 'write'
+                          "
                         >
                           <div class="btns__wrapper">
                             <button
@@ -931,7 +974,10 @@
                       </div>
                       <div
                         class="col"
-                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                        v-if="
+                          (getRole == 'admin' || getRole == 'Employee') &&
+                          getPermission == 'write'
+                        "
                       ></div>
                     </div>
                     <div
@@ -969,7 +1015,10 @@
 
                         <div
                           class="col"
-                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                          v-if="
+                            (getRole == 'admin' || getRole == 'Employee') &&
+                            getPermission == 'write'
+                          "
                         >
                           <div class="btns__wrapper">
                             <button
@@ -1056,7 +1105,10 @@
                       </div>
                       <div
                         class="col"
-                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                        v-if="
+                          (getRole == 'admin' || getRole == 'Employee') &&
+                          getPermission == 'write'
+                        "
                       ></div>
                     </div>
 
@@ -1097,7 +1149,10 @@
                         </div>
                         <div
                           class="col"
-                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                          v-if="
+                            (getRole == 'admin' || getRole == 'Employee') &&
+                            getPermission == 'write'
+                          "
                         >
                           <div class="btns__wrapper">
                             <button
@@ -1190,7 +1245,10 @@
                     </div>
                     <div
                       class="col"
-                      v-if="getRole == 'Employee' || getRole == 'admin'"
+                      v-if="
+                        (getRole == 'admin' || getRole == 'Employee') &&
+                        getPermission == 'write'
+                      "
                     ></div>
                   </div>
 
@@ -1231,7 +1289,10 @@
                       </div>
                       <div
                         class="col"
-                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                        v-if="
+                          (getRole == 'admin' || getRole == 'Employee') &&
+                          getPermission == 'write'
+                        "
                       >
                         <div class="btns__wrapper">
                           <button
@@ -1292,9 +1353,15 @@
           <!-- Use Case -->
 
           <div class="useCase" v-if="wikiPage == 'Use Case Library'">
-            <button class="form-btn" v-on:click="modalType = 'useModal'"><i class="fal fa-info-circle"></i> Help</button>
+            <button class="form-btn" v-on:click="modalType = 'useModal'">
+              <i class="fal fa-info-circle"></i> Help
+            </button>
             <!-- Use Case Intro -->
-            <modal class="usersmodal" v-if="modalType == 'useModal'" v-on:close="modalType = ''">
+            <modal
+              class="usersmodal"
+              v-if="modalType == 'useModal'"
+              v-on:close="modalType = ''"
+            >
               <use-case-intro />
             </modal>
             <div>
@@ -1326,7 +1393,10 @@
 
                       <div
                         class="col"
-                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                        v-if="
+                          (getRole == 'admin' || getRole == 'Employee') &&
+                          getPermission == 'write'
+                        "
                       ></div>
                     </div>
 
@@ -1363,7 +1433,10 @@
 
                         <div
                           class="col"
-                          v-if="getRole == 'Employee' || getRole == 'admin'"
+                          v-if="
+                            (getRole == 'admin' || getRole == 'Employee') &&
+                            getPermission == 'write'
+                          "
                         >
                           <div class="btns__wrapper">
                             <button
@@ -1471,7 +1544,10 @@
                     <div class="col"><h4>When To Connect</h4></div>
                     <div
                       class="col"
-                      v-if="getRole == 'Employee' || getRole == 'admin'"
+                      v-if="
+                        (getRole == 'admin' || getRole == 'Employee') &&
+                        getPermission == 'write'
+                      "
                     ></div>
                   </div>
 
@@ -1508,7 +1584,10 @@
 
                       <div
                         class="col"
-                        v-if="getRole == 'Employee' || getRole == 'admin'"
+                        v-if="
+                          (getRole == 'admin' || getRole == 'Employee') &&
+                          getPermission == 'write'
+                        "
                       >
                         <div class="btns__wrapper">
                           <button
@@ -1607,7 +1686,8 @@
               filteredArray.length == 0 &&
               wikiPage != 'Administration' &&
               wikiPage != '' &&
-              wikiPage != 'skillMatrix'
+              wikiPage != 'skillMatrix' &&
+              wikiPage != 'Shifts'
             "
           >
             <h3>no data to show.</h3>
@@ -1753,7 +1833,7 @@ export default {
     ...mapState(["wikiSections", "chosenForm"]),
     ...mapGetters([
       "getChangingData",
-      "getRole",
+      "getRole","getPermission",
       "getUseCase",
       "getAdvisory",
       "getServiceCatalog",
@@ -1798,7 +1878,7 @@ export default {
   },
   methods: {
     openFilterForm() {
-      document.querySelector(".filter__form").classList.toggle("open");
+      document.querySelector(".filteration__wrapper").classList.toggle("open");
     },
     displaySideMenu() {
       this.showSideMenu = !this.showSideMenu;
@@ -1904,9 +1984,9 @@ export default {
       else this.filteredArray = this.allData;
       if (!value) this.filteredArray = this.allData;
     },
-    clearFilter(){
+    clearFilter() {
       this.filteredArray = this.allData;
-      this.filterValue = '';
+      this.filterValue = "";
     },
     changeWikiPage(page) {
       console.log("change" + " " + page);
@@ -1941,10 +2021,10 @@ export default {
       let icon = event.target.querySelector(".sub-menu-icon");
       const parent = event.target.parentElement;
       const list = parent.querySelector(".sub-menu");
-      console.log(list);
+
       if (list) {
         let height = list.getBoundingClientRect().height;
-        console.log(height);
+
         if (height > 17) {
           list.style.height = "0px";
           list.classList.remove("show");
@@ -2125,6 +2205,12 @@ export default {
 }
 .addBtn {
   color: black;
+  border: 1px solid rgb(145, 143, 143);
+  border-radius: .5rem;
+  padding: .3rem;
+  width: 6rem;
+  text-align: center;
+  margin-left: 1rem;
 }
 .btns__wrapper {
   display: flex;
@@ -2139,7 +2225,7 @@ export default {
 }
 .book__table > div {
   padding: 0.5rem 0;
-  width: 18rem;
+  width: auto;
 }
 .book__table .col {
   padding: 0;
@@ -2173,9 +2259,10 @@ export default {
 .filteration__wrapper {
   align-self: flex-start;
   justify-self: flex-start;
-  height: auto;
+  height: 4rem;
   position: relative;
   margin-top: 0.2rem;
+ overflow: hidden;
 }
 .filteration__wrapper .open-filter {
   position: absolute;
@@ -2188,14 +2275,13 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  width: 0;
   margin: auto;
-  overflow-x: hidden;
   padding: 1rem 0;
   transition: 0.3s;
+  width: 100%;
 }
-.filter__form.open {
-  width: 90%;
+.filteration__wrapper.open {
+  height: auto;
 }
 
 .filter__form .form__control .form__control-label {

@@ -151,6 +151,7 @@ export default {
               this.loadingAdd = false;
               document.querySelector(".close").click();
             }, 500);
+            
             this.$store.dispatch("getData", "home");
           } else this.message = result;
         })

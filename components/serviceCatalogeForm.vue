@@ -118,7 +118,6 @@
           />
         </svg>
       </button>
-      <p class="errMessage">{{ messageErr }}</p>
     </form>
     <p class="errMessage" v-if="message">{{ message }}</p>
   </div>
@@ -162,7 +161,7 @@ export default {
         owner: this.owner,
         description: this.description,
         status: this.status,
-        hours: this.hours.join("  ,  "),
+
         inputs: this.inputs,
         outputs: this.outputs,
         consumers: this.consumers,
@@ -196,12 +195,17 @@ export default {
       this.loading = true;
       let response;
       if (this.chosenFormMethod == "POST") {
-        response = await this.$store.dispatch("postData", {
-          apiName: "serviceCatalog",
-          body: this.dataObj,
-        });
+        if (!this.hours.length) response = false;
+        else {
+          this.dataObj.hours = this.hours.join(",");
+          response = await this.$store.dispatch("postData", {
+            apiName: "serviceCatalog",
+            body: this.dataObj,
+          });
+        }
       }
       if (this.chosenFormMethod == "PUT") {
+        if (this.hours.length) this.dataObj.hours = this.hours.join(",");
         response = await this.$store.dispatch("editData", {
           apiName: "serviceCatalog",
           body: this.dataObj,

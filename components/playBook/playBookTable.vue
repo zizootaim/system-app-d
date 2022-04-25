@@ -5,7 +5,7 @@
     <form v-on:submit.prevent>
       <div class="long__form">
         <div class="form__table full">
-          <p style="margin-bottom: 0.5rem">Playbook Table</p>
+          <p style="margin-bottom: 1rem;color: #fff;">Playbook Table</p>
           <div class="form__control">
             <input
               ref="activity"
@@ -63,6 +63,7 @@
           </svg>
         </button>
         <button
+        style="margin-left:.3rem;"
           class="submit-btn"
           @click="submitData('DEL')"
           v-if="chosenFormMethod == 'PUT'"

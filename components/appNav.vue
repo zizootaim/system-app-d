@@ -94,13 +94,14 @@ export default {
   },
   methods: {
     toggleTheme() {
-      // 'fas fa-moon'
+      this.$store.dispatch('changeTheme')
       document.querySelector(".body").classList.toggle("light-mode");
       if (document.querySelector(".body").className.includes("light-mode")) {
         document.querySelector(".theme-btn i").className = "fas fa-moon";
-        //document.body.style.background ='#fff';
+        localStorage.setItem('theme','light')
       } else {
         document.querySelector(".theme-btn i").className = "fas fa-sun";
+        localStorage.setItem('theme','dark')
       }
     },
     changeStatus(choice = "") {

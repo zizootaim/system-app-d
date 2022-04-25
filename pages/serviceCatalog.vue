@@ -3,7 +3,7 @@
     <h1 class="sec__title">Service Catalog</h1>
     <button
       class="form-btn"
-      @click="showForm"
+      @click="showForm('POST')"
       v-if="getRole == 'Employee' || getRole == 'admin'"
     >
       <i class="fas fa-plus"></i> add
@@ -23,6 +23,13 @@
           <div class="col">
             <h4>Service Status</h4>
           </div>
+          <div
+            class="col"
+            v-if="
+              (getRole == 'Employee' || getRole == 'admin') &&
+              getPermission == 'write'
+            "
+          ></div>
         </div>
         <div
           class="table__row"
@@ -32,6 +39,7 @@
           <div class="row top-row">
             <i
               class="fas fa-angle-down row-btn"
+              style="color: #000"
               @click="(event) => showContent(event)"
             ></i>
             <div class="col">
@@ -55,6 +63,33 @@
                 <span>{{ serviceCard.status }}</span>
               </p>
             </div>
+            <div
+              class="col"
+              v-if="
+                (getRole == 'Employee' || getRole == 'admin') &&
+                getPermission == 'write'
+              "
+            >
+              <div class="btns__wrapper">
+                <button
+                  class="table-btn"
+                  @click="showForm('PUT', serviceCard.id)"
+                >
+                  <i class="fal fa-pen"></i>
+                </button>
+                <button
+                  class="table-btn"
+                  @click="
+                    deleteData({
+                      body: { id: serviceCard.id },
+                      apiName: 'serviceCatalog',
+                    })
+                  "
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
           </div>
           <div class="row bottom-row">
             <div>Description : {{ serviceCard.description }}</div>
@@ -64,20 +99,6 @@
             <div>Consumers : {{ serviceCard.consumers }}</div>
             <div>Processes : {{ serviceCard.processes }}</div>
           </div>
-          <button class="form-btn" @click="showForm('PUT', serviceCard.id)">
-            Edit
-          </button>
-          <button
-            class="form-btn"
-            @click="
-              deleteData({
-                body: { id: serviceCard.id },
-                apiName: 'serviceCatalog',
-              })
-            "
-          >
-            DELETE
-          </button>
         </div>
       </div>
     </div>
@@ -108,7 +129,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getServiceCatalog", "getRole"]),
+    ...mapGetters(["getServiceCatalog", "getRole", "getPermission"]),
   },
   methods: {
     deleteData(data) {

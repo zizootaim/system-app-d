@@ -52,7 +52,7 @@
         </div>
 
         <div class="form__table full">
-          <p style="margin-bottom: 0.5rem;color: #fff;">Playbook Table</p>
+          <p style="margin-bottom: 1rem;color: #fff;">Playbook Table</p>
           <div class="form__control">
             <input
               ref="activity"
@@ -210,7 +210,7 @@ export default {
       };
 
       if (this.chosenFormMethod == "POST") {
-        fetch("http://127.0.0.1:8070/api/PlayBook", requestOptions)
+        fetch("https://beapis.herokuapp.com/api/PlayBook", requestOptions)
           .then((response) => response.json())
           .then((result) => {
             this.loading = false;
@@ -250,7 +250,10 @@ export default {
           redirect: "follow",
         };
 
-        fetch("http://127.0.0.1:8070/api/PlayBook?_method=PUT", requestOptions1)
+        fetch(
+          "https://beapis.herokuapp.com/api/PlayBook?_method=PUT",
+          requestOptions1
+        )
           .then((response) => response.json())
           .then((result) => {
             this.loading = false;
@@ -293,8 +296,9 @@ export default {
   padding: 10px;
 }
 .smallSpinner {
-  width: 20px;
-  height: 20px;
+  width: 12px;
+  height: 12px;
+  margin-left: .5rem;
 }
 label,
 p {

@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+
     <div v-if="getStaff[0]">
       <div
         class="level-1 rectangle"
@@ -7,12 +8,12 @@
         :key="index"
       >
         <i
-          v-if="getRole == 'admin'"
+          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
           class="fas fa-edit edit-btn"
           @click="() => showEditForm(t)"
         ></i>
         <i
-          v-if="getRole == 'admin'"
+          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
           class="fas fa-trash-alt delete-btn"
           @click="() => deleteMember(t.id)"
         ></i>
@@ -36,12 +37,12 @@
       <li v-if="getStaff[1]">
         <div class="level-2 rectangle" v-if="getStaff[1].parent">
           <i
-            v-if="getRole == 'admin'"
+            v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
             class="fas fa-edit edit-btn"
             @click="() => showEditForm(getStaff[1].parent)"
           ></i>
           <i
-            v-if="getRole == 'admin'"
+            v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
             class="fas fa-trash-alt delete-btn"
             @click="() => deleteMember(getStaff[1].parent.id)"
           ></i>
@@ -67,12 +68,12 @@
               :key="s.id"
             >
               <i
-                v-if="getRole == 'admin'"
+                v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
                 class="fas fa-edit edit-btn"
                 @click="() => showEditForm(s)"
               ></i>
               <i
-                v-if="getRole == 'admin'"
+                v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
                 class="fas fa-trash-alt delete-btn"
                 @click="() => deleteMember(s.id)"
               ></i>
@@ -96,12 +97,12 @@
       <li v-if="getStaff[2]">
         <div class="level-2 rectangle" v-if="getStaff[2].parent">
           <i
-            v-if="getRole == 'admin'"
+            v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
             class="fas fa-edit edit-btn"
             @click="() => showEditForm(getStaff[2].parent)"
           ></i>
           <i
-            v-if="getRole == 'admin'"
+            v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
             class="fas fa-trash-alt delete-btn"
             @click="() => deleteMember(getStaff[2].parent.id)"
           ></i>
@@ -127,12 +128,12 @@
               :key="s.id"
             >
               <i
-                v-if="getRole == 'admin'"
+                v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
                 class="fas fa-edit edit-btn"
                 @click="() => showEditForm(s)"
               ></i>
               <i
-                v-if="getRole == 'admin'"
+                v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
                 class="fas fa-trash-alt delete-btn"
                 @click="() => deleteMember(s.id)"
               ></i>
@@ -185,7 +186,7 @@ export default {
   computed: {
     ...mapState(["wikiSections", "chosenForm"]),
 
-    ...mapGetters(["getStaff", "getRole"]),
+    ...mapGetters(["getStaff", "getRole","getPermission"]),
   },
   mounted() {
     this.$store.dispatch("getData", "staff");

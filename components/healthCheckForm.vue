@@ -189,6 +189,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+import * as timeMethods from "../assets/timeMethods";
 
 import { dailyChecks, shiftStatus } from "../assets/data";
 export default {
@@ -253,27 +254,11 @@ export default {
         (issue) => issue.id == this.chosenFormId
       );
 
-      console.log(res[0]);
 
-      Date.prototype.toDateInputValue = function () {
-        var local = new Date(this);
-        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-        return local.toJSON().slice(0, 10);
-      };
-
-      const StartTime = res[0].StartTime.split(/\-|\s/),
-        startDate = new Date(
-          StartTime.slice(0, 3).reverse().join("/") + " " + StartTime[3]
-        );
-      const CloseTime = res[0].CloseTime.split(/\-|\s/),
-        closeDate = new Date(
-          CloseTime.slice(0, 3).reverse().join("/") + " " + CloseTime[3]
-        );
-
-      this.healthIssue.startDate = startDate.toDateInputValue();
-      this.healthIssue.startTime = StartTime[3];
-      this.healthIssue.closeDate = closeDate.toDateInputValue();
-      this.healthIssue.closeTime = CloseTime[3];
+      this.healthIssue.startDate = timeMethods.getDay(res[0].StartTime);
+      this.healthIssue.startTime = timeMethods.getTime(res[0].StartTime);
+      this.healthIssue.closeDate = timeMethods.getDay(res[0].CloseTime);
+      this.healthIssue.closeTime = timeMethods.getTime(res[0].CloseTime);
       let a = res[0].Description;
       this.status = res[0].Status;
       this.issuesfound = res[0].IssuesFound;

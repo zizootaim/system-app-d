@@ -348,6 +348,7 @@
 import baseSpinner from "@/components/baseSpinner.vue";
 import { mapGetters } from "vuex";
 import { mapState } from "vuex";
+import * as timeMethods from "../assets/timeMethods";
 
 import {
   incidentPriority,
@@ -465,8 +466,8 @@ export default {
       const arr = [TimeOfDetection, TimeOfClosure, res[0].Date];
 
       const newArr = arr.map((e) => {
-        const time = this.getFullDate(e)[3];
-        const date = this.getDay(this.getFullDate(e));
+        const time = timeMethods.getTime(e);
+        const date = timeMethods.getDay(e);
         return { time, date };
       });
 
@@ -487,7 +488,7 @@ export default {
       this.impactDuration = res[0].ImpactDuration;
       this.affectedSystem = res[0].AffectedSystem;
       this.incidentVerification = res[0].IncidentVerification;
-
+      this.repeatedIncidentNumber = res[0].RepeatedIncidentNumber;
       this.incidentDescription = res[0].Description;
       this.evidenceAcquiring = res[0].EvidenceAcquiring;
       this.dataSourcesHealth = res[0].DataHealth;
@@ -497,24 +498,16 @@ export default {
       this.notification = res[0].Notification;
       this.rootCaseAnalysis = res[0].CaseAnalysis;
       this.incidentAvoidability = res[0].IncidentAvailability;
+      if (res[0].IncidentAvailability != "no") {
+        this.incidentAvoidability = "yes";
+        this.otherIncidentAvoidability = res[0].IncidentAvailability;
+      }
       this.recommendations = res[0].Improvements;
       this.title = res[0].Title;
       this.signature = res[0].Signature;
     }
   },
   methods: {
-    getFullDate(str) {
-      return str.split(/\-|\s/);
-    },
-    getDay(str) {
-      Date.prototype.toDateInputValue = function () {
-        var local = new Date(this);
-        local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-        return local.toJSON().slice(0, 10);
-      };
-      const d = new Date(str.slice(0, 3).reverse().join("/") + " " + str[3]);
-      return d.toDateInputValue();
-    },
     async submitData() {
       console.log(this.dataObj);
 

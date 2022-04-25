@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="btns-wrapper">
       <button
         v-if="getRole == 'admin'"

@@ -21,7 +21,7 @@ textarea {
     "Helvetica Neue", Arial, sans-serif;
 }
 
-.body {
+.body.sec {
   background-position: center;
   background-size: cover;
   background: rgb(8, 36, 96);
@@ -32,8 +32,10 @@ textarea {
   );
 }
 .home {
-  background: url("./background.jpeg") no-repeat;
+  background-repeat: no-repeat;
   background-size: 100% 100%;
+  background-position: center;
+  background: url('./background.jpeg');
 }
 
 h1,
@@ -736,7 +738,7 @@ textarea::placeholder {
   text-align: center;
   font-size: 1rem;
 }
-.table__row:not(.table__row:first-child) .col {
+.table__row:not(.table__row:first-child):not(.book__table .table__row) .col {
   position: relative;
   padding-right: 1rem;
 }

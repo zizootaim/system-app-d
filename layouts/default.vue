@@ -10,50 +10,67 @@
 <script>
 import AppNav from "@/components/appNav.vue";
 import { mapGetters } from "vuex";
-import Logo from '../components/Logo.vue'
+import Logo from "../components/Logo.vue";
 
 export default {
   computed: {
-    ...mapGetters(["getHomeData"]),
+    ...mapGetters(["getHomeData","getTheme"]),
   },
 
   data: () => {
     return {
       url: "",
+      theme:""
     };
   },
   components: {
     AppNav,
-    Logo
+    Logo,
+  },
+  beforeCreate(){
+     this.$store.dispatch("getData", "home");
   },
   mounted() {
     if (!localStorage.getItem("role")) {
       localStorage.setItem("name", "");
+      localStorage.setItem("permission", "");
       localStorage.setItem("role", "");
     }
     this.$store.commit("changeRole");
     this.setBg();
-    this.$store.dispatch("getData", "home");
-    // setTimeout(() => {
-    //   document.querySelector(
-    //     ".home .body"
-    //   ).style.background = `url('${this.getHomeData[0].background_url}')`;
-    // }, 2000);
+
   },
   watch: {
     $route: function () {
       this.setBg();
     },
+    // getTheme:{
+    //   handler(){
+    //     this.setBg()
+    //   }
+    //   ,immediate:true
+    // }
   },
 
   methods: {
     setBg() {
       this.url = window.location.pathname;
-      console.log(this.url);
+      
       const appContainer = document.querySelector(".body");
       if (this.url == "/") {
         appContainer.className = "body home";
-      } else appContainer.className = "body";
+        if (this.getHomeData[0].background_url) {
+          appContainer.style.backgroundImage = `url('${this.getHomeData[0].background_url}')`;
+        }
+      } else {
+        const theme = localStorage.getItem('theme');
+        appContainer.style.backgroundImage = "";
+        if(theme == 'light'){
+          document.querySelector(".theme-btn i").className = "fas fa-moon";
+        }
+        appContainer.className = "body sec" + ` ${theme == 'light' ? 'light-mode' : ''}`;
+      }
+      
     },
   },
 };
@@ -68,7 +85,7 @@ export default {
 .light-mode .mainContent {
   background: #eee;
 }
-footer{
+footer {
   color: #fff;
   padding: 1.5rem;
   display: flex;
@@ -76,7 +93,7 @@ footer{
   align-items: center;
   flex-wrap: wrap;
 }
-footer .logo{
+footer .logo {
   margin-left: 2rem;
 }
 .light-mode footer {

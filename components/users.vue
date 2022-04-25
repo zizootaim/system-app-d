@@ -17,6 +17,9 @@
             <div class="col">
               <h4>Approved</h4>
             </div>
+            <div class="col">
+              <h4>Editor</h4>
+            </div>
           </div>
 
           <div class="table__row" v-for="user in getUsers" :key="user.id">
@@ -54,6 +57,24 @@
                   >
                 </label>
               </div>
+              <div class="col">
+                <label class="switch" @click="changePerm(user)">
+                  <input type="checkbox" />
+                  <span
+                    :class="`slider round${
+                      user.permission == 'write' ? ' approved' : ''
+                    }`"
+                  ></span>
+                  <span
+                    :class="`user-status ${
+                      user.permission == 'write' ? 'enabled' : 'disabled'
+                    }`"
+                    >{{
+                      user.permission == "write" ? "Enabled" : "Read Only"
+                    }}</span
+                  >
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -85,22 +106,43 @@ export default {
       else this.disapproveUser(email);
     },
     async approveUser(email) {
-      this.loading = true;
-      let response = await this.$store.dispatch("approveUser", email);
-      setTimeout(() => {
-        this.loading = false;
-      }, 1000);
+      let response = await this.$store.dispatch("changeUserDate", {
+        email,
+        type: "approve",
+      });
     },
+
     async disapproveUser(email) {
-      this.loading = true;
-      let response = await this.$store.dispatch("disApproveUser", email);
-      this.loading = false;
+      let response = await this.$store.dispatch("changeUserDate", {
+        email,
+        type: "disapprove",
+      });
+      this.readPerm(email);
+    },
+    changePerm(user) {
+      if (user.permission == "read") {
+        this.writePerm(user.email);
+      } else {
+        this.readPerm(user.email);
+      }
+    },
+    async writePerm(email) {
+      let response = await this.$store.dispatch("changeUserDate", {
+        email,
+        type: "write",
+      });
+    },
+    async readPerm(email) {
+      let response = await this.$store.dispatch("changeUserDate", {
+        email,
+        type: "read",
+      });
     },
   },
 };
 </script>
 <style>
-.settings__wrapper{
+.settings__wrapper {
   width: 95%;
   margin-left: 1rem;
 }
@@ -124,7 +166,7 @@ export default {
   left: 1.2rem;
 }
 .disabled {
-  right: 1.2rem;
+  right: 1rem;
 }
 
 /* Hide default HTML checkbox */

@@ -1,6 +1,8 @@
 export const state = (state) => ({
   role: "",
   name: "",
+  permission: "",
+  theme: "",
   message: "",
   chosenForm: "",
   chosenFormMethod: "",
@@ -75,6 +77,7 @@ export const state = (state) => ({
       title: " TITLE",
       email: "Example@gmai.com",
       phone: "12345",
+      bg: "../assets/background.jpeg",
     },
   ],
   homeSections: [
@@ -163,8 +166,14 @@ export const state = (state) => ({
 });
 
 export const getters = {
+  getTheme: (state) => {
+    return state.theme;
+  },
   getRole: (state) => {
     return state.role;
+  },
+  getPermission: (state) => {
+    return state.permission;
   },
   getMessage: (state) => {
     return state.message;
@@ -241,9 +250,14 @@ export const getters = {
 };
 
 export const mutations = {
+  saveTheme(state, t) {
+    console.log(t);
+    state.theme = t;
+  },
   changeRole: (state) => {
     state.role = window.localStorage.getItem("role");
     state.name = window.localStorage.getItem("name");
+    state.permission = window.localStorage.getItem("permission");
   },
   logOut: (state) => {
     window.localStorage.setItem("role", "");
@@ -307,6 +321,14 @@ export const mutations = {
 };
 
 export const actions = {
+  changeTheme({ state, commit }) {
+    let t = "light";
+    if (localStorage.getItem("theme") == "light") {
+      t = "dark";
+    }
+    commit("saveTheme", t);
+    localStorage.setItem("theme", t);
+  },
   changeHomeContent({ state, commit }, content) {
     const newHomeSections = state.homeSections.map((s) => {
       //   s.description = content[s.name];
@@ -344,6 +366,7 @@ export const actions = {
           }
           commit("setChangingData");
           console.log(data);
+
           if (apiName != "Shifts" && apiName != "skillMatrix") {
             commit("saveData", {
               dataContainer: apiName,
@@ -364,7 +387,7 @@ export const actions = {
       return false;
     }
   },
-  async approveUser({ state, commit }, email) {
+  async changeUserDate({ state, commit }, { email, type }) {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
@@ -378,7 +401,7 @@ export const actions = {
       redirect: "follow",
     };
     console.log(urlencoded);
-    fetch("https://beapis.herokuapp.com/api/approve/user", requestOptions)
+    fetch(`https://beapis.herokuapp.com/api/${type}/user`, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         console.log(result);
@@ -386,38 +409,7 @@ export const actions = {
       })
       .catch((error) => console.log("error", error));
   },
-  async disApproveUser({ state, commit }, email) {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    var urlencoded = new URLSearchParams();
-    urlencoded.append("email", email);
-
-    var requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      body: urlencoded,
-      redirect: "follow",
-    };
-    try {
-      console.log(urlencoded);
-      let res = await fetch(
-        "https://beapis.herokuapp.com/api/disapprove/user",
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => {
-          console.log(result);
-          this.dispatch("getData", "users");
-          return true;
-        });
-      if (res == true) return true;
-      else return false;
-    } catch (err) {
-      console.log(err);
-      return false;
-    }
-  },
   async editStaff({ state, commit }, dataObj) {
     console.log(dataObj);
     var myHeaders = new Headers();
@@ -481,8 +473,10 @@ export const actions = {
           }
           return true;
         });
-      if (res == true) return true;
-      else {
+      if (res == true) {
+        return true;
+        console.log(res);
+      } else {
         console.log(res);
         return false;
       }
@@ -624,6 +618,7 @@ export const actions = {
           if (data.user.name) {
             window.localStorage.setItem("role", data.user.role);
             window.localStorage.setItem("name", data.user.name);
+            window.localStorage.setItem("permission", data.user.permission);
             commit("changeRole");
             this.$router.push("/wikiPage");
             document.querySelector(".close").click();
