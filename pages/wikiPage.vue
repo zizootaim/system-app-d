@@ -87,10 +87,11 @@
 
         <div class="wiki__container">
           <!-- Use Case Intro -->
-              <div v-if="wikiPage == 'Use Case Library'">
+          <div v-if="wikiPage == 'Use Case Library'">
             <button class="form-btn" v-on:click="modalType = 'useModal'">
               <i class="fal fa-info-circle"></i> Help
-            </button></div>
+            </button>
+          </div>
           <BaseSpinner v-if="loading && wikiPage != ''" class="mainSpinner" />
 
           <!-- Filteration -->
@@ -99,7 +100,7 @@
             v-if="
               allData.length > 1 &&
               wikiPage != '' &&
-              wikiPage != 'resourcesCalculation'&&
+              wikiPage != 'resourcesCalculation' &&
               wikiPage != 'Shifts' &&
               (wikiPage != 'Administration') & (wikiPage != 'skillMatrix')
             "
@@ -225,7 +226,7 @@
                       <div class="row top-row">
                         <i
                           class="fas fa-angle-down row-btn"
-                          @click="(event) => showContent(event)"
+                          @click="(event) => showAccordionElement(event)"
                         ></i>
                         <div class="col">
                           <p>
@@ -282,14 +283,23 @@
                         </div>
                       </div>
                       <div class="row bottom-row">
-                        <div>
-                          <span>Description</span> :
-                          {{ advisoryCard.description }}
+                        <div class="com-row">
+                          <div class="primary">
+                            <div>
+                              <span>Description</span> :
+                              {{ advisoryCard.description }}
+                            </div>
+                            <div>
+                              <span>Notes</span> : {{ advisoryCard.notes }}
+                            </div>
+                          </div>
+                          <div class="secondary">
+                            <div v-if="advisoryCard.applicable == 'Yes'">
+                              <span> Action Taken</span> :
+                              {{ advisoryCard.token }}
+                            </div>
+                          </div>
                         </div>
-                        <div v-if="advisoryCard.applicable == 'Yes'">
-                          <span> Action Taken</span> : {{ advisoryCard.token }}
-                        </div>
-                        <div><span>Notes</span> : {{ advisoryCard.notes }}</div>
                       </div>
                     </div>
                   </div>
@@ -342,7 +352,7 @@
                       <div class="row top-row">
                         <i
                           class="fas fa-angle-down row-btn"
-                          @click="(event) => showContent(event)"
+                          @click="(event) => showAccordionElement(event)"
                         ></i>
                         <div class="col">
                           <p>
@@ -663,7 +673,7 @@
                       <div class="row top-row">
                         <i
                           class="fas fa-angle-down row-btn"
-                          @click="(event) => showContent(event)"
+                          @click="(event) => showAccordionElement(event)"
                         ></i>
 
                         <div class="col">
@@ -702,55 +712,24 @@
                         </div>
                       </div>
                       <div class="row bottom-row">
-                        <div class="book__data">
-                          <div>Description : {{ book.description }}</div>
+                        <article>
+                          <div class="book__data">
+                            <div>Description : {{ book.description }}</div>
 
-                          <div
-                            class="book__table"
-                            v-if="parse(book.data).length"
-                          >
-                            <div>
-                              <div class="table__row header">
-                                <div class="col">
-                                  <h4>Activity</h4>
-                                </div>
-                                <div class="col">
-                                  <h4>IR Stage</h4>
-                                </div>
-                                <div class="col">
-                                  <h4>Team</h4>
-                                </div>
-                                <div
-                                  class="col"
-                                  v-if="
-                                    (getRole == 'admin' ||
-                                      getRole == 'Employee') &&
-                                    getPermission == 'write'
-                                  "
-                                ></div>
-                              </div>
-
-                              <div
-                                class="table__row"
-                                v-for="(r, index) in parse(book.data)"
-                                :key="index"
-                                :id="index"
-                              >
-                                <div class="row">
+                            <div
+                              class="book__table"
+                              v-if="parse(book.data).length"
+                            >
+                              <div>
+                                <div class="table__row header">
                                   <div class="col">
-                                    <p>
-                                      {{ r.activity }}
-                                    </p>
+                                    <h4>Activity</h4>
                                   </div>
                                   <div class="col">
-                                    <p>
-                                      {{ r.irStage }}
-                                    </p>
+                                    <h4>IR Stage</h4>
                                   </div>
                                   <div class="col">
-                                    <p>
-                                      <span>{{ r.team }}</span>
-                                    </p>
+                                    <h4>Team</h4>
                                   </div>
                                   <div
                                     class="col"
@@ -759,46 +738,79 @@
                                         getRole == 'Employee') &&
                                       getPermission == 'write'
                                     "
-                                  >
-                                    <div class="btns__wrapper">
-                                      <button
-                                        class="table-btn"
-                                        @click="
-                                          setChosenForm(
-                                            'playBookTable',
-                                            'PUT',
-                                            `${book.id}+${index}`
-                                          )
-                                        "
-                                      >
-                                        <i class="fal fa-pen"></i>
-                                      </button>
+                                  ></div>
+                                </div>
+
+                                <div
+                                  class="table__row"
+                                  v-for="(r, index) in parse(book.data)"
+                                  :key="index"
+                                  :id="index"
+                                >
+                                  <div class="row">
+                                    <div class="col">
+                                      <p>
+                                        {{ r.activity }}
+                                      </p>
+                                    </div>
+                                    <div class="col">
+                                      <p>
+                                        {{ r.irStage }}
+                                      </p>
+                                    </div>
+                                    <div class="col">
+                                      <p>
+                                        <span>{{ r.team }}</span>
+                                      </p>
+                                    </div>
+                                    <div
+                                      class="col"
+                                      v-if="
+                                        (getRole == 'admin' ||
+                                          getRole == 'Employee') &&
+                                        getPermission == 'write'
+                                      "
+                                    >
+                                      <div class="btns__wrapper">
+                                        <button
+                                          class="table-btn"
+                                          @click="
+                                            setChosenForm(
+                                              'playBookTable',
+                                              'PUT',
+                                              `${book.id}+${index}`
+                                            )
+                                          "
+                                        >
+                                          <i class="fal fa-pen"></i>
+                                        </button>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
+                            <button
+                              class="addBtn"
+                              v-if="
+                                (getRole == 'admin' || getRole == 'Employee') &&
+                                getPermission == 'write'
+                              "
+                              @click="
+                                setChosenForm(
+                                  'playBookTable',
+                                  'ADD',
+                                  `${book.id}`
+                                )
+                              "
+                            >
+                              Add Row
+                            </button>
                           </div>
-                          <button
-                            class="addBtn"
-                            v-if="
-                              (getRole == 'admin' || getRole == 'Employee') &&
-                              getPermission == 'write'
-                            "
-                            @click="
-                              setChosenForm(
-                                'playBookTable',
-                                'ADD',
-                                `${book.id}`
-                              )
-                            "
-                          >
-                            Add Row
-                          </button>
-                        </div>
-                        <div class="book__img">
-                          <img :src="book.url" :alt="book.name" />
-                        </div>
+                          <div class="book__img">
+                            <img :src="book.url" :alt="book.name" />
+                          </div>
+                        </article>
                       </div>
                     </div>
                   </div>
@@ -854,7 +866,7 @@
                         <i
                           v-if="h.Status == 'Not Ok'"
                           class="fas fa-angle-down row-btn"
-                          @click="(event) => showContent(event)"
+                          @click="(event) => showAccordionElement(event)"
                         ></i>
                         <div class="col">
                           <p>
@@ -995,7 +1007,7 @@
                       <div class="row top-row">
                         <i
                           class="fas fa-angle-down row-btn"
-                          @click="(event) => showContent(event)"
+                          @click="(event) => showAccordionElement(event)"
                         ></i>
                         <div class="col">
                           <p>
@@ -1127,7 +1139,7 @@
                       <div class="row top-row">
                         <i
                           class="fas fa-angle-down row-btn"
-                          @click="(event) => showContent(event)"
+                          @click="(event) => showAccordionElement(event)"
                         ></i>
                         <div class="col">
                           <p>
@@ -1267,7 +1279,7 @@
                     <div class="row top-row">
                       <i
                         class="fas fa-angle-down row-btn"
-                        @click="(event) => showContent(event)"
+                        @click="(event) => showAccordionElement(event)"
                       ></i>
 
                       <div class="col">
@@ -1360,7 +1372,6 @@
           <!-- Use Case -->
 
           <div class="useCase" v-if="wikiPage == 'Use Case Library'">
-          
             <!-- Use Case Intro -->
             <modal
               class="usersmodal"
@@ -1413,7 +1424,7 @@
                       <div class="row top-row">
                         <i
                           class="fas fa-angle-down row-btn"
-                          @click="(event) => showContent(event)"
+                          @click="(event) => showAccordionElement(event)"
                         ></i>
                         <div class="col">
                           <p>
@@ -1567,7 +1578,7 @@
                     <div class="row top-row">
                       <i
                         class="fas fa-angle-down row-btn"
-                        @click="(event) => showContent(event)"
+                        @click="(event) => showAccordionElement(event)"
                       ></i>
                       <div class="col">
                         <p>
@@ -1673,10 +1684,7 @@
               <home-content-form />
             </modal>
 
-           
-           
-              <users  />
-
+            <users />
           </div>
           <!-- Skill Matrix -->
           <div v-if="wikiPage == 'skillMatrix'">
@@ -1690,7 +1698,7 @@
               wikiPage != 'Administration' &&
               wikiPage != '' &&
               wikiPage != 'skillMatrix' &&
-              wikiPage != 'Shifts'&&
+              wikiPage != 'Shifts' &&
               wikiPage != 'resourcesCalculation'
             "
           >
@@ -1787,6 +1795,8 @@ import PlayBookForm from "../components/playBookForm.vue";
 import HomeContentForm from "../components/settings/homeContentForm.vue";
 import useCaseIntro from "../components/useCaseIntro.vue";
 import resourcesCalc from "@/components/settings/resourcesCalc.vue";
+import { showContent } from "../assets/timeMethods";
+
 export default {
   name: "wikiPage",
   data() {
@@ -2059,45 +2069,8 @@ export default {
       this.$store.commit("setChosenFormMethod", method);
       this.$store.commit("setChosenFormId", id);
     },
-    showContent(event) {
-      Array.from(document.querySelectorAll(".row-btn")).forEach((i) => {
-        i.className = "fas fa-angle-down row-btn";
-      });
-      event.target.className = "fas fa-angle-up row-btn";
-      const topRowElements =
-        event.target.parentElement.querySelectorAll(".col p");
-      const bottomRow =
-        event.target.parentElement.parentElement.querySelector(".bottom-row");
-      let open =
-        event.target.parentElement.getBoundingClientRect().height > 47
-          ? true
-          : false;
-      if (bottomRow) {
-        open = bottomRow.getBoundingClientRect().height > 0 ? true : false;
-        Array.from(document.querySelectorAll(".bottom-row")).forEach((row) => {
-          row.style.height = 0;
-        });
-        let height = 0;
-        Array.from(bottomRow.children).forEach((el) => {
-          height += el.getBoundingClientRect().height;
-        });
-        
-
-        
-        if (open) {
-          event.target.className = "fas fa-angle-down row-btn";
-          height = 0;
-        }
-        bottomRow.style.height = height + "px";
-        // bottomRow.style.height = 'auto';
-      }
-      Array.from(document.querySelectorAll(".col p")).forEach((p) => {
-        p.style.maxHeight = "1.8rem";
-      });
-      Array.from(topRowElements).forEach((p) => {
-        if (!open) p.style.maxHeight = "unset";
-        else p.style.maxHeight = "1.8rem";
-      });
+    showAccordionElement(event) {
+      showContent(event);
     },
     activateLink(event) {
       console.log(event);
@@ -2129,8 +2102,8 @@ export default {
     },
     async changeCat(val, event) {
       this.activateLink(event);
-        this.wikiPage = this.currentWikiPage;
-        console.log(val);
+      this.wikiPage = this.currentWikiPage;
+      console.log(val);
       if (val == "homeForm") {
         this.modalType = val;
         console.log(this.modalType);
@@ -2154,7 +2127,7 @@ export default {
     },
     async getWikiData(target) {
       console.log(target);
-   
+
       if (this.$store.state[target].length == 0) {
         console.log(this.$store.state[target].length);
         this.loading = true;
@@ -2242,11 +2215,10 @@ export default {
 .book__table .col {
   padding: 0;
 }
-.book__data{
+.book__data {
   height: fit-content;
 }
 .book__img {
-  /*height: 20rem;*/
   height: fit-content;
 }
 .mainSpinner {
@@ -2334,7 +2306,7 @@ export default {
 .light-mode .filteration__wrapper .form__control {
   border-color: #000;
 }
-.light-mode .filteration__wrapper .form-btn *{
+.light-mode .filteration__wrapper .form-btn * {
   color: #34009c;
 }
 

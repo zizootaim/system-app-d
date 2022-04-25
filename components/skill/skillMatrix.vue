@@ -2,7 +2,14 @@
   <div>
     <div class="skill-matrix">
       <h1 class="sec__title">Skill Matrix</h1>
-      <button class="form-btn" @click="showHomeModal('POST')">
+      <button
+        class="form-btn"
+        v-if="
+          (getRole == 'admin' || getRole == 'Employee') &&
+          getPermission == 'write'
+        "
+        @click="showHomeModal('POST')"
+      >
         <i class="fas fa-plus"></i> Add Competency
       </button>
       <div class="table__wrapper">
@@ -113,7 +120,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getSkillMatrix", "getRole","getPermission"]),
+    ...mapGetters(["getSkillMatrix", "getRole", "getPermission"]),
   },
   components: {
     modal,
@@ -142,16 +149,16 @@ export default {
 </script>
 
 <style>
-.skill-matrix .rows .row{
+.skill-matrix .rows .row {
   height: 1.3rem;
 }
-.skill-matrix .rows .row *{
-  font-size: .8rem;
+.skill-matrix .rows .row * {
+  font-size: 0.8rem;
 }
-.skill-matrix .rows .row .col{
+.skill-matrix .rows .row .col {
   padding: 0;
 }
-.skill-matrix .header .col{
+.skill-matrix .header .col {
   padding: 0rem;
 }
 .level {

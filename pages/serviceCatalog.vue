@@ -41,7 +41,7 @@
             <i
               class="fas fa-angle-down row-btn"
               style="color: #000"
-              @click="(event) => showContent(event)"
+              @click="(event) => showService(event)"
             ></i>
             <div class="col">
               <p>
@@ -93,14 +93,21 @@
             </div>
           </div>
           <div class="row bottom-row">
-            <div>Description : {{ serviceCard.description }}</div>
-            <div>Service Hours : {{ serviceCard.hours }}</div>
-            <div>Inputs : {{ serviceCard.inputs }}</div>
-            <div>Outputs : {{ serviceCard.outputs }}</div>
-            <div>Consumers : {{ serviceCard.consumers }}</div>
-            <div>Processes : {{ serviceCard.processes }}</div>
+            <div class="com-row">
+              <div class="primary">
+                <div>
+                  <span>Description</span> : {{ serviceCard.description }}
+                </div>
+                <div><span>Service Hours</span> : {{ serviceCard.hours }}</div>
+                <div><span>Inputs</span> : {{ serviceCard.inputs }}</div>
+              </div>
+              <div class="secondary">
+                <div><span>Consumers</span> : {{ serviceCard.consumers }}</div>
+                <div><span>Processes</span> : {{ serviceCard.processes }}</div>
+                <div><span>Outputs</span> : {{ serviceCard.outputs }}</div>
+              </div>
+            </div>
           </div>
-          
         </div>
       </div>
     </div>
@@ -118,6 +125,7 @@ import { mapGetters } from "vuex";
 import modal from "@/components/modal.vue";
 import ServiceCatalogeForm from "../components/serviceCatalogeForm.vue";
 
+import {showContent} from '../assets/timeMethods'
 
 export default {
   components: {
@@ -159,6 +167,9 @@ export default {
         },
       };
     },
+    showService(event){
+      showContent(event)
+    },
     deleteData(data) {
       this.$store.dispatch("delete", data);
     },
@@ -167,42 +178,7 @@ export default {
       this.$store.commit("setChosenFormMethod", method);
       this.$store.commit("setChosenFormId", id);
     },
-    showContent(event) {
-      Array.from(document.querySelectorAll(".row-btn")).forEach((i) => {
-        i.className = "fas fa-angle-down row-btn";
-      });
-      event.target.className = "fas fa-angle-up row-btn";
-      const topRowElements =
-        event.target.parentElement.querySelectorAll(".col p");
-      const bottomRow =
-        event.target.parentElement.parentElement.querySelector(".bottom-row");
-      let open =
-        event.target.parentElement.getBoundingClientRect().height > 47
-          ? true
-          : false;
-      if (bottomRow) {
-        open = bottomRow.getBoundingClientRect().height > 0 ? true : false;
-        Array.from(document.querySelectorAll(".bottom-row")).forEach((row) => {
-          row.style.height = 0;
-        });
-        let height = 0;
-        Array.from(bottomRow.children).forEach((el) => {
-          height += el.getBoundingClientRect().height;
-        });
-        if (open) {
-          event.target.className = "fas fa-angle-down row-btn";
-          height = 0;
-        }
-        bottomRow.style.height = height + "px";
-      }
-      Array.from(document.querySelectorAll(".col p")).forEach((p) => {
-        p.style.maxHeight = "1.8rem";
-      });
-      Array.from(topRowElements).forEach((p) => {
-        if (!open) p.style.maxHeight = "unset";
-        else p.style.maxHeight = "1.8rem";
-      });
-    },
+    
     statusClass(status) {
       return status.includes(" ")
         ? status.substring(0, status.indexOf(" ")).toLowerCase()

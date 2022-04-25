@@ -524,7 +524,7 @@ textarea::placeholder {
 
 /* Playbooks */
 
-.playbooks .bottom-row {
+.playbooks .bottom-row article {
   display: flex;
   flex-direction: row;
 }
@@ -749,7 +749,7 @@ textarea::placeholder {
   text-transform: capitalize;
   text-align: center;
   max-height: 1.8rem;
-  max-width: 200px;
+  max-width: 210px;
   margin: auto;
   overflow: hidden;
 }
