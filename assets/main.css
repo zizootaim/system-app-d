@@ -526,17 +526,20 @@ textarea::placeholder {
 
 .playbooks .bottom-row article {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 .playbooks .book__data {
   display: flex;
   flex-direction: column;
 }
 .playbooks img {
-  width: 100%;
+  width:auto;
+  height: auto;
 }
 .book__img {
   width: auto;
+  display: flex;
+  justify-content: center;
 }
 
 /* Incident Main */

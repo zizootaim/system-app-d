@@ -107,7 +107,7 @@ export const state = (state) => ({
         { name: "Policies", callFunc: "Policies" },
 
         { name: "Process ", callFunc: "Procedures" },
-        { name: "Play Books", callFunc: "Playbooks" },
+        { name: "Playbooks", callFunc: "Playbooks" },
       ],
     },
 

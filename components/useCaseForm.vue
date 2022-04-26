@@ -433,6 +433,7 @@ export default {
   color: #010f60;
   background: none;
   text-transform: capitalize;
+  text-align: center;
 }
 .mitre-btn {
   padding: 0.2rem 0.5rem;

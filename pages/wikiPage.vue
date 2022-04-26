@@ -1651,7 +1651,11 @@
                         </div>
 
                         <div class="secondary">
+                            <div>
+                            <span>Secondary Name</span> : {{ c.SecondaryName }}
+                          </div>
                           <div>
+                          
                             <span>Secondary Email</span> :
                             {{ c.SecondaryEmail }}
                           </div>
@@ -1659,9 +1663,7 @@
                             <span>Secondary Phone</span> :
                             {{ c.SecondaryPhone }}
                           </div>
-                          <div>
-                            <span>Secondary Name</span> : {{ c.SecondaryName }}
-                          </div>
+                        
                           <div>
                             <span>Secondary Mobile</span> :
                             {{ c.SecondaryMobile }}

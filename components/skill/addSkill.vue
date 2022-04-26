@@ -29,7 +29,7 @@
         <select required v-model="L1">
           <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
         </select>
-        <span class="form__control-label"> Analyst 1</span>
+        <span class="form__control-label"> Analyst L1</span>
       </div>
       <div
         v-if="Category == 'Certifications' || Category == 'Edu'"
@@ -38,7 +38,7 @@
         <select required v-model="L2">
           <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
         </select>
-        <span class="form__control-label"> Analyst 2</span>
+        <span class="form__control-label"> Analyst L2</span>
       </div>
       <div
         v-if="Category == 'Certifications' || Category == 'Edu'"
@@ -47,7 +47,7 @@
         <select required v-model="L3">
           <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
         </select>
-        <span class="form__control-label"> Analyst 3</span>
+        <span class="form__control-label"> Analyst L3</span>
       </div>
       <div
         v-if="Category == 'Certifications' || Category == 'Edu'"
@@ -80,7 +80,7 @@
           max="5"
           autocomplete="off"
         />
-        <span class="form__control-label"> Analyst 1</span>
+        <span class="form__control-label"> Analyst L1</span>
       </div>
       <div
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
@@ -95,7 +95,7 @@
           max="5"
           autocomplete="off"
         />
-        <span class="form__control-label"> Analyst 2</span>
+        <span class="form__control-label"> Analyst L2</span>
       </div>
       <div
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
@@ -110,7 +110,7 @@
           max="5"
           autocomplete="off"
         />
-        <span class="form__control-label"> Analyst 3</span>
+        <span class="form__control-label"> Analyst L3</span>
       </div>
       <div
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"

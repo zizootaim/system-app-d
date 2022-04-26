@@ -166,7 +166,7 @@ export default {
   left: 1.2rem;
 }
 .disabled {
-  right: 1rem;
+  right: .75rem;
 }
 
 /* Hide default HTML checkbox */

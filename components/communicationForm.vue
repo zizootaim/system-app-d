@@ -24,9 +24,19 @@
               autocomplete="off"
               required
             />
-            <span class="form__control-label">Action</span>
+            <span class="form__control-label">When to Contact ?</span>
           </div>
           <p>Primary Information</p>
+            <div class="form__control">
+            <input
+              type="text"
+              name="primaryName"
+              v-model="primaryName"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Primary Name</span>
+          </div>
           <div class="form__control">
             <input
               type="email"
@@ -37,16 +47,7 @@
             />
             <span class="form__control-label">Primary Email</span>
           </div>
-          <div class="form__control">
-            <input
-              type="text"
-              name="primaryName"
-              v-model="primaryName"
-              autocomplete="off"
-              required
-            />
-            <span class="form__control-label">Primary Name</span>
-          </div>
+        
           <div class="form__control">
             <input
               type="number"
@@ -68,16 +69,7 @@
             <span class="form__control-label">Primary Mobile</span>
           </div>
           <p>Seconadry Information</p>
-          <div class="form__control" style="margin-top: 1rem;">
-            <input
-              type="email"
-              name="secondaryEmail"
-              v-model="secondaryEmail"
-              autocomplete="off"
-              required
-            />
-            <span class="form__control-label">Secondary Email</span>
-          </div>
+     
 
           <div class="form__control">
             <input
@@ -88,6 +80,16 @@
               required
             />
             <span class="form__control-label">Secondary Name</span>
+          </div>
+               <div class="form__control" style="margin-top: 1rem;">
+            <input
+              type="email"
+              name="secondaryEmail"
+              v-model="secondaryEmail"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Secondary Email</span>
           </div>
           <div class="form__control">
             <input
@@ -110,6 +112,16 @@
             <span class="form__control-label">Secondary Mobile</span>
           </div>
           <p>Group Information</p>
+              <div class="form__control" style="grid-column: unset">
+            <input
+              type="text"
+              name="groupManager"
+              v-model="groupManager"
+              autocomplete="off"
+              required
+            />
+            <span class="form__control-label">Group Manager</span>
+          </div>
           <div class="form__control">
             <input
               type="email"
@@ -120,16 +132,7 @@
             />
             <span class="form__control-label">Group Email</span>
           </div>
-          <div class="form__control" style="grid-column: unset">
-            <input
-              type="text"
-              name="groupManager"
-              v-model="groupManager"
-              autocomplete="off"
-              required
-            />
-            <span class="form__control-label">Group Manager</span>
-          </div>
+      
         </div>
       </div>
       <div class="submit-btn__wrapper full">
@@ -264,7 +267,7 @@ export default {
 };
 </script>
 <style>
-.long__form p {
+.long__form p:not(.mitre p) {
   text-transform: capitalize;
   color: #fff;
   background: #40358e;

@@ -110,9 +110,9 @@ export default {
   data() {
     return {
       header: [
-        "Analyst 1",
-        "Analyst 2",
-        "Analyst 3",
+        "Analyst L1",
+        "Analyst L2",
+        "Analyst L3",
         "SOC Admin",
         "SOC Manager",
       ],
