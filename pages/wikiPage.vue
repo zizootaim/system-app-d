@@ -87,14 +87,16 @@
 
         <div class="wiki__container">
           <!-- Use Case Intro -->
-          <div v-if="wikiPage == 'Use Case Library'">
-            <button class="form-btn" v-on:click="modalType = 'useModal'">
-              <i class="fal fa-info-circle"></i> Help
-            </button>
-          </div>
+          
           <BaseSpinner v-if="loading && wikiPage != ''" class="mainSpinner" />
 
           <!-- Filteration -->
+          <div class="intro">
+<div v-if="wikiPage == 'Use Case Library'">
+            <button class="form-btn use-btn" v-on:click="modalType = 'useModal'">
+              <i class="fal fa-info-circle"></i> Help
+            </button>
+          </div>
           <div
             class="filteration__wrapper"
             v-if="
@@ -132,6 +134,7 @@
               </div>
               <button class="clear-btn" @click="clearFilter">Clear</button>
             </div>
+          </div>
           </div>
           <!-- Reports -->
 
@@ -1369,6 +1372,7 @@
               </div>
             </div>
           </div>
+          
           <!-- Use Case -->
 
           <div class="useCase" v-if="wikiPage == 'Use Case Library'">
@@ -1381,7 +1385,7 @@
               <use-case-intro />
             </modal>
             <div>
-              <h1 class="sec__title">Use Case Intro</h1>
+              <h1 class="sec__title">UseCases Intro</h1>
 
               <button
                 class="form-btn"
@@ -1404,7 +1408,7 @@
                         <h4>Threat/Risk</h4>
                       </div>
                       <div class="col">
-                        <h4>Use Case Type</h4>
+                        <h4>Usecase Type</h4>
                       </div>
 
                       <div
@@ -1560,7 +1564,7 @@
                     <div class="col">
                       <h4>Group Email</h4>
                     </div>
-                    <div class="col"><h4>When To Connect</h4></div>
+                    <div class="col"><h4>When To Contact ?</h4></div>
                     <div
                       class="col"
                       v-if="
@@ -1590,8 +1594,8 @@
                           <span> {{ c.GroupManager }}</span>
                         </p>
                       </div>
-                      <div class="col">
-                        <p>
+                      <div class="col" >
+                        <p style="text-transform: lowercase;">
                           <span>{{ c.GroupEmail }}</span>
                         </p>
                       </div>
@@ -2168,6 +2172,16 @@ export default {
 };
 </script>
 <style>
+.wiki__container .intro{
+  display: flex;
+}
+.intro .use-btn{
+  margin: .2rem 1rem 0 0;
+  width: 135px;
+}
+.intro .filteration__wrapper{
+  width: 100%;
+}
 .clear-btn {
   padding: 0.3rem 1rem;
   margin: 1rem;

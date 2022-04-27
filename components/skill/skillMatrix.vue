@@ -196,7 +196,7 @@ export default {
   content: "5";
 }
 .c-mandatory {
-  background-color: rgb(245, 156, 156);
+  background-color: rgb(247, 193, 193);
 }
 .c-not {
   background-color: rgb(175, 175, 229);

@@ -303,8 +303,7 @@
           <p>Reviewed By</p>
           <div class="form__control">
             <select name="title" v-model="title" required>
-              <option value="" selected disabled hidden></option>
-              s
+              
               <option value="SOC Manager ">SOC Manager</option>
               <option value="Security Head">Security Head</option>
             </select>
@@ -323,7 +322,7 @@
         </div>
       </div>
       <div class="submit-btn__wrapper">
-        <button class="submit-btn" @click="submitData">
+        <button class="submit-btn" type="submit">
           Submit
           <svg
             v-if="submitIcon"
@@ -471,6 +470,24 @@ export default {
         return { time, date };
       });
 
+      const c = res[0].IncidentClassification.trim()
+        .split(",")
+        .map((e) => {
+          return e.trim();
+        });
+      let otherClassification = "";
+      c.forEach((e) => {
+        if(!incidentClassifications.includes(e)) otherClassification = e;
+      });
+      if (otherClassification) {
+        c.push("Other");
+        this.otherIncidentClassification = otherClassification;
+      }
+      this.incidentClassification = c;
+
+      console.log(c);
+      console.log(otherClassification);
+      console.log(incidentClassifications);
       this.detectionDate = newArr[0].date;
       this.detectionTime = newArr[0].time;
       this.closureDate = newArr[1].date;
@@ -496,6 +513,9 @@ export default {
       this.eradicationMeasures = res[0].EradicationMeasures;
       this.recoveryMeasures = res[0].RecoveryMeasures;
       this.notification = res[0].Notification;
+      if(!incidentNotifications.includes(res[0].Notification)) {
+        this.notification = 'Other'
+        this.otherNotification = res[0].Notification;}
       this.rootCaseAnalysis = res[0].CaseAnalysis;
       this.incidentAvoidability = res[0].IncidentAvailability;
       if (res[0].IncidentAvailability != "no") {

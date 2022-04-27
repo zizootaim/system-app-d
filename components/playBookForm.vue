@@ -52,7 +52,7 @@
         </div>
 
         <div class="form__table full" v-if="chosenFormMethod=='POST'">
-          <p style="margin-bottom: 1rem;color: #fff;">Playbook Table</p>
+          <p style="margin-bottom: 1rem;color: #fff;">RACI Matrix</p>
           <div class="form__control">
             <input
               ref="activity"
@@ -170,8 +170,11 @@ export default {
       console.log(res);
       this.title = res[0].title;
       this.description = res[0].description;
-
-      this.category = res[0].category;
+    this.category = res[0].category;
+  if(!playbookCategories.includes(res[0].category)){
+    this.category = 'Other';
+    this.otherCategory = res[0].category
+  }
       this.$refs["file"].required = false;
     }
   },

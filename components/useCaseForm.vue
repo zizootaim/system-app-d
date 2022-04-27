@@ -340,6 +340,10 @@ export default {
       this.purpose = res[0].purpose;
       this.risk = res[0].risk;
       this.useCaseType = res[0].type;
+      if(!caseTypes.includes(res[0].type)){
+        this.useCaseType = 'Other';
+        this.otherUseCaseType = res[0].type;
+      }
       this.stakeholders = res[0].stakeholders;
       this.requirements = res[0].requirements;
       this.logic = res[0].logic;

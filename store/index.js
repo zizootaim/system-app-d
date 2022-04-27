@@ -136,7 +136,7 @@ export const state = (state) => ({
     },
     {
       section: "Use Case Library",
-      sectionName: "Use Case Library",
+      sectionName: "Usecase Library",
       class: "fas fa-thumbs-up",
     },
     {
