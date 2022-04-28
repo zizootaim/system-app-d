@@ -36,7 +36,7 @@
           class="form-btn btn"
           type="submit"
           @click="addRow"
-          style="color: #010f60"
+          
         >
           add goal <BaseSpinner class="smallSpinner" v-if="loadingAdd" />
         </button>
@@ -170,10 +170,13 @@ export default {
   width: 60%;
   margin: auto;
 }
-.home__form-wrapper .btn {
+.home__form-wrapper .form-btn {
   color: #fff;
   font-size: 12px;
   box-shadow: 0 0 0 0;
+}
+.home__form-wrapper .form-btn:hover{
+  color: #34009c;
 }
 .home__form-wrapper p {
   margin-bottom: 30px;
@@ -183,5 +186,11 @@ export default {
 }
 .home__form-wrapper h1 {
   color: #fff;
+}
+.light-mode .home__form-wrapper *:not(.home__form-wrapper .submit-btn){
+  color: #000;
+}
+.light-mode .home__form-wrapper .form__control{
+  border-color: #000;
 }
 </style>
