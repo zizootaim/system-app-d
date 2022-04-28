@@ -2,6 +2,16 @@
   <div class="shift__form-wrapper">
     <h1 class="form__title">Edit {{ editingUser.Name }}</h1>
     <form class="long__form" v-on:submit.prevent="submitData">
+
+       <div class="form__control select">
+        <select required name="parentLevel" v-model="title">
+          <option value="SOC Manager">SOC Manager</option>
+          <option value="L3 Analyst">L3 Analyst</option>
+          <option value="L2 Analyst">L2 Analyst</option>
+          <option value="L1 Analyst">L1 Analyst</option>
+        </select>
+        <span class="form__control-label">Title</span>
+      </div>
       <div class="form__control">
         <input
           type="text"
@@ -12,21 +22,20 @@
         />
         <span class="form__control-label">Name</span>
       </div>
-
-      <div class="form__control">
+      <!-- <div class="form__control">
         <input type="text" name="title" required v-model="title" />
         <span class="form__control-label">Title</span>
-      </div>
+      </div> -->
       <div class="form__control">
-        <input type="text" name="email" required v-model="email" />
+        <input type="email" name="email" required v-model="email" />
         <span class="form__control-label">Email</span>
       </div>
       <div class="form__control">
-        <input type="text" name="mobile" required v-model="mobile" />
+        <input type="number" name="mobile" required v-model="mobile" />
         <span class="form__control-label">Mobile</span>
       </div>
       <div class="form__control">
-        <input type="text" name="phone" required v-model="phone" />
+        <input type="number" name="phone" required v-model="phone" />
         <span class="form__control-label">Phone</span>
       </div>
 
@@ -70,26 +79,26 @@ export default {
     editingUser: {},
   },
   mounted() {
+     
     this.id = this.editingUser.id;
     this.name = this.editingUser.Name;
     this.title = this.editingUser.Title;
     this.email = this.editingUser.Email;
     this.phone = this.editingUser.Phone;
     this.mobile = this.editingUser.Mobile;
-    if (this.editingUser.child == false) this.child = 0;
+
   },
   computed: {
     dataObj() {
       return {
         ...this.editingUser,
         id: this.editingUser.id,
-        ParentName: this.editingUser.ParentName,
         Name: this.name,
         Title: this.title,
         Email: this.email,
         Mobile: this.mobile,
         Phone: this.phone,
-        child: this.child,
+    
       };
     },
   },

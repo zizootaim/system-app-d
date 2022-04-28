@@ -4,7 +4,7 @@
     <div class="mainContent">
       <Nuxt />
     </div>
-    <footer>Powered by Group-IB <logo /></footer>
+    <footer>Powered by <logo :footer="true" /></footer>
   </div>
 </template>
 <script>

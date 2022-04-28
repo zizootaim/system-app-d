@@ -34,6 +34,7 @@
           required
           v-model="shifts"
           autocomplete="off"
+          :maxlength="val"
         />
         <span class="form__control-label">Shifts</span>
       </div>

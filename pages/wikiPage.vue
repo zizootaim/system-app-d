@@ -87,54 +87,57 @@
 
         <div class="wiki__container">
           <!-- Use Case Intro -->
-          
+
           <BaseSpinner v-if="loading && wikiPage != ''" class="mainSpinner" />
 
           <!-- Filteration -->
           <div class="intro">
-<div v-if="wikiPage == 'Use Case Library'">
-            <button class="form-btn use-btn" v-on:click="modalType = 'useModal'">
-              <i class="fal fa-info-circle"></i> Help
-            </button>
-          </div>
-          <div
-            class="filteration__wrapper"
-            v-if="
-              allData.length > 1 &&
-              wikiPage != '' &&
-              wikiPage != 'resourcesCalculation' &&
-              wikiPage != 'Shifts' &&
-              (wikiPage != 'Administration') & (wikiPage != 'skillMatrix')
-            "
-          >
-            <button class="form-btn" @click="openFilterForm">
-              <i class="fas fa-filter"></i> <span>Filter</span>
-            </button>
-            <div class="filter__form">
-              <div class="form__control select">
-                <select name="filterKey" required v-model="filterKey">
-                  <option
-                    v-for="(k, index) in filterKeys"
-                    :key="index"
-                    :value="k"
-                  >
-                    {{ k }}
-                  </option>
-                </select>
-                <span class="form__control-label">Key</span>
-              </div>
-              <div class="form__control" v-if="filterKey">
-                <input
-                  type="text"
-                  required
-                  name="filterValue"
-                  v-model="filterValue"
-                />
-                <span class="form__control-label">Value</span>
-              </div>
-              <button class="clear-btn" @click="clearFilter">Clear</button>
+            <div v-if="wikiPage == 'Use Case Library'">
+              <button
+                class="form-btn use-btn"
+                v-on:click="modalType = 'useModal'"
+              >
+                <i class="fal fa-info-circle"></i> Help
+              </button>
             </div>
-          </div>
+            <div
+              class="filteration__wrapper"
+              v-if="
+                allData.length > 1 &&
+                wikiPage != '' &&
+                wikiPage != 'resourcesCalculation' &&
+                wikiPage != 'Shifts' &&
+                (wikiPage != 'Administration') & (wikiPage != 'skillMatrix')
+              "
+            >
+              <button class="form-btn" @click="openFilterForm">
+                <i class="fas fa-filter"></i> <span>Filter</span>
+              </button>
+              <div class="filter__form">
+                <div class="form__control select">
+                  <select name="filterKey" required v-model="filterKey">
+                    <option
+                      v-for="(k, index) in filterKeys"
+                      :key="index"
+                      :value="k"
+                    >
+                      {{ k }}
+                    </option>
+                  </select>
+                  <span class="form__control-label">Key</span>
+                </div>
+                <div class="form__control" v-if="filterKey">
+                  <input
+                    type="text"
+                    required
+                    name="filterValue"
+                    v-model="filterValue"
+                  />
+                  <span class="form__control-label">Value</span>
+                </div>
+                <button class="clear-btn" @click="clearFilter">Clear</button>
+              </div>
+            </div>
           </div>
           <!-- Reports -->
 
@@ -432,9 +435,9 @@
                               </div>
                               <div>
                                 <span>Repeated Incident</span> :
-                                {{ i.RepeatedIncident }}
+                                {{ i.RepeatedIncident.toUpperCase() }}
                               </div>
-                              <div v-if="i.RepeatedIncidentNumber">
+                              <div v-if="i.RepeatedIncident != 'no'">
                                 <span>Repeated Incident Number</span> :
                                 {{ i.RepeatedIncidentNumber }}
                               </div>
@@ -1372,7 +1375,7 @@
               </div>
             </div>
           </div>
-          
+
           <!-- Use Case -->
 
           <div class="useCase" v-if="wikiPage == 'Use Case Library'">
@@ -1543,7 +1546,7 @@
           <!-- Communication -->
 
           <div class="communication" v-if="wikiPage == 'Communication'">
-            <h1 class="sec__title">Commiunication Matrix</h1>
+            <h1 class="sec__title">Communication Matrix</h1>
             <button
               class="form-btn"
               @click="setChosenForm('communicationForm', 'POST')"
@@ -1594,8 +1597,8 @@
                           <span> {{ c.GroupManager }}</span>
                         </p>
                       </div>
-                      <div class="col" >
-                        <p style="text-transform: lowercase;">
+                      <div class="col">
+                        <p style="text-transform: lowercase">
                           <span>{{ c.GroupEmail }}</span>
                         </p>
                       </div>
@@ -1655,11 +1658,10 @@
                         </div>
 
                         <div class="secondary">
-                            <div>
+                          <div>
                             <span>Secondary Name</span> : {{ c.SecondaryName }}
                           </div>
                           <div>
-                          
                             <span>Secondary Email</span> :
                             {{ c.SecondaryEmail }}
                           </div>
@@ -1667,7 +1669,7 @@
                             <span>Secondary Phone</span> :
                             {{ c.SecondaryPhone }}
                           </div>
-                        
+
                           <div>
                             <span>Secondary Mobile</span> :
                             {{ c.SecondaryMobile }}
@@ -2109,10 +2111,19 @@ export default {
     async changeCat(val, event) {
       this.activateLink(event);
       this.wikiPage = this.currentWikiPage;
-      console.log(val);
+      if (val == "local8080") {
+        console.log(val);
+        window.location.href = "http://localhost:8080";
+        return;
+      }
+      if (val == "local10000") {
+        window.location.href = "http://localhost:10000";
+        return;
+      }
+
       if (val == "homeForm") {
         this.modalType = val;
-        console.log(this.modalType);
+        console.log("Home getinadfv");
 
         return;
       }
@@ -2172,14 +2183,14 @@ export default {
 };
 </script>
 <style>
-.wiki__container .intro{
+.wiki__container .intro {
   display: flex;
 }
-.intro .use-btn{
-  margin: .2rem 1rem 0 0;
+.intro .use-btn {
+  margin: 0.2rem 1rem 0 0;
   width: 135px;
 }
-.intro .filteration__wrapper{
+.intro .filteration__wrapper {
   width: 100%;
 }
 .clear-btn {

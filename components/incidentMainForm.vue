@@ -157,7 +157,7 @@
               >Other Incident Classification</span
             >
           </div>
-          <p>Brief Description :</p>
+          <p>Brief Description</p>
           <div class="form__control full textarea" style="margin-top: 1.1rem">
             <textarea
               name="incidentDescription"
@@ -303,7 +303,6 @@
           <p>Reviewed By</p>
           <div class="form__control">
             <select name="title" v-model="title" required>
-              
               <option value="SOC Manager ">SOC Manager</option>
               <option value="Security Head">Security Head</option>
             </select>
@@ -475,19 +474,19 @@ export default {
         .map((e) => {
           return e.trim();
         });
-      let otherClassification = "";
+      let main = [],
+        otherClassification = "";
       c.forEach((e) => {
-        if(!incidentClassifications.includes(e)) otherClassification = e;
+        if (!incidentClassifications.includes(e))
+          otherClassification += "," + e;
+        else main.push(e);
       });
       if (otherClassification) {
-        c.push("Other");
         this.otherIncidentClassification = otherClassification;
+        main.push("Other");
       }
-      this.incidentClassification = c;
+      this.incidentClassification = main;
 
-      console.log(c);
-      console.log(otherClassification);
-      console.log(incidentClassifications);
       this.detectionDate = newArr[0].date;
       this.detectionTime = newArr[0].time;
       this.closureDate = newArr[1].date;
@@ -513,9 +512,10 @@ export default {
       this.eradicationMeasures = res[0].EradicationMeasures;
       this.recoveryMeasures = res[0].RecoveryMeasures;
       this.notification = res[0].Notification;
-      if(!incidentNotifications.includes(res[0].Notification)) {
-        this.notification = 'Other'
-        this.otherNotification = res[0].Notification;}
+      if (!incidentNotifications.includes(res[0].Notification)) {
+        this.notification = "Other";
+        this.otherNotification = res[0].Notification;
+      }
       this.rootCaseAnalysis = res[0].CaseAnalysis;
       this.incidentAvoidability = res[0].IncidentAvailability;
       if (res[0].IncidentAvailability != "no") {
@@ -533,12 +533,18 @@ export default {
 
       this.loading = true;
       let response;
+      if (this.currentIncidentClassification.length != 0) {
+        console.log(this.currentIncidentClassification);
+        this.dataObj.IncidentClassification =
+          this.currentIncidentClassification;
+      }
       if (this.chosenFormMethod == "POST") {
         response = await this.$store.dispatch("postData", {
           apiName: "mainIncident",
           body: this.dataObj,
         });
       }
+
       if (this.chosenFormMethod == "PUT") {
         response = await this.$store.dispatch("editData", {
           apiName: "mainIncident",
@@ -552,6 +558,7 @@ export default {
         setTimeout(() => {
           this.submitIcon = false;
           document.querySelector(".close").click();
+          this.$store.dispatch("getData", "mainIncident");
         }, 1000);
       } else {
         this.loading = false;
@@ -583,7 +590,7 @@ export default {
   margin-top: 1.4rem;
 }
 .classification {
-  display: inline-block;
+  width: 100%;
   color: #010f60;
 }
 .classification label {

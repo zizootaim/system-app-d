@@ -1,10 +1,11 @@
 <template>
   <div class="container">
 
-    <div v-if="getStaff[0]">
+    <div class="staff__wrapper">
+          <div class="parent" v-if="getStaff.soc">
       <div
-        class="level-1 rectangle"
-        v-for="(t, index) in getStaff[0]"
+        class="rectangle"
+        v-for="(t, index) in getStaff.soc"
         :key="index"
       >
         <i
@@ -31,129 +32,106 @@
           </div>
         </div>
       </div>
+    </div> 
+    <div class="parent" v-if="getStaff.a__3">
+      <div
+        class="rectangle"
+        v-for="(t, index) in getStaff.a__3"
+        :key="index"
+      >
+        <i
+          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
+          class="fas fa-edit edit-btn"
+          @click="() => showEditForm(t)"
+        ></i>
+        <i
+          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
+          class="fas fa-trash-alt delete-btn"
+          @click="() => deleteMember(t.id)"
+        ></i>
+
+        <manSvg />
+        <div class="person__info">
+          <h4>{{ t.Name }}</h4>
+          <p>
+            {{ t.Title }}
+          </p>
+          <div class="person__data">
+            <p>{{ t.Email }}</p>
+            <p><span>Phone : </span> {{ t.Phone }}</p>
+            <p><span>Mobile : </span> {{ t.Mobile }}</p>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <div class="parent" v-if="getStaff.a__2">
+      <div
+        class="rectangle"
+        v-for="(t, index) in getStaff.a__2"
+        :key="index"
+      >
+        <i
+          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
+          class="fas fa-edit edit-btn"
+          @click="() => showEditForm(t)"
+        ></i>
+        <i
+          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
+          class="fas fa-trash-alt delete-btn"
+          @click="() => deleteMember(t.id)"
+        ></i>
+
+        <manSvg />
+        <div class="person__info">
+          <h4>{{ t.Name }}</h4>
+          <p>
+            {{ t.Title }}
+          </p>
+          <div class="person__data">
+            <p>{{ t.Email }}</p>
+            <p><span>Phone : </span> {{ t.Phone }}</p>
+            <p><span>Mobile : </span> {{ t.Mobile }}</p>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <div class="parent" v-if="getStaff.a__1">
+      <div
+        class="rectangle"
+        v-for="(t, index) in getStaff.a__1"
+        :key="index"
+      >
+        <i
+          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
+          class="fas fa-edit edit-btn"
+          @click="() => showEditForm(t)"
+        ></i>
+        <i
+          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
+          class="fas fa-trash-alt delete-btn"
+          @click="() => deleteMember(t.id)"
+        ></i>
+
+        <manSvg />
+        <div class="person__info">
+          <h4>{{ t.Name }}</h4>
+          <p>
+            {{ t.Title }}
+          </p>
+          <div class="person__data">
+            <p>{{ t.Email }}</p>
+            <p><span>Phone : </span> {{ t.Phone }}</p>
+            <p><span>Mobile : </span> {{ t.Mobile }}</p>
+          </div>
+        </div>
+      </div>
+    </div> 
+    
     </div>
 
-    <ol class="level-2-wrapper" v-if="getStaff[1] || getStaff[2]">
-      <li v-if="getStaff[1]">
-        <div class="level-2 rectangle" v-if="getStaff[1].parent">
-          <i
-            v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-            class="fas fa-edit edit-btn"
-            @click="() => showEditForm(getStaff[1].parent)"
-          ></i>
-          <i
-            v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-            class="fas fa-trash-alt delete-btn"
-            @click="() => deleteMember(getStaff[1].parent.id)"
-          ></i>
+    
 
-          <manSvg />
-          <div class="person__info">
-            <h4>{{ getStaff[1].parent.Name }}</h4>
-            <p>
-              {{ getStaff[1].parent.Title }}
-            </p>
-            <div class="person__data">
-              <p>{{ getStaff[1].parent.Email }}</p>
-              <p><span>Phone : </span> {{ getStaff[1].parent.Phone }}</p>
-              <p><span>Mobile : </span> {{ getStaff[1].parent.Mobile }}</p>
-            </div>
-          </div>
-        </div>
-        <ol class="level-3-wrapper">
-          <li v-if="getStaff[1].childs">
-            <div
-              class="level-3 rectangle"
-              v-for="s in getStaff[1].childs"
-              :key="s.id"
-            >
-              <i
-                v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-                class="fas fa-edit edit-btn"
-                @click="() => showEditForm(s)"
-              ></i>
-              <i
-                v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-                class="fas fa-trash-alt delete-btn"
-                @click="() => deleteMember(s.id)"
-              ></i>
-
-              <manSvg />
-              <div class="person__info">
-                <h4>{{ s.Name }}</h4>
-                <p>
-                  {{ s.Title }}
-                </p>
-                <div class="person__data">
-                  <p>{{ s.Email }}</p>
-                  <p><span>Phone : </span> {{ s.Phone }}</p>
-                  <p><span>Mobile : </span> {{ s.Mobile }}</p>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ol>
-      </li>
-      <li v-if="getStaff[2]">
-        <div class="level-2 rectangle" v-if="getStaff[2].parent">
-          <i
-            v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-            class="fas fa-edit edit-btn"
-            @click="() => showEditForm(getStaff[2].parent)"
-          ></i>
-          <i
-            v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-            class="fas fa-trash-alt delete-btn"
-            @click="() => deleteMember(getStaff[2].parent.id)"
-          ></i>
-
-          <manSvg />
-          <div class="person__info">
-            <h4>{{ getStaff[2].parent.Name }}</h4>
-            <p>
-              {{ getStaff[2].parent.Title }}
-            </p>
-            <div class="person__data">
-              <p>{{ getStaff[2].parent.Email }}</p>
-              <p><span>Phone : </span> {{ getStaff[2].parent.Phone }}</p>
-              <p><span>Mobile : </span> {{ getStaff[2].parent.Mobile }}</p>
-            </div>
-          </div>
-        </div>
-        <ol class="level-3-wrapper">
-          <li v-if="getStaff[2].childs">
-            <div
-              class="level-3 rectangle"
-              v-for="s in getStaff[2].childs"
-              :key="s.id"
-            >
-              <i
-                v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-                class="fas fa-edit edit-btn"
-                @click="() => showEditForm(s)"
-              ></i>
-              <i
-                v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-                class="fas fa-trash-alt delete-btn"
-                @click="() => deleteMember(s.id)"
-              ></i>
-              <manSvg />
-              <div class="person__info">
-                <h4>{{ s.Name }}</h4>
-                <p>
-                  {{ s.Title }}
-                </p>
-                <div class="person__data">
-                  <p>{{ s.Email }}</p>
-                  <p><span>Phone : </span> {{ s.Phone }}</p>
-                  <p><span>Mobile : </span> {{ s.Mobile }}</p>
-                </div>
-              </div>
-            </div>
-          </li>
-        </ol>
-      </li>
-    </ol>
+   
 
     <modal
       class="secform"
@@ -188,11 +166,9 @@ export default {
 
     ...mapGetters(["getStaff", "getRole","getPermission"]),
   },
+
   mounted() {
     this.$store.dispatch("getData", "staff");
-    this.getStaff.forEach((s) => {
-      if (s != undefined) this.checkStaff = true;
-    });
   },
 
   methods: {
@@ -237,7 +213,18 @@ export default {
   margin: 0 auto;
   padding: 2rem 0;
 }
-
+.staff__wrapper{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+.staff__wrapper .parent{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 .rectangle {
   position: relative;
   padding: 0.5rem;
@@ -291,201 +278,6 @@ export default {
   align-self: flex-start;
 }
 
-/* LEVEL-1 STYLES
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.level-1 {
-  width: 25%;
-  margin: 0 auto 40px;
-}
-
-.level-1::before {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 20px;
-  background: rgb(255, 255, 255);
-}
-.level-1::before {
-  height: 40px;
-}
-.level-1:last-of-type::before {
-  height: 20px;
-}
-
-/* LEVEL-2 STYLES
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.level-2-wrapper {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.level-2-wrapper::before {
-  content: "";
-  position: absolute;
-  top: -20px;
-  left: 25%;
-  width: 50%;
-  height: 2px;
-  background: rgb(255, 255, 255);
-}
-
-.level-2-wrapper::after {
-  display: none;
-  content: "";
-  position: absolute;
-  left: -20px;
-  bottom: -20px;
-  width: calc(100% + 20px);
-  height: 2px;
-  background: rgb(255, 255, 255);
-}
-
-.level-2-wrapper li {
-  position: relative;
-}
-
-.level-2-wrapper > li::before {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 20px;
-  background: rgb(255, 255, 255);
-}
-
-.level-2 {
-  width: 70%;
-  margin: 0 auto 40px;
-}
-
-.level-2::before,
-.level-3::before {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 20px;
-  background: rgb(255, 255, 255);
-}
-
-.level-3:last-child:before {
-  display: none;
-}
-
-.level-2::after {
-  display: none;
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  transform: translate(-100%, -50%);
-  width: 20px;
-  height: 2px;
-  background: rgb(255, 255, 255);
-}
-
-/* LEVEL-3 STYLES
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.level-3-wrapper {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  place-items: center;
-  grid-column-gap: 20px;
-  width: 80%;
-  margin: 0 auto;
-}
-
-.level-3-wrapper::before {
-  content: "";
-  position: absolute;
-  top: -20px;
-  left: calc(25% - 5px);
-  width: calc(50% + 10px);
-  height: 2px;
-  background: rgb(255, 255, 255);
-}
-
-.level-3-wrapper > li::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -100%);
-  width: 2px;
-  height: 20px;
-  background: rgb(255, 255, 255);
-}
-
-.level-3 {
-  margin-bottom: 20px;
-}
-
-/* MQ STYLES
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-@media screen and (max-width: 700px) {
-  .rectangle {
-    padding: 20px 10px;
-  }
-
-  .level-1,
-  .level-2 {
-    width: 100%;
-  }
-
-  .level-1 {
-    margin-bottom: 20px;
-  }
-
-  .level-1::before,
-  .level-2-wrapper > li::before {
-    display: none;
-  }
-
-  .level-2-wrapper,
-  .level-2-wrapper::after,
-  .level-2::after {
-    display: block;
-  }
-
-  .level-2-wrapper {
-    width: 90%;
-    margin-left: 10%;
-  }
-
-  .level-2-wrapper::before {
-    left: -20px;
-    width: 2px;
-    height: calc(100% + 40px);
-  }
-
-  .level-2-wrapper > li:not(:first-child) {
-    margin-top: 50px;
-  }
-}
-
-.level-1 {
-  width: 35%;
-}
-
-.level-3-wrapper {
-  width: 70%;
-  grid-template-columns: 1fr;
-}
-.level-2 {
-  width: 70%;
-}
-.level-3-wrapper::before {
-  display: none;
-}
 .rectangle {
   width: 260px;
   height: 130px;
@@ -497,44 +289,8 @@ export default {
 .light-mode .person__info h4 {
   color: #fff;
 }
-@media screen and (max-width: 769px) {
-  .level-1 {
-    width: 75%;
-  }
-  .level-2 {
-    width: 95%;
-  }
-  .level-3-wrapper {
-    width: 90%;
-  }
-  .level-4-wrapper {
-    width: 90%;
-  }
-}
+
 @media screen and (max-width: 426px) {
-  .level-4-wrapper {
-    width: 100%;
-  }
-  .level-3-wrapper {
-    width: 96%;
-    grid-template-columns: 1fr;
-  }
-  .level-1 {
-    width: 90%;
-  }
-  .level-2 {
-    width: 100%;
-  }
-  .level-4-wrapper::before {
-    display: none;
-  }
-  .level-2-wrapper::after {
-    display: block;
-  }
-  .level-2-wrapper {
-    margin-left: 8%;
-    width: 92%;
-  }
   .rectangle {
     width: 100%;
     height: 175px;

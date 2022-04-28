@@ -2,20 +2,14 @@
   <div class="shift__form-wrapper">
     <h3 class="form__title" style="padding: 1rem 0">Add Staff Member</h3>
     <form class="long__form" v-on:submit.prevent="submitData">
-      <!-- <div class="form__control select" style="display: none">
-        <select required name="type" v-model="type">
-          <option value="parent">Parent</option>
-          <option value="child">Child</option>
-        </select>
-        <span class="form__control-label">Member Type</span>
-      </div> -->
       <div class="form__control select">
-        <select required name="parentLevel" v-model="level">
-          <option value="top">Top</option>
-          <option value="right">Right</option>
-          <option value="left">Left</option>
+        <select required name="parentLevel" v-model="title">
+          <option value="SOC Manager">SOC Manager</option>
+          <option value="L3 Analyst">L3 Analyst</option>
+          <option value="L2 Analyst">L2 Analyst</option>
+          <option value="L1 Analyst">L1 Analyst</option>
         </select>
-        <span class="form__control-label">Parent Position</span>
+        <span class="form__control-label">Title</span>
       </div>
       <div class="form__control">
         <input
@@ -27,10 +21,10 @@
         />
         <span class="form__control-label">Name</span>
       </div>
-      <div class="form__control">
+      <!-- <div class="form__control">
         <input type="text" name="title" required v-model="title" />
         <span class="form__control-label">Title</span>
-      </div>
+      </div> -->
       <div class="form__control">
         <input type="email" name="email" required v-model="email" />
         <span class="form__control-label">Email</span>
@@ -70,8 +64,6 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      type: 0,
-      level: "",
       name: "",
       title: "",
       email: "",
@@ -86,24 +78,21 @@ export default {
   computed: {
     dataObj() {
       let obj = {};
-      if (this.getStaff[0] && this.level == "top") this.type = 1;
-      if (this.getStaff[1] && this.getStaff[1].parent && this.level == "left")
-        this.type = 1;
-      if (this.getStaff[2] && this.getStaff[2].parent && this.level == "right")
-        this.type = 1;
-      console.log(this.type);
-      console.log(this.getStaff);
-      obj = {
-        ParentName: this.level,
+      // if (this.getStaff[0] && this.level == "top") this.type = 1;
+      // if (this.getStaff[1] && this.getStaff[1].parent && this.level == "left")
+      //   this.type = 1;
+      // if (this.getStaff[2] && this.getStaff[2].parent && this.level == "right")
+      //   this.type = 1;
+      // console.log(this.type);
+      // console.log(this.getStaff);
+
+      return {
         Name: this.name,
         Title: this.title,
         Email: this.email,
         Mobile: this.mobile,
         Phone: this.phone,
-        child: this.type,
       };
-
-      return obj;
     },
     ...mapGetters(["getStaff"]),
   },

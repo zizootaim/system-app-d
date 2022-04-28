@@ -235,7 +235,7 @@ export default {
   font-size: 0.6rem;
 }
 
-.table__row .row .left {
+.table__row .row .left:not(.skill-matrix .left) {
   width: 10rem;
   display: grid;
   place-items: center;

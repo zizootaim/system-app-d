@@ -71,75 +71,58 @@
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
         class="form__control"
       >
-        <input
-          type="number"
-          name="skillName"
-          required
-          v-model="L1"
-          min="0"
-          max="5"
-          autocomplete="off"
-        />
+        <select type="number" name="skillName" required v-model="L1">
+          <option v-for="(l, index) in levels" :value="l" :key="index">
+            {{ l }}
+          </option>
+        </select>
         <span class="form__control-label"> Analyst L1</span>
       </div>
       <div
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
         class="form__control"
       >
-        <input
-          type="number"
-          name="skillName"
-          required
-          v-model="L2"
-          min="0"
-          max="5"
-          autocomplete="off"
-        />
+        <select type="number" name="skillName" required v-model="L2">
+          <option v-for="(l, index) in levels" :value="l" :key="index">
+            {{ l }}
+          </option>
+        </select>
+
         <span class="form__control-label"> Analyst L2</span>
       </div>
       <div
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
         class="form__control"
       >
-        <input
-          type="number"
-          name="skillName"
-          required
-          v-model="L3"
-          min="0"
-          max="5"
-          autocomplete="off"
-        />
+        <select type="number" name="skillName" required v-model="L3">
+          <option v-for="(l, index) in levels" :value="l" :key="index">
+            {{ l }}
+          </option>
+        </select>
         <span class="form__control-label"> Analyst L3</span>
       </div>
       <div
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
         class="form__control"
       >
-        <input
-          type="number"
-          name="skillName"
-          required
-          v-model="admin"
-          min="0"
-          max="5"
-          autocomplete="off"
-        />
+        <select type="number" name="skillName" required v-model="admin">
+          <option v-for="(l, index) in levels" :value="l" :key="index">
+            {{ l }}
+          </option>
+        </select>
+
         <span class="form__control-label">SOC Admin</span>
       </div>
       <div
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
         class="form__control"
       >
-        <input
-          type="number"
-          name="skillName"
-          required
-          v-model="manager"
-          min="0"
-          max="5"
-          autocomplete="off"
-        />
+        <select type="number" name="skillName" required v-model="manager">
+          <option v-for="(l, index) in levels" :value="l" :key="index">
+            {{ l }}
+          </option>
+        </select>
+
         <span class="form__control-label">SOC Manager</span>
       </div>
 
@@ -169,9 +152,11 @@
 import { mapGetters } from "vuex";
 
 import { mapState } from "vuex";
+
 export default {
   data() {
     return {
+      levels: [0, 1, 2, 3, 4],
       message: "",
       Category: "",
       Skill: "",

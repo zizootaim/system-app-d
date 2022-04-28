@@ -63,7 +63,7 @@ export const state = (state) => ({
   users: [],
   mainIncident: [],
   Communication: [],
-  staff: [],
+  staff: {},
   Playbooks: [],
   Shifts: {},
   Standards: [],
@@ -156,6 +156,8 @@ export const state = (state) => ({
       subPages: [
         { name: "Users", callFunc: "users" },
         { name: "Home Settings", callFunc: "homeForm" },
+        { name: "System", callFunc: "local10000" },
+        { name: "Database", callFunc: "local8080" },
       ],
     },
     {
@@ -349,30 +351,42 @@ export const actions = {
         .then((response) => response.json())
         .then((data) => {
           if (apiName == "staff") {
-            const { left, right, top } = data;
-            let leftStaff = [],
-              rightStaff = [],
-              staff = [];
-            if (left) {
-              const leftParent = left.filter((p) => p.child == false)[0],
-                leftChilds = left.filter((c) => c.child == true);
-              leftStaff = { parent: leftParent, childs: leftChilds };
-            }
-            if (right) {
-              const rightParent = right.filter((p) => p.child == false)[0],
-                rightChilds = right.filter((c) => c.child == true);
-              rightStaff = { parent: rightParent, childs: rightChilds };
-            }
-            rightStaff = right ? rightStaff : undefined;
-            leftStaff = left ? leftStaff : undefined;
+            // const { left, right, top } = data;
+            // let parents = [],
+            //   childs = [],
+            //   leftParent = {},
+            //   rightParent = {},
+            //   staff = {};
+            // if (left) {
+            //   leftParent = left.filter((p) => p.child == false)[0];
+            //   childs.push(...left.filter((c) => c.child == true));
+            //   if (leftParent) parents.push(leftParent);
+            // }
+            // if (right) {
+            //   rightParent = right.filter((p) => p.child == false)[0];
+            //   childs.push(...right.filter((c) => c.child == true));
+            //   if (rightParent) parents.push(rightParent);
+            // }
+            // <option value="SOC Manager">SOC Manager</option>
+            // <option value="L3 Analyst">L3 Analyst</option>
+            // <option value="L2 Analyst">L2 Analyst</option>
+            // <option value="L2 Analyst">L2 Analyst</option>
 
-            staff = [rightStaff, leftStaff, top];
-            data = staff;
+            const soc = data['SOC Manager']
+            const a__3 = data['L3 Analyst']
+            const a__2 = data["L2 Analyst"]
+            const a__1 = data["L1 Analyst"]
+
+            data = { soc, a__1, a__2, a__3 };
           }
           commit("setChangingData");
           console.log(data);
 
-          if (apiName != "Shifts" && apiName != "skillMatrix") {
+          if (
+            apiName != "Shifts" &&
+            apiName != "skillMatrix" &&
+            apiName != "staff"
+          ) {
             commit("saveData", {
               dataContainer: apiName,
               dataValue: data.reverse(),

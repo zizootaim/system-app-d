@@ -533,7 +533,9 @@ textarea::placeholder {
   flex-direction: column;
 }
 .playbooks img {
-  width:auto;
+  width: 96%;
+  margin: auto;
+  border-radius: 5px;
   height: auto;
 }
 .book__img {

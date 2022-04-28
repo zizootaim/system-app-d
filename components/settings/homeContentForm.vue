@@ -27,7 +27,8 @@
         <span class="form__control-label">Vision</span>
       </div>
       <div>
-        <div class="form__control">
+        <p class="galPara">{{ goal.join(",") }}</p>
+        <div class="form__control goal">
           <input type="text" name="goalAdded" v-model="goalAdded" />
           <span class="form__control-label">Goals</span>
         </div>
@@ -171,5 +172,8 @@ export default {
 .btn {
   font-size: 12px;
 }
-
+.home__form-wrapper p {
+  color: #000;
+  margin-bottom: 30px;
+}
 </style>
