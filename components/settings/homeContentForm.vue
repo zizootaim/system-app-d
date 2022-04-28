@@ -38,7 +38,7 @@
           @click="addRow"
           style="color: #010f60"
         >
-          add row <BaseSpinner class="smallSpinner" v-if="loadingAdd" />
+          add goal <BaseSpinner class="smallSpinner" v-if="loadingAdd" />
         </button>
       </div>
 
@@ -166,14 +166,22 @@ export default {
 </script>
 <style>
 .home__form-wrapper {
-  width: 90%;
+  padding: 50px 0;
+  width: 60%;
   margin: auto;
 }
-.btn {
+.home__form-wrapper .btn {
+  color: #fff;
   font-size: 12px;
+  box-shadow: 0 0 0 0;
 }
 .home__form-wrapper p {
-  color: #000;
   margin-bottom: 30px;
+}
+.home__form-wrapper span {
+  z-index: 0;
+}
+.home__form-wrapper h1 {
+  color: #fff;
 }
 </style>

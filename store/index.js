@@ -150,6 +150,21 @@ export const state = (state) => ({
       ],
     },
     {
+      section: "skillMatrix",
+      sectionName: "Skill Matrix",
+      class: "fal fa-file-certificate",
+    },
+    {
+      section: "resourcesCalculation",
+      sectionName: "Resources Calculation",
+      class: "fal fa-calculator",
+    },
+    {
+      section: "onBoarding",
+      sectionName: "On Boarding",
+      class: "fal fa-book",
+    },
+    {
       section: "Administration",
       sectionName: "Administration",
       class: "fas fa-cog",
@@ -159,16 +174,6 @@ export const state = (state) => ({
         { name: "System", callFunc: "local10000" },
         { name: "Database", callFunc: "local8080" },
       ],
-    },
-    {
-      section: "skillMatrix",
-      sectionName: "Skill Matrix",
-      class: "fal fa-file-certificate",
-    },
-    {
-      section: "resourcesCalculation",
-      sectionName: "Resources Calculation",
-      class: "fal fa-file-certificate",
     },
   ],
 });
@@ -372,10 +377,10 @@ export const actions = {
             // <option value="L2 Analyst">L2 Analyst</option>
             // <option value="L2 Analyst">L2 Analyst</option>
 
-            const soc = data['SOC Manager']
-            const a__3 = data['L3 Analyst']
-            const a__2 = data["L2 Analyst"]
-            const a__1 = data["L1 Analyst"]
+            const soc = data["SOC Manager"];
+            const a__3 = data["L3 Analyst"];
+            const a__2 = data["L2 Analyst"];
+            const a__1 = data["L1 Analyst"];
 
             data = { soc, a__1, a__2, a__3 };
           }

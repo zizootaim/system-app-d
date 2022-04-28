@@ -218,10 +218,10 @@ export default {
       if (response) {
         this.submitIcon = true;
         this.$store.dispatch("getData", "skillMatrix");
-        setTimeout(() => {
-          this.submitIcon = false;
-          document.querySelector(".close").click();
-        }, 1000);
+        // setTimeout(() => {
+        //   this.submitIcon = false;
+        //   document.querySelector(".close").click();
+        // }, 1000);
       } else {
         this.message = "Some Thing Went Wrong , Try Again !";
         setTimeout(() => {

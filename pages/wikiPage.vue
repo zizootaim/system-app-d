@@ -1692,7 +1692,8 @@
               <home-content-form />
             </modal>
 
-            <users />
+            <users v-if="chosenCat == 'users'" />
+            <homeContentForm v-if="chosenCat == 'homeForm'" />
           </div>
           <!-- Skill Matrix -->
           <div v-if="wikiPage == 'skillMatrix'">
@@ -2017,7 +2018,10 @@ export default {
       console.log("change" + " " + page);
 
       this.currentWikiPage = page;
-
+      if (page == "onBoarding") {
+        window.location.href = "http://localhost:9000";
+        return;
+      }
       if (
         page == "Communication" ||
         page == "Use Case Library" ||
@@ -2120,9 +2124,13 @@ export default {
         window.location.href = "http://localhost:10000";
         return;
       }
+      if (val == "users") {
+        this.chosenCat = val;
 
+        return;
+      }
       if (val == "homeForm") {
-        this.modalType = val;
+        this.chosenCat = val;
         console.log("Home getinadfv");
 
         return;

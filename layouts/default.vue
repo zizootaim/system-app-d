@@ -1,5 +1,5 @@
 <template>
-  <div class="body home" >
+  <div class="body home">
     <AppNav />
     <div class="mainContent">
       <Nuxt />
@@ -37,15 +37,16 @@ export default {
       localStorage.setItem("role", "");
     }
     this.$store.commit("changeRole");
+    this.$store.dispatch("getData", "serviceCatalog");
     this.setBg();
   },
   watch: {
     getHomeData: function () {
       this.setBg();
     },
-    $route:function () {
-      this.setBg()
-    }
+    $route: function () {
+      this.setBg();
+    },
   },
 
   methods: {
@@ -56,19 +57,17 @@ export default {
       if (this.url == "/") {
         appContainer.className = "body home";
         if (this.getHomeData[0].background_url) {
-          
           appContainer.style = `background: url('${this.getHomeData[0].background_url}');background-repeat: no-repeat; background-size: 100% 100%;background-position: center;`;
         }
       } else {
         const theme = localStorage.getItem("theme");
         appContainer.style = "";
-          appContainer.className =
-            "body sec" + ` ${theme == "light" ? "light-mode" : ""}`;
+        appContainer.className =
+          "body sec" + ` ${theme == "light" ? "light-mode" : ""}`;
         if (theme == "light") {
           document.querySelector(".theme-btn i").className = "fas fa-moon";
-        }else{
+        } else {
           document.querySelector(".theme-btn i").className = "fas fa-sun";
-
         }
       }
     },

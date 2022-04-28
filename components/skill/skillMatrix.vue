@@ -12,7 +12,8 @@
       >
         <i class="fas fa-plus"></i> Add Competency
       </button>
-      <div class="table__wrapper">
+      <div v-if="getSkillMatrix">
+      <div class="table__wrapper" >
         <div class="table__row header">
           <div class="row">
             <div class="left">Competency Name</div>
@@ -102,6 +103,8 @@
           </div>
         </div>
       </div>
+
+      </div>
       <div class="no-data" v-if="getSkillMatrix.length == 0">
         <h3>no data to show.</h3>
       </div>
@@ -162,7 +165,10 @@ export default {
 
 <style>
 .skill-matrix .table__wrapper .table {
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+
+  min-width: unset;
 }
 .skill-matrix .left{
   width: 14rem;
@@ -170,16 +176,19 @@ export default {
   text-align: center;
 }
 .rotate {
-  width: 50px;
-  transform: rotate(-90deg);
+   /* width: 50px; 
+flex-basis: content;
+  transform: rotate(-90deg); */
+  display: grid;
+  place-items: center;
+  height: 100px;
 }
 .rotate p {
-  color: #fff;
-  height: auto;
-  width: 130px;
-  word-break: unset;
+  font-size: .8rem;
   margin: auto;
-}
+  width: 100px;
+  transform: rotate(-90deg) translateY(-2rem) translateX(-.2rem);
+} 
 .light-mode .rotate p{
   color: #000;
 }
@@ -250,8 +259,8 @@ export default {
 }
 .c-significant {
   background-color: rgb(214, 214, 144);
-}
-.table {
+} 
+.skill-matrix .table:not(.skill-matrix .table:first-of-type) {
   margin-bottom: 10px;
 }
 </style>

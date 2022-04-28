@@ -5,7 +5,7 @@
         <button
           class="form-btn"
           @click="setChosenForm('addShift')"
-          v-if="getRole == 'admin' || getRole == 'Employee'"
+          v-if="getRole == 'admin'"
           style="margin-right: 1rem"
         >
           <i class="fas fa-plus"></i> Add Shift
@@ -160,7 +160,7 @@ export default {
 .shifts__top .shifts {
   display: flex;
   flex-direction: row;
-  margin-right: 1rem;
+  margin: 1rem 1rem;
 }
 .shifts__top .shifts p {
   margin-right: 0.5rem;
