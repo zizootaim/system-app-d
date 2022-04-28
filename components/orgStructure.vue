@@ -296,22 +296,8 @@ export default {
 .light-mode .person__info h4 {
   color: #fff;
 }
-.parent .rectangle .bg{
-  /* position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  transform: translate(-1rem,-1rem); */
-   /* position: absolute;
-  top: 0;
-  left: -20px;
-  width: 2rem;
-  height: 100%; */
-}
 
 .parent:first-of-type .rectangle {
-  /* background: blue; */
   box-shadow: 0px 2px 6px 2px blue;
 }
 .parent:nth-child(2) .rectangle {

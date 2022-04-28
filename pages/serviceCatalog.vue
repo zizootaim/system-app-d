@@ -1,6 +1,31 @@
 <template>
   <div class="service">
     <h1 class="sec__title" ref="document">Service Catalog</h1>
+    <div class="filteration__wrapper" v-if="allData.length > 1">
+      <button class="form-btn" @click="openFilterForm">
+        <i class="fas fa-filter"></i> <span>Filter</span>
+      </button>
+      <div class="filter__form">
+        <div class="form__control select">
+          <select name="filterKey" required v-model="filterKey">
+            <option v-for="(k, index) in filterKeys" :key="index" :value="k">
+              {{ k }}
+            </option>
+          </select>
+          <span class="form__control-label">Key</span>
+        </div>
+        <div class="form__control" v-if="filterKey">
+          <input
+            type="text"
+            required
+            name="filterValue"
+            v-model="filterValue"
+          />
+          <span class="form__control-label">Value</span>
+        </div>
+        <button class="clear-btn" @click="clearFilter">Clear</button>
+      </div>
+    </div>
     <button
       class="form-btn"
       @click="showForm('POST')"
@@ -33,7 +58,7 @@
         </div>
         <div
           class="table__row"
-          v-for="serviceCard in getServiceCatalog"
+          v-for="serviceCard in filteredArray"
           :key="serviceCard.id"
           :id="serviceCard.id"
         >
@@ -125,7 +150,7 @@ import { mapGetters } from "vuex";
 import modal from "@/components/modal.vue";
 import ServiceCatalogeForm from "../components/serviceCatalogeForm.vue";
 
-import {showContent} from '../assets/timeMethods'
+import { showContent } from "../assets/timeMethods";
 
 export default {
   components: {
@@ -135,13 +160,65 @@ export default {
   },
   data() {
     return {
+      filteredArray: [],
+      allData: [],
+      filterKeys: [],
+      filterKey: "",
+      filterValue: "",
       addService: false,
     };
   },
   computed: {
     ...mapGetters(["getServiceCatalog", "getRole", "getPermission"]),
   },
+  watch: {
+    getServiceCatalog: {
+      handler() {
+        this.getFilterObj();
+      },
+      immediate: true,
+    },
+    filterValue: {
+      handler() {
+        this.filterData(this.filterKey, this.filterValue);
+      },
+      immediate: true,
+    },
+  },
   methods: {
+    openFilterForm() {
+      document.querySelector(".filteration__wrapper").classList.toggle("open");
+    },
+    filterData(key, value) {
+      let newArr = this.filteredArray.filter((el) => {
+        if (el[key].toLowerCase().startsWith(value.trim().toLowerCase()))
+          return el;
+      });
+
+      if (newArr.length >= 1) this.filteredArray = newArr;
+      else this.filteredArray = this.allData;
+      if (!value) this.filteredArray = this.allData;
+    },
+    clearFilter() {
+      this.filteredArray = this.allData;
+      this.filterValue = "";
+    },
+    getFilterObj() {
+      this.filteredArray = this.getServiceCatalog;
+      this.allData = this.getServiceCatalog;
+
+      if (this.allData[0]) {
+        this.filterKeys = Array.from(Object.keys(this.allData[0])).filter(
+          (key) =>
+            key != "id" &&
+            key != "created_at" &&
+            key != "updated_at" &&
+            key != "file_path" &&
+            key != "url"
+        );
+        console.log(this.filterKeys);
+      }
+    },
     download() {
       let htmlToPdfOptions = {
         margin: 0,
@@ -167,8 +244,8 @@ export default {
         },
       };
     },
-    showService(event){
-      showContent(event)
+    showService(event) {
+      showContent(event);
     },
     deleteData(data) {
       this.$store.dispatch("delete", data);
@@ -178,7 +255,7 @@ export default {
       this.$store.commit("setChosenFormMethod", method);
       this.$store.commit("setChosenFormId", id);
     },
-    
+
     statusClass(status) {
       return status.includes(" ")
         ? status.substring(0, status.indexOf(" ")).toLowerCase()
