@@ -1,137 +1,142 @@
 <template>
   <div class="container">
-
     <div class="staff__wrapper">
-          <div class="parent" v-if="getStaff.soc">
-      <div
-        class="rectangle"
-        v-for="(t, index) in getStaff.soc"
-        :key="index"
-      >
-        <i
-          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-          class="fas fa-edit edit-btn"
-          @click="() => showEditForm(t)"
-        ></i>
-        <i
-          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-          class="fas fa-trash-alt delete-btn"
-          @click="() => deleteMember(t.id)"
-        ></i>
-
-        <manSvg />
-        <div class="person__info">
-          <h4>{{ t.Name }}</h4>
-          <p>
-            {{ t.Title }}
-          </p>
-          <div class="person__data">
-            <p>{{ t.Email }}</p>
-            <p><span>Phone : </span> {{ t.Phone }}</p>
-            <p><span>Mobile : </span> {{ t.Mobile }}</p>
+      <div class="parent" v-if="getStaff.soc">
+        <div class="rectangle" v-for="(t, index) in getStaff.soc" :key="index">
+          <i
+            v-if="
+              (getRole == 'admin' || getRole == 'Employee') &&
+              getPermission == 'write'
+            "
+            class="fas fa-edit edit-btn"
+            @click="() => showEditForm(t)"
+          ></i>
+          <i
+            v-if="
+              (getRole == 'admin' || getRole == 'Employee') &&
+              getPermission == 'write'
+            "
+            class="fas fa-trash-alt delete-btn"
+            @click="() => deleteMember(t.id)"
+          ></i>
+<div class="bg"></div>
+          <manSvg />
+          <div class="person__info">
+            <h4>{{ t.Name }}</h4>
+            <p>
+              {{ t.Title }}
+            </p>
+            <div class="person__data">
+              <p>{{ t.Email }}</p>
+              <p><span>Phone : </span> {{ t.Phone }}</p>
+              <p><span>Mobile : </span> {{ t.Mobile }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div> 
-    <div class="parent" v-if="getStaff.a__3">
-      <div
-        class="rectangle"
-        v-for="(t, index) in getStaff.a__3"
-        :key="index"
-      >
-        <i
-          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-          class="fas fa-edit edit-btn"
-          @click="() => showEditForm(t)"
-        ></i>
-        <i
-          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-          class="fas fa-trash-alt delete-btn"
-          @click="() => deleteMember(t.id)"
-        ></i>
+      <div class="parent" v-if="getStaff.a__3">
+        <div class="rectangle" v-for="(t, index) in getStaff.a__3" :key="index">
+       <div class="bg"></div>
+          <i
+            v-if="
+              (getRole == 'admin' || getRole == 'Employee') &&
+              getPermission == 'write'
+            "
+            class="fas fa-edit edit-btn"
+            @click="() => showEditForm(t)"
+          ></i>
+          <i
+            v-if="
+              (getRole == 'admin' || getRole == 'Employee') &&
+              getPermission == 'write'
+            "
+            class="fas fa-trash-alt delete-btn"
+            @click="() => deleteMember(t.id)"
+          ></i>
 
-        <manSvg />
-        <div class="person__info">
-          <h4>{{ t.Name }}</h4>
-          <p>
-            {{ t.Title }}
-          </p>
-          <div class="person__data">
-            <p>{{ t.Email }}</p>
-            <p><span>Phone : </span> {{ t.Phone }}</p>
-            <p><span>Mobile : </span> {{ t.Mobile }}</p>
+          <manSvg />
+          <div class="person__info">
+            <h4>{{ t.Name }}</h4>
+            <p>
+              {{ t.Title }}
+            </p>
+            <div class="person__data">
+              <p>{{ t.Email }}</p>
+              <p><span>Phone : </span> {{ t.Phone }}</p>
+              <p><span>Mobile : </span> {{ t.Mobile }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div> 
-    <div class="parent" v-if="getStaff.a__2">
-      <div
-        class="rectangle"
-        v-for="(t, index) in getStaff.a__2"
-        :key="index"
-      >
-        <i
-          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-          class="fas fa-edit edit-btn"
-          @click="() => showEditForm(t)"
-        ></i>
-        <i
-          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-          class="fas fa-trash-alt delete-btn"
-          @click="() => deleteMember(t.id)"
-        ></i>
+      <div class="parent" v-if="getStaff.a__2">
+        <div class="rectangle" v-for="(t, index) in getStaff.a__2" :key="index">
+        <div class="bg"></div>
+          <i
+            v-if="
+              (getRole == 'admin' || getRole == 'Employee') &&
+              getPermission == 'write'
+            "
+            class="fas fa-edit edit-btn"
+            @click="() => showEditForm(t)"
+          ></i>
+          <i
+            v-if="
+              (getRole == 'admin' || getRole == 'Employee') &&
+              getPermission == 'write'
+            "
+            class="fas fa-trash-alt delete-btn"
+            @click="() => deleteMember(t.id)"
+          ></i>
 
-        <manSvg />
-        <div class="person__info">
-          <h4>{{ t.Name }}</h4>
-          <p>
-            {{ t.Title }}
-          </p>
-          <div class="person__data">
-            <p>{{ t.Email }}</p>
-            <p><span>Phone : </span> {{ t.Phone }}</p>
-            <p><span>Mobile : </span> {{ t.Mobile }}</p>
+          <manSvg />
+          <div class="person__info">
+            <h4>{{ t.Name }}</h4>
+            <p>
+              {{ t.Title }}
+            </p>
+            <div class="person__data">
+              <p>{{ t.Email }}</p>
+              <p><span>Phone : </span> {{ t.Phone }}</p>
+              <p><span>Mobile : </span> {{ t.Mobile }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div> 
-    <div class="parent" v-if="getStaff.a__1">
-      <div
-        class="rectangle"
-        v-for="(t, index) in getStaff.a__1"
-        :key="index"
-      >
-        <i
-          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-          class="fas fa-edit edit-btn"
-          @click="() => showEditForm(t)"
-        ></i>
-        <i
-          v-if="(getRole == 'admin' || getRole == 'Employee') && getPermission == 'write'"
-          class="fas fa-trash-alt delete-btn"
-          @click="() => deleteMember(t.id)"
-        ></i>
+      <div class="parent" v-if="getStaff.a__1">
+        <div class="rectangle" v-for="(t, index) in getStaff.a__1" :key="index">
+        <div class="bg"></div>
+          <i
+            v-if="
+              (getRole == 'admin' || getRole == 'Employee') &&
+              getPermission == 'write'
+            "
+            class="fas fa-edit edit-btn"
+            @click="() => showEditForm(t)"
+          ></i>
+          <i
+            v-if="
+              (getRole == 'admin' || getRole == 'Employee') &&
+              getPermission == 'write'
+            "
+            class="fas fa-trash-alt delete-btn"
+            @click="() => deleteMember(t.id)"
+          ></i>
 
-        <manSvg />
-        <div class="person__info">
-          <h4>{{ t.Name }}</h4>
-          <p>
-            {{ t.Title }}
-          </p>
-          <div class="person__data">
-            <p>{{ t.Email }}</p>
-            <p><span>Phone : </span> {{ t.Phone }}</p>
-            <p><span>Mobile : </span> {{ t.Mobile }}</p>
+          <manSvg />
+          <div class="person__info">
+            <h4>{{ t.Name }}</h4>
+            <p>
+              {{ t.Title }}
+            </p>
+            <div class="person__data">
+              <p>{{ t.Email }}</p>
+              <p><span>Phone : </span> {{ t.Phone }}</p>
+              <p><span>Mobile : </span> {{ t.Mobile }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div> 
-    
     </div>
-
-    
-
-   
 
     <modal
       class="secform"
@@ -164,7 +169,7 @@ export default {
   computed: {
     ...mapState(["wikiSections", "chosenForm"]),
 
-    ...mapGetters(["getStaff", "getRole","getPermission"]),
+    ...mapGetters(["getStaff", "getRole", "getPermission"]),
   },
 
   mounted() {
@@ -213,26 +218,27 @@ export default {
   margin: 0 auto;
   padding: 2rem 0;
 }
-.staff__wrapper{
+.staff__wrapper {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
   width: 100%;
 }
-.staff__wrapper .parent{
+.staff__wrapper .parent {
   width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  flex-wrap: wrap;
 }
 .rectangle {
-  position: relative;
   padding: 0.5rem;
   box-shadow: 0 5px 15px rgba(26, 23, 23, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
+  margin-top: .5rem;
 }
 
 .edit-btn,
@@ -282,6 +288,7 @@ export default {
   width: 260px;
   height: 130px;
   background: #010a3d;
+  position: relative;
 }
 .light-mode .container *::before {
   background: #010a3d;
@@ -289,12 +296,40 @@ export default {
 .light-mode .person__info h4 {
   color: #fff;
 }
+.parent .rectangle .bg{
+  /* position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  transform: translate(-1rem,-1rem); */
+   /* position: absolute;
+  top: 0;
+  left: -20px;
+  width: 2rem;
+  height: 100%; */
+}
+
+.parent:first-of-type .rectangle {
+  /* background: blue; */
+  box-shadow: 0px 2px 6px 2px blue;
+}
+.parent:nth-child(2) .rectangle {
+
+    box-shadow: 0px 2px 6px 2px gray;
+}
+.parent:nth-child(3) .rectangle {
+ 
+    box-shadow: 0px 2px 6px 2px orange;
+}
+.parent:nth-child(4) .rectangle {
+
+    box-shadow: 0px 2px 6px 2px skyblue;
+}
+
 
 @media screen and (max-width: 426px) {
-  .rectangle {
-    width: 100%;
-    height: 175px;
-  }
+
   .person__info p {
     width: 96%;
     margin: 0.3rem auto;
