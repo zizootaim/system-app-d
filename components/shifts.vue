@@ -229,10 +229,9 @@ export default {
 }
 
 .shifts__wrapper .table__row .row .col {
-  padding: 0.5rem 0;
   display: grid;
   place-items: center;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
 }
 
 .table__row .row .left:not(.skill-matrix .left) {

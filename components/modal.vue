@@ -5,7 +5,6 @@
     <div class="modal__wrapper">
       <div class="modal__top">
         <span @click="close" class="close">&times;</span>
-       
       </div>
       <!-- Modal content -->
       <div class="modal-content">
@@ -94,7 +93,7 @@ export default {
   width: auto;
 
   align-self: center;
-  width: 700px;
+  width: 750px;
 }
 .secform .modal-content {
   position: relative;
@@ -124,6 +123,10 @@ export default {
 .modal.usersmodal {
   width: 100%;
   right: 0;
+  background: #111;
+}
+.modal.usersmodal .close{
+  background: #111;
 }
 
 .modal.modal.usersmodal .modal-content {

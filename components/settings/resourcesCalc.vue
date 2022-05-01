@@ -15,6 +15,7 @@
             v-model="annualVacation"
             autocomplete="off"
             required
+            min="0"
           />
         </div>
 
@@ -26,10 +27,11 @@
             v-model="nationVacations"
             autocomplete="off"
             required
+            min="0"
           />
         </div>
       </div>
-      <span v-show="annualVacation && nationVacations"
+      <span class="spanBody" v-show="annualVacation && nationVacations"
         >Total Business Days =365-({{ annualVacation }}+{{
           nationVacations
         }}+104 ( 2days vacation per week )) ={{ businessDays }}</span
@@ -43,6 +45,7 @@
             v-model="dayHours"
             autocomplete="off"
             required
+            min="0"
           />
         </div>
 
@@ -54,10 +57,12 @@
             v-model="workingDaysNumber"
             autocomplete="off"
             required
+            min="0"
           />
         </div>
       </div>
       <span
+        class="spanBody"
         v-if="
           workingDaysNumber && dayHours && annualVacation && nationVacations
         "
@@ -66,7 +71,7 @@
         {{ employeeHours }}
       </span>
       <div class="resource_section">
-        <label for="CoveredWeekHours">Company Working Hours per Day :</label>
+        <label for="CoveredWeekHours">Soc Operating Mode Hours :</label>
         <div>
           <input
             type="number"
@@ -74,10 +79,11 @@
             v-model="CoveredWeekHours"
             autocomplete="off"
             required
+            min="0"
           />
         </div>
 
-        <label for="CoveredWeekHours">Company Working Hours per Day :</label>
+        <label for="CoveredWeekHours">Soc Operating Mode Days :</label>
         <div>
           <input
             type="number"
@@ -85,13 +91,14 @@
             v-model="coveredWeekDays"
             autocomplete="off"
             required
+            min="0"
           />
         </div>
       </div>
-      <span v-if="coveredWeekDays && CoveredWeekHours"
+      <span class="spanBody" v-if="coveredWeekDays && CoveredWeekHours"
         >Company Working Hours per Year = Company Working Hours per Day x Number
-        Of days per Week x 52week ={{ CoveredWeekHours }} X
-        {{ coveredWeekDays }} x 52=
+        Of days per Week x 52week = {{ CoveredWeekHours }} X
+        {{ coveredWeekDays }} x 52 =
         {{ coveredHours }}
       </span>
       <div class="submit-btn__wrapper full">
@@ -105,6 +112,50 @@
         >L1 = {{ coveredHours }} / {{ employeeHours }} =
         {{ l1.toFixed(2) }}</span
       >
+      <br />
+      <span class="resultRecord"> L1 = {{ Math.ceil(l1) }} </span>
+    </p>
+    <p class="result" v-if="l1">
+      <span> To Have 2 resources per shift</span>
+      <br />
+      <span class="resultRecord"> L1 = {{ Math.ceil(l1) + 1 }} </span>
+    </p>
+    <br />
+    <p class="result" v-if="l1">
+      <span
+        >L2 Analyst Usually covers 16x5 and be in call during vacations.
+      </span>
+    </p>
+
+    <p class="result" v-if="l1">
+      <span
+        >Number Of Hours Per Year = 52 weeks x 5 days x 16H = 4160 hours
+      </span>
+    </p>
+    <br />
+    <p class="result" v-if="l1">
+      <span
+        >Number Of Resources for L2 = 4160 /{{ employeeHours }} =
+        {{ (4160 / employeeHours).toFixed(2) }}
+      </span>
+    </p>
+    <p class="result" v-if="l1">
+      <span
+        >For oncall Rotation,pay hours for oncall = 1/2 pay hours for onsite
+      </span>
+    </p>
+    <br />
+    <p class="result" v-if="l1">
+      <span
+        >So the total FTE for L2 = {{ (4160 / employeeHours).toFixed(2) }}+{{
+          (4160 / employeeHours / 4).toFixed(2)
+        }}
+        = {{ ((4160 * 1.5) / employeeHours).toFixed(2) }} .
+      </span>
+      <br />
+      <span class="resultRecord">
+        L2 = {{ Math.ceil((4160 * 1.5) / employeeHours) }}
+      </span>
     </p>
   </div>
 </template>
@@ -186,6 +237,9 @@ export default {
 };
 </script>
 <style scoped>
+.resultRecord {
+  border-bottom: 2px solid blue;
+}
 .calc__form-wrapper {
   border-radius: 1rem;
   width: 100%;
@@ -204,10 +258,10 @@ label {
 .light-mode .calc__form-wrapper .form__title {
   color: #000;
 }
-.light-mode label{
+.light-mode label {
   color: #000;
 }
-.result span {
+.result .spanBody {
   font-weight: 600;
   padding-left: 1rem;
 }
@@ -239,7 +293,7 @@ p {
 .light-mode .result {
   color: #000;
 }
-span {
+.spanBody {
   color: #fff;
   padding-bottom: 50px;
   text-align: center;

@@ -13,63 +13,26 @@
         <i class="fas fa-plus"></i> Add Competency
       </button>
       <div v-if="getSkillMatrix">
-      <div class="table__wrapper" >
-        <div class="table__row header">
-          <div class="row">
-            <div class="left">Competency Name</div>
-            <div class="cols">
-              <div class="col">
-                <h4>Analyst L1</h4>
-              </div>
-              <div class="col">
-                <h4>Analyst L2</h4>
-              </div>
-              <div class="col">
-                <h4>Analyst L3</h4>
-              </div>
-              <div class="col">
-                <h4>SOC Admin</h4>
-              </div>
-              <div class="col">
-                <h4>SOC Manager</h4>
-              </div>
-              <div
-                class="col"
-                v-if="
-                  (getRole == 'admin' || getRole == 'Employee') &&
-                  getPermission == 'write'
-                "
-              ></div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="table"
-          v-for="(skillValue, skillName) in getSkillMatrix"
-          :key="skillName"
-        >
-          <div class="col rotate">
-            <p>{{ skillName == 'Edu' ? 'Education' : skillName }}</p>
-          </div>
-          <div class="table__row">
-            <div class="rows">
-              <div
-                class="row"
-                v-for="(skill, index) in skillValue"
-                :key="index"
-              >
+        <div class="table__wrapper">
+         
+          <div class="table__row header">
+            <div class="row">
+              <div class="left">Competency Name</div>
+              <div class="cols">
                 <div class="col">
-                  <p>{{ skill.Skill }}</p>
+                  <h4>L1-Analyst</h4>
                 </div>
-
-                <div
-                  v-for="(i, index) in skill.Level.split(',')"
-                  :class="'col level c-' + statusClass(i)"
-                  :key="index"
-                >
-                  <p v-if="skillName == 'Certifications' || skillName == 'Edu'">
-                    {{ i }}
-                  </p>
+                <div class="col">
+                  <h4>L2-Analyst</h4>
+                </div>
+                <div class="col">
+                  <h4>L3-Analyst</h4>
+                </div>
+                <div class="col">
+                  <h4>SOC Admin</h4>
+                </div>
+                <div class="col">
+                  <h4>SOC Manager</h4>
                 </div>
                 <div
                   class="col"
@@ -77,33 +40,72 @@
                     (getRole == 'admin' || getRole == 'Employee') &&
                     getPermission == 'write'
                   "
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="table"
+            v-for="(skillValue, skillName) in getSkillMatrix"
+            :key="skillName"
+          >
+            <div class="col rotate">
+              <p>{{ skillName == "Edu" ? "Education" : skillName }}</p>
+            </div>
+            <div class="table__row">
+              <div class="rows">
+                <div
+                  class="row"
+                  v-for="(skill, index) in skillValue"
+                  :key="index"
                 >
-                  <div class="btns__wrapper">
-                    <button
-                      class="table-btn"
-                      @click="showHomeModal('PUT', skill.id)"
+                  <div class="col">
+                    <p>{{ skill.Skill }}</p>
+                  </div>
+
+                  <div
+                    v-for="(i, index) in skill.Level.split(',')"
+                    :class="'col level c-' + statusClass(i)"
+                    :key="index"
+                  >
+                    <p
+                      v-if="skillName == 'Certifications' || skillName == 'Edu'"
                     >
-                      <i class="fal fa-pen"></i>
-                    </button>
-                    <button
-                      class="table-btn"
-                      @click="
-                        deleteData({
-                          body: { id: skill.id },
-                          apiName: 'skillMatrix',
-                        })
-                      "
-                    >
-                      <i class="fas fa-trash-alt"></i>
-                    </button>
+                      {{ i }}
+                    </p>
+                  </div>
+                  <div
+                    class="col"
+                    v-if="
+                      (getRole == 'admin' || getRole == 'Employee') &&
+                      getPermission == 'write'
+                    "
+                  >
+                    <div class="btns__wrapper">
+                      <button
+                        class="table-btn"
+                        @click="showHomeModal('PUT', skill.id)"
+                      >
+                        <i class="fal fa-pen"></i>
+                      </button>
+                      <button
+                        class="table-btn"
+                        @click="
+                          deleteData({
+                            body: { id: skill.id },
+                            apiName: 'skillMatrix',
+                          })
+                        "
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
       </div>
       <div class="no-data" v-if="getSkillMatrix.length == 0">
         <h3>no data to show.</h3>
@@ -168,15 +170,15 @@ export default {
   display: grid;
   grid-template-columns: 50px 1fr;
 
-  min-width: unset;
+
 }
-.skill-matrix .left{
+.skill-matrix .left {
   width: 14rem;
   font-weight: 600;
   text-align: center;
 }
 .rotate {
-   /* width: 50px; 
+  /* width: 50px; 
 flex-basis: content;
   transform: rotate(-90deg); */
   display: grid;
@@ -184,12 +186,15 @@ flex-basis: content;
   height: 100px;
 }
 .rotate p {
-  font-size: .8rem;
+  font-size: 0.8rem;
   margin: auto;
   width: 100px;
-  transform: rotate(-90deg) translateY(-2rem) translateX(-.2rem);
-} 
-.light-mode .rotate p{
+  transform: rotate(-90deg) translateY(-2rem) translateX(-0.2rem);
+}
+.form-btn{
+  margin-top: .2rem;
+}
+.light-mode .rotate p {
   color: #000;
 }
 
@@ -259,8 +264,11 @@ flex-basis: content;
 }
 .c-significant {
   background-color: rgb(214, 214, 144);
-} 
+}
 .skill-matrix .table:not(.skill-matrix .table:first-of-type) {
   margin-bottom: 10px;
+}
+.skill-matrix .header{
+  min-width: 65rem;
 }
 </style>

@@ -354,6 +354,15 @@ export default {
       this.priority = res[0].priority;
       this.playbook = res[0].playbook;
       this.production = res[0].production;
+      //const tactics = res[0].tactics.split(',');
+      //const techniques = res[0].techniques.split(',');
+      if(res[0].tactics && res[0].techniques){
+        this.mitre = true;
+        this.choosenMitres = res[0].tactics.split(',');
+      this.choosenTechs =  res[0].techniques.split(',')
+      }
+      // console.log(tactics);
+      // console.log(techniques);
     }
   },
   methods: {

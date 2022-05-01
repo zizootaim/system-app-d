@@ -2015,11 +2015,12 @@ export default {
       this.filterValue = "";
     },
     changeWikiPage(page) {
+      this.setChosenForm("", "");
       console.log("change" + " " + page);
 
       this.currentWikiPage = page;
       if (page == "onBoarding") {
-        window.location.href = "http://localhost:9000";
+        window.open("http://localhost:9000");
         return;
       }
       if (
@@ -2117,11 +2118,12 @@ export default {
       this.wikiPage = this.currentWikiPage;
       if (val == "local8080") {
         console.log(val);
-        window.location.href = "http://localhost:8080";
+
+        window.open("http://localhost:8080");
         return;
       }
       if (val == "local10000") {
-        window.location.href = "http://localhost:10000";
+        window.open("http://localhost:10000");
         return;
       }
       if (val == "users") {

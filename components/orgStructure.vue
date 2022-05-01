@@ -289,6 +289,7 @@ export default {
   height: 130px;
   background: #010a3d;
   position: relative;
+  margin: .5rem;
 }
 .light-mode .container *::before {
   background: #010a3d;

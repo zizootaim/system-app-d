@@ -402,6 +402,13 @@ body::-webkit-scrollbar,
   height: 0.5rem;
   background-color: #352d77;
 }
+.use__imgs::-webkit-scrollbar-track{
+  background-color: #111;
+}
+.use__imgs::-webkit-scrollbar-thumb{
+  background-color: #fff;
+}
+
 body::-webkit-scrollbar {
   background: #010f60;
   border-radius: 0;

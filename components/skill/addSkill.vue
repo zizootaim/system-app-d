@@ -156,7 +156,13 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      levels: [0, 1, 2, 3, 4],
+      levels: [
+        "0-Not Required",
+        "1-Beginner",
+        "2-Intermediate",
+        "3-Advanced",
+        "4-Expert",
+      ],
       message: "",
       Category: "",
       Skill: "",

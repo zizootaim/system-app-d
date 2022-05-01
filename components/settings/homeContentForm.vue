@@ -27,17 +27,12 @@
         <span class="form__control-label">Vision</span>
       </div>
       <div>
-        <p class="galPara">{{ goal.join(",") }}</p>
+        <p class="galPara" v-for="g in goal" :key="g">{{ g }}</p>
         <div class="form__control goal">
           <input type="text" name="goalAdded" v-model="goalAdded" />
           <span class="form__control-label">Goals</span>
         </div>
-        <button
-          class="form-btn btn"
-          type="submit"
-          @click="addRow"
-          
-        >
+        <button class="form-btn btn" type="submit" @click="addRow">
           add goal <BaseSpinner class="smallSpinner" v-if="loadingAdd" />
         </button>
       </div>
@@ -170,16 +165,20 @@ export default {
   width: 60%;
   margin: auto;
 }
+
 .home__form-wrapper .form-btn {
   color: #fff;
   font-size: 12px;
   box-shadow: 0 0 0 0;
 }
-.home__form-wrapper .form-btn:hover{
+.home__form-wrapper span {
+  color: #fff;
+}
+.home__form-wrapper .form-btn:hover {
   color: #34009c;
 }
 .home__form-wrapper p {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .home__form-wrapper span {
   z-index: 0;
@@ -187,10 +186,10 @@ export default {
 .home__form-wrapper h1 {
   color: #fff;
 }
-.light-mode .home__form-wrapper *:not(.home__form-wrapper .submit-btn){
+.light-mode .home__form-wrapper *:not(.home__form-wrapper .submit-btn) {
   color: #000;
 }
-.light-mode .home__form-wrapper .form__control{
+.light-mode .home__form-wrapper .form__control {
   border-color: #000;
 }
 </style>

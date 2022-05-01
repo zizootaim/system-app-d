@@ -41,6 +41,13 @@
       <p v-if="month" class="indicator">
         You Enterd {{ shifts.length }}/{{ val }} Shifts
       </p>
+      <div class="cols">
+        <div
+          :class="`${i.toUpperCase()} col`"
+          v-for="i in shifts"
+          :key="i"
+        ></div>
+      </div>
       <div class="submit__btn-wrapper">
         <button class="submit-btn" type="submit">
           Submit
@@ -164,5 +171,12 @@ export default {
   padding-bottom: 5px;
   text-align: center;
   color: #010f60;
+}
+.shift__form-wrapper .cols {
+  padding: 5px;
+}
+.shift__form-wrapper .cols .col {
+  padding: 0.5rem 9px 0.3rem;
+  border-right: 1px solid #000;
 }
 </style>
