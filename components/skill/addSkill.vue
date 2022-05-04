@@ -29,7 +29,7 @@
         <select required v-model="L1">
           <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
         </select>
-        <span class="form__control-label"> Analyst L1</span>
+        <span class="form__control-label"> L1-Analyst </span>
       </div>
       <div
         v-if="Category == 'Certifications' || Category == 'Edu'"
@@ -38,7 +38,7 @@
         <select required v-model="L2">
           <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
         </select>
-        <span class="form__control-label"> Analyst L2</span>
+        <span class="form__control-label">L2-Analyst</span>
       </div>
       <div
         v-if="Category == 'Certifications' || Category == 'Edu'"
@@ -47,7 +47,7 @@
         <select required v-model="L3">
           <option v-for="op in level" :key="op" :value="op">{{ op }}</option>
         </select>
-        <span class="form__control-label"> Analyst L3</span>
+        <span class="form__control-label"> L3-Analyst</span>
       </div>
       <div
         v-if="Category == 'Certifications' || Category == 'Edu'"
@@ -72,41 +72,41 @@
         class="form__control"
       >
         <select type="number" name="skillName" required v-model="L1">
-          <option v-for="(l, index) in levels" :value="l" :key="index">
+          <option v-for="(l, index) in levels" :value="index" :key="index">
             {{ l }}
           </option>
         </select>
-        <span class="form__control-label"> Analyst L1</span>
+        <span class="form__control-label"> L1-Analyst </span>
       </div>
       <div
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
         class="form__control"
       >
         <select type="number" name="skillName" required v-model="L2">
-          <option v-for="(l, index) in levels" :value="l" :key="index">
+          <option v-for="(l, index) in levels" :value="index" :key="index">
             {{ l }}
           </option>
         </select>
 
-        <span class="form__control-label"> Analyst L2</span>
+        <span class="form__control-label"> L2-Analyst </span>
       </div>
       <div
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
         class="form__control"
       >
         <select type="number" name="skillName" required v-model="L3">
-          <option v-for="(l, index) in levels" :value="l" :key="index">
+          <option v-for="(l, index) in levels" :value="index" :key="index">
             {{ l }}
           </option>
         </select>
-        <span class="form__control-label"> Analyst L3</span>
+        <span class="form__control-label"> L3-Analyst </span>
       </div>
       <div
         v-if="Category == 'Soft Skills' || Category == 'Technical Skills'"
         class="form__control"
       >
         <select type="number" name="skillName" required v-model="admin">
-          <option v-for="(l, index) in levels" :value="l" :key="index">
+          <option v-for="(l, index) in levels" :value="index" :key="index">
             {{ l }}
           </option>
         </select>
@@ -118,7 +118,7 @@
         class="form__control"
       >
         <select type="number" name="skillName" required v-model="manager">
-          <option v-for="(l, index) in levels" :value="l" :key="index">
+          <option v-for="(l, index) in levels" :value="index" :key="index">
             {{ l }}
           </option>
         </select>
@@ -224,10 +224,10 @@ export default {
       if (response) {
         this.submitIcon = true;
         this.$store.dispatch("getData", "skillMatrix");
-        // setTimeout(() => {
-        //   this.submitIcon = false;
-        //   document.querySelector(".close").click();
-        // }, 1000);
+        setTimeout(() => {
+          this.submitIcon = false;
+          document.querySelector(".close").click();
+        }, 1000);
       } else {
         this.message = "Some Thing Went Wrong , Try Again !";
         setTimeout(() => {

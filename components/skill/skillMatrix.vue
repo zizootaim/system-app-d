@@ -14,7 +14,6 @@
       </button>
       <div v-if="getSkillMatrix">
         <div class="table__wrapper">
-         
           <div class="table__row header">
             <div class="row">
               <div class="left">Competency Name</div>
@@ -59,7 +58,7 @@
                   v-for="(skill, index) in skillValue"
                   :key="index"
                 >
-                  <div class="col">
+                  <div class="col level">
                     <p>{{ skill.Skill }}</p>
                   </div>
 
@@ -68,14 +67,14 @@
                     :class="'col level c-' + statusClass(i)"
                     :key="index"
                   >
-                    <p
+                      <p
                       v-if="skillName == 'Certifications' || skillName == 'Edu'"
                     >
                       {{ i }}
-                    </p>
+                      </p>
                   </div>
                   <div
-                    class="col"
+                    class="col btns"
                     v-if="
                       (getRole == 'admin' || getRole == 'Employee') &&
                       getPermission == 'write'
@@ -127,9 +126,9 @@ export default {
   data() {
     return {
       header: [
-        "Analyst L1",
-        "Analyst L2",
-        "Analyst L3",
+        "L1-Analyst",
+        "L2-Analyst",
+        "L3-Analyst",
         "SOC Admin",
         "SOC Manager",
       ],
@@ -166,16 +165,31 @@ export default {
 </script>
 
 <style>
+.skill-matrix .col.btns{
+ display: grid;
+ place-items: center;
+}
+.skill-matrix .col .btns__wrapper{
+  width: 100%;
+}
 .skill-matrix .table__wrapper .table {
   display: grid;
   grid-template-columns: 50px 1fr;
-
-
+}
+.skill-matrix .table__row:not(.table__row:first-child):not(.book__table .table__row) .col{
+  padding: 0;
 }
 .skill-matrix .left {
   width: 14rem;
   font-weight: 600;
   text-align: center;
+}
+.skill-matrix .table__row:not(.table__row:first-child) .col p{
+  max-height: unset;
+  width: auto;
+  max-width: unset;
+  word-break: normal;
+  padding: .1rem;
 }
 .rotate {
   /* width: 50px; 
@@ -191,15 +205,15 @@ flex-basis: content;
   width: 100px;
   transform: rotate(-90deg) translateY(-2rem) translateX(-0.2rem);
 }
-.form-btn{
-  margin-top: .2rem;
+.form-btn {
+  margin-top: 0.2rem;
 }
 .light-mode .rotate p {
   color: #000;
 }
 
 .skill-matrix .rows .row {
-  height: 1.3rem;
+  padding-bottom: 2px;
 }
 .skill-matrix .rows .row * {
   font-size: 0.8rem;
@@ -211,8 +225,9 @@ flex-basis: content;
   padding: 0rem;
 }
 .level {
-  position: relative;
-  border-left: 2px solid #000;
+  border-right: 2px solid #000;
+  display: grid;
+  place-items: center;
 }
 .skill-matrix .rows .row {
   border-bottom: 0.4px solid #000;
@@ -225,9 +240,10 @@ flex-basis: content;
   place-items: center;
   color: #fff;
   position: absolute;
-  top: 0;
+  align-self: center;
+
   left: 0;
-  height: 100%;
+  height: 1rem;
   background: rgb(236, 175, 62);
 }
 
@@ -236,6 +252,8 @@ flex-basis: content;
   color: #000;
   content: "0";
   background: none;
+  justify-content: left;
+  padding-left: .2rem;
 }
 .level.c-1::after {
   width: 25%;
@@ -268,7 +286,7 @@ flex-basis: content;
 .skill-matrix .table:not(.skill-matrix .table:first-of-type) {
   margin-bottom: 10px;
 }
-.skill-matrix .header{
+.skill-matrix .header {
   min-width: 65rem;
 }
 </style>

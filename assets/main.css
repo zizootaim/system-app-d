@@ -695,7 +695,7 @@ textarea::placeholder {
   width: auto;
   display: flex;
 }
-.col {
+.col:not(.shifts__wrapper .col) {
   width: 100%;
   padding: 0.5rem 1rem 0.5rem 0.3rem;
 }

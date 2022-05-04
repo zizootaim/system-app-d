@@ -33,7 +33,7 @@
         <input type="number" name="mobile" required v-model="mobile" />
         <span class="form__control-label">Mobile</span>
       </div>
-      <div class="form__control">
+      <div class="form__control full">
         <input type="number" name="phone" required v-model="phone" />
         <span class="form__control-label">Phone</span>
       </div>

@@ -7,8 +7,8 @@
       class="calc__form"
     >
       <div class="resource_section">
-        <label for="CoveredWeekHours">Employee Annual Vacation Days : </label>
         <div>
+        <label for="CoveredWeekHours">Employee Annual Vacation Days : </label>
           <input
             type="number"
             name="annualVacation"
@@ -19,8 +19,8 @@
           />
         </div>
 
-        <label for="CoveredWeekHours">National Vacations Days:</label>
         <div>
+        <label for="CoveredWeekHours">National Vacations Days:</label>
           <input
             type="number"
             name="nationVacations"
@@ -37,8 +37,8 @@
         }}+104 ( 2days vacation per week )) ={{ businessDays }}</span
       >
       <div class="resource_section">
-        <label for="CoveredWeekHours">Employee Hours per Day :</label>
         <div>
+        <label for="CoveredWeekHours">Employee Hours per Day :</label>
           <input
             type="number"
             name="weekHours"
@@ -49,8 +49,8 @@
           />
         </div>
 
-        <label for="CoveredWeekHours">Employee Days per Week :</label>
         <div>
+        <label for="CoveredWeekHours">Employee Days per Week :</label>
           <input
             type="number"
             name="workingDaysNumber"
@@ -71,8 +71,8 @@
         {{ employeeHours }}
       </span>
       <div class="resource_section">
-        <label for="CoveredWeekHours">Soc Operating Mode Hours :</label>
         <div>
+        <label for="CoveredWeekHours">Soc Operating Mode Hours :</label>
           <input
             type="number"
             name="CoveredWeekHours"
@@ -83,8 +83,8 @@
           />
         </div>
 
-        <label for="CoveredWeekHours">Soc Operating Mode Days :</label>
         <div>
+        <label for="CoveredWeekHours">Soc Operating Mode Days :</label>
           <input
             type="number"
             name="coveredWeekDays"
@@ -265,6 +265,7 @@ label {
   font-weight: 600;
   padding-left: 1rem;
 }
+
 .calc__form .form__control {
   background: #fff;
   border: 0;
@@ -299,6 +300,9 @@ p {
   text-align: center;
   border-bottom: 1px solid #000;
 }
+.light-mode .spanBody{
+  color: #000;
+}
 input {
   color: #000;
   width: 40px;
@@ -309,10 +313,14 @@ input {
   text-align: center;
 }
 .resource_section {
-  display: flex;
   padding: 20px 0px;
-  justify-content: center;
+  width: 70%;
+  margin: auto;
+display: grid;
+grid-template-columns: 1fr 1fr;
+
 }
+
 @media screen and (max-width: 800px) {
   .calc__form-wrapper {
     width: 98%;

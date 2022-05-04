@@ -91,15 +91,8 @@
           <BaseSpinner v-if="loading && wikiPage != ''" class="mainSpinner" />
 
           <!-- Filteration -->
-          <div class="intro">
-            <div v-if="wikiPage == 'Use Case Library'">
-              <button
-                class="form-btn use-btn"
-                v-on:click="modalType = 'useModal'"
-              >
-                <i class="fal fa-info-circle"></i> Help
-              </button>
-            </div>
+          <div :class="wikiPage == 'Use Case Library' ? 'intro use-filter' : 'intro'">
+  
             <div
               class="filteration__wrapper"
               v-if="
@@ -110,7 +103,7 @@
                 (wikiPage != 'Administration') & (wikiPage != 'skillMatrix')
               "
             >
-              <button class="form-btn" @click="openFilterForm">
+              <button class="form-btn" @click="openFilterForm" v-if="wikiPage != 'Use Case Library'">
                 <i class="fas fa-filter"></i> <span>Filter</span>
               </button>
               <div class="filter__form">
@@ -714,6 +707,9 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
+                            <button class="delete-btn">
+                              <i class="fas fa fa-arrow-down-to-bracket"></i>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -916,6 +912,9 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
+                            <button class="delete-btn">
+                              <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -1065,6 +1064,9 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
+                            <button class="delete-btn">
+                              <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -1202,6 +1204,9 @@
                               "
                             >
                               <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <button class="delete-btn">
+                              <i class="fa-solid fa-arrow-down-to-bracket"></i>
                             </button>
                           </div>
                         </div>
@@ -1343,6 +1348,9 @@
                           >
                             <i class="fas fa-trash-alt"></i>
                           </button>
+                          <button class="delete-btn">
+                            <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -1389,14 +1397,27 @@
             </modal>
             <div>
               <h1 class="sec__title">UseCases Intro</h1>
-
-              <button
-                class="form-btn"
-                @click="setChosenForm('useCase', 'POST')"
-                v-if="getRole == 'Employee' || getRole == 'admin'"
-              >
-                <i class="fas fa-plus"></i> add
+              <div class="use__btns">
+                <button
+                  class="form-btn"
+                  @click="setChosenForm('useCase', 'POST')"
+                  v-if="getRole == 'Employee' || getRole == 'admin'"
+                >
+                  <i class="fas fa-plus"></i> add
+                </button>
+                <div>
+                   <button class="form-btn" @click="openFilterForm" >
+                <i class="fas fa-filter"></i> <span>Filter</span>
               </button>
+                <button
+                  class="form-btn use-btn"
+                  v-on:click="modalType = 'useModal'"
+                >
+                  <i class="fal fa-info-circle"></i> Help
+                </button>
+                </div>
+              </div>
+
               <div v-if="filteredArray.length > 0">
                 <div class="table__wrapper">
                   <div class="table">
@@ -1480,6 +1501,15 @@
                               "
                             >
                               <i class="fas fa-trash-alt"></i>
+                            </button>
+                            <button
+                              v-if="
+                                (getRole == 'admin' || getRole == 'Employee') &&
+                                getPermission == 'write'
+                              "
+                              class="delete-btn"
+                            >
+                              <i class="fas fa fa-arrow-down-to-bracket"></i>
                             </button>
                           </div>
                         </div>
@@ -1634,6 +1664,9 @@
                             "
                           >
                             <i class="fas fa-trash-alt"></i>
+                          </button>
+                          <button class="delete-btn">
+                            <i class="fa-solid fa-arrow-down-to-bracket"></i>
                           </button>
                         </div>
                       </div>
@@ -2020,7 +2053,7 @@ export default {
 
       this.currentWikiPage = page;
       if (page == "onBoarding") {
-        window.open("http://localhost:9000");
+        window.open("http://localhost:8075", "_blank");
         return;
       }
       if (
@@ -2118,12 +2151,13 @@ export default {
       this.wikiPage = this.currentWikiPage;
       if (val == "local8080") {
         console.log(val);
-
-        window.open("http://localhost:8080");
+        //    window.location.href = "http://localhost:8070";
+        window.open("http://localhost:8070", "_blank");
         return;
       }
       if (val == "local10000") {
-        window.open("http://localhost:10000");
+        //   window.location.href = "http://localhost:10000";
+        window.open("http://localhost:10000", "_blank");
         return;
       }
       if (val == "users") {
@@ -2193,13 +2227,15 @@ export default {
 };
 </script>
 <style>
+
+.use__btns {
+  display: flex;
+  justify-content: space-between;
+}
 .wiki__container .intro {
   display: flex;
 }
-.intro .use-btn {
-  margin: 0.2rem 1rem 0 0;
-  width: 135px;
-}
+
 .intro .filteration__wrapper {
   width: 100%;
 }
@@ -2289,13 +2325,18 @@ export default {
   margin-top: 0.2rem;
   overflow: hidden;
 }
+.use-filter .filteration__wrapper{
+  height: 0;
+}
 .filteration__wrapper .open-filter {
   position: absolute;
   color: #fff;
   cursor: pointer;
   top: 2rem;
 }
-
+.use-btn{
+  margin-left: .6rem;
+}
 .filter__form {
   display: flex;
   justify-content: space-between;
