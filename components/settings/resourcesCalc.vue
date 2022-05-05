@@ -8,7 +8,7 @@
     >
       <div class="resource_section">
         <div>
-          <label for="CoveredWeekHours">Employee Annual Vacation Days : </label>
+          <label for="CoveredWeekHours">Employee Annual Vacation Days: </label>
           <input
             type="number"
             name="annualVacation"
@@ -38,7 +38,7 @@
       >
       <div class="resource_section">
         <div>
-          <label for="CoveredWeekHours">Employee Hours per Day :</label>
+          <label for="CoveredWeekHours">Employee Hours per Day:</label>
           <input
             type="number"
             name="weekHours"
@@ -50,7 +50,7 @@
         </div>
 
         <div>
-          <label for="CoveredWeekHours">Employee Days per Week :</label>
+          <label for="CoveredWeekHours">Employee Days per Week:</label>
           <input
             type="number"
             name="workingDaysNumber"
@@ -72,7 +72,7 @@
       </span>
       <div class="resource_section">
         <div>
-          <label for="CoveredWeekHours">Soc Operating Mode Hours :</label>
+          <label for="CoveredWeekHours">SOC Operating Mode Hours:</label>
           <input
             type="number"
             name="CoveredWeekHours"
@@ -84,7 +84,7 @@
         </div>
 
         <div>
-          <label for="CoveredWeekHours">Soc Operating Mode Days :</label>
+          <label for="CoveredWeekHours">SOC Operating Mode Days:</label>
           <input
             type="number"
             name="coveredWeekDays"
