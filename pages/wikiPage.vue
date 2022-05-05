@@ -278,6 +278,9 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
+                              <button class="table-btn">
+                              <i class="fal fa-download"></i>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -399,6 +402,9 @@
                               "
                             >
                               <i class="fas fa-trash-alt"></i>
+                            </button>
+                              <button class="table-btn">
+                              <i class="fal fa-download"></i>
                             </button>
                           </div>
                         </div>
@@ -707,8 +713,8 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
-                            <button class="delete-btn">
-                              <i class="fas fa fa-arrow-down-to-bracket"></i>
+                            <button class="table-btn">
+                              <i class="fal fa-download"></i>
                             </button>
                           </div>
                         </div>
@@ -912,8 +918,8 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
-                            <button class="delete-btn">
-                              <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                            <button class="table-btn">
+                              <i class="fal fa-download"></i>
                             </button>
                           </div>
                         </div>
@@ -1064,8 +1070,8 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
-                            <button class="delete-btn">
-                              <i class="fa-solid fa-arrow-down-to-bracket"></i>
+                             <button class="table-btn">
+                              <i class="fal fa-download"></i>
                             </button>
                           </div>
                         </div>
@@ -1205,8 +1211,8 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
-                            <button class="delete-btn">
-                              <i class="fa-solid fa-arrow-down-to-bracket"></i>
+              <button class="table-btn">
+                              <i class="fal fa-download"></i>
                             </button>
                           </div>
                         </div>
@@ -1348,9 +1354,9 @@
                           >
                             <i class="fas fa-trash-alt"></i>
                           </button>
-                          <button class="delete-btn">
-                            <i class="fa-solid fa-arrow-down-to-bracket"></i>
-                          </button>
+                          <button class="table-btn">
+                              <i class="fal fa-download"></i>
+                            </button>
                         </div>
                       </div>
                     </div>
@@ -1502,14 +1508,8 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
-                            <button
-                              v-if="
-                                (getRole == 'admin' || getRole == 'Employee') &&
-                                getPermission == 'write'
-                              "
-                              class="delete-btn"
-                            >
-                              <i class="fas fa fa-arrow-down-to-bracket"></i>
+                             <button class="table-btn">
+                              <i class="fal fa-download"></i>
                             </button>
                           </div>
                         </div>
@@ -1665,9 +1665,9 @@
                           >
                             <i class="fas fa-trash-alt"></i>
                           </button>
-                          <button class="delete-btn">
-                            <i class="fa-solid fa-arrow-down-to-bracket"></i>
-                          </button>
+                         <button class="table-btn">
+                              <i class="fal fa-download"></i>
+                            </button>
                         </div>
                       </div>
                     </div>
@@ -2278,7 +2278,7 @@ export default {
 .btns__wrapper .table-btn:nth-child(2) {
   color: rgb(202, 42, 42);
 }
-.btns__wrapper .table-btn:nth-child(1) {
+.btns__wrapper .table-btn:nth-child(1),.btns__wrapper .table-btn:nth-child(3) {
   color: rgb(86, 143, 86);
 }
 .book__table > div {

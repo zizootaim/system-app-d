@@ -174,9 +174,14 @@ export default {
 }
 .shift__form-wrapper .cols {
   padding: 5px;
+  margin-bottom: .6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
 }
 .shift__form-wrapper .cols .col {
-  padding: 0.5rem 9px 0.3rem;
+  width: 1rem;
   border-right: 1px solid #000;
+  margin-top: .5rem;
 }
 </style>

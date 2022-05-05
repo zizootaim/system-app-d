@@ -60,12 +60,12 @@
               name="activity"
               v-model="activity"
               autocomplete="off"
-              required
+              
             />
             <span class="form__control-label">Activity</span>
           </div>
           <div class="form__control">
-            <select required name="issueStatus" v-model="irStage">
+            <select  name="issueStatus" v-model="irStage">
               <option
                 v-for="option in irStageOptions"
                 :value="option"
@@ -82,7 +82,7 @@
               name="team"
               v-model="team"
               autocomplete="off"
-              required
+              
             />
             <span class="form__control-label">Team</span>
           </div>
@@ -285,6 +285,13 @@ export default {
 </script>
 
 <style scoped>
+.form__table .form__control span{
+  top: .7rem;
+  left: .5rem;
+}
+.form__table .form__control input:focus ~ span{
+  top: -.8rem;
+}
 .play__form-wrapper {
   width: 85%;
 }

@@ -8,7 +8,7 @@
     >
       <div class="resource_section">
         <div>
-        <label for="CoveredWeekHours">Employee Annual Vacation Days : </label>
+          <label for="CoveredWeekHours">Employee Annual Vacation Days : </label>
           <input
             type="number"
             name="annualVacation"
@@ -20,7 +20,7 @@
         </div>
 
         <div>
-        <label for="CoveredWeekHours">National Vacations Days:</label>
+          <label for="CoveredWeekHours">National Vacations Days:</label>
           <input
             type="number"
             name="nationVacations"
@@ -38,7 +38,7 @@
       >
       <div class="resource_section">
         <div>
-        <label for="CoveredWeekHours">Employee Hours per Day :</label>
+          <label for="CoveredWeekHours">Employee Hours per Day :</label>
           <input
             type="number"
             name="weekHours"
@@ -50,7 +50,7 @@
         </div>
 
         <div>
-        <label for="CoveredWeekHours">Employee Days per Week :</label>
+          <label for="CoveredWeekHours">Employee Days per Week :</label>
           <input
             type="number"
             name="workingDaysNumber"
@@ -72,7 +72,7 @@
       </span>
       <div class="resource_section">
         <div>
-        <label for="CoveredWeekHours">Soc Operating Mode Hours :</label>
+          <label for="CoveredWeekHours">Soc Operating Mode Hours :</label>
           <input
             type="number"
             name="CoveredWeekHours"
@@ -84,7 +84,7 @@
         </div>
 
         <div>
-        <label for="CoveredWeekHours">Soc Operating Mode Days :</label>
+          <label for="CoveredWeekHours">Soc Operating Mode Days :</label>
           <input
             type="number"
             name="coveredWeekDays"
@@ -300,7 +300,7 @@ p {
   text-align: center;
   border-bottom: 1px solid #000;
 }
-.light-mode .spanBody{
+.light-mode .spanBody {
   color: #000;
 }
 input {
@@ -314,19 +314,27 @@ input {
 }
 .resource_section {
   padding: 20px 0px;
-  width: 70%;
+  width: 60%;
   margin: auto;
-display: grid;
-grid-template-columns: 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+.resource_section div{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 920px) {
   .calc__form-wrapper {
     width: 98%;
   }
-  .calc__form {
+  .resource_section {
     grid-template-columns: 1fr;
+    width: 100%;
   }
 }
+
 </style>

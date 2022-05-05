@@ -98,6 +98,9 @@
                       >
                         <i class="fas fa-trash-alt"></i>
                       </button>
+                        <button class="table-btn">
+                              <i class="fal fa-download"></i>
+                            </button>
                     </div>
                   </div>
                 </div>
