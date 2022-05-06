@@ -148,7 +148,7 @@
     <p class="result" v-if="l1">
       <span
         >So the total FTE for L2 = {{ (4160 / employeeHours).toFixed(2) }}+{{
-          (4160 / employeeHours / 4).toFixed(2)
+          (4160 / employeeHours / 2).toFixed(2)
         }}
         = {{ ((4160 * 1.5) / employeeHours).toFixed(2) }} .
       </span>
@@ -320,11 +320,10 @@ input {
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
 }
-.resource_section div{
+.resource_section div {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
 }
 
 @media screen and (max-width: 920px) {
@@ -336,5 +335,4 @@ input {
     width: 100%;
   }
 }
-
 </style>

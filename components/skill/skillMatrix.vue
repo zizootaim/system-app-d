@@ -67,11 +67,16 @@
                     :class="'col level c-' + statusClass(i)"
                     :key="index"
                   >
-                      <p
+                    <p
                       v-if="skillName == 'Certifications' || skillName == 'Edu'"
                     >
                       {{ i }}
-                      </p>
+                    </p>
+                    <p
+                      v-if="skillName != 'Certifications' || skillName != 'Edu'"
+                    >
+                      {{ skillLevel[i] }}
+                    </p>
                   </div>
                   <div
                     class="col btns"
@@ -98,9 +103,7 @@
                       >
                         <i class="fas fa-trash-alt"></i>
                       </button>
-                        <button class="table-btn">
-                              <i class="fal fa-download"></i>
-                            </button>
+               
                     </div>
                   </div>
                 </div>
@@ -135,6 +138,7 @@ export default {
         "SOC Admin",
         "SOC Manager",
       ],
+      skillLevel: [" ", "Beginner", "Intermediate", "Advanced", "Expert"],
       skillModal: false,
     };
   },
@@ -168,18 +172,20 @@ export default {
 </script>
 
 <style>
-.skill-matrix .col.btns{
- display: grid;
- place-items: center;
+.skill-matrix .col.btns {
+  display: grid;
+  place-items: center;
 }
-.skill-matrix .col .btns__wrapper{
+.skill-matrix .col .btns__wrapper {
   width: 100%;
 }
 .skill-matrix .table__wrapper .table {
   display: grid;
   grid-template-columns: 50px 1fr;
 }
-.skill-matrix .table__row:not(.table__row:first-child):not(.book__table .table__row) .col{
+.skill-matrix
+  .table__row:not(.table__row:first-child):not(.book__table .table__row)
+  .col {
   padding: 0;
 }
 .skill-matrix .left {
@@ -187,12 +193,12 @@ export default {
   font-weight: 600;
   text-align: center;
 }
-.skill-matrix .table__row:not(.table__row:first-child) .col p{
+.skill-matrix .table__row:not(.table__row:first-child) .col p {
   max-height: unset;
   width: auto;
   max-width: unset;
   word-break: normal;
-  padding: .1rem;
+  padding: 0.1rem;
 }
 .rotate {
   /* width: 50px; 
@@ -244,35 +250,33 @@ flex-basis: content;
   color: #fff;
   position: absolute;
   align-self: center;
-
+  content: '';
   left: 0;
   height: 1rem;
   background: rgb(236, 175, 62);
+  
 }
-
+.level p{
+  z-index: 500;
+}
 .level.c-0::after {
   width: 100%;
   color: #000;
-  content: "0";
   background: none;
   justify-content: left;
-  padding-left: .2rem;
+  padding-left: 0.2rem;
 }
 .level.c-1::after {
   width: 25%;
-  content: "1";
 }
 .level.c-2::after {
   width: 50%;
-  content: "2";
 }
 .level.c-3::after {
   width: 75%;
-  content: "3";
 }
 .level.c-4::after {
   width: 100%;
-  content: "4";
 }
 .c-mandatory {
   background-color: rgb(247, 193, 193);

@@ -133,6 +133,7 @@ export default {
               this.submitIcon = true;
               setTimeout(() => {
                 this.submitIcon = false;
+                document.querySelector(".close").click();
               }, 1000);
               this.$store.dispatch("getData", "Shifts");
             }
@@ -174,7 +175,7 @@ export default {
 }
 .shift__form-wrapper .cols {
   padding: 5px;
-  margin-bottom: .6rem;
+  margin-bottom: 0.6rem;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
@@ -182,6 +183,6 @@ export default {
 .shift__form-wrapper .cols .col {
   width: 1rem;
   border-right: 1px solid #000;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 </style>

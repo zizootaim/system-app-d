@@ -161,7 +161,7 @@ export const state = (state) => ({
     },
     {
       section: "onBoarding",
-      sectionName: "On Boarding",
+      sectionName: "Onboarding",
       class: "fal fa-book",
     },
     {

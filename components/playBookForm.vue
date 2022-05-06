@@ -51,8 +51,8 @@
           <span class="form__control-label">Description</span>
         </div>
 
-        <div class="form__table full" v-if="chosenFormMethod=='POST'">
-          <p style="margin-bottom: 1rem;color: #fff;">RACI Matrix</p>
+        <div class="form__table full" v-if="chosenFormMethod == 'POST'">
+          <p style="margin-bottom: 1rem; color: #fff">RACI Matrix</p>
           <div class="form__control">
             <input
               ref="activity"
@@ -60,12 +60,11 @@
               name="activity"
               v-model="activity"
               autocomplete="off"
-              
             />
             <span class="form__control-label">Activity</span>
           </div>
           <div class="form__control">
-            <select  name="issueStatus" v-model="irStage">
+            <select name="issueStatus" v-model="irStage">
               <option
                 v-for="option in irStageOptions"
                 :value="option"
@@ -77,13 +76,7 @@
             <span class="form__control-label">IR Stage</span>
           </div>
           <div class="form__control">
-            <input
-              type="text"
-              name="team"
-              v-model="team"
-              autocomplete="off"
-              
-            />
+            <input type="text" name="team" v-model="team" autocomplete="off" />
             <span class="form__control-label">Team</span>
           </div>
           <button
@@ -170,11 +163,11 @@ export default {
       console.log(res);
       this.title = res[0].title;
       this.description = res[0].description;
-    this.category = res[0].category;
-  if(!playbookCategories.includes(res[0].category)){
-    this.category = 'Other';
-    this.otherCategory = res[0].category
-  }
+      this.category = res[0].category;
+      if (!playbookCategories.includes(res[0].category)) {
+        this.category = "Other";
+        this.otherCategory = res[0].category;
+      }
       this.$refs["file"].required = false;
     }
   },
@@ -239,7 +232,6 @@ export default {
         }
         console.log(this.data.length);
         if (this.data.length) {
-        
           formData2.append("data", JSON.stringify(this.data));
         }
         formData2.append("id", this.chosenFormId);
@@ -285,13 +277,17 @@ export default {
 </script>
 
 <style scoped>
-.form__table .form__control span{
-  top: .7rem;
-  left: .5rem;
+/* .form__table .form__control-label {
+  top: 2rem;
 }
-.form__table .form__control input:focus ~ span{
-  top: -.8rem;
+
+.form__table .form__control input:empty ~ span {
+  top: 20%;
 }
+.form__table .form__control input:focus ~ span,
+.form__table .form__control input:placeholder-shown ~ span {
+  top: -0.8rem;
+} */
 .play__form-wrapper {
   width: 85%;
 }
@@ -309,7 +305,7 @@ export default {
 .smallSpinner {
   width: 12px;
   height: 12px;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 }
 label,
 p {
