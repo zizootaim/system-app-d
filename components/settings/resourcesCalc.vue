@@ -154,7 +154,7 @@
       </span>
       <br />
       <span class="resultRecord">
-        L2 = {{ Math.ceil((4160 * 1.5) / employeeHours) }}
+        L2 = {{ Math.ceil((4160 * 1.25) / employeeHours) }}
       </span>
     </p>
   </div>

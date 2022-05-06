@@ -174,9 +174,24 @@ export default {
 
   mounted() {
     this.$store.dispatch("getData", "staff");
+    this.checkLines();
   },
-
+watch:{
+  getStaff(){
+    this.checkLines()
+  }
+},
   methods: {
+    checkLines(){
+      const parents = Array.from(document.querySelectorAll('.parent'))
+      // parents.forEach(p)
+      // if(parents.length > 3){
+      //   parents.slice(0,3).forEach(r => {
+      //     r.classList.add('no-line')
+      //   })
+      //   console.log(parents);
+      //}
+    },
     setChosenForm(formName) {
       this.showModal = false;
       this.$store.commit("setChosenForm", formName);
@@ -319,6 +334,9 @@ export default {
   height: 1.8rem;
   background: #fff;
 }
+.parent .rectangle:nth-child(5):before{
+  display: none;
+} 
 .light-mode
   .rectangle:not(.parent:first-child .rectangle:first-of-type)::before,.light-mode
 .parent::before {

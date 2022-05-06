@@ -23,9 +23,9 @@
       </div>
       <div class="shifts">
         <p>Shifts</p>
-        <div class="shift A">A <span>8am:4pm</span></div>
-        <div class="shift B">B <span>4pm:12am</span></div>
-        <div class="shift C">C <span>12am:8am</span></div>
+        <div class="shift A">A <span>8am : 4pm</span></div>
+        <div class="shift B">B <span>4pm : 12am</span></div>
+        <div class="shift C">C <span>12am : 8am</span></div>
         <div class="shift O">O <span>On Call</span></div>
         <div class="shift X">X <span>Off</span></div>
       </div>
@@ -180,7 +180,7 @@ export default {
   right: 0;
   margin: auto;
   text-align: center;
-font-size: 0.85rem;
+  font-size: 0.85rem;
   color: #fff;
 }
 .light-mode .shift span {
