@@ -103,7 +103,6 @@
                       >
                         <i class="fas fa-trash-alt"></i>
                       </button>
-               
                     </div>
                   </div>
                 </div>
@@ -138,7 +137,13 @@ export default {
         "SOC Admin",
         "SOC Manager",
       ],
-      skillLevel: [" ", "Beginner", "Intermediate", "Advanced", "Expert"],
+      skillLevel: [
+        "0-Not Required ",
+        "1-Beginner",
+        "2-Intermediate",
+        "3-Advanced",
+        "4-Expert",
+      ],
       skillModal: false,
     };
   },
@@ -250,13 +255,12 @@ flex-basis: content;
   color: #fff;
   position: absolute;
   align-self: center;
-  content: '';
+  content: "";
   left: 0;
   height: 1rem;
   background: rgb(236, 175, 62);
-  
 }
-.level p{
+.level p {
   z-index: 500;
 }
 .level.c-0::after {

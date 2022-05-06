@@ -148,9 +148,9 @@
     <p class="result" v-if="l1">
       <span
         >So the total FTE for L2 = {{ (4160 / employeeHours).toFixed(2) }}+{{
-          (4160 / employeeHours / 2).toFixed(2)
+          (4160 / employeeHours / 4).toFixed(2)
         }}
-        = {{ ((4160 * 1.5) / employeeHours).toFixed(2) }} .
+        = {{ ((4160 * 1.25) / employeeHours).toFixed(2) }} .
       </span>
       <br />
       <span class="resultRecord">

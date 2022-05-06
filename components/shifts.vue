@@ -23,9 +23,9 @@
       </div>
       <div class="shifts">
         <p>Shifts</p>
-        <div class="shift A">A <span>24x7</span></div>
-        <div class="shift B">B <span>12x5</span></div>
-        <div class="shift C">C <span>8x5</span></div>
+        <div class="shift A">A <span>8am:4pm</span></div>
+        <div class="shift B">B <span>4pm:12am</span></div>
+        <div class="shift C">C <span>12am:8am</span></div>
         <div class="shift O">O <span>On Call</span></div>
         <div class="shift X">X <span>Off</span></div>
       </div>
@@ -170,14 +170,17 @@ export default {
   color: #000;
 }
 .shifts__top .shifts .shift {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 2rem;
   position: relative;
 }
 .shift span {
   position: absolute;
   top: -1.6rem;
-  left: 0.4rem;
-  font-size: 0.85rem;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+font-size: 0.85rem;
   color: #fff;
 }
 .light-mode .shift span {
@@ -191,9 +194,7 @@ export default {
   border-top-right-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
 }
-.O span {
-  left: 0;
-}
+
 .shifts__wrapper .table__row {
   flex-direction: column;
 }

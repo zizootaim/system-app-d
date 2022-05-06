@@ -19,7 +19,7 @@
             class="fas fa-trash-alt delete-btn"
             @click="() => deleteMember(t.id)"
           ></i>
-<div class="bg"></div>
+          <div class="bg"></div>
           <manSvg />
           <div class="person__info">
             <h4>{{ t.Name }}</h4>
@@ -36,7 +36,7 @@
       </div>
       <div class="parent" v-if="getStaff.a__3">
         <div class="rectangle" v-for="(t, index) in getStaff.a__3" :key="index">
-       <div class="bg"></div>
+          <div class="bg"></div>
           <i
             v-if="
               (getRole == 'admin' || getRole == 'Employee') &&
@@ -70,7 +70,7 @@
       </div>
       <div class="parent" v-if="getStaff.a__2">
         <div class="rectangle" v-for="(t, index) in getStaff.a__2" :key="index">
-        <div class="bg"></div>
+          <div class="bg"></div>
           <i
             v-if="
               (getRole == 'admin' || getRole == 'Employee') &&
@@ -104,7 +104,7 @@
       </div>
       <div class="parent" v-if="getStaff.a__1">
         <div class="rectangle" v-for="(t, index) in getStaff.a__1" :key="index">
-        <div class="bg"></div>
+          <div class="bg"></div>
           <i
             v-if="
               (getRole == 'admin' || getRole == 'Employee') &&
@@ -238,7 +238,7 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .edit-btn,
@@ -289,7 +289,7 @@ export default {
   height: 130px;
   background: #010a3d;
   position: relative;
-  margin: .5rem;
+  margin: 0.8rem 1rem;
 }
 .light-mode .container *::before {
   background: #010a3d;
@@ -297,26 +297,47 @@ export default {
 .light-mode .person__info h4 {
   color: #fff;
 }
-
+.parent:not(.parent:nth-child(1)) {
+  border-top: 2px solid #fff;
+  padding-top: 1rem;
+  width: fit-content;
+  position: relative;
+  margin: auto;
+}
+.light-mode .parent:not(.parent:nth-child(1)) {
+  border-color: #010a3d;
+}
+.rectangle:not(.parent:first-child .rectangle:first-of-type)::before,
+.parent::before {
+  position: absolute;
+  content: "";
+  width: 2px;
+  top: -1.8rem;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 1.8rem;
+  background: #fff;
+}
+.light-mode
+  .rectangle:not(.parent:first-child .rectangle:first-of-type)::before,.light-mode
+.parent::before {
+  background: #010a3d;
+}
 .parent:first-of-type .rectangle {
   box-shadow: 0px 2px 6px 2px blue;
 }
 .parent:nth-child(2) .rectangle {
-
-    box-shadow: 0px 2px 6px 2px gray;
+  box-shadow: 0px 2px 6px 2px gray;
 }
 .parent:nth-child(3) .rectangle {
- 
-    box-shadow: 0px 2px 6px 2px orange;
+  box-shadow: 0px 2px 6px 2px orange;
 }
 .parent:nth-child(4) .rectangle {
-
-    box-shadow: 0px 2px 6px 2px skyblue;
+  box-shadow: 0px 2px 6px 2px skyblue;
 }
 
-
 @media screen and (max-width: 426px) {
-
   .person__info p {
     width: 96%;
     margin: 0.3rem auto;
