@@ -28,8 +28,8 @@
             </p>
             <div class="person__data">
               <p>{{ t.Email }}</p>
-              <p><span>Phone : </span> {{ t.Phone }}</p>
-              <p><span>Mobile : </span> {{ t.Mobile }}</p>
+              <p><span>Phone: </span> {{ t.Phone }}</p>
+              <p><span>Mobile: </span> {{ t.Mobile }}</p>
             </div>
           </div>
         </div>
@@ -62,8 +62,8 @@
             </p>
             <div class="person__data">
               <p>{{ t.Email }}</p>
-              <p><span>Phone : </span> {{ t.Phone }}</p>
-              <p><span>Mobile : </span> {{ t.Mobile }}</p>
+              <p><span>Phone: </span> {{ t.Phone }}</p>
+              <p><span>Mobile: </span> {{ t.Mobile }}</p>
             </div>
           </div>
         </div>
@@ -96,8 +96,8 @@
             </p>
             <div class="person__data">
               <p>{{ t.Email }}</p>
-              <p><span>Phone : </span> {{ t.Phone }}</p>
-              <p><span>Mobile : </span> {{ t.Mobile }}</p>
+              <p><span>Phone: </span> {{ t.Phone }}</p>
+              <p><span>Mobile: </span> {{ t.Mobile }}</p>
             </div>
           </div>
         </div>
@@ -130,8 +130,8 @@
             </p>
             <div class="person__data">
               <p>{{ t.Email }}</p>
-              <p><span>Phone : </span> {{ t.Phone }}</p>
-              <p><span>Mobile : </span> {{ t.Mobile }}</p>
+              <p><span>Phone: </span> {{ t.Phone }}</p>
+              <p><span>Mobile: </span> {{ t.Mobile }}</p>
             </div>
           </div>
         </div>
@@ -176,21 +176,27 @@ export default {
     this.$store.dispatch("getData", "staff");
     this.checkLines();
   },
-watch:{
-  getStaff(){
-    this.checkLines()
-  }
-},
+  watch:{
+    getStaff(){
+      this.checkLines();
+    }
+  },
   methods: {
-    checkLines(){
-      const parents = Array.from(document.querySelectorAll('.parent'))
-      // parents.forEach(p)
-      // if(parents.length > 3){
-      //   parents.slice(0,3).forEach(r => {
-      //     r.classList.add('no-line')
-      //   })
-      //   console.log(parents);
-      //}
+    checkLines() {
+      const parents = Array.from(document.querySelectorAll(".parent"));
+      parents.forEach(p => {
+        
+        Array.from(p.children).forEach(r => {
+          const top =  r.getBoundingClientRect().top - p.getBoundingClientRect().top ;
+          console.log(top);
+         if(top > 35) r.classList.add('no-line');
+        })
+
+    
+      
+      })
+     
+      
     },
     setChosenForm(formName) {
       this.showModal = false;
@@ -220,6 +226,7 @@ watch:{
         .then((result) => {
           console.log(result);
           this.$store.dispatch("getData", "staff");
+          this.checkLines();
         })
         .catch((err) => console.log(err));
     },
@@ -334,12 +341,13 @@ watch:{
   height: 1.8rem;
   background: #fff;
 }
-.parent .rectangle:nth-child(5):before{
+.rectangle.no-line::before {
   display: none;
-} 
+  background: #fff;
+}
 .light-mode
-  .rectangle:not(.parent:first-child .rectangle:first-of-type)::before,.light-mode
-.parent::before {
+  .rectangle:not(.parent:first-child .rectangle:first-of-type)::before,
+.light-mode .parent::before {
   background: #010a3d;
 }
 .parent:first-of-type .rectangle {

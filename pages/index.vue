@@ -68,7 +68,7 @@ export default {
 }
 .info {
   padding: 0 1rem;
-  width: 80%;
+  width: 90%;
   margin: auto;
   display: flex;
   justify-content: space-evenly;
@@ -76,6 +76,7 @@ export default {
   gap: 1.5rem;
 }
 .info div {
+  flex-basis: 31%;
   text-align: left;
   padding: 5px;
 }
