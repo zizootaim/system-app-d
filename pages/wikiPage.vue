@@ -91,8 +91,11 @@
           <BaseSpinner v-if="loading && wikiPage != ''" class="mainSpinner" />
 
           <!-- Filteration -->
-          <div :class="wikiPage == 'Use Case Library' ? 'intro use-filter' : 'intro'">
-  
+          <div
+            :class="
+              wikiPage == 'Use Case Library' ? 'intro use-filter' : 'intro'
+            "
+          >
             <div
               class="filteration__wrapper"
               v-if="
@@ -103,7 +106,11 @@
                 (wikiPage != 'Administration') & (wikiPage != 'skillMatrix')
               "
             >
-              <button class="form-btn" @click="openFilterForm" v-if="wikiPage != 'Use Case Library'">
+              <button
+                class="form-btn"
+                @click="openFilterForm"
+                v-if="wikiPage != 'Use Case Library'"
+              >
                 <i class="fas fa-filter"></i> <span>Filter</span>
               </button>
               <div class="filter__form">
@@ -278,7 +285,7 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
-                              <button class="table-btn">
+                            <button class="table-btn">
                               <i class="fal fa-download"></i>
                             </button>
                           </div>
@@ -403,7 +410,7 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
-                              <button class="table-btn">
+                            <button class="table-btn">
                               <i class="fal fa-download"></i>
                             </button>
                           </div>
@@ -757,19 +764,17 @@
                                 >
                                   <div class="row">
                                     <div class="col">
-                                      <p>
+                                      <span>
                                         {{ r.activity }}
-                                      </p>
+                                      </span>
                                     </div>
                                     <div class="col">
-                                      <p>
+                                      <span>
                                         {{ r.irStage }}
-                                      </p>
+                                      </span>
                                     </div>
                                     <div class="col">
-                                      <p>
-                                        <span>{{ r.team }}</span>
-                                      </p>
+                                      <span>{{ r.team }}</span>
                                     </div>
                                     <div
                                       class="col"
@@ -1070,7 +1075,7 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
-                             <button class="table-btn">
+                            <button class="table-btn">
                               <i class="fal fa-download"></i>
                             </button>
                           </div>
@@ -1211,7 +1216,7 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
-              <button class="table-btn">
+                            <button class="table-btn">
                               <i class="fal fa-download"></i>
                             </button>
                           </div>
@@ -1355,8 +1360,8 @@
                             <i class="fas fa-trash-alt"></i>
                           </button>
                           <button class="table-btn">
-                              <i class="fal fa-download"></i>
-                            </button>
+                            <i class="fal fa-download"></i>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -1412,15 +1417,15 @@
                   <i class="fas fa-plus"></i> add
                 </button>
                 <div>
-                   <button class="form-btn" @click="openFilterForm" >
-                <i class="fas fa-filter"></i> <span>Filter</span>
-              </button>
-                <button
-                  class="form-btn use-btn"
-                  v-on:click="modalType = 'useModal'"
-                >
-                  <i class="fal fa-info-circle"></i> Help
-                </button>
+                  <button class="form-btn" @click="openFilterForm">
+                    <i class="fas fa-filter"></i> <span>Filter</span>
+                  </button>
+                  <button
+                    class="form-btn use-btn"
+                    v-on:click="modalType = 'useModal'"
+                  >
+                    <i class="fal fa-info-circle"></i> Help
+                  </button>
                 </div>
               </div>
 
@@ -1508,7 +1513,7 @@
                             >
                               <i class="fas fa-trash-alt"></i>
                             </button>
-                             <button class="table-btn">
+                            <button class="table-btn">
                               <i class="fal fa-download"></i>
                             </button>
                           </div>
@@ -1665,7 +1670,6 @@
                           >
                             <i class="fas fa-trash-alt"></i>
                           </button>
-               
                         </div>
                       </div>
                     </div>
@@ -2225,7 +2229,6 @@ export default {
 };
 </script>
 <style>
-
 .use__btns {
   display: flex;
   justify-content: space-between;
@@ -2276,7 +2279,8 @@ export default {
 .btns__wrapper .table-btn:nth-child(2) {
   color: rgb(202, 42, 42);
 }
-.btns__wrapper .table-btn:nth-child(1),.btns__wrapper .table-btn:nth-child(3) {
+.btns__wrapper .table-btn:nth-child(1),
+.btns__wrapper .table-btn:nth-child(3) {
   color: rgb(86, 143, 86);
 }
 .book__table > div {
@@ -2285,6 +2289,10 @@ export default {
 }
 .book__table .col {
   padding: 0;
+  text-align: center;
+}
+.book__table .table__row:not(.table__row:first-child) .col span {
+  font-weight: 400;
 }
 .book__data {
   height: fit-content;
@@ -2323,7 +2331,7 @@ export default {
   margin-top: 0.2rem;
   overflow: hidden;
 }
-.use-filter .filteration__wrapper{
+.use-filter .filteration__wrapper {
   height: 0;
 }
 .filteration__wrapper .open-filter {
@@ -2332,8 +2340,8 @@ export default {
   cursor: pointer;
   top: 2rem;
 }
-.use-btn{
-  margin-left: .6rem;
+.use-btn {
+  margin-left: 0.6rem;
 }
 .filter__form {
   display: flex;
